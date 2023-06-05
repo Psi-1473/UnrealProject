@@ -30,8 +30,15 @@ private:
 	UPROPERTY(EditAnywhere)
 	class USpringArmComponent* SpringArm;
 
-	//UPROPERTY(EditAnywhere)
-	//class USkeletalMesh* SkeletalMesh;
+	//UPROPERTY(VisibleAnywhere, Category = Input)
+	//class UInputMappingContext* DefaultContext;
+	//
+	//UPROPERTY(VisibleAnywhere, Category = Input)
+	//class UInputAction* MoveAction;
+
+protected:
+	//void Equip(const FInputActionValue& Value);
+
 
 
 };

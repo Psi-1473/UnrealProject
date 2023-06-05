@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 
 
+
 AMyPlayer::AMyPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -18,6 +19,14 @@ AMyPlayer::AMyPlayer()
 		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
 	}
+	//static ConstructorHelpers::FObjectFinder<UInputMappingContext> DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/03_Input/Player/IMC_Default.IMC_Default'"));
+	//if (DEFAULT_CONTEXT.Succeeded())
+	//	DefaultContext = DEFAULT_CONTEXT.Object;
+	//
+	//static ConstructorHelpers::FObjectFinder<UInputAction> IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Move.IA_Move'"));
+	//
+	//if (IA_MOVE.Succeeded())
+	//	MoveAction = IA_MOVE.Object;
 
 	SetDefaultCamera();
 }
@@ -31,7 +40,7 @@ void AMyPlayer::BeginPlay()
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
