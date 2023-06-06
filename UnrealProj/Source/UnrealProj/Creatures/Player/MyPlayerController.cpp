@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "MyPlayer.h"
+#include "../../Animations/Player/PlayerAnim.h"
 #include "Kismet/GameplayStatics.h"
 
 AMyPlayerController::AMyPlayerController()
@@ -15,17 +16,14 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputMappingContext> DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/03_Input/Player/IMC_Default.IMC_Default'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Move.IA_Move'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_LOOK(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Look.IA_Look'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ATTACK(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Attack/Sword/IA_SwordAttack.IA_SwordAttack'"));
 
 	if (DEFAULT_CONTEXT.Succeeded())
 		DefaultContext = DEFAULT_CONTEXT.Object;
 
-	if (IA_MOVE.Succeeded())
-		MoveAction = IA_MOVE.Object;
-
-	if (IA_LOOK.Succeeded())
-		LookAction = IA_LOOK.Object;
-
-	
+	if (IA_MOVE.Succeeded())MoveAction = IA_MOVE.Object;
+	if (IA_LOOK.Succeeded()) LookAction = IA_LOOK.Object;
+	if (IA_ATTACK.Succeeded()) Action_AttackSword = IA_ATTACK.Object;
 }
 
 void AMyPlayerController::BeginPlay()
@@ -46,6 +44,8 @@ void AMyPlayerController::SetupInputComponent()
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Look);
+		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Sword_Attack);
+		
 	}
 
 }
@@ -85,4 +85,13 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 {
+}
+
+void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		MyPlayer->GetAnimInst()->PlayAttackMontage();
+	}
+		
 }

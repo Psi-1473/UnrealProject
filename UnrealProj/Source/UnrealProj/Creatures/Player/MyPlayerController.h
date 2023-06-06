@@ -29,15 +29,22 @@ private:
 	void IA_Look(const FInputActionValue& Value);
 	void IA_Jump(const FInputActionValue& Value);
 
+	void IA_Sword_Attack(const FInputActionValue& Value);
+
 private:
 	UPROPERTY()
 	float MouseSpeed = 2.f;
 
 	UPROPERTY()
-		float Horizontal;
+	float Horizontal;
 
 	UPROPERTY()
-		float Vertical;
+	float Vertical;
+
+	UPROPERTY(VisibleAnywhere)
+	int bCombo = 1;
+
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputMappingContext* DefaultContext;
@@ -47,6 +54,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* LookAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Action_AttackSword;
 
 	UPROPERTY(VisibleAnywhere)
 	class AMyPlayer* MyPlayer;

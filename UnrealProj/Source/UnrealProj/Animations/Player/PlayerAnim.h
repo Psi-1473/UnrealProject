@@ -17,7 +17,31 @@ class UNREALPROJ_API UPlayerAnim : public UAnimInstance
 public:
 	UPlayerAnim();
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+
+
+
+
+
+	void PlayAttackMontage();
+
+
+	FName GetAttackMontageName(int32 SectionIndex);
+	void JumpToSection(int32 SectionIndex);
+
+	UFUNCTION()
+	void AnimNotify_Combo();
+
+	UFUNCTION()
+	void AnimNotify_AttackEnd();
+
+
 public:
+	UPROPERTY()
+	int AttackStep = 1;
+
+	UPROPERTY()
+	bool bCombo = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	float Speed;
 
@@ -29,5 +53,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool bSprint;
+
+private:
+	class UAnimMontage* AttackMontage;
 	
 };

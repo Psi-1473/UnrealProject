@@ -4,9 +4,13 @@
 #include "PlayerAnim.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Creatures/Player/MyPlayerController.h"
+#include "Animation/AnimMontage.h"
 
 UPlayerAnim::UPlayerAnim()
 {
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/AM_Attack.AM_Attack'"));
+
+	if(AM.Succeeded()) AttackMontage = AM.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -36,4 +40,38 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 			//bSprint = Character->bIsSprint;
 		}
 	}
+}
+
+void UPlayerAnim::PlayAttackMontage()
+{
+	if (!bCombo)
+		return;
+	if (!Montage_IsPlaying(AttackMontage))
+	{
+		bCombo = false;
+		Montage_Play(AttackMontage, 1.f);
+		JumpToSection(AttackStep);
+		AttackStep++;
+	}
+}
+FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
+{
+	return FName(*FString::Printf(TEXT("Attack%d"), SectionIndex));
+}
+
+void UPlayerAnim::JumpToSection(int32 SectionIndex)
+{
+	FName Name = GetAttackMontageName(SectionIndex);
+	Montage_JumpToSection(Name, AttackMontage);
+}
+
+void UPlayerAnim::AnimNotify_Combo()
+{
+	bCombo = true;
+}
+
+void UPlayerAnim::AnimNotify_AttackEnd()
+{
+	bCombo = true;
+	AttackStep = 1;
 }

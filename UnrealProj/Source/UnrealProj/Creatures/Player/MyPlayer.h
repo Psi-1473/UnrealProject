@@ -22,6 +22,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+public:
+	class UPlayerAnim* GetAnimInst() { return AnimInst; }
+
 private:
 	void SetDefaultCamera();
 
