@@ -58,6 +58,10 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+	Horizontal = MovementVector.X;
+	Vertical = MovementVector.Y;
+
 	MyPlayer->AddMovementInput(ForwardDirection, MovementVector.Y);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	MyPlayer->AddMovementInput(RightDirection, MovementVector.X);

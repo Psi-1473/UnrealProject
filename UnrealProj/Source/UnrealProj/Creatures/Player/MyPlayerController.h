@@ -21,6 +21,9 @@ public:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 
+	float GetHorizontal() { return Horizontal; }
+	float GetVertical() { return Vertical; }
+
 private:
 	void IA_Move(const FInputActionValue& Value);
 	void IA_Look(const FInputActionValue& Value);
@@ -30,6 +33,11 @@ private:
 	UPROPERTY()
 	float MouseSpeed = 2.f;
 
+	UPROPERTY()
+		float Horizontal;
+
+	UPROPERTY()
+		float Vertical;
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputMappingContext* DefaultContext;

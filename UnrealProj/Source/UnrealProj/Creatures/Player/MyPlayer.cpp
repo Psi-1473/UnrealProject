@@ -4,7 +4,7 @@
 #include "MyPlayer.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
-
+#include "../../Animations/Player/PlayerAnim.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -15,7 +15,7 @@ AMyPlayer::AMyPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/04_Characters/Mannequins/Meshes/SKM_Manny.SKM_Manny'"));
-	
+
 	if (MeshAsset.Succeeded())
 	{
 		GetMesh()->SkeletalMesh = MeshAsset.Object;
@@ -24,6 +24,13 @@ AMyPlayer::AMyPlayer()
 	}
 
 	SetDefaultCamera();
+}
+
+void AMyPlayer::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 }
 
 void AMyPlayer::BeginPlay()

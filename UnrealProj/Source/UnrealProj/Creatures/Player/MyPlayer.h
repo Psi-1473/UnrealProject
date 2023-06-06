@@ -15,6 +15,7 @@ public:
 	AMyPlayer();
 
 protected:
+	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;
 
 public:	
@@ -23,10 +24,16 @@ public:
 
 private:
 	void SetDefaultCamera();
+
+
+
 private:
 	UPROPERTY(EditAnywhere)
 	class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere)
 	class USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere)
+	class UPlayerAnim* AnimInst;
 };
