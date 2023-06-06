@@ -29,16 +29,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class USpringArmComponent* SpringArm;
-
-	//UPROPERTY(VisibleAnywhere, Category = Input)
-	//class UInputMappingContext* DefaultContext;
-	//
-	//UPROPERTY(VisibleAnywhere, Category = Input)
-	//class UInputAction* MoveAction;
-
-protected:
-	//void Equip(const FInputActionValue& Value);
-
-
-
 };

@@ -5,6 +5,9 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
+
 
 
 AMyPlayer::AMyPlayer()
@@ -19,14 +22,6 @@ AMyPlayer::AMyPlayer()
 		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
 	}
-	//static ConstructorHelpers::FObjectFinder<UInputMappingContext> DEFAULT_CONTEXT(TEXT("/Script/EnhancedInput.InputMappingContext'/Game/03_Input/Player/IMC_Default.IMC_Default'"));
-	//if (DEFAULT_CONTEXT.Succeeded())
-	//	DefaultContext = DEFAULT_CONTEXT.Object;
-	//
-	//static ConstructorHelpers::FObjectFinder<UInputAction> IA_MOVE(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Move.IA_Move'"));
-	//
-	//if (IA_MOVE.Succeeded())
-	//	MoveAction = IA_MOVE.Object;
 
 	SetDefaultCamera();
 }
@@ -34,19 +29,16 @@ AMyPlayer::AMyPlayer()
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
 void AMyPlayer::SetDefaultCamera()
@@ -55,11 +47,11 @@ void AMyPlayer::SetDefaultCamera()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 
 	SpringArm->SetupAttachment(RootComponent);
-	SpringArm->SetRelativeLocationAndRotation(FVector(.0f, .0f, 50.f), FRotator(-60.f, .0f, .0f));
-	SpringArm->TargetArmLength = 400.f;
-	SpringArm->bEnableCameraLag = true;
-	SpringArm->CameraLagSpeed = 3.0f;
+	SpringArm->SetRelativeLocationAndRotation(FVector(.0f, .0f, 50.f), FRotator(0.f, .0f, .0f));
+	SpringArm->TargetArmLength = 500.f;
+	SpringArm->bUsePawnControlRotation = true;
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 }
+
 
