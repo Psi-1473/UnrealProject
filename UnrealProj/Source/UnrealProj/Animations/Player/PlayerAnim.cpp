@@ -21,18 +21,14 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 
 	if (IsValid(pawn))
 	{
-		Speed = pawn->GetVelocity().Size();
-
+		Speed = FMath::Abs(pawn->GetVelocity().X);
+		JumpSpeed = pawn->GetVelocity().Z;
+		
 		auto Character = Cast<AMyPlayer>(pawn);
 
 		if (Character)
 		{
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
-			//if (Speed >= 0.1)
-			//	Character->SetState(MOVING);
-			//
-			//if (Speed <= 0 && Character->GetState() == MOVING)
-			//	Character->SetState(IDLE);
 			if (PC == nullptr)
 				return;
 			Horizontal = PC->GetHorizontal();

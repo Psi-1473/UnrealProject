@@ -56,6 +56,9 @@ private:
 	class UInputAction* LookAction;
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* JumpAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* Action_AttackSword;
 
 	UPROPERTY(VisibleAnywhere)
