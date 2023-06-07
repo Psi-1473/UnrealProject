@@ -15,6 +15,7 @@ AMyPlayer::AMyPlayer()
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> WeaponAsset(TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/Sword1.Sword1'"));
 
 	if (MeshAsset.Succeeded())
 	{
@@ -24,6 +25,16 @@ AMyPlayer::AMyPlayer()
 	}
 
 	SetDefaultCamera();
+
+	FName WeaponSocket(TEXT("Weapon_R"));
+	if (GetMesh()->DoesSocketExist(WeaponSocket))
+	{
+		Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WEAPON"));
+		if (WeaponAsset.Succeeded())
+			Weapon->SetStaticMesh(WeaponAsset.Object);
+
+		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
+	}
 }
 
 void AMyPlayer::PostInitializeComponents()

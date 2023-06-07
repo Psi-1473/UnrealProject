@@ -72,6 +72,9 @@ void UPlayerAnim::AnimNotify_Combo()
 
 void UPlayerAnim::AnimNotify_AttackEnd()
 {
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+	Character->SetState(STATE::IDLE);
 	bCombo = true;
 	AttackStep = 1;
 }

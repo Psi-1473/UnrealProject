@@ -54,6 +54,10 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 {
 	if (MyPlayer == nullptr)
 		return;
+
+	if (MyPlayer->GetState() != STATE::IDLE)
+		return;
+
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
@@ -92,6 +96,7 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	if (Value.Get<bool>())
 	{
 		MyPlayer->GetAnimInst()->PlayAttackMontage();
+		MyPlayer->SetState(STATE::ATTACK);
 	}
 		
 }

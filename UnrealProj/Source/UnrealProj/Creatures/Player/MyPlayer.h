@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../../DEFINE.h"
 #include "MyPlayer.generated.h"
 
 UCLASS()
@@ -24,11 +25,16 @@ public:
 
 public:
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
+	STATE GetState() { return PlayerState; }
+
+	void SetState(STATE Value) { PlayerState = Value; }
 
 private:
 	void SetDefaultCamera();
 
 
+private:
+	STATE PlayerState = STATE::IDLE;
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -39,4 +45,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
+
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* Weapon;
 };
