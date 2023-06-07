@@ -55,7 +55,7 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 	if (MyPlayer == nullptr)
 		return;
 
-	if (MyPlayer->GetState() != STATE::IDLE)
+	if (MyPlayer->GetState() != STATE::IDLE && MyPlayer->GetState() != STATE::MOVE)
 		return;
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
