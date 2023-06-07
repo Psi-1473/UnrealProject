@@ -7,7 +7,8 @@
 /**
  * 
  */
-enum class STATE
+UENUM(BlueprintType)
+enum class STATE : uint8
 {
 	IDLE,
 	MOVE,

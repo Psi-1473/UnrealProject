@@ -5,6 +5,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
+#include "../../State/StateMachine.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -35,6 +36,9 @@ AMyPlayer::AMyPlayer()
 
 		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
 	}
+
+	StateMachine = NewObject<UStateMachine>();
+	StateMachine->SetOwner(this);
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -52,11 +56,27 @@ void AMyPlayer::BeginPlay()
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	StateMachine->OnUpdate();
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+UCharacterState* AMyPlayer::GetState()
+{
+	return StateMachine->GetState();
+}
+
+UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
+{
+	return StateMachine->GetState(Value);
+}
+
+void AMyPlayer::SetState(STATE Value)
+{
+	StateMachine->SetState(Value);
 }
 
 void AMyPlayer::SetDefaultCamera()

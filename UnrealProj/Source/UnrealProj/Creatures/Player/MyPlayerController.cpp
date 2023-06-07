@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "MyPlayer.h"
+#include "../../State/CharacterState.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -28,8 +29,6 @@ AMyPlayerController::AMyPlayerController()
 
 void AMyPlayerController::BeginPlay()
 {
-	
-	
 	MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 	if (UEnhancedInputLocalPlayerSubsystem* SubSystem = 
 		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
@@ -55,8 +54,12 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 	if (MyPlayer == nullptr)
 		return;
 
-	if (MyPlayer->GetState() != STATE::IDLE && MyPlayer->GetState() != STATE::MOVE)
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 		return;
+
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
+		MyPlayer->SetState(STATE::MOVE);
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	const FRotator Rotation = GetControlRotation();
@@ -95,8 +98,9 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
+			MyPlayer->SetState(STATE::ATTACK);
 		MyPlayer->GetAnimInst()->PlayAttackMontage();
-		MyPlayer->SetState(STATE::ATTACK);
 	}
 		
 }

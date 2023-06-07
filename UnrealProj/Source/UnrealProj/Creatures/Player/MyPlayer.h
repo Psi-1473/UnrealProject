@@ -25,18 +25,19 @@ public:
 
 public:
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
-	STATE GetState() { return PlayerState; }
+	class UCharacterState* GetState();
+	class UCharacterState* GetSpecificState(STATE Value);
 
-	void SetState(STATE Value) { PlayerState = Value; }
+
+	void SetState(STATE Value);
 
 private:
 	void SetDefaultCamera();
 
-
 private:
-	STATE PlayerState = STATE::IDLE;
+	UPROPERTY(EditAnywhere)
+	class UStateMachine* StateMachine;
 
-private:
 	UPROPERTY(EditAnywhere)
 	class UCameraComponent* Camera;
 
