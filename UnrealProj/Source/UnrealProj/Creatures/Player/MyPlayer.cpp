@@ -49,7 +49,7 @@ AMyPlayer::AMyPlayer()
 
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
-	StateMachine->SetState(STATE::IDLE);
+	//StateMachine->SetState(STATE::IDLE);
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -115,6 +115,7 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 	GetMesh()->SetAnimClass(AnimClasses[Type]);
 	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
+	AnimInst->WeaponType = Type;
 }
 
 
