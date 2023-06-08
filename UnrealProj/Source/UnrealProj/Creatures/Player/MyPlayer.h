@@ -37,6 +37,10 @@ private:
 
 private:
 	UPROPERTY(EditAnywhere)
+	class UWeapon* EquipWeapon;
+
+private:
+	UPROPERTY(EditAnywhere)
 	class UStateMachine* StateMachine;
 
 	UPROPERTY(EditAnywhere)

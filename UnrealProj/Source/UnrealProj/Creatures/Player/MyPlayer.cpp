@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
+#include "../../Weapon.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -62,6 +63,8 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	EquipWeapon = NewObject<UWeapon>();
+	EquipWeapon->Init(WEAPON_ARROW, 0);
 	
 	if (StateMachine == nullptr)
 	{
