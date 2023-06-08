@@ -48,7 +48,6 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Look);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Jump);
 		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Sword_Attack);
-		
 	}
 
 }
@@ -59,10 +58,12 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 		return;
 
 	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
 		return;
 
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
 		MyPlayer->SetState(STATE::MOVE);
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
@@ -98,6 +99,9 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+			MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
+			return;
 		MyPlayer->Jump();
 	}
 }
