@@ -19,7 +19,8 @@ public:
 	UWeapon();
 	void Init(WEAPONTYPE _Type, int _Id);
 
-	FString GetSocketName() { return SocketName; }
+	WEAPONTYPE GetType() { return Type; }
+	bool GetIsRight() { return bRight; }
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 private:
 	WEAPONTYPE Type;
@@ -28,7 +29,7 @@ private:
 	int Id;
 
 	UPROPERTY()
-	FString SocketName;
+	bool bRight = true;
 
 	UPROPERTY()
 	class UStaticMesh* StaticMesh;

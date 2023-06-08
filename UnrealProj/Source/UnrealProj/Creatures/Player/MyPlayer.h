@@ -27,15 +27,17 @@ public:
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
 	class UCharacterState* GetState();
 	class UCharacterState* GetSpecificState(STATE Value);
-
+	class UWeapon* GetWeapon() { return EquipedWeapon; };
 
 	void SetState(STATE Value);
 
-private:
-	void EquipWeapon(class UWeapon* _Weapon);
+public:
+	void EquipWeapon(class UWeapon* _Weapon); // 무기 장착 함수
 
-	void SetDefaultCamera();
-	void SetAnimByWeapon(WEAPONTYPE Type);
+private:
+	void SetDefaultCamera(); // 생성자에서 카메라 생성
+	void SetWeaponSocket(); // 생성자에서 Weapon Socket 초기화
+	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -53,10 +55,15 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<class UAnimInstance>> AnimClasses;
+	// 지금은 애니메이션들을 TArray로 가지고 있지만 나중에
+	// 무기처럼 상황에 맞는 ABP 가져와서 실행하기
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
 
 	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* Weapon;
+	class UStaticMeshComponent* LWeapon;
+
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* RWeapon;
 };

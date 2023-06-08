@@ -19,7 +19,6 @@ AMyPlayer::AMyPlayer()
 	AnimClasses.Init(nullptr, WEAPON_END);
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> WeaponAsset(TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/Sword1.Sword1'"));
 	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
 	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2 (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
 
@@ -37,9 +36,8 @@ AMyPlayer::AMyPlayer()
 
 	
 	SetDefaultCamera();
-
-	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WEAPON"));
-
+	SetWeaponSocket();
+	
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
 }
@@ -54,10 +52,12 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
+	// 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	UWeapon* NewWeapon = NewObject<UWeapon>();
 	NewWeapon->Init(WEAPON_ARROW, 0);
-
 	EquipWeapon(NewWeapon);
+	// 무기장착
 	
 
 	if (StateMachine == nullptr)
@@ -96,15 +96,20 @@ void AMyPlayer::SetState(STATE Value)
 
 void AMyPlayer::EquipWeapon(UWeapon* _Weapon)
 {
-	FName WeaponSocket(_Weapon->GetSocketName());
+	EquipedWeapon = _Weapon;
 	
-	if (GetMesh()->DoesSocketExist(WeaponSocket))
+	if (_Weapon->GetIsRight())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("EQUIP!"));
-		EquipedWeapon = _Weapon;
-		Weapon->SetStaticMesh(EquipedWeapon->GetStaticMesh());
-		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
+		LWeapon->SetStaticMesh(nullptr);
+		RWeapon->SetStaticMesh(_Weapon->GetStaticMesh());
 	}
+	else
+	{
+		RWeapon->SetStaticMesh(nullptr);
+		LWeapon->SetStaticMesh(_Weapon->GetStaticMesh());
+	}
+
+	SetAnimByWeapon(_Weapon->GetType());
 }
 
 void AMyPlayer::SetDefaultCamera()
@@ -118,6 +123,21 @@ void AMyPlayer::SetDefaultCamera()
 	SpringArm->bUsePawnControlRotation = true;
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+}
+
+void AMyPlayer::SetWeaponSocket()
+{
+	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
+	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
+
+	FName RWeaponSocket(TEXT("Weapon_R"));
+	FName LWeaponSocket(TEXT("Weapon_L"));
+
+	if (GetMesh()->DoesSocketExist(RWeaponSocket))
+		RWeapon->SetupAttachment(GetMesh(), RWeaponSocket);
+
+	if (GetMesh()->DoesSocketExist(LWeaponSocket))
+		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
 }
 
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)

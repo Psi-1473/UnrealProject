@@ -7,6 +7,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "MyPlayer.h"
+#include "../../Weapon.h"
 #include "../../State/CharacterState.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "Kismet/GameplayStatics.h"
@@ -102,7 +103,8 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
 			MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 			return;
-		MyPlayer->Jump();
+
+			MyPlayer->Jump();
 	}
 }
 
