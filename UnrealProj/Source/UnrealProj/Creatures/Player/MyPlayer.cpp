@@ -38,19 +38,10 @@ AMyPlayer::AMyPlayer()
 	
 	SetDefaultCamera();
 
-	FName WeaponSocket(TEXT("Weapon_R"));
-	if (GetMesh()->DoesSocketExist(WeaponSocket))
-	{
-		Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WEAPON"));
-		if (WeaponAsset.Succeeded())
-			Weapon->SetStaticMesh(WeaponAsset.Object);
-
-		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
-	}
+	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WEAPON"));
 
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
-	//StateMachine->SetState(STATE::IDLE);
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -63,9 +54,12 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	EquipWeapon = NewObject<UWeapon>();
-	EquipWeapon->Init(WEAPON_ARROW, 0);
+	UWeapon* NewWeapon = NewObject<UWeapon>();
+	NewWeapon->Init(WEAPON_ARROW, 0);
+
+	EquipWeapon(NewWeapon);
 	
+
 	if (StateMachine == nullptr)
 	{
 		StateMachine = NewObject<UStateMachine>();
@@ -98,6 +92,19 @@ UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
 void AMyPlayer::SetState(STATE Value)
 {
 	StateMachine->SetState(Value);
+}
+
+void AMyPlayer::EquipWeapon(UWeapon* _Weapon)
+{
+	FName WeaponSocket(_Weapon->GetSocketName());
+	
+	if (GetMesh()->DoesSocketExist(WeaponSocket))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("EQUIP!"));
+		EquipedWeapon = _Weapon;
+		Weapon->SetStaticMesh(EquipedWeapon->GetStaticMesh());
+		Weapon->SetupAttachment(GetMesh(), WeaponSocket);
+	}
 }
 
 void AMyPlayer::SetDefaultCamera()

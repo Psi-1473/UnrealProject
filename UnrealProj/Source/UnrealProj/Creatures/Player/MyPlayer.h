@@ -32,12 +32,14 @@ public:
 	void SetState(STATE Value);
 
 private:
+	void EquipWeapon(class UWeapon* _Weapon);
+
 	void SetDefaultCamera();
 	void SetAnimByWeapon(WEAPONTYPE Type);
 
 private:
 	UPROPERTY(EditAnywhere)
-	class UWeapon* EquipWeapon;
+	class UWeapon* EquipedWeapon;
 
 private:
 	UPROPERTY(EditAnywhere)
