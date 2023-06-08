@@ -15,8 +15,12 @@ AMyPlayer::AMyPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	AnimClasses.Init(nullptr, WEAPON_END);
+
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> WeaponAsset(TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/Sword1.Sword1'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2 (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
 
 	if (MeshAsset.Succeeded())
 	{
@@ -25,6 +29,12 @@ AMyPlayer::AMyPlayer()
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
 	}
 
+	if (AnimAsset.Succeeded())
+		AnimClasses[WEAPON_SWORD] = AnimAsset.Class;
+	if (AnimAsset2.Succeeded())
+		AnimClasses[WEAPON_ARROW] = AnimAsset2.Class;
+
+	
 	SetDefaultCamera();
 
 	FName WeaponSocket(TEXT("Weapon_R"));
@@ -39,24 +49,32 @@ AMyPlayer::AMyPlayer()
 
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
+	StateMachine->SetState(STATE::IDLE);
 }
 
 void AMyPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-
-	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
+	SetAnimByWeapon(WEAPON_ARROW);
 }
 
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	
+	if (StateMachine == nullptr)
+	{
+		StateMachine = NewObject<UStateMachine>();
+		StateMachine->SetOwner(this);
+	}
 }
 
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	StateMachine->OnUpdate();
+	if(StateMachine != nullptr)
+		StateMachine->OnUpdate();
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -90,6 +108,13 @@ void AMyPlayer::SetDefaultCamera()
 	SpringArm->bUsePawnControlRotation = true;
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
+}
+
+void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
+{
+	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	GetMesh()->SetAnimClass(AnimClasses[Type]);
+	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 }
 
 

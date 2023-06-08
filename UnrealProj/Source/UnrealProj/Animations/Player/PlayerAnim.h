@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "../../DEFINE.h"
 #include "PlayerAnim.generated.h"
 
 /**
@@ -36,6 +37,8 @@ public:
 
 
 public:
+	WEAPONTYPE WeaponType = WEAPON_SWORD;
+
 	UPROPERTY()
 	int AttackStep = 1;
 
@@ -58,6 +61,6 @@ public:
 	bool bSprint;
 
 private:
-	class UAnimMontage* AttackMontage;
+	TArray<class UAnimMontage*> AttackMontages;
 	
 };

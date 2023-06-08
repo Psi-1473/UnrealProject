@@ -33,6 +33,7 @@ public:
 
 private:
 	void SetDefaultCamera();
+	void SetAnimByWeapon(WEAPONTYPE Type);
 
 private:
 	UPROPERTY(EditAnywhere)
@@ -43,6 +44,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class USpringArmComponent* SpringArm;
+
+	UPROPERTY(EditAnywhere)
+	TArray<TSubclassOf<class UAnimInstance>> AnimClasses;
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
