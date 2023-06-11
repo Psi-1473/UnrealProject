@@ -23,11 +23,13 @@ public:
 
 	float GetHorizontal() { return Horizontal; }
 	float GetVertical() { return Vertical; }
+	bool GetIsZoom() { return bZoom; }
 
 private:
 	void IA_Move(const FInputActionValue& Value);
 	void IA_Look(const FInputActionValue& Value);
 	void IA_Jump(const FInputActionValue& Value);
+	void IA_Zoom(const FInputActionValue& Value);
 
 	void IA_Sword_Attack(const FInputActionValue& Value);
 
@@ -44,6 +46,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int bCombo = 1;
 
+	UPROPERTY(VisibleAnywhere)
+	bool bZoom = false;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
@@ -60,6 +64,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* Action_AttackSword;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* ZoomAction;
 
 	UPROPERTY(VisibleAnywhere)
 	class AMyPlayer* MyPlayer;

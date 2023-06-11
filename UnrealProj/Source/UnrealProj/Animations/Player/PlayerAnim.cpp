@@ -10,8 +10,8 @@
 UPlayerAnim::UPlayerAnim()
 {
 	AttackMontages.Init(nullptr, WEAPON_END);
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/AM_Attack.AM_Attack'"));
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/AM_Attack_Arrow.AM_Attack_Arrow'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack.AM_Attack'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack_Arrow.AM_Attack_Arrow'"));
 
 	if(AM.Succeeded()) AttackMontages[WEAPON_SWORD] = AM.Object;
 	if(AM2.Succeeded()) AttackMontages[WEAPON_ARROW] = AM2.Object;
@@ -37,7 +37,7 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 				return;
 			Horizontal = PC->GetHorizontal();
 			Vertical = PC->GetVertical();
-			//bSprint = Character->bIsSprint;
+			bZoom = PC->GetIsZoom();
 		}
 	}
 }

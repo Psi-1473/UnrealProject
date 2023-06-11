@@ -20,6 +20,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_LOOK(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Look.IA_Look'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_JUMP(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Jump.IA_Jump'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ATTACK(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Attack/Sword/IA_SwordAttack.IA_SwordAttack'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ZOOM(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_ZoomIn.IA_ZoomIn'"));
 
 	if (DEFAULT_CONTEXT.Succeeded())
 		DefaultContext = DEFAULT_CONTEXT.Object;
@@ -28,6 +29,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_LOOK.Succeeded()) LookAction = IA_LOOK.Object;
 	if (IA_JUMP.Succeeded()) JumpAction = IA_JUMP.Object;
 	if (IA_ATTACK.Succeeded()) Action_AttackSword = IA_ATTACK.Object;
+	if (IA_ZOOM.Succeeded()) ZoomAction = IA_ZOOM.Object;
 	
 }
 
@@ -49,6 +51,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Look);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Jump);
 		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Sword_Attack);
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Zoom);
 	}
 
 }
@@ -106,6 +109,11 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 
 			MyPlayer->Jump();
 	}
+}
+
+void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
+{
+	bZoom = Value.Get<bool>();
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
