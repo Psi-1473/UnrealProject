@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
-#include "DEFINE.h"
+#include "../../DEFINE.h"
 #include "Weapon.generated.h"
 
 /**

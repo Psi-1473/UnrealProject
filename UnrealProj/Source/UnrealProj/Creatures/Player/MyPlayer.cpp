@@ -6,7 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
-#include "../../Weapon.h"
+#include "../../Items/Weapons/Weapon.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 

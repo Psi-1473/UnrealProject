@@ -7,9 +7,10 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "MyPlayer.h"
-#include "../../Weapon.h"
+#include "../../Items/Weapons/Weapon.h"
 #include "../../State/CharacterState.h"
 #include "../../Animations/Player/PlayerAnim.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 
 AMyPlayerController::AMyPlayerController()
@@ -114,6 +115,8 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 {
 	bZoom = Value.Get<bool>();
+	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
+	Movement->MaxWalkSpeed = (bZoom) ? 350.f : 600.f;
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
