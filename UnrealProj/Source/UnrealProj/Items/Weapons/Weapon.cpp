@@ -2,9 +2,14 @@
 
 
 #include "Weapon.h"
+#include "../../Projectiles/Projectile.h"
 
 UWeapon::UWeapon()
 {
+	static ConstructorHelpers::FClassFinder<AProjectile> ARROW(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_Arrow.BP_Arrow_C'"));
+	if (ARROW.Succeeded())
+		Arrow = ARROW.Class;
+
 }
 
 void UWeapon::Init(WEAPONTYPE _Type, int _Id)

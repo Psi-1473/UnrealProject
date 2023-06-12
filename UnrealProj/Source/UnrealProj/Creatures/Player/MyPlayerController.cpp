@@ -12,6 +12,7 @@
 #include "../../Animations/Player/PlayerAnim.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "../../Projectiles/Projectile.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -123,9 +124,34 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
-			MyPlayer->SetState(STATE::ATTACK);
+		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
+				MyPlayer->SetState(STATE::ATTACK);
 		MyPlayer->GetAnimInst()->PlayAttackMontage();
+
+		if (MyPlayer->GetWeapon()->GetType() == WEAPON_ARROW)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+
+			FVector CameraLocation;
+			FRotator CameraRotation;
+			GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+			//MyPlayer->GetWeapon()->SetMuzzleOffset(MyPlayer->)
+			//FVector MuzzleLocation = FTransform(CameraRotation).TransformVector(MuzzleOffset);
+			AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(MyPlayer->GetWeapon()->GetArrow(),
+				MyPlayer->GetActorLocation() + FVector(100.f, 0.f, 0.f),
+				CameraRotation,
+				SpawnParams);
+			//if (Projectile)
+			//{
+			//	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Boss : Skill Fire"));
+			//	FVector LaunchDirection = GetActorForwardVector();
+			//	Projectile->SetIsOwnerPlayer(false);
+			//	Projectile->FireInDirection(LaunchDirection);
+			//}
+		}
 	}
 		
 }

@@ -19,9 +19,14 @@ public:
 	UWeapon();
 	void Init(WEAPONTYPE _Type, int _Id);
 
+	void SetMuzzleOffset(FVector Offset) { MuzzleOffset = Offset; }
+
 	WEAPONTYPE GetType() { return Type; }
 	bool GetIsRight() { return bRight; }
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
+	TSubclassOf<class AProjectile> GetArrow() { return Arrow; }
+	FVector GetMuzzleOffset() { return MuzzleOffset; }
+
 private:
 	WEAPONTYPE Type;
 
@@ -33,4 +38,10 @@ private:
 
 	UPROPERTY()
 	class UStaticMesh* StaticMesh;
+
+	UPROPERTY(EditAnywhere)
+	FVector MuzzleOffset;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AProjectile> Arrow;
 };

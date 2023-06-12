@@ -17,19 +17,19 @@ AProjectile::AProjectile()
 
 	if (MeshAsset.Succeeded())
 		MeshComp->SetStaticMesh(MeshAsset.Object);
-	MeshComp->SetRelativeScale3D(FVector(1.0f, 1.0f, 0.3f));
+	MeshComp->SetRelativeScale3D(FVector(1.0f, 4.0f, 1.0f));
 
 	//BoxCollider->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 
 	BoxCollider->SetRelativeScale3D(FVector(1.0f, 0.25f, 0.25f));
-	BoxCollider->SetRelativeRotation(FRotator(0.f, 0.f, 90.f));
+	BoxCollider->SetRelativeRotation(FRotator(0.f, 0.f, 0.f));
 
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
 	BoxCollider->OnComponentEndOverlap.AddDynamic(this, &AProjectile::OnOverlapEnd);
 
 
-	//RootComponent = MeshComp;
-	//BoxCollider->SetupAttachment(RootComponent);
+	RootComponent = BoxCollider;
+	MeshComp->SetupAttachment(RootComponent);
 
 
 	ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
