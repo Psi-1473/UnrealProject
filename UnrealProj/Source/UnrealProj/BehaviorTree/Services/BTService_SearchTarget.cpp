@@ -6,6 +6,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UBTService_SearchTarget::UBTService_SearchTarget()
 {
@@ -36,7 +37,7 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 		OverlapResults,
 		Center,
 		FQuat::Identity,
-		ECollisionChannel::ECC_GameTraceChannel1,
+		ECollisionChannel::ECC_GameTraceChannel3,
 		FCollisionShape::MakeSphere(SearchRadius),
 		QueryParams);
 
@@ -45,11 +46,14 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	{
 		for (auto& OverlapResult : OverlapResults)
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Hit")); 
 			AMyPlayer* Player = Cast<AMyPlayer>(OverlapResult.GetActor());
 			if (Player)
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), Player);
 				DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Green, false, 0.2f);
+				OwnerComp.GetAIOwner()->GetCharacter()->GetCharacterMovement()->StopActiveMovement();
+				
 				return;
 			}
 		}
@@ -57,7 +61,8 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	else
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
+		DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Red, false, 0.2f);
 	}
-	DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Red, false, 0.2f);
+	
 
 }
