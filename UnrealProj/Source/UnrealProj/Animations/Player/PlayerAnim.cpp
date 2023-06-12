@@ -35,8 +35,16 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
 				return;
+
+			
 			Horizontal = PC->GetHorizontal();
 			Vertical = PC->GetVertical();
+			if (Horizontal == 1 && Vertical == 1)
+			{
+				Horizontal = 0.5f;
+				Vertical = 0.5f;
+			}
+
 			bZoom = PC->GetIsZoom();
 		}
 	}
