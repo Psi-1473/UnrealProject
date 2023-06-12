@@ -14,5 +14,19 @@ UBTTask_FindPatrolPos::UBTTask_FindPatrolPos()
 
 EBTNodeResult::Type UBTTask_FindPatrolPos::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
+	auto CurrentPawn = OwnerComp.GetAIOwner();
+	if (CurrentPawn == nullptr)
+		return EBTNodeResult::Failed;
+
+	UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(GetWorld());
+
+	if (NavSystem == nullptr)
+		return EBTNodeResult::Failed;
+
+	FNavLocation RandomLocation;
+	if (NavSystem->GetRandomPointInNavigableRadius(FVector::ZeroVector, 500.f, RandomLocation))
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("PatrolPos"), RandomLocation.Location);
+	}
 	return EBTNodeResult::Type();
 }

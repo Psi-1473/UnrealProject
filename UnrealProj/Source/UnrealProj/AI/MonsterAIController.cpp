@@ -21,6 +21,15 @@ AMonsterAIController::AMonsterAIController()
 void AMonsterAIController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
+
+	UBlackboardComponent* BlackboardComp = Blackboard;
+	if (UseBlackboard(BlackBoardData, BlackboardComp)) // 매개변수 : 블랙보드 데이터, 컴포넌트
+	{
+		if (RunBehaviorTree(BehaviorTree))//매개변수 : Behavior Tree
+		{
+			// TODO
+		}
+	}
 }
 
 void AMonsterAIController::OnUnPossess()

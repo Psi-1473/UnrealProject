@@ -20,4 +20,8 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+
+private:
+	UPROPERTY()
+	class UAnimInstance* AnimInst;
 };

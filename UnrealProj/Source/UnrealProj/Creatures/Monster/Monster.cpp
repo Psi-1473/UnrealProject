@@ -1,12 +1,15 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Monster.h"
+#include "../../AI/MonsterAIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AMonster::AMonster()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	AIControllerClass = AMonsterAIController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
+	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+	Movement->MaxWalkSpeed = 200.f;
 }
 
 void AMonster::BeginPlay()

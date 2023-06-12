@@ -7,6 +7,7 @@
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 
@@ -15,7 +16,7 @@
 AMyPlayer::AMyPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
 	AnimClasses.Init(nullptr, WEAPON_END);
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
