@@ -7,6 +7,7 @@
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../Projectiles/Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
@@ -53,9 +54,9 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	
-
+	
 	// 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
-	UWeapon* NewWeapon = NewObject<UWeapon>();
+	AWeapon* NewWeapon = NewObject<AWeapon>();
 	NewWeapon->Init(WEAPON_ARROW, 0);
 	EquipWeapon(NewWeapon);
 	// 무기장착
@@ -95,7 +96,7 @@ void AMyPlayer::SetState(STATE Value)
 	StateMachine->SetState(Value);
 }
 
-void AMyPlayer::EquipWeapon(UWeapon* _Weapon)
+void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 {
 	EquipedWeapon = _Weapon;
 	

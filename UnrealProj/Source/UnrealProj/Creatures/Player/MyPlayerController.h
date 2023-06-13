@@ -24,6 +24,8 @@ public:
 	float GetHorizontal() { return Horizontal; }
 	float GetVertical() { return Vertical; }
 	bool GetIsZoom() { return bZoom; }
+public:
+	void Fire();
 
 private:
 	void IA_Move(const FInputActionValue& Value);
@@ -32,8 +34,13 @@ private:
 	void IA_Zoom(const FInputActionValue& Value);
 
 	void IA_Sword_Attack(const FInputActionValue& Value);
+private:
+	void ZoomIn();
+	void ZoomOut();
 
 private:
+	bool CameraMoved = false;
+
 	UPROPERTY()
 	float MouseSpeed = 2.f;
 

@@ -27,23 +27,35 @@ public:
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
 	class UCharacterState* GetState();
 	class UCharacterState* GetSpecificState(STATE Value);
-	class UWeapon* GetWeapon() { return EquipedWeapon; };
+	class AWeapon* GetWeapon() { return EquipedWeapon; }
+	class UCameraComponent* GetCamera() { return Camera; }
+	FVector GetArrowMuzzle() { return MuzzleOffset; }
 
 	void SetState(STATE Value);
 
 public:
-	void EquipWeapon(class UWeapon* _Weapon); // 무기 장착 함수
+	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
 
 private:
 	void SetDefaultCamera(); // 생성자에서 카메라 생성
-	void SetWeaponSocket(); // 생성자에서 Weapon Socket 초기화
+	void SetWeaponSocket();
 	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 
+	// Common variables
+private:
+	class AWeapon* EquipedWeapon;
+
+
+	// Components
 private:
 	UPROPERTY(EditAnywhere)
-	class UWeapon* EquipedWeapon;
+	FVector MuzzleOffset;
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* LWeapon;
 
-private:
+	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* RWeapon;
+
 	UPROPERTY(EditAnywhere)
 	class UStateMachine* StateMachine;
 
@@ -60,10 +72,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
-
-	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* LWeapon;
-
-	UPROPERTY(EditAnywhere)
-	class UStaticMeshComponent* RWeapon;
 };

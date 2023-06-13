@@ -13,6 +13,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Projectiles/Projectile.h"
+#include "Camera/CameraComponent.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -56,6 +57,28 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Zoom);
 	}
 
+}
+
+void AMyPlayerController::Fire()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = MyPlayer;
+	SpawnParams.Instigator = MyPlayer->GetInstigator();
+
+	FVector CameraLocation;
+	FRotator CameraRotation;
+	MyPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
+	CameraRotation.Pitch += 5.f;
+
+	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(MyPlayer->GetWeapon()->GetArrow(),
+		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
+		CameraRotation,
+		SpawnParams);
+	
+	if (Projectile && bZoom)
+	{
+		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
+	}
 }
 
 void AMyPlayerController::IA_Move(const FInputActionValue& Value)
@@ -115,9 +138,13 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 {
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK) && CameraMoved == false)
+		return;
 	bZoom = Value.Get<bool>();
-	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
-	Movement->MaxWalkSpeed = (bZoom) ? 350.f : 600.f;
+	if (bZoom)
+		ZoomIn();
+	else
+		ZoomOut();
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
@@ -127,31 +154,27 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
 		MyPlayer->GetAnimInst()->PlayAttackMontage();
-
-		if (MyPlayer->GetWeapon()->GetType() == WEAPON_ARROW)
-		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = GetInstigator();
-
-			FVector CameraLocation;
-			FRotator CameraRotation;
-			GetActorEyesViewPoint(CameraLocation, CameraRotation);
-
-			//MyPlayer->GetWeapon()->SetMuzzleOffset(MyPlayer->)
-			//FVector MuzzleLocation = FTransform(CameraRotation).TransformVector(MuzzleOffset);
-			AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(MyPlayer->GetWeapon()->GetArrow(),
-				MyPlayer->GetActorLocation() + FVector(100.f, 0.f, 0.f),
-				CameraRotation,
-				SpawnParams);
-			//if (Projectile)
-			//{
-			//	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Boss : Skill Fire"));
-			//	FVector LaunchDirection = GetActorForwardVector();
-			//	Projectile->SetIsOwnerPlayer(false);
-			//	Projectile->FireInDirection(LaunchDirection);
-			//}
-		}
 	}
 		
+}
+
+void AMyPlayerController::ZoomIn()
+{
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK))
+		return;
+	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
+	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, 60.f, 0.f));
+	MyPlayer->GetCamera()->FieldOfView = 75.f;
+	Movement->MaxWalkSpeed = 350.f;
+	CameraMoved = true;
+}
+
+void AMyPlayerController::ZoomOut()
+{
+	if (CameraMoved == false) return;
+	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
+	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, -60.f, 0.f));
+	MyPlayer->GetCamera()->FieldOfView = 90.f;
+	Movement->MaxWalkSpeed = 350.f;
+	CameraMoved = false;
 }

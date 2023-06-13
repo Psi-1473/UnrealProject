@@ -4,7 +4,8 @@
 #include "PlayerAnim.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Creatures/Player/MyPlayerController.h"
-
+#include "../../Items/Weapons/Weapon.h"
+#include "../../Projectiles/Projectile.h"
 #include "Animation/AnimMontage.h"
 
 UPlayerAnim::UPlayerAnim()
@@ -36,7 +37,6 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 			if (PC == nullptr)
 				return;
 
-			
 			Horizontal = PC->GetHorizontal();
 			Vertical = PC->GetVertical();
 			if (Horizontal == 1 && Vertical == 1)
@@ -58,10 +58,13 @@ void UPlayerAnim::PlayAttackMontage()
 	{
 		bCombo = false;
 		Montage_Play(AttackMontages[WeaponType], 1.f);
-
 		if (WeaponType == WEAPON_ARROW)
+		{
+			FName Name;
+			Name = (bZoom) ? FName(*FString::Printf(TEXT("HeavyAttack"))) : FName(*FString::Printf(TEXT("Attack")));
+			Montage_JumpToSection(Name, AttackMontages[WeaponType]);
 			return;
-
+		}
 		JumpToSection(AttackStep);
 		AttackStep++;
 	}
@@ -80,6 +83,14 @@ void UPlayerAnim::JumpToSection(int32 SectionIndex)
 void UPlayerAnim::AnimNotify_Combo()
 {
 	bCombo = true;
+}
+
+void UPlayerAnim::AnimNotify_FireArrow()
+{
+	auto pawn = TryGetPawnOwner();
+	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
+
+	Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
 }
 
 void UPlayerAnim::AnimNotify_AttackEnd()

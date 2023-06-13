@@ -9,6 +9,7 @@
 AProjectile::AProjectile()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
@@ -19,11 +20,10 @@ AProjectile::AProjectile()
 		MeshComp->SetStaticMesh(MeshAsset.Object);
 	MeshComp->SetRelativeScale3D(FVector(1.0f, 4.0f, 1.0f));
 
-	//BoxCollider->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
-
 	BoxCollider->SetRelativeScale3D(FVector(1.0f, 0.25f, 0.25f));
 	BoxCollider->SetRelativeRotation(FRotator(0.f, 0.f, 0.f));
-
+	BoxCollider->SetCollisionProfileName(TEXT("Arrow"));
+	MeshComp->SetCollisionProfileName(TEXT("NoCollision"));
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
 	BoxCollider->OnComponentEndOverlap.AddDynamic(this, &AProjectile::OnOverlapEnd);
 
@@ -33,11 +33,10 @@ AProjectile::AProjectile()
 
 
 	ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
-	ProjectileMovementComponent->InitialSpeed = 2000.f;
-	ProjectileMovementComponent->MaxSpeed = 2000.f;
+	ProjectileMovementComponent->InitialSpeed = 6000.f;
+	ProjectileMovementComponent->MaxSpeed = 0.f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = false;
-	ProjectileMovementComponent->Bounciness = 0.3f;
 	InitialLifeSpan = 1.f;
 }
 
@@ -58,6 +57,10 @@ void AProjectile::BeginPlay()
 void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
 
+void AProjectile::FireInDirection(const FVector& ShootDirection, float Power = 1.f)
+{
+	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed * Power;
 }
 

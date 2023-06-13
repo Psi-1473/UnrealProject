@@ -27,7 +27,8 @@ public:
 
 	UFUNCTION()
 	void AnimNotify_Combo();
-
+	UFUNCTION()
+	void AnimNotify_FireArrow();
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
 

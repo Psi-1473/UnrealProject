@@ -2,17 +2,19 @@
 
 
 #include "Weapon.h"
+#include "Components/StaticMeshComponent.h"
 #include "../../Projectiles/Projectile.h"
 
-UWeapon::UWeapon()
+AWeapon::AWeapon()
 {
 	static ConstructorHelpers::FClassFinder<AProjectile> ARROW(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_Arrow.BP_Arrow_C'"));
+	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+
 	if (ARROW.Succeeded())
 		Arrow = ARROW.Class;
-
 }
 
-void UWeapon::Init(WEAPONTYPE _Type, int _Id)
+void AWeapon::Init(WEAPONTYPE _Type, int _Id)
 {
 	Type = _Type;
 	Id = _Id;
@@ -26,4 +28,5 @@ void UWeapon::Init(WEAPONTYPE _Type, int _Id)
 	Directory += TypeString + TEXT("/") + IdString + TEXT(".") + IdString + TEXT("'");
 
 	StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
+	StaticMeshComponent->SetStaticMesh(StaticMesh);
 }

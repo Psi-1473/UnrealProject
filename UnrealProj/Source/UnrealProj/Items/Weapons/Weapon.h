@@ -5,18 +5,19 @@
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
 #include "../../DEFINE.h"
+#include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API UWeapon : public UObject
+class UNREALPROJ_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	UWeapon();
+	AWeapon();
 	void Init(WEAPONTYPE _Type, int _Id);
 
 	void SetMuzzleOffset(FVector Offset) { MuzzleOffset = Offset; }
@@ -40,8 +41,13 @@ private:
 	class UStaticMesh* StaticMesh;
 
 	UPROPERTY(EditAnywhere)
+	class UStaticMeshComponent* StaticMeshComponent;
+
+	UPROPERTY(EditAnywhere)
 	FVector MuzzleOffset;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AProjectile> Arrow;
+
+	
 };
