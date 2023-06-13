@@ -26,7 +26,7 @@ AMyPlayer::AMyPlayer()
 
 	if (MeshAsset.Succeeded())
 	{
-		GetMesh()->SkeletalMesh = MeshAsset.Object;
+		GetMesh()->SetSkeletalMesh(MeshAsset.Object);
 		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
 	}
@@ -57,7 +57,7 @@ void AMyPlayer::BeginPlay()
 	
 	// 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->Init(WEAPON_ARROW, 0);
+	NewWeapon->Init(WEAPON_SWORD, 0);
 	EquipWeapon(NewWeapon);
 	// 무기장착
 	
@@ -114,6 +114,53 @@ void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 	SetAnimByWeapon(_Weapon->GetType());
 }
 
+void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
+{
+	TArray<FHitResult> HitResults;
+
+	FCollisionQueryParams Params(NAME_None, false, this);
+
+	float Start = 100.f;
+
+	FVector StartVector = GetActorLocation() + GetActorForwardVector() * Start;
+	FVector EndVector = GetActorLocation() + GetActorForwardVector() * (FrontRange + Start);
+
+
+	bool bResult = GetWorld()->SweepMultiByChannel(
+		OUT HitResults,
+		StartVector,
+		EndVector,
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel5,
+		FCollisionShape::MakeBox(FVector(SideRange, UpRange, FrontRange)),//측면, 높이, 정면
+		Params);
+
+	FVector Vec = GetActorForwardVector() * Start;
+	FVector Center = StartVector + (EndVector - StartVector) / 2;
+	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
+	FColor DrawColor;
+	if (bResult)
+		DrawColor = FColor::Green;
+	else
+		DrawColor = FColor::Red;
+
+	DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
+
+	//if (bResult && !HitResults.IsEmpty())
+	//{
+	//	for (FHitResult HitResult : HitResults)
+	//	{
+	//		UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+	//		AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
+	//		FDamageEvent DamageEvent;
+	//		if (Enemy == nullptr)
+	//			return;
+	//		Enemy->TakeDamage(Stat->GetAttack(), DamageEvent, GetController(), this);
+	//	}
+	//}
+}
+
+
 void AMyPlayer::SetDefaultCamera()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -149,5 +196,4 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 	AnimInst->WeaponType = Type;
 }
-
 

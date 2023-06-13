@@ -35,11 +35,13 @@ public:
 
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
+	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 
 private:
 	void SetDefaultCamera(); // 생성자에서 카메라 생성
 	void SetWeaponSocket();
 	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
+	
 
 	// Common variables
 private:

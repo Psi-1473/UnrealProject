@@ -93,6 +93,14 @@ void UPlayerAnim::AnimNotify_FireArrow()
 	Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
 }
 
+void UPlayerAnim::AnimNotify_HitCheck()
+{
+	auto pawn = TryGetPawnOwner();
+	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
+
+	MyPlayer->AttackCheck(100.f, 150.f, 150.f);
+}
+
 void UPlayerAnim::AnimNotify_AttackEnd()
 {
 	auto pawn = TryGetPawnOwner();

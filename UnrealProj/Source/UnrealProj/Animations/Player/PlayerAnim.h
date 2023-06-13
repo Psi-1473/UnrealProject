@@ -30,6 +30,8 @@ public:
 	UFUNCTION()
 	void AnimNotify_FireArrow();
 	UFUNCTION()
+	void AnimNotify_HitCheck();
+	UFUNCTION()
 	void AnimNotify_AttackEnd();
 
 
