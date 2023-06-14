@@ -30,9 +30,19 @@ void AMonsterAIController::OnPossess(APawn* InPawn)
 			// TODO
 		}
 	}
+	
 }
 
 void AMonsterAIController::OnUnPossess()
 {
 	Super::OnUnPossess();
+}
+
+void AMonsterAIController::StartAI()
+{
+	auto BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
+	if (nullptr != BehaviorTreeComponent)
+	{
+		BehaviorTreeComponent->StartTree(*BehaviorTree, EBTExecutionMode::Looped);
+	}
 }
