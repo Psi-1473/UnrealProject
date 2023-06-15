@@ -16,9 +16,22 @@ class UNREALPROJ_API UMonsterAnimInstance : public UAnimInstance
 
 public:
 	UMonsterAnimInstance();
+	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-	
+
+
+	FString GetMontageDir(FString MontageType);
+
+public:
+	void PlayDamagedMontage();
+	void PlayAttackMontage();
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	float Speed;
+
+	UPROPERTY()
+	class UAnimMontage* DamagedMontage;
+	UPROPERTY()
+	class UAnimMontage* AttackMontage;
 };

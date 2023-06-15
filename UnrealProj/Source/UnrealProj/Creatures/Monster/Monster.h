@@ -21,7 +21,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
+	FString GetObjectName() {  return GetActorNameOrLabel(); }
+
+public:
+	void AttackTarget(class AMyPlayer* Target);
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 private:
 	UPROPERTY()
-	class UAnimInstance* AnimInst;
+	class UMonsterAnimInstance* AnimInst;
 };

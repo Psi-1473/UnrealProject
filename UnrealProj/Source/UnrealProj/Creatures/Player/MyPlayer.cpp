@@ -10,6 +10,8 @@
 #include "../../Projectiles/Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "../Monster/Monster.h"
+#include "Engine/DamageEvents.h"
 
 
 
@@ -29,6 +31,7 @@ AMyPlayer::AMyPlayer()
 		GetMesh()->SetSkeletalMesh(MeshAsset.Object);
 		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
+		GetMesh()->SetCollisionProfileName("NoCollision");
 	}
 
 	if (AnimAsset.Succeeded())
@@ -146,18 +149,18 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 
 	DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
 
-	//if (bResult && !HitResults.IsEmpty())
-	//{
-	//	for (FHitResult HitResult : HitResults)
-	//	{
-	//		UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
-	//		AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
-	//		FDamageEvent DamageEvent;
-	//		if (Enemy == nullptr)
-	//			return;
-	//		Enemy->TakeDamage(Stat->GetAttack(), DamageEvent, GetController(), this);
-	//	}
-	//}
+	if (bResult && !HitResults.IsEmpty())
+	{
+		for (FHitResult HitResult : HitResults)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+			AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
+			FDamageEvent DamageEvent;
+			if (Enemy == nullptr)
+				return;
+			Enemy->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
+		}
+	}
 }
 
 
