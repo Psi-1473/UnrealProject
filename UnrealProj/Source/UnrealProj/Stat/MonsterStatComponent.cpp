@@ -43,11 +43,26 @@ void UMonsterStatComponent::SetInfo(FString NameInfo)
 				Id = StatData->Id;
 				Level = StatData->Level;
 				MaxHp = StatData->MaxHp;
-				Hp = StatData->MaxHp;
+				SetHp(MaxHp);
 				Attack = StatData->Attack;
 			}
 		}
 	}
+}
+
+void UMonsterStatComponent::SetHp(int32 NewHp)
+{
+	Hp = NewHp;
+	if (Hp < 0)
+		Hp = 0;
+
+	OnHpChanged.Broadcast();
+}
+
+void UMonsterStatComponent::OnAttacked(float Damage)
+{
+	int32 NewHp = Hp - Damage;
+	SetHp(NewHp);
 }
 
 

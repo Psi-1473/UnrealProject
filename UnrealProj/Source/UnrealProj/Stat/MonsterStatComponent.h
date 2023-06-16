@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "MonsterStatComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALPROJ_API UMonsterStatComponent : public UActorComponent
@@ -26,8 +27,11 @@ public:
 	int32 GetAttack() { return Attack; }
 	int32 GetMaxHp() { return MaxHp; }
 
+	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
 	void SetInfo(FString NameInfo);
+	void SetHp(int32 NewHp);
+	void OnAttacked(float Damage);
 private:
 	UPROPERTY()
 	FString Name;
@@ -46,4 +50,7 @@ private:
 
 	UPROPERTY()
 		int32 Hp;
+
+public:
+	FOnHpChanged OnHpChanged;
 };
