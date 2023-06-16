@@ -74,4 +74,7 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
+
+	UPROPERTY()
+	class UPlayerStatComponent* StatComponent;
 };

@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../Monster/Monster.h"
 #include "Engine/DamageEvents.h"
+#include "../../Stat/PlayerStatComponent.h"
 
 
 
@@ -39,12 +40,15 @@ AMyPlayer::AMyPlayer()
 	if (AnimAsset2.Succeeded())
 		AnimClasses[WEAPON_ARROW] = AnimAsset2.Class;
 
+
 	
 	SetDefaultCamera();
 	SetWeaponSocket();
 	
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
+
+	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -56,8 +60,6 @@ void AMyPlayer::PostInitializeComponents()
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	
 	// 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
 	NewWeapon->Init(WEAPON_SWORD, 0);

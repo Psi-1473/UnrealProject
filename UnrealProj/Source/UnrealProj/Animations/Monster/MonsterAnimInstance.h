@@ -18,9 +18,12 @@ public:
 	UMonsterAnimInstance();
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-
+	
 
 	FString GetMontageDir(FString MontageType);
+public:
+	UFUNCTION()
+		void AnimNotify_DamagedEnd();
 
 public:
 	void PlayDamagedMontage();

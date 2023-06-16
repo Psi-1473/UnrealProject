@@ -2,6 +2,7 @@
 #include "../../AI/MonsterAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "../../Stat/MonsterStatComponent.h"
 #include "../../Animations/Monster/MonsterAnimInstance.h"
 
 AMonster::AMonster()
@@ -13,6 +14,7 @@ AMonster::AMonster()
 	GetMesh()->SetCollisionProfileName("NoCollision");
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
+	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
 }
 
 void AMonster::BeginPlay()
@@ -27,6 +29,15 @@ void AMonster::Tick(float DeltaTime)
 
 }
 
+FString AMonster::GetObjectName()
+{
+	FString MyName = GetActorNameOrLabel();
+	int StartIndex = 3; // BP_
+	int Count = MyName.Len() - 2;
+	MyName = MyName.Mid(StartIndex, Count);
+	return MyName;
+}
+
 void AMonster::AttackTarget(AMyPlayer* Target)
 {
 	AnimInst->PlayAttackMontage();
@@ -34,6 +45,9 @@ void AMonster::AttackTarget(AMyPlayer* Target)
 
 float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
+	
+	auto AIController = Cast<AMonsterAIController>(GetController());
+	AIController->StopAI();
 	AnimInst->PlayDamagedMontage();
 
 	return Damage;

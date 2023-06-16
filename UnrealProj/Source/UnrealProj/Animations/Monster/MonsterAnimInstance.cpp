@@ -3,6 +3,7 @@
 
 #include "MonsterAnimInstance.h"
 #include "../../Creatures/Monster/Monster.h"
+#include "../../AI/MonsterAIController.h"
 
 UMonsterAnimInstance::UMonsterAnimInstance()
 {
@@ -40,10 +41,6 @@ FString UMonsterAnimInstance::GetMontageDir(FString MontageType)
 		return TEXT("");
 
 	FString MyName = MyPawn->GetObjectName();
-	int StartIndex = 3; // BP_
-	int Count = MyName.Len() - 2;
-	MyName = MyName.Mid(StartIndex, Count);
-
 	FString Dir = TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/");
 	FString MontageName = TEXT("AM_") + MyName + TEXT("_") + MontageType;
 	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");
@@ -51,10 +48,19 @@ FString UMonsterAnimInstance::GetMontageDir(FString MontageType)
 	return Dir;
 }
 
+void UMonsterAnimInstance::AnimNotify_DamagedEnd()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMonster>(pawn);
+	auto Controller = Cast<AMonsterAIController>(Character->GetController());
+	Controller->StartAI();
+}
+
 void UMonsterAnimInstance::PlayDamagedMontage()
 {
 	if (DamagedMontage == nullptr)
 		return;
+	StopAllMontages(1.f);
 	Montage_Play(DamagedMontage, 1.0f);
 }
 

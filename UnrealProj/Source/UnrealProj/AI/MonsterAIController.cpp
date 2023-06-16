@@ -5,7 +5,9 @@
 #include "NavigationSystem.h"
 #include "BehaviorTree/BlackboardData.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "BrainComponent.h"
 
 
 AMonsterAIController::AMonsterAIController()
@@ -27,7 +29,7 @@ void AMonsterAIController::OnPossess(APawn* InPawn)
 	{
 		if (RunBehaviorTree(BehaviorTree))//매개변수 : Behavior Tree
 		{
-			// TODO
+
 		}
 	}
 	
@@ -38,11 +40,21 @@ void AMonsterAIController::OnUnPossess()
 	Super::OnUnPossess();
 }
 
+void AMonsterAIController::StopAI()
+{
+	UBehaviorTreeComponent* BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
+
+	if (nullptr != BehaviorTreeComponent)
+		BehaviorTreeComponent->StopTree();
+}
+
 void AMonsterAIController::StartAI()
 {
+	UE_LOG(LogTemp, Warning, TEXT("START"));
 	auto BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
-	if (nullptr != BehaviorTreeComponent)
-	{
-		BehaviorTreeComponent->StartTree(*BehaviorTree, EBTExecutionMode::Looped);
-	}
+
+	if (BehaviorTreeComponent == nullptr)
+		return;
+	
+	BehaviorTreeComponent->StartTree(*BehaviorTree, EBTExecutionMode::Looped);
 }

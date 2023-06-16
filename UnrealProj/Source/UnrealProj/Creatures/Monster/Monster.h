@@ -21,7 +21,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 
-	FString GetObjectName() {  return GetActorNameOrLabel(); }
+	FString GetObjectName();
 
 public:
 	void AttackTarget(class AMyPlayer* Target);
@@ -29,4 +29,7 @@ public:
 private:
 	UPROPERTY()
 	class UMonsterAnimInstance* AnimInst;
+
+	UPROPERTY()
+	class UMonsterStatComponent* StatComponent;
 };
