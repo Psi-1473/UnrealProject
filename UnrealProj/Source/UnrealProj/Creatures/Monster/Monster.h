@@ -27,6 +27,13 @@ public:
 public:
 	void AttackTarget(class AMyPlayer* Target);
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	void Die();
+private:
+	void SetHpBar();
+
+public:
+	//temp
+	bool bDeath = false;
 private:
 	UPROPERTY()
 	class UMonsterAnimInstance* AnimInst;

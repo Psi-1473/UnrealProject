@@ -13,6 +13,6 @@ void UWidget_HpBar::BindHp(UMonsterStatComponent* StatComp)
 
 void UWidget_HpBar::UpdateHp()
 {
-	if(IsValid(CurrentStatComp))
+	if(CurrentStatComp.IsValid())
 		PB_HpBar->SetPercent(CurrentStatComp->GetHpRatio());
 }

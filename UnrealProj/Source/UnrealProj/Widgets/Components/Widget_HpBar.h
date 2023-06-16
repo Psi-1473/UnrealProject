@@ -19,7 +19,7 @@ public:
 	
 private:
 	UPROPERTY()
-	class UMonsterStatComponent* CurrentStatComp;
+	TWeakObjectPtr<class UMonsterStatComponent> CurrentStatComp;
 
 	UPROPERTY(meta=(BindWidget))
 	class UProgressBar* PB_HpBar;

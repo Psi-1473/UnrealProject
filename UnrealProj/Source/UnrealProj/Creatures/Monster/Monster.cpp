@@ -10,17 +10,15 @@
 AMonster::AMonster()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
+
 	AIControllerClass = AMonsterAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
 	GetMesh()->SetCollisionProfileName("NoCollision");
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
-	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
-	HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBAR"));
-	HpBar->SetupAttachment(GetMesh());
-	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 160.f));
-	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+	SetHpBar();
 	static ConstructorHelpers::FClassFinder<UUserWidget> WIDGETHP(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/09_UI/WidgetComponent/WBP_HpBar.WBP_HpBar_C'"));
 	if (WIDGETHP.Succeeded())
 	{
@@ -44,10 +42,7 @@ void AMonster::PostInitializeComponents()
 	HpBar->InitWidget();
 	auto Bar = Cast<UWidget_HpBar>(HpBar->GetUserWidgetObject());
 	if (Bar != nullptr)
-	{
 		Bar->BindHp(StatComponent);
-		UE_LOG(LogTemp, Warning, TEXT("HPWIDGET"));
-	}
 }
 
 void AMonster::Tick(float DeltaTime)
@@ -78,7 +73,28 @@ float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 	AnimInst->PlayDamagedMontage();
 	StatComponent->OnAttacked(Damage);
 
+	if (StatComponent->GetHp() <= 0)
+		Die();
+
 	return Damage;
+}
+
+void AMonster::Die()
+{
+	auto AIController = Cast<AMonsterAIController>(GetController());
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("NoCollision"));
+	AIController->StopAI();
+	bDeath = true;
+	AnimInst->StopAllMontages(1.f);
+}
+
+void AMonster::SetHpBar()
+{
+	HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HPBAR"));
+	HpBar->SetupAttachment(GetMesh());
+	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 160.f));
+	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
 }
 
 

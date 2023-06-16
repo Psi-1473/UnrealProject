@@ -16,8 +16,6 @@ void UMonsterAnimInstance::NativeBeginPlay()
 	auto MyPawn = Cast<AMonster>(TryGetPawnOwner());
 	DamagedMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Damaged")), NULL, LOAD_None, NULL);
 	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
-
-
 }
 
 void UMonsterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -31,6 +29,7 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		Speed = FMath::Abs(pawn->GetVelocity().X);
 
 		auto Character = Cast<AMonster>(pawn);	
+		bDeath = Character->bDeath;
 	}
 }
 

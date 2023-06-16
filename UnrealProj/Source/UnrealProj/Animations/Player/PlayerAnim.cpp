@@ -108,4 +108,6 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	Character->SetState(STATE::IDLE);
 	bCombo = true;
 	AttackStep = 1;
+	if (Montage_IsPlaying(AttackMontages[WeaponType]))
+		StopAllMontages(1.f);
 }
