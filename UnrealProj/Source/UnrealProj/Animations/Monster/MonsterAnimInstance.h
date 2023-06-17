@@ -9,6 +9,9 @@
 /**
  * 
  */
+
+DECLARE_MULTICAST_DELEGATE(FOnDied);
+
 UCLASS()
 class UNREALPROJ_API UMonsterAnimInstance : public UAnimInstance
 {
@@ -23,7 +26,10 @@ public:
 	FString GetMontageDir(FString MontageType);
 public:
 	UFUNCTION()
-		void AnimNotify_DamagedEnd();
+	void AnimNotify_DamagedEnd();
+
+	UFUNCTION()
+	void AnimNotify_DestroyObject();
 
 public:
 	void PlayDamagedMontage();
@@ -39,4 +45,7 @@ private:
 	class UAnimMontage* DamagedMontage;
 	UPROPERTY()
 	class UAnimMontage* AttackMontage;
+public:
+	FOnDied OnDied;
+
 };

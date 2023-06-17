@@ -45,6 +45,7 @@ void UMonsterStatComponent::SetInfo(FString NameInfo)
 				MaxHp = StatData->MaxHp;
 				SetHp(MaxHp);
 				Attack = StatData->Attack;
+				UE_LOG(LogTemp, Warning, TEXT("%d"), Hp);
 			}
 		}
 	}

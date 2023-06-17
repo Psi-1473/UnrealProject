@@ -5,6 +5,8 @@
 #include "../../Creatures/Monster/Monster.h"
 #include "../../AI/MonsterAIController.h"
 
+
+
 UMonsterAnimInstance::UMonsterAnimInstance()
 {
 	
@@ -13,7 +15,6 @@ UMonsterAnimInstance::UMonsterAnimInstance()
 void UMonsterAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
-	auto MyPawn = Cast<AMonster>(TryGetPawnOwner());
 	DamagedMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Damaged")), NULL, LOAD_None, NULL);
 	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
 }
@@ -53,6 +54,11 @@ void UMonsterAnimInstance::AnimNotify_DamagedEnd()
 	auto Character = Cast<AMonster>(pawn);
 	auto Controller = Cast<AMonsterAIController>(Character->GetController());
 	Controller->StartAI();
+}
+
+void UMonsterAnimInstance::AnimNotify_DestroyObject()
+{
+	OnDied.Broadcast();
 }
 
 void UMonsterAnimInstance::PlayDamagedMontage()

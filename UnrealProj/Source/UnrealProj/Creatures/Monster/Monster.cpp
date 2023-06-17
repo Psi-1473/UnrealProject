@@ -38,7 +38,7 @@ void AMonster::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	UE_LOG(LogTemp, Warning, TEXT("POST INIT"));
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
-
+	AnimInst->OnDied.AddUObject(this, &AMonster::DestroyObject);
 	HpBar->InitWidget();
 	auto Bar = Cast<UWidget_HpBar>(HpBar->GetUserWidgetObject());
 	if (Bar != nullptr)
@@ -53,10 +53,10 @@ void AMonster::Tick(float DeltaTime)
 
 FString AMonster::GetObjectName()
 {
-	FString MyName = GetActorNameOrLabel();
-	int StartIndex = 3; // BP_
-	int Count = MyName.Len() - 2;
-	MyName = MyName.Mid(StartIndex, Count);
+	FString MyName = GetClass()->GetName(); // BP_Zombie_C
+	int StartIndex = 3; // BP_ 이후 첫 글자의 Index가 3
+	int Count = MyName.Len() - StartIndex - 2; // Len - StartIndex = Zombie_C, -2를 더 해주면 Zombie
+	MyName = MyName.Mid(StartIndex, Count); // Zombie
 	return MyName;
 }
 
@@ -87,6 +87,18 @@ void AMonster::Die()
 	AIController->StopAI();
 	bDeath = true;
 	AnimInst->StopAllMontages(1.f);
+}
+
+void AMonster::DestroyObject()
+{
+	FTimerDelegate TimeCallback;
+	TimeCallback.BindLambda([this] {
+		this->Destroy();
+		GetWorldTimerManager().ClearTimer(DestroyTimerHandle); 
+		});
+	GetWorldTimerManager().SetTimer(DestroyTimerHandle, TimeCallback, 5.f, false);
+	
+	
 }
 
 void AMonster::SetHpBar()
