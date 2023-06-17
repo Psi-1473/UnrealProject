@@ -43,6 +43,9 @@ private:
 	UPROPERTY()
 	class UMonsterStatComponent* StatComponent;
 
+	UPROPERTY(EditAnywhere)
+	class USceneComponent* DamageTextComp;
+
 	UPROPERTY()
 	class UWidgetComponent* HpBar;
 

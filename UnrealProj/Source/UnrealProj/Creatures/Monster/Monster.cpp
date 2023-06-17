@@ -5,13 +5,15 @@
 #include "../../Stat/MonsterStatComponent.h"
 #include "../../Animations/Monster/MonsterAnimInstance.h"
 #include "Components/WidgetComponent.h"
+#include "Components/SceneComponent.h"
+#include "../../TextRender/DamageText.h"
 #include "../../Widgets/Components/Widget_HpBar.h"
 
 AMonster::AMonster()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
-
+	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	AIControllerClass = AMonsterAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
@@ -73,6 +75,15 @@ float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 	AnimInst->PlayDamagedMontage();
 	StatComponent->OnAttacked(Damage);
 
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	SpawnParams.Instigator = GetInstigator();
+
+	GetWorld()->SpawnActor<ADamageText>(ADamageText::StaticClass(),
+		GetActorLocation() + DamageTextComp->GetRelativeLocation(),
+		DamageTextComp->GetRelativeRotation(),
+		SpawnParams);
+
 	if (StatComponent->GetHp() <= 0)
 		Die();
 
@@ -87,6 +98,7 @@ void AMonster::Die()
 	AIController->StopAI();
 	bDeath = true;
 	AnimInst->StopAllMontages(1.f);
+
 }
 
 void AMonster::DestroyObject()
