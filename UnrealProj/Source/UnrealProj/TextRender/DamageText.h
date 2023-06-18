@@ -18,16 +18,18 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-
-	void Init();
+	void InitSettingValue();
+	void SetDamageText(float Damage);
 private:
 	
 
 private:
+	UPROPERTY()
+	TWeakObjectPtr<class UCameraComponent> Camera;
+	
 	UPROPERTY(EditAnywhere)
 	class UTextRenderComponent* TextRender;
 
 	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;
-
 };

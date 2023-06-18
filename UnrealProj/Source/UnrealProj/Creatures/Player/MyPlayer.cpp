@@ -13,6 +13,8 @@
 #include "../Monster/Monster.h"
 #include "Engine/DamageEvents.h"
 #include "../../Stat/PlayerStatComponent.h"
+#include "../../Skills/Components/PlayerSkillComponent.h"
+#include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
 
 
 
@@ -36,9 +38,9 @@ AMyPlayer::AMyPlayer()
 	}
 
 	if (AnimAsset.Succeeded())
-		AnimClasses[WEAPON_SWORD] = AnimAsset.Class;
+		AnimClasses[WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
 	if (AnimAsset2.Succeeded())
-		AnimClasses[WEAPON_ARROW] = AnimAsset2.Class;
+		AnimClasses[WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
 
 
 	
@@ -49,22 +51,29 @@ AMyPlayer::AMyPlayer()
 	StateMachine->SetOwner(this);
 
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
+	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 }
 
 void AMyPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	SetAnimByWeapon(WEAPON_ARROW);
+	SetAnimByWeapon(WEAPONTYPE::WEAPON_ARROW);
 }
 
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	// 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
+	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->Init(WEAPON_SWORD, 0);
+	NewWeapon->Init(WEAPONTYPE::WEAPON_SWORD, 1);
 	EquipWeapon(NewWeapon);
-	// 무기장착
+	//TEMP : Skill
+	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
+	NewSkill->RegisterKey(KEY_E);
+	SkillComponent->RegisterSkill(KEY_E, NewSkill);
+
+
+
 	
 
 	if (StateMachine == nullptr)

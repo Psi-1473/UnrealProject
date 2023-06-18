@@ -20,10 +20,12 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 	void PlayAttackMontage();
+	void PlaySkillMontage(int32 SkillNumber);
+
 
 
 	FName GetAttackMontageName(int32 SectionIndex);
-	void JumpToSection(int32 SectionIndex);
+	void JumpToSection(UAnimMontage* Montage, int32 SectionIndex);
 
 	UFUNCTION()
 	void AnimNotify_Combo();
@@ -64,5 +66,6 @@ public:
 
 private:
 	TArray<class UAnimMontage*> AttackMontages;
+	TArray<class UAnimMontage*> SkillMontages;
 	
 };

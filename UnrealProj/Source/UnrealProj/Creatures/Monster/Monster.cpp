@@ -14,6 +14,8 @@ AMonster::AMonster()
 	PrimaryActorTick.bCanEverTick = true;
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
+	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
+
 	AIControllerClass = AMonsterAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
@@ -75,15 +77,7 @@ float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 	AnimInst->PlayDamagedMontage();
 	StatComponent->OnAttacked(Damage);
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = this;
-	SpawnParams.Instigator = GetInstigator();
-
-	GetWorld()->SpawnActor<ADamageText>(ADamageText::StaticClass(),
-		GetActorLocation() + DamageTextComp->GetRelativeLocation(),
-		DamageTextComp->GetRelativeRotation(),
-		SpawnParams);
-
+	PopupDamageText(Damage);
 	if (StatComponent->GetHp() <= 0)
 		Die();
 
@@ -119,6 +113,20 @@ void AMonster::SetHpBar()
 	HpBar->SetupAttachment(GetMesh());
 	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 160.f));
 	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+}
+
+void AMonster::PopupDamageText(float Damage)
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	SpawnParams.Instigator = GetInstigator();
+
+	auto DamageText = GetWorld()->SpawnActor<ADamageText>(ADamageText::StaticClass(),
+		GetActorLocation() + DamageTextComp->GetRelativeLocation(),
+		DamageTextComp->GetRelativeRotation(),
+		SpawnParams);
+
+	DamageText->SetDamageText(Damage);
 }
 
 

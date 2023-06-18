@@ -27,8 +27,10 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
+	void SetAttackStrength(bool Value) { bHeavyAttack = Value; }
 	void FireInDirection(const FVector& ShootDirection, float Power);
 private:
+	bool bHeavyAttack = false;
 
 private:
 	UPROPERTY(EditAnywhere)

@@ -11,11 +11,14 @@
 UPlayerAnim::UPlayerAnim()
 {
 	AttackMontages.Init(nullptr, WEAPON_END);
+	SkillMontages.Init(nullptr, WEAPON_END);
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack.AM_Attack'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack_Arrow.AM_Attack_Arrow'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Sword.AM_Skill_Sword'"));
 
 	if(AM.Succeeded()) AttackMontages[WEAPON_SWORD] = AM.Object;
 	if(AM2.Succeeded()) AttackMontages[WEAPON_ARROW] = AM2.Object;
+	if(SM.Succeeded()) SkillMontages[WEAPON_SWORD] = SM.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -65,8 +68,16 @@ void UPlayerAnim::PlayAttackMontage()
 			Montage_JumpToSection(Name, AttackMontages[WeaponType]);
 			return;
 		}
-		JumpToSection(AttackStep);
+		JumpToSection(AttackMontages[WeaponType], AttackStep);
 		AttackStep++;
+	}
+}
+void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
+{
+	if (!Montage_IsPlaying(SkillMontages[WeaponType]))
+	{
+		Montage_Play(SkillMontages[WeaponType], 1.f);
+		JumpToSection(SkillMontages[WeaponType], AttackStep);
 	}
 }
 FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
@@ -74,10 +85,10 @@ FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
 	return FName(*FString::Printf(TEXT("Attack%d"), SectionIndex));
 }
 
-void UPlayerAnim::JumpToSection(int32 SectionIndex)
+void UPlayerAnim::JumpToSection(UAnimMontage* Montage, int32 SectionIndex)
 {
 	FName Name = GetAttackMontageName(SectionIndex);
-	Montage_JumpToSection(Name, AttackMontages[WeaponType]);
+	Montage_JumpToSection(Name, Montage);
 }
 
 void UPlayerAnim::AnimNotify_Combo()

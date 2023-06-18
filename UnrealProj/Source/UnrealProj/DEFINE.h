@@ -15,13 +15,21 @@ enum class STATE : uint8
 	JUMP,
 	ATTACK,
 };
-
 enum WEAPONTYPE
 {
 	WEAPON_SWORD,
 	WEAPON_ARROW,
 
 	WEAPON_END,
+};
+
+enum SKILLKEYS
+{
+	KEY_Q,
+	KEY_E,
+	KEY_R,
+
+	KEY_END
 };
 
 class UNREALPROJ_API DEFINE

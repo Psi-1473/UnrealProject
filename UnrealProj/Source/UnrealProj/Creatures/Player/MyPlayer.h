@@ -29,6 +29,7 @@ public:
 	class UCharacterState* GetSpecificState(STATE Value);
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
 	class UCameraComponent* GetCamera() { return Camera; }
+	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 
 	void SetState(STATE Value);
@@ -45,6 +46,7 @@ private:
 
 	// Common variables
 private:
+	UPROPERTY(EditAnywhere)
 	class AWeapon* EquipedWeapon;
 
 
@@ -77,4 +79,7 @@ private:
 
 	UPROPERTY()
 	class UPlayerStatComponent* StatComponent;
+
+	UPROPERTY()
+	class UPlayerSkillComponent* SkillComponent;
 };

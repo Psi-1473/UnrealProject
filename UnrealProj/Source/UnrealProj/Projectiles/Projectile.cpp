@@ -5,6 +5,10 @@
 #include "Components/BoxComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include <UnrealProj/Creatures/Monster/Monster.h>
+#include "Engine/DamageEvents.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Creatures/Player/MyPlayer.h"
 
 AProjectile::AProjectile()
 {
@@ -37,11 +41,27 @@ AProjectile::AProjectile()
 	ProjectileMovementComponent->MaxSpeed = 0.f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = false;
-	InitialLifeSpan = 1.f;
+	InitialLifeSpan = 0.5f;
 }
 
 void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (OtherActor && (OtherActor != this))
+	{
+		auto Enemy = Cast<AMonster>(OtherActor);
+		if (Enemy)
+		{
+			if (bHeavyAttack == false)
+				this->Destroy();
+			FDamageEvent DamageEvent;
+			if (OwnerPlayer == nullptr)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
+				return;
+			}
+			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+		}
+	}
 }
 
 void AProjectile::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -51,7 +71,8 @@ void AProjectile::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Othe
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	auto MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	OwnerPlayer = MyPlayer;
 }
 
 void AProjectile::Tick(float DeltaTime)

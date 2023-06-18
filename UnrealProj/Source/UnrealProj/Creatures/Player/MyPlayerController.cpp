@@ -14,6 +14,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../../Projectiles/Projectile.h"
 #include "Camera/CameraComponent.h"
+#include "../../Skills/Components/PlayerSkillComponent.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -24,6 +25,10 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_JUMP(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Jump.IA_Jump'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ATTACK(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Attack/Sword/IA_SwordAttack.IA_SwordAttack'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ZOOM(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_ZoomIn.IA_ZoomIn'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Q(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillQ.IA_SkillQ'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_E(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillE.IA_SkillE'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_R(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillR.IA_SkillR'"));
+
 
 	if (DEFAULT_CONTEXT.Succeeded())
 		DefaultContext = DEFAULT_CONTEXT.Object;
@@ -33,6 +38,9 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_JUMP.Succeeded()) JumpAction = IA_JUMP.Object;
 	if (IA_ATTACK.Succeeded()) Action_AttackSword = IA_ATTACK.Object;
 	if (IA_ZOOM.Succeeded()) ZoomAction = IA_ZOOM.Object;
+	if (IA_Q.Succeeded()) Push_Q = IA_Q.Object;
+	if (IA_E.Succeeded()) Push_E = IA_E.Object;
+	if (IA_R.Succeeded()) Push_R = IA_R.Object;
 	
 }
 
@@ -55,6 +63,9 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Jump);
 		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Sword_Attack);
 		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Zoom);
+		EnhancedInputComponent->BindAction(Push_Q, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_Q);
+		EnhancedInputComponent->BindAction(Push_E, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_E);
+		EnhancedInputComponent->BindAction(Push_R, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_R);
 	}
 
 }
@@ -69,14 +80,13 @@ void AMyPlayerController::Fire()
 	FRotator CameraRotation;
 	MyPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 	CameraRotation.Pitch += 5.f;
-
 	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(MyPlayer->GetWeapon()->GetArrow(),
 		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
 		CameraRotation,
 		SpawnParams);
-	
 	if (Projectile && bZoom)
 	{
+		Projectile->SetAttackStrength(true);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
 }
@@ -138,6 +148,12 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 {
+	if (MyPlayer->GetWeapon()->GetType() != WEAPON_ARROW)
+	{
+		FString Str = FString::FromInt(MyPlayer->GetWeapon()->GetType());
+		UE_LOG(LogTemp, Warning, TEXT("WEAPON IS NOT A BOW : %s"), *Str);
+		return;
+	}
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK) && CameraMoved == false)
 		return;
 	bZoom = Value.Get<bool>();
@@ -145,6 +161,30 @@ void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 		ZoomIn();
 	else
 		ZoomOut();
+}
+
+void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
+{
+	if (!Value.Get<bool>())
+		return;
+
+	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_Q);
+}
+
+void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
+{
+	if (!Value.Get<bool>())
+		return;
+
+	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_E);
+}
+
+void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
+{
+	if (!Value.Get<bool>())
+		return;
+
+	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)

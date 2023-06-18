@@ -32,6 +32,7 @@ public:
 	void DestroyObject();
 private:
 	void SetHpBar();
+	void PopupDamageText(float Damage);
 
 public:
 	//temp

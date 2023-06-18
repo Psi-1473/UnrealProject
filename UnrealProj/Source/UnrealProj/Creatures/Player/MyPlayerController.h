@@ -32,6 +32,9 @@ private:
 	void IA_Look(const FInputActionValue& Value);
 	void IA_Jump(const FInputActionValue& Value);
 	void IA_Zoom(const FInputActionValue& Value);
+	void IA_Push_Q(const FInputActionValue& Value);
+	void IA_Push_E(const FInputActionValue& Value);
+	void IA_Push_R(const FInputActionValue& Value);
 
 	void IA_Sword_Attack(const FInputActionValue& Value);
 private:
@@ -74,6 +77,15 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* ZoomAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Push_Q;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Push_E;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Push_R;
 
 	UPROPERTY(VisibleAnywhere)
 	class AMyPlayer* MyPlayer;
