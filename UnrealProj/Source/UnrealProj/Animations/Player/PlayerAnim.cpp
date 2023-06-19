@@ -7,6 +7,7 @@
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Projectiles/Projectile.h"
 #include "Animation/AnimMontage.h"
+#include "../../Skills/Skill.h"
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -77,7 +78,7 @@ void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
 	if (!Montage_IsPlaying(SkillMontages[WeaponType]))
 	{
 		Montage_Play(SkillMontages[WeaponType], 1.f);
-		JumpToSection(SkillMontages[WeaponType], AttackStep);
+		JumpToSection(SkillMontages[WeaponType], SkillNumber);
 	}
 }
 FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
@@ -87,7 +88,8 @@ FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
 
 void UPlayerAnim::JumpToSection(UAnimMontage* Montage, int32 SectionIndex)
 {
-	FName Name = GetAttackMontageName(SectionIndex);
+	//FName Name = GetAttackMontageName(SectionIndex);
+	FName Name = FName(*FString::FromInt(SectionIndex));
 	Montage_JumpToSection(Name, Montage);
 }
 
@@ -102,6 +104,24 @@ void UPlayerAnim::AnimNotify_FireArrow()
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 
 	Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
+}
+
+void UPlayerAnim::AnimNotify_SkillEffect()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+
+	USkill* Skill = Character->GetSkill();
+	Skill->PlayParticle(Character);
+
+}
+
+void UPlayerAnim::AnimNotify_SkillEnd()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+
+	Character->SetSkill(nullptr);
 }
 
 void UPlayerAnim::AnimNotify_HitCheck()

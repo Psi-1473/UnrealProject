@@ -17,12 +17,15 @@ class UNREALPROJ_API USkill : public UObject
 
 public:
 	virtual void Execute(AActor* OwnerActor);
+	virtual void PlayParticle(AActor* OwnerActor);
 	void RegisterKey(int32 Key) { RegisteredKey = Key; }
 
 protected:
 	int32 RegisteredKey;
 
 	bool bCanUse = true;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ASkillEffectActor> Effect;
 
 	UPROPERTY()
 	FTimerHandle CoolDownTimer;

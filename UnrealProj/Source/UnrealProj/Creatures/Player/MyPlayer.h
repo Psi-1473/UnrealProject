@@ -31,8 +31,10 @@ public:
 	class UCameraComponent* GetCamera() { return Camera; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
+	class USkill* GetSkill() { return ExecuteSkill; }
 
 	void SetState(STATE Value);
+	void SetSkill(class USkill* Value) { ExecuteSkill = Value; }
 
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
@@ -49,7 +51,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	class AWeapon* EquipedWeapon;
 
-
+	UPROPERTY()
+	class USkill* ExecuteSkill;
 	// Components
 private:
 	UPROPERTY(EditAnywhere)

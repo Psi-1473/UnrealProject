@@ -8,3 +8,7 @@ void USkill::Execute(AActor* OwnerActor)
 	if (!bCanUse)
 		return;
 }
+
+void USkill::PlayParticle(AActor* OwnerActor)
+{
+}

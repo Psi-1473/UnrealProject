@@ -32,9 +32,14 @@ public:
 	UFUNCTION()
 	void AnimNotify_FireArrow();
 	UFUNCTION()
+	void AnimNotify_SkillEffect();
+	UFUNCTION()
+	void AnimNotify_SkillEnd();
+	UFUNCTION()
 	void AnimNotify_HitCheck();
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
+
 
 
 public:
