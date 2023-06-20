@@ -14,6 +14,7 @@ enum class STATE : uint8
 	MOVE,
 	JUMP,
 	ATTACK,
+	SKILL,
 };
 enum WEAPONTYPE
 {

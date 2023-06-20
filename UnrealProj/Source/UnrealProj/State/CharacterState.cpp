@@ -52,6 +52,7 @@ void UMoveState::OnExit()
 #pragma region JUMP
 void UJumpState::OnEnter()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : JUMP"));
 }
 
 void UJumpState::OnUpdate()
@@ -79,4 +80,18 @@ void UAttackState::OnExit()
 }
 #pragma endregion
 
+#pragma region SKILL
+void USkillState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL"));
+}
+
+void USkillState::OnUpdate()
+{
+}
+
+void USkillState::OnExit()
+{
+}
+#pragma endregion 
 

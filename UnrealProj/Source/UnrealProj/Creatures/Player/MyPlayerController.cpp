@@ -167,6 +167,9 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) ||
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
+		return;
 
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_Q);
 }
@@ -175,7 +178,8 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
-
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) ||
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_E);
 }
 
@@ -183,7 +187,8 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
-
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) ||
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);
 }
 
@@ -191,6 +196,9 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
+			return;
+
 		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
 		MyPlayer->GetAnimInst()->PlayAttackMontage();

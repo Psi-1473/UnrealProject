@@ -3,6 +3,8 @@
 #include "../Skill.h"
 #include "../../DEFINE.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../State/CharacterState.h"
+#include "../../State/StateMachine.h"
 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -23,12 +25,12 @@ void UPlayerSkillComponent::RegisterSkill(int SkillKey, USkill* Skill)
 
 void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 {
+	
 	if (Skills[SkillKey] == nullptr)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("SKILL NULL"));
 		return;
-	}
+
 	auto Player = Cast<AMyPlayer>(GetOwner());
+	Player->SetState(STATE::SKILL);
 	Skills[SkillKey]->Execute(Player);
 }
 

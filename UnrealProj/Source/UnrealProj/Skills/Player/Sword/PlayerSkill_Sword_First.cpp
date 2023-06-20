@@ -5,13 +5,20 @@
 #include "../../../Creatures/Player/MyPlayer.h"
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../EffectActor/SkillEffectActor.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_1.BP_Effect_0_1_C'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> PARTICLE_Player(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Whrilwind.P_Aurora_Freeze_Whrilwind'"));
 
 	if (EFFECT.Succeeded())
 		Effect = EFFECT.Class;
+
+	if (PARTICLE_Player.Succeeded())
+		PlayerParticle = PARTICLE_Player.Object;
 }
 
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor)
@@ -35,6 +42,7 @@ void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)
 
 	if (Effect == nullptr)
 		return;
+	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetParticleTimer();
 	
 }

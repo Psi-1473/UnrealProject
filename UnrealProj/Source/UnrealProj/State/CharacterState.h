@@ -65,3 +65,14 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnExit() override;
 };
+
+
+UCLASS()
+class UNREALPROJ_API USkillState : public UCharacterState
+{
+	GENERATED_BODY()
+public:
+	virtual void OnEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnExit() override;
+};

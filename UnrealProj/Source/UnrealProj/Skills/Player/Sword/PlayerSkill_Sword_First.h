@@ -35,8 +35,12 @@ private:
 	
 	int SpawnCount = 0;
 
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* PlayerParticle;
+
 	UPROPERTY()
 	FTimerHandle SpawnTimerHandle;
+
 	UPROPERTY();
 	class AMyPlayer* OwnerPlayer;
 };

@@ -120,8 +120,12 @@ void UPlayerAnim::AnimNotify_SkillEnd()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
-
+	Character->SetState(STATE::IDLE);
 	Character->SetSkill(nullptr);
+	bCombo = true;
+	AttackStep = 1;
+	if (Montage_IsPlaying(SkillMontages[WeaponType]))
+		StopAllMontages(1.f);
 }
 
 void UPlayerAnim::AnimNotify_HitCheck()

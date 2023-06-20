@@ -17,8 +17,12 @@ ASEA_Sword_First::ASEA_Sword_First()
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CAPSULE"));
 	
 	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> PA(TEXT("/Script/Niagara.NiagaraSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Segment_Converted.P_Aurora_Freeze_Segment_Converted'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> GA(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Ultimate/FX/P_Aurora_Frozen_Ground_Water_Ultimate.P_Aurora_Frozen_Ground_Water_Ultimate'"));
 	if (PA.Succeeded())
 		ParticleComponent->SetAsset(PA.Object);
+	if (GA.Succeeded())
+		GroundParticle = GA.Object;
+
 	CapsuleComponent->SetRelativeScale3D(FVector(2.f, 2.f, 2.f));
 	CapsuleComponent->SetCapsuleHalfHeight(80.f, false);
 	CapsuleComponent->SetCapsuleRadius(50.f, false);
@@ -45,6 +49,7 @@ void ASEA_Sword_First::BeginPlay()
 		GetWorldTimerManager().ClearTimer(DestroyTimerHandle);
 		});
 	GetWorldTimerManager().SetTimer(DestroyTimerHandle, TimeCallback, 1.5f, false);
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), GroundParticle, this->GetActorLocation());
 }
 
 void ASEA_Sword_First::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
