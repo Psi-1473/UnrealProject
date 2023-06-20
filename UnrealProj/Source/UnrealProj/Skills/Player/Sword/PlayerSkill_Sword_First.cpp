@@ -19,16 +19,13 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 
 	if (PARTICLE_Player.Succeeded())
 		PlayerParticle = PARTICLE_Player.Object;
+
+	Id = 1;
 }
 
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor)
 {
 	Super::Execute(OwnerActor);
-	UE_LOG(LogTemp, Warning, TEXT("SWORD FIRST SKILL"));
-	OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
-
-	if (OwnerPlayer == nullptr)
-		return;
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 
@@ -39,7 +36,6 @@ void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)
 {
 	Super::PlayParticle(OwnerActor);
 	
-
 	if (Effect == nullptr)
 		return;
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());

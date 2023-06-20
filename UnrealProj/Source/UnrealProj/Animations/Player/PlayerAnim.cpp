@@ -128,6 +128,13 @@ void UPlayerAnim::AnimNotify_SkillEnd()
 		StopAllMontages(1.f);
 }
 
+void UPlayerAnim::AnimNotify_DashStart()
+{
+	auto pawn = TryGetPawnOwner();
+	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
+	MyPlayer->LaunchCharacter(MyPlayer->GetActorForwardVector() * 5000.f, true, true);
+	
+}
 void UPlayerAnim::AnimNotify_HitCheck()
 {
 	auto pawn = TryGetPawnOwner();

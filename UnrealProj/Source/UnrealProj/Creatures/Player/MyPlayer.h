@@ -53,6 +53,8 @@ private:
 
 	UPROPERTY()
 	class USkill* ExecuteSkill;
+
+
 	// Components
 private:
 	UPROPERTY(EditAnywhere)

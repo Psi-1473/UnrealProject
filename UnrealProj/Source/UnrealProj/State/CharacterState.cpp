@@ -3,7 +3,10 @@
 
 #include "CharacterState.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "StateMachine.h"
+#include "../Skills/Skill.h"
+#include "../Items/Weapons/Weapon.h"
 
 void UCharacterState::OnEnter()
 {
@@ -88,10 +91,12 @@ void USkillState::OnEnter()
 
 void USkillState::OnUpdate()
 {
+	
 }
 
 void USkillState::OnExit()
 {
+	
 }
 #pragma endregion 
 

@@ -22,8 +22,7 @@ public:
 	virtual void PlayParticle(AActor* OwnerActor) override;
 private:
 	void SetParticleTimer();
-public:
-	int32 GetId() { return Id; }
+
 private:
 	
 
@@ -31,7 +30,7 @@ private:
 	float LocY[MaxSpawnCount] = { -300, -200, 0, 200, 300 };
 	float RotZ[MaxSpawnCount] = { 30, 50, 90, 130, 150 };
 
-	int32 Id = 1;
+
 	
 	int SpawnCount = 0;
 
@@ -41,6 +40,5 @@ private:
 	UPROPERTY()
 	FTimerHandle SpawnTimerHandle;
 
-	UPROPERTY();
-	class AMyPlayer* OwnerPlayer;
+
 };

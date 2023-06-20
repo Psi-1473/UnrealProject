@@ -15,6 +15,7 @@
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
+#include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
 
 
 
@@ -69,10 +70,9 @@ void AMyPlayer::BeginPlay()
 	EquipWeapon(NewWeapon);
 	//TEMP : Skill
 	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
-	NewSkill->RegisterKey(KEY_E);
 	SkillComponent->RegisterSkill(KEY_E, NewSkill);
-
-
+	UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
+	SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
 
 	
 

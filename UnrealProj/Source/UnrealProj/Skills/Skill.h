@@ -18,15 +18,22 @@ class UNREALPROJ_API USkill : public UObject
 public:
 	virtual void Execute(AActor* OwnerActor);
 	virtual void PlayParticle(AActor* OwnerActor);
-	void RegisterKey(int32 Key) { RegisteredKey = Key; }
 
+	int32 GetId() { return Id; }
 protected:
-	int32 RegisteredKey;
-
-	bool bCanUse = true;
-	UPROPERTY(EditAnywhere)
-	TSubclassOf<class ASkillEffectActor> Effect;
 
 	UPROPERTY()
-	FTimerHandle CoolDownTimer;
+	bool bCanUse = true; // 지금 사용 가능한가
+
+	UPROPERTY()
+	int32 Id; // Id
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ASkillEffectActor> Effect; // 소환할 이펙트 엑터
+
+	UPROPERTY()
+	FTimerHandle CoolDownTimer; // 쿨타임 타이머
+
+	UPROPERTY();
+	class AMyPlayer* OwnerPlayer; // 사용한 플레이어
 };
