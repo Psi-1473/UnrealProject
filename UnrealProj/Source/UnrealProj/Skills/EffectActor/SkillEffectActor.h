@@ -19,5 +19,8 @@ protected:
 
 protected:
 	UPROPERTY(EditAnywhere)
-	class UParticleSystemComponent* ParticleComponent;
+	class UNiagaraComponent* ParticleComponent;
+
+	UPROPERTY(EditAnywhere)
+	class USceneComponent* RootScene;
 };

@@ -22,5 +22,6 @@ public:
 	void RegisterSkill(int SkillKey, class USkill* Skill);
 	void ExecuteSkill(int SkillKey);
 private:
+	UPROPERTY()
 	TArray<class USkill*> Skills;
 };

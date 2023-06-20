@@ -18,35 +18,50 @@ void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor)
 {
 	Super::Execute(OwnerActor);
 	UE_LOG(LogTemp, Warning, TEXT("SWORD FIRST SKILL"));
+	OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
 
-	auto OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
 	if (OwnerPlayer == nullptr)
 		return;
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
+
+
 }
 
 void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)
 {
-	auto OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
-	if (OwnerPlayer == nullptr)
-		return;
-
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerPlayer;
-	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
-
-	FVector CameraLocation;
-	FRotator CameraRotation;
-	OwnerPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
-	CameraRotation.Pitch += 5.f;
+	Super::PlayParticle(OwnerActor);
+	
 
 	if (Effect == nullptr)
 		return;
-	//FString s = FString::FromInt(OwnerPlayer->GetActorLocation().X);
-	UE_LOG(LogTemp, Warning, TEXT("STR : %f"), OwnerPlayer->GetActorLocation().X);
-	ASkillEffectActor* EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect,
-		OwnerPlayer->GetActorLocation(),
-		OwnerPlayer->GetActorRotation(),
-		SpawnParams);
+	SetParticleTimer();
+	
 }
+
+void UPlayerSkill_Sword_First::SetParticleTimer()
+{
+	if (SpawnCount < MaxSpawnCount)
+	{
+		if (OwnerPlayer == nullptr)
+			return;
+
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = OwnerPlayer;
+		SpawnParams.Instigator = OwnerPlayer->GetInstigator();
+
+		FRotator SpawnRot = OwnerPlayer->GetActorRotation() + FRotator(0.f, RotZ[SpawnCount], 0.f);
+		FVector SpawnPos = OwnerPlayer->GetActorLocation() * FVector(1.f, 1.f, 0.f);
+		SpawnPos += OwnerPlayer->GetActorForwardVector() * LocX[SpawnCount];
+		SpawnPos += OwnerPlayer->GetActorRightVector() * LocY[SpawnCount];
+		OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);
+		SpawnCount++;
+		OwnerPlayer->GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &UPlayerSkill_Sword_First::SetParticleTimer, 0.05f, true);
+	}
+	else
+	{
+		SpawnCount = 0;
+		OwnerPlayer->GetWorldTimerManager().ClearTimer(SpawnTimerHandle);
+	}
+}
+

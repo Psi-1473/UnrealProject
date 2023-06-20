@@ -320,6 +320,15 @@
       "url": "https://raw.githubusercontent.com/asyncapi/website/master/scripts/tools/tools-schema.json"
     },
     {
+      "name": "Aurora Agile Meta-Framework",
+      "description": "Yaml schema for Aurora Agile Meta-Framework",
+      "fileMatch": ["*.aurora.yaml", "*.aurora.yml"],
+      "url": "https://json.schemastore.org/aurora-1.0.json",
+      "versions": {
+        "1.0": "https://json.schemastore.org/aurora-1.0.json"
+      }
+    },
+    {
       "name": "Avro Avsc",
       "description": "Avro Schema Avsc file",
       "fileMatch": ["*.avsc"],
@@ -343,6 +352,14 @@
       "versions": {
         "4": "https://json.schemastore.org/azure-deviceupdate-update-manifest-4.json",
         "5": "https://json.schemastore.org/azure-deviceupdate-update-manifest-5.json"
+      }
+    },
+    {
+      "name": "Azure DevOps extension manifest",
+      "description": "Azure DevOps extension manifest schema",
+      "url": "https://json.schemastore.org/azure-devops-extension-manifest-1.0.json",
+      "versions": {
+        "1.0": "https://json.schemastore.org/azure-devops-extension-manifest-1.0.json"
       }
     },
     {
@@ -1587,6 +1604,12 @@
       "description": "JSON schema for ffizer template configuration files",
       "fileMatch": [".ffizer.yaml"],
       "url": "https://ffizer.github.io/ffizer/ffizer.schema.json"
+    },
+    {
+      "name": "Firebase",
+      "description": "JSON Schema for firebase",
+      "fileMatch": ["firebase.json"],
+      "url": "https://raw.githubusercontent.com/firebase/firebase-tools/master/schema/firebase-config.json"
     },
     {
       "name": "first-timers-bot",
@@ -4923,7 +4946,8 @@
       "url": "https://json.schemastore.org/pantsbuild-2.15.0.json",
       "versions": {
         "2.14.0": "https://json.schemastore.org/pantsbuild-2.14.0.json",
-        "2.15.0": "https://json.schemastore.org/pantsbuild-2.15.0.json"
+        "2.15.0": "https://json.schemastore.org/pantsbuild-2.15.0.json",
+        "2.16.0": "https://json.schemastore.org/pantsbuild-2.16.0.json"
       }
     },
     {
@@ -4937,6 +4961,12 @@
       "description": "The configuration file used for ES6 Import Sorter - a vscode extention .",
       "fileMatch": [".es6importsorterrc.json"],
       "url": "https://json.schemastore.org/es6importsorterrc.json"
+    },
+    {
+      "name": "madness.yml",
+      "description": "Madness settings",
+      "fileMatch": ["madness.yml", "madness.yaml"],
+      "url": "https://raw.githubusercontent.com/DannyBen/madness/master/schemas/madness.json"
     },
     {
       "name": "bashly.yml",

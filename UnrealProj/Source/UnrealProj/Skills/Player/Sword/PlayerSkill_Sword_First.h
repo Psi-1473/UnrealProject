@@ -9,6 +9,8 @@
 /**
  * 
  */
+const int MaxSpawnCount = 5;
+
 UCLASS()
 class UNREALPROJ_API UPlayerSkill_Sword_First : public USkill
 {
@@ -18,8 +20,23 @@ public:
 
 	virtual void Execute(AActor* OwnerActor) override;
 	virtual void PlayParticle(AActor* OwnerActor) override;
+private:
+	void SetParticleTimer();
 public:
 	int32 GetId() { return Id; }
 private:
+	
+
+	float LocX[MaxSpawnCount] = { 120, 250, 300, 250, 120 };
+	float LocY[MaxSpawnCount] = { -300, -200, 0, 200, 300 };
+	float RotZ[MaxSpawnCount] = { 30, 50, 90, 130, 150 };
+
 	int32 Id = 1;
+	
+	int SpawnCount = 0;
+
+	UPROPERTY()
+	FTimerHandle SpawnTimerHandle;
+	UPROPERTY();
+	class AMyPlayer* OwnerPlayer;
 };
