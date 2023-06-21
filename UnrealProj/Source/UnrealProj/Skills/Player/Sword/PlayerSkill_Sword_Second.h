@@ -19,5 +19,11 @@ public:
 
 	virtual void Execute(AActor* OwnerActor) override;
 	virtual void PlayParticle(AActor* OwnerActor) override;
+
+	FVector GetMoveDir() { return MoveDir; }
+
+private:
+	UPROPERTY()
+	FVector MoveDir;
 	
 };

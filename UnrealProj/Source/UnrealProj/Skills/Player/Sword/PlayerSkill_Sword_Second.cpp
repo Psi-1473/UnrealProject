@@ -5,6 +5,7 @@
 #include "../../../Creatures/Player/MyPlayer.h"
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../EffectActor/SkillEffectActor.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
@@ -14,6 +15,10 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor)
 {
 	Super::Execute(OwnerActor);
+	auto Player = Cast<AMyPlayer>(OwnerActor);
+	MoveDir = OwnerActor->GetActorForwardVector();
+	Player->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	Player->bUseControllerRotationYaw = false;
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 	

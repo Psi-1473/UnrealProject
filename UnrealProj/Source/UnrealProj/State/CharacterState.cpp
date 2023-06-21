@@ -7,6 +7,7 @@
 #include "StateMachine.h"
 #include "../Skills/Skill.h"
 #include "../Items/Weapons/Weapon.h"
+#include "../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
 
 void UCharacterState::OnEnter()
 {
@@ -87,16 +88,30 @@ void UAttackState::OnExit()
 void USkillState::OnEnter()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL"));
+
 }
 
 void USkillState::OnUpdate()
 {
-	
+	int WeaponType = Machine->GetOwner()->GetWeapon()->GetType();
+	int SkillId = Machine->GetOwner()->GetSkill()->GetId();
+
+	if (WeaponType == WEAPON_SWORD)
+	{
+		if (SkillId == 2 && Machine->GetOwner()->GetDash())
+		{
+			auto Skill = Cast<UPlayerSkill_Sword_Second>(Machine->GetOwner()->GetSkill());
+			if (Skill == nullptr)
+				return;
+			Machine->GetOwner()->AddMovementInput(Skill->GetMoveDir());
+		}
+	}
 }
 
 void USkillState::OnExit()
 {
-	
+	Machine->GetOwner()->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	Machine->GetOwner()->bUseControllerRotationYaw = true;
 }
 #pragma endregion 
 

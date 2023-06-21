@@ -7,6 +7,7 @@
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Projectiles/Projectile.h"
 #include "Animation/AnimMontage.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "../../Skills/Skill.h"
 
 UPlayerAnim::UPlayerAnim()
@@ -132,8 +133,16 @@ void UPlayerAnim::AnimNotify_DashStart()
 {
 	auto pawn = TryGetPawnOwner();
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
-	MyPlayer->LaunchCharacter(MyPlayer->GetActorForwardVector() * 5000.f, true, true);
+	//MyPlayer->GetCharacterMovement()->AddImpulse(MyPlayer->GetActorForwardVector() * 1500000.f);
+	MyPlayer->SetDash(true);
 	
+}
+void UPlayerAnim::AnimNotify_DashEnd()
+{
+	auto pawn = TryGetPawnOwner();
+	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
+	MyPlayer->SetDash(false);
+	MyPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
 }
 void UPlayerAnim::AnimNotify_HitCheck()
 {

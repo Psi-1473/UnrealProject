@@ -32,9 +32,11 @@ public:
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 	class USkill* GetSkill() { return ExecuteSkill; }
+	bool GetDash() { return bDash; }
 
 	void SetState(STATE Value);
 	void SetSkill(class USkill* Value) { ExecuteSkill = Value; }
+	void SetDash(bool Value) { bDash = Value; }
 
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
@@ -54,7 +56,8 @@ private:
 	UPROPERTY()
 	class USkill* ExecuteSkill;
 
-
+	UPROPERTY()
+	bool bDash = false;
 	// Components
 private:
 	UPROPERTY(EditAnywhere)

@@ -34,9 +34,11 @@ public:
 	UFUNCTION()
 	void AnimNotify_SkillEffect();
 	UFUNCTION()
-		void AnimNotify_SkillEnd();
+	void AnimNotify_SkillEnd();
 	UFUNCTION()
 	void AnimNotify_DashStart();
+	UFUNCTION()
+	void AnimNotify_DashEnd();
 	UFUNCTION()
 	void AnimNotify_HitCheck();
 	UFUNCTION()
