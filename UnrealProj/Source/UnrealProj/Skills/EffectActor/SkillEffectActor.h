@@ -17,9 +17,14 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+public:
+	virtual void Tick(float DeltaTime);
 protected:
 	UPROPERTY(EditAnywhere)
 	class UNiagaraComponent* ParticleComponent;
+
+	UPROPERTY()
+	class AMyPlayer* OwnerPlayer;
 
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* RootScene;

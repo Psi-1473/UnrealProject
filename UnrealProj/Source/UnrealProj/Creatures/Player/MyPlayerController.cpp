@@ -168,6 +168,9 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 	if (!Value.Get<bool>())
 		return;
 
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
+		return;
+
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_Q);
 }
 
@@ -176,12 +179,17 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 	if (!Value.Get<bool>())
 		return;
 
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
+		return;
+
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_E);
 }
 
 void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
+		return;
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
 
 	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);

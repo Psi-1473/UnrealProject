@@ -18,6 +18,7 @@ class UNREALPROJ_API USkill : public UObject
 public:
 	virtual void Execute(AActor* OwnerActor);
 	virtual void PlayParticle(AActor* OwnerActor);
+	virtual void DestroyActor();
 
 	int32 GetId() { return Id; }
 protected:
@@ -29,7 +30,10 @@ protected:
 	int32 Id; // Id
 
 	UPROPERTY(EditAnywhere)
-	TSubclassOf<class ASkillEffectActor> Effect; // 소환할 이펙트 엑터
+	TSubclassOf<class ASkillEffectActor> Effect; // 소환할 이펙트 액터
+	
+	UPROPERTY(EditAnywhere)
+	ASkillEffectActor* EffectActor; // 소환된 이펙트 액터
 
 	UPROPERTY()
 	FTimerHandle CoolDownTimer; // 쿨타임 타이머

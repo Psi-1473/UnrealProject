@@ -3,6 +3,8 @@
 
 #include "Skill.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "EffectActor//SkillEffectActor.h"
+#include "../State/CharacterState.h"
 
 void USkill::Execute(AActor* OwnerActor)
 {
@@ -17,4 +19,12 @@ void USkill::Execute(AActor* OwnerActor)
 
 void USkill::PlayParticle(AActor* OwnerActor)
 {
+}
+
+void USkill::DestroyActor()
+{
+	if (EffectActor == nullptr)
+		return;
+
+	EffectActor->Destroy();
 }

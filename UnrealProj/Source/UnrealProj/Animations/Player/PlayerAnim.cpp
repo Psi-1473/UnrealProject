@@ -133,8 +133,9 @@ void UPlayerAnim::AnimNotify_DashStart()
 {
 	auto pawn = TryGetPawnOwner();
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
-	//MyPlayer->GetCharacterMovement()->AddImpulse(MyPlayer->GetActorForwardVector() * 1500000.f);
 	MyPlayer->SetDash(true);
+	USkill* Skill = MyPlayer->GetSkill();
+	Skill->PlayParticle(MyPlayer);
 	
 }
 void UPlayerAnim::AnimNotify_DashEnd()
@@ -143,6 +144,8 @@ void UPlayerAnim::AnimNotify_DashEnd()
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 	MyPlayer->SetDash(false);
 	MyPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+	USkill* Skill = MyPlayer->GetSkill();
+	Skill->DestroyActor();
 }
 void UPlayerAnim::AnimNotify_HitCheck()
 {

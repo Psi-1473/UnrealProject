@@ -5,7 +5,9 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/SceneComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "../../Creatures/Player/MyPlayer.h"
 #include "NiagaraComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ASkillEffectActor::ASkillEffectActor()
@@ -15,12 +17,19 @@ ASkillEffectActor::ASkillEffectActor()
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
 
 	RootComponent = RootScene;
+	ParticleComponent->SetupAttachment(RootScene);
 }
 
 void ASkillEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	auto MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+	OwnerPlayer = MyPlayer;
+}
+
+void ASkillEffectActor::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
 }
 
 

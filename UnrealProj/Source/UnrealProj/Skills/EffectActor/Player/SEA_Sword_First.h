@@ -30,8 +30,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* GroundParticle;
 
-	UPROPERTY()
-	class AMyPlayer* OwnerPlayer;
 
 	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;

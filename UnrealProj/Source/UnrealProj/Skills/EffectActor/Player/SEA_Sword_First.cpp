@@ -15,7 +15,8 @@
 ASEA_Sword_First::ASEA_Sword_First()
 {
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CAPSULE"));
-	
+
+
 	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> PA(TEXT("/Script/Niagara.NiagaraSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Segment_Converted.P_Aurora_Freeze_Segment_Converted'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> GA(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Ultimate/FX/P_Aurora_Frozen_Ground_Water_Ultimate.P_Aurora_Frozen_Ground_Water_Ultimate'"));
 	if (PA.Succeeded())
@@ -28,7 +29,6 @@ ASEA_Sword_First::ASEA_Sword_First()
 	CapsuleComponent->SetCapsuleRadius(50.f, false);
 	CapsuleComponent->SetCollisionProfileName("Arrow");
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &ASEA_Sword_First::OnOverlapBegin);
-	ParticleComponent->SetupAttachment(RootComponent);
 	ParticleComponent->SetRelativeScale3D(FVector(1.5f, 2.5f, 4.5f));
 	ParticleComponent->SetCollisionProfileName("NoCollision");
 	CapsuleComponent->SetupAttachment(RootComponent);
@@ -40,8 +40,6 @@ ASEA_Sword_First::ASEA_Sword_First()
 void ASEA_Sword_First::BeginPlay()
 {
 	Super::BeginPlay();
-	auto MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	OwnerPlayer = MyPlayer;
 
 	FTimerDelegate TimeCallback;
 	TimeCallback.BindLambda([this] {
