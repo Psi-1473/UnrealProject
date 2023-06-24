@@ -3,6 +3,8 @@
 
 #include "Skill.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "../Animations/Player/PlayerAnim.h"
+#include "../Items/Weapons/Weapon.h"
 #include "EffectActor//SkillEffectActor.h"
 #include "../State/CharacterState.h"
 
@@ -15,6 +17,10 @@ void USkill::Execute(AActor* OwnerActor)
 
 	if (OwnerPlayer == nullptr)
 		return;
+
+	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
+		return;
+	OwnerPlayer->SetState(STATE::SKILLCAST);
 }
 
 void USkill::PlayParticle(AActor* OwnerActor)
@@ -27,4 +33,15 @@ void USkill::DestroyActor()
 		return;
 
 	EffectActor->Destroy();
+}
+
+void USkill::CancleCast(AActor* OwnerActor)
+{
+	OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
+	OwnerPlayer->GetAnimInst()->SetBowCast(false);
+	OwnerPlayer->SetState(STATE::IDLE);
+}
+
+void USkill::CastToExecute(AActor* OwnerActor)
+{
 }

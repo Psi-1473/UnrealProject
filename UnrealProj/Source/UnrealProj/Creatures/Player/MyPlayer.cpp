@@ -16,6 +16,7 @@
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
+#include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
 
 
 
@@ -65,14 +66,15 @@ void AMyPlayer::BeginPlay()
 	Super::BeginPlay();
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->Init(WEAPONTYPE::WEAPON_SWORD, 1);
+	NewWeapon->Init(WEAPONTYPE::WEAPON_ARROW, 0);
 	EquipWeapon(NewWeapon);
-	//TEMP : Skill
-	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
+	//TEMP : Skill Sword
+	//UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
+	//SkillComponent->RegisterSkill(KEY_E, NewSkill);
+	//UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
+	//SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
+	UPlayerSkill_Bow_First* NewSkill = NewObject<UPlayerSkill_Bow_First>();
 	SkillComponent->RegisterSkill(KEY_E, NewSkill);
-	UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
-	SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
-
 	
 
 	if (StateMachine == nullptr)

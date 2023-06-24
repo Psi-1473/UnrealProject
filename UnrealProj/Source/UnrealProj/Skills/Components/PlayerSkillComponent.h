@@ -21,6 +21,8 @@ protected:
 public:	
 	void RegisterSkill(int SkillKey, class USkill* Skill);
 	void ExecuteSkill(int SkillKey);
+	void CancleCast(int SkillKey);
+
 private:
 	UPROPERTY()
 	TArray<class USkill*> Skills;

@@ -115,3 +115,18 @@ void USkillState::OnExit()
 }
 #pragma endregion 
 
+#pragma region SKILLCast
+void USkillCastState::OnEnter()
+{
+}
+
+void USkillCastState::OnUpdate()
+{
+}
+
+void USkillCastState::OnExit()
+{
+}
+#pragma endregion
+
+

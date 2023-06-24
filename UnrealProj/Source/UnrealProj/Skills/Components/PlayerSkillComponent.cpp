@@ -30,8 +30,17 @@ void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 		return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
-	Player->SetState(STATE::SKILL);
+
 	Skills[SkillKey]->Execute(Player);
+}
+
+void UPlayerSkillComponent::CancleCast(int SkillKey)
+{
+	if (Skills[SkillKey] == nullptr)
+		return;
+
+	auto Player = Cast<AMyPlayer>(GetOwner());
+	Skills[SkillKey]->CancleCast(Player);
 }
 
 

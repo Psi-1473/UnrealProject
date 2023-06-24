@@ -4,6 +4,7 @@
 #include "PlayerSkill_Sword_Second.h"
 #include "../../../Creatures/Player/MyPlayer.h"
 #include "../../../Animations/Player/PlayerAnim.h"
+#include "../../../Items/Weapons/Weapon.h"
 #include "../../EffectActor/SkillEffectActor.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../EffectActor/Player/SEA_Sword_SecondDash.h"
@@ -13,6 +14,7 @@
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
 	Id = 2;
+	WeaponType = WEAPON_SWORD;
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_2_Dash.BP_Effect_0_2_Dash_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Spawn.P_Aurora_Decoy_Spawn'"));
@@ -29,10 +31,12 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor)
 {
 	Super::Execute(OwnerActor);
-	auto Player = Cast<AMyPlayer>(OwnerActor);
+	OwnerPlayer->SetState(STATE::SKILL);
+	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
+		return;
 	MoveDir = OwnerActor->GetActorForwardVector();
-	Player->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
-	Player->bUseControllerRotationYaw = false;
+	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	OwnerPlayer->bUseControllerRotationYaw = false;
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());

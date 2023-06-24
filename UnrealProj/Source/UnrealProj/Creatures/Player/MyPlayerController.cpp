@@ -15,6 +15,7 @@
 #include "../../Projectiles/Projectile.h"
 #include "Camera/CameraComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
+#include "../../Skills/Skill.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -171,7 +172,10 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
 
-	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_Q);
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+		MyPlayer->GetSkillComponent()->CancleCast(KEY_Q);
+	else
+		MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_Q);
 }
 
 void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
@@ -182,7 +186,10 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
 
-	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_E);
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+		MyPlayer->GetSkillComponent()->CancleCast(KEY_E);
+	else
+		MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_E);
 }
 
 void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
@@ -192,7 +199,10 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
 
-	MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+		MyPlayer->GetSkillComponent()->CancleCast(KEY_R);
+	else
+		MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
@@ -201,10 +211,16 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	{
 		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 			return;
-
-		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+			return;
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+			MyPlayer->GetSkill()->CastToExecute(MyPlayer);
+		else
+		{
+			if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
-		MyPlayer->GetAnimInst()->PlayAttackMontage();
+			MyPlayer->GetAnimInst()->PlayAttackMontage();
+		}
 	}
 		
 }

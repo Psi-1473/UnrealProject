@@ -23,7 +23,6 @@ public:
 	void PlaySkillMontage(int32 SkillNumber);
 
 
-
 	FName GetAttackMontageName(int32 SectionIndex);
 	void JumpToSection(UAnimMontage* Montage, int32 SectionIndex);
 
@@ -44,7 +43,8 @@ public:
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
 
-
+public:
+	void SetBowCast(bool Value) { bBowSkillCast = Value; }
 
 public:
 	WEAPONTYPE WeaponType = WEAPON_SWORD;
@@ -58,6 +58,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool bZoom = false;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	bool bBowSkillCast = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	float Speed;
 	

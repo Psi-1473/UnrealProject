@@ -1066,6 +1066,12 @@
       "url": "https://json.schemastore.org/chrome-manifest.json"
     },
     {
+      "name": "chrome-extension-locales-messages.json",
+      "description": "Google Chrome extension localization file",
+      "fileMatch": ["**/_locales/*/messages.json"],
+      "url": "https://json.schemastore.org/chrome-extension-locales-messages.json"
+    },
+    {
       "name": "chutzpah.json",
       "description": "Chutzpah configuration file",
       "fileMatch": ["chutzpah.json"],
@@ -4961,6 +4967,12 @@
       "description": "The configuration file used for ES6 Import Sorter - a vscode extention .",
       "fileMatch": [".es6importsorterrc.json"],
       "url": "https://json.schemastore.org/es6importsorterrc.json"
+    },
+    {
+      "name": "completely.yml",
+      "description": "Completely completion",
+      "fileMatch": ["completely.yml", "completely.yaml"],
+      "url": "https://github.com/DannyBen/completely/blob/master/schemas/completely.json"
     },
     {
       "name": "madness.yml",

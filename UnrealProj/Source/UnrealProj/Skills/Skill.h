@@ -19,9 +19,12 @@ public:
 	virtual void Execute(AActor* OwnerActor);
 	virtual void PlayParticle(AActor* OwnerActor);
 	virtual void DestroyActor();
+	virtual void CancleCast(AActor* OwnerActor);
+	virtual void CastToExecute(AActor* OwnerActor);
 
 	int32 GetId() { return Id; }
 protected:
+	WEAPONTYPE WeaponType;
 
 	UPROPERTY()
 	bool bCanUse = true; // 지금 사용 가능한가
