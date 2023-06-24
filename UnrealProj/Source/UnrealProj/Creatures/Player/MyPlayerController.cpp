@@ -213,14 +213,14 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 			return;
 		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
 			return;
-		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
-			MyPlayer->GetSkill()->CastToExecute(MyPlayer);
-		else
-		{
+		//if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
+		//	MyPlayer->GetSkill()->CastToExecute(MyPlayer);
+		//else
+		//{
 			if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
 			MyPlayer->GetAnimInst()->PlayAttackMontage();
-		}
+		//}
 	}
 		
 }
