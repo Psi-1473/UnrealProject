@@ -73,6 +73,7 @@ void AMyPlayer::BeginPlay()
 	//SkillComponent->RegisterSkill(KEY_E, NewSkill);
 	//UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
 	//SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
+	// SKILL : ARROW
 	UPlayerSkill_Bow_First* NewSkill = NewObject<UPlayerSkill_Bow_First>();
 	SkillComponent->RegisterSkill(KEY_E, NewSkill);
 	
