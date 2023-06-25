@@ -15,7 +15,9 @@
 #include "../../Projectiles/Projectile.h"
 #include "Camera/CameraComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
+#include "../../Skills/EffectActor/SkillRangeActor.h"
 #include "../../Skills/Skill.h"
+
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -125,6 +127,17 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 		return;
 	FVector2D LookVector = Value.Get<FVector2D>();
 
+	if (MyPlayer->GetSpawnedRangeActor() != nullptr)
+	{
+		FVector RightDir = MyPlayer->GetActorRightVector() * LookVector.X * 50;
+		FVector ForwardDir = MyPlayer->GetActorForwardVector() * LookVector.Y * 50;
+		FVector MoveDir = RightDir + ForwardDir;
+		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "HIHI");
+		MyPlayer->GetSpawnedRangeActor()->SetActorLocation(
+			MyPlayer->GetSpawnedRangeActor()->GetActorLocation() + MoveDir);
+		return;
+	}
+
 	if (LookVector.X > 1.f) LookVector.X = 1.f;
 	else if (LookVector.X < -1.f) LookVector.X = -1.f;
 
@@ -133,6 +146,8 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 
 	MyPlayer->AddControllerYawInput(LookVector.X * MouseSpeed);
 	MyPlayer->AddControllerPitchInput(-1 * LookVector.Y * MouseSpeed);
+	
+	
 }
 
 void AMyPlayerController::IA_Jump(const FInputActionValue& Value)

@@ -15,6 +15,7 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
 	Id = 2;
 	WeaponType = WEAPON_SWORD;
+	bRange = false;
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_2_Dash.BP_Effect_0_2_Dash_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Spawn.P_Aurora_Decoy_Spawn'"));
@@ -28,9 +29,9 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 		DestroyParticle = DP.Object;
 }
 
-void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor)
+void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
-	Super::Execute(OwnerActor);
+	Super::Execute(OwnerActor, bRangeAttack);
 	OwnerPlayer->SetState(STATE::SKILL);
 	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
 		return;

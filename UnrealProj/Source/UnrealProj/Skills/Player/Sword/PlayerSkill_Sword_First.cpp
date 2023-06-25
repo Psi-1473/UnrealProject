@@ -13,6 +13,7 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
 	Id = 1;
 	WeaponType = WEAPON_SWORD;
+	bRange = false;
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_1.BP_Effect_0_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PARTICLE_Player(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Whrilwind.P_Aurora_Freeze_Whrilwind'"));
@@ -24,9 +25,9 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 		PlayerParticle = PARTICLE_Player.Object;
 }
 
-void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor)
+void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
-	Super::Execute(OwnerActor);
+	Super::Execute(OwnerActor, bRangeAttack);
 	OwnerPlayer->SetState(STATE::SKILL);
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);

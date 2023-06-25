@@ -17,10 +17,11 @@ public:
 	UPlayerSkill_Bow_First();
 
 public:
-	virtual void Execute(AActor* OwnerActor) override;
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) override;
 	virtual void DestroyActor() override;
 	virtual void CastToExecute(AActor* OwnerActor) override;
 private:
-
+	UPROPERTY()
+	class ASkillRangeActor* RangeActor;
 };

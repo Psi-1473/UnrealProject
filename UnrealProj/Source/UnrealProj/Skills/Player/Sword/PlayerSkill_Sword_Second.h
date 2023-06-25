@@ -17,7 +17,7 @@ class UNREALPROJ_API UPlayerSkill_Sword_Second : public USkill
 public:
 	UPlayerSkill_Sword_Second();
 
-	virtual void Execute(AActor* OwnerActor) override;
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) override;
 	virtual void DestroyActor() override;
 

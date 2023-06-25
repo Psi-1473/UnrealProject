@@ -31,7 +31,7 @@ void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
 
-	Skills[SkillKey]->Execute(Player);
+	Skills[SkillKey]->Execute(Player, Skills[SkillKey]->GetIsRangeAttack());
 }
 
 void UPlayerSkillComponent::CancleCast(int SkillKey)

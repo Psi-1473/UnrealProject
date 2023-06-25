@@ -30,10 +30,13 @@ public:
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
 	class UCameraComponent* GetCamera() { return Camera; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
+	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 	class USkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
 
+
+	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
 	void SetState(STATE Value);
 	void SetSkill(class USkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
@@ -90,4 +93,7 @@ private:
 
 	UPROPERTY()
 	class UPlayerSkillComponent* SkillComponent;
+
+	UPROPERTY()
+	class ASkillRangeActor* SpawnedRangeActor;
 };
