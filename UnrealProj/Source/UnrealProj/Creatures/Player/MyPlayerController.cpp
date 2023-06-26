@@ -132,9 +132,8 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 		FVector RightDir = MyPlayer->GetActorRightVector() * LookVector.X * 50;
 		FVector ForwardDir = MyPlayer->GetActorForwardVector() * LookVector.Y * 50;
 		FVector MoveDir = RightDir + ForwardDir;
-		GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, "HIHI");
-		MyPlayer->GetSpawnedRangeActor()->SetActorLocation(
-			MyPlayer->GetSpawnedRangeActor()->GetActorLocation() + MoveDir);
+
+		MyPlayer->GetSpawnedRangeActor()->MoveRangeActor(MoveDir, MyPlayer->GetActorLocation(), 1000.f);
 		return;
 	}
 
@@ -226,16 +225,16 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	{
 		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 			return;
+
 		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
-			return;
-		//if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
-		//	MyPlayer->GetSkill()->CastToExecute(MyPlayer);
-		//else
-		//{
+			MyPlayer->GetSkill()->CastToExecute(MyPlayer);
+		else
+		{
 			if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
+			
 			MyPlayer->GetAnimInst()->PlayAttackMontage();
-		//}
+		}
 	}
 		
 }

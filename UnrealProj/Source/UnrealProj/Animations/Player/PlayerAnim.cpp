@@ -17,10 +17,12 @@ UPlayerAnim::UPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack.AM_Attack'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack_Arrow.AM_Attack_Arrow'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Sword.AM_Skill_Sword'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Arrow.AM_Skill_Arrow'"));
 
 	if(AM.Succeeded()) AttackMontages[WEAPON_SWORD] = AM.Object;
 	if(AM2.Succeeded()) AttackMontages[WEAPON_ARROW] = AM2.Object;
 	if(SM.Succeeded()) SkillMontages[WEAPON_SWORD] = SM.Object;
+	if(SM2.Succeeded()) SkillMontages[WEAPON_ARROW] = SM2.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -159,9 +161,11 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
+	
 	Character->SetState(STATE::IDLE);
 	bCombo = true;
 	AttackStep = 1;
 	if (Montage_IsPlaying(AttackMontages[WeaponType]))
 		StopAllMontages(1.f);
+	
 }

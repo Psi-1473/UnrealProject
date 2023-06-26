@@ -52,4 +52,9 @@ void USkill::CancleCast(AActor* OwnerActor)
 
 void USkill::CastToExecute(AActor* OwnerActor)
 {
+	if (OwnerPlayer->GetSpawnedRangeActor())
+	{
+		OwnerPlayer->GetSpawnedRangeActor()->Destroy();
+		OwnerPlayer->SetRangeActor(nullptr);
+	}
 }

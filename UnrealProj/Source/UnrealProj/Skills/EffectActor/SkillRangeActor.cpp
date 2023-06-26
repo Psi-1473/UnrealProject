@@ -1,4 +1,5 @@
 #include "SkillRangeActor.h"
+#include "Math/Vector.h"
 
 ASkillRangeActor::ASkillRangeActor()
 {
@@ -24,6 +25,15 @@ void ASkillRangeActor::MakeThisToCircle(float Radius)
 
 	Mesh->SetStaticMesh(StaticMesh);
 	Mesh->SetRelativeScale3D(FVector(Size, Size, 0.01));
+}
+
+void ASkillRangeActor::MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance)
+{
+	float Dist = FVector::Distance(GetActorLocation() + Dir, PlayerPos);
+	if (Dist >= MaxDistance)
+		return;
+
+	SetActorLocation(GetActorLocation() + Dir);
 }
 
 

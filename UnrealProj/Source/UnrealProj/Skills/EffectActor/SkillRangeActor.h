@@ -21,6 +21,8 @@ public:
 	//static ASkillRangeActor* MakeCircleRange(float Radius);
 	void MakeThisToCircle(float Radius);
 
+	void MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance);
+
 public:
 	class UStaticMeshComponent* GetMesh() { return Mesh; }
 

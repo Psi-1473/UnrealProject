@@ -53,5 +53,6 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	Super::CastToExecute(OwnerActor);
 	OwnerPlayer->SetState(STATE::SKILL);
 	OwnerPlayer->SetSkill(this);
+	OwnerPlayer->GetAnimInst()->SetBowCast(false);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 }
