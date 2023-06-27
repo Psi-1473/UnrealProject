@@ -13,5 +13,20 @@ UCLASS()
 class UNREALPROJ_API ASEA_Bow_First : public ASkillEffectActor
 {
 	GENERATED_BODY()
+
+public:
+	ASEA_Bow_First();
+
+	virtual void BeginPlay() override;
+	void AttackCheck();
+
+private:
+	int AttackCount = 0;
+
+	UPROPERTY()
+	class UCapsuleComponent* CapsuleComponent;
+
+	UPROPERTY()
+	FTimerHandle AttackDelayTimerHandle;
 	
 };

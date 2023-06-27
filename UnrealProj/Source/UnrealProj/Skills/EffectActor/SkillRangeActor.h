@@ -31,5 +31,6 @@ private:
 	class UStaticMeshComponent* Mesh;
 	UPROPERTY()
 	class USceneComponent* Root;
-
+	UPROPERTY()
+	class UMaterial* Material;
 };

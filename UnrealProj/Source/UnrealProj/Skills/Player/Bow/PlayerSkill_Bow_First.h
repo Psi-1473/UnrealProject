@@ -24,4 +24,6 @@ public:
 private:
 	UPROPERTY()
 	class ASkillRangeActor* RangeActor;
+
+
 };
