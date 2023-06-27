@@ -87,9 +87,12 @@ void AMyPlayerController::Fire()
 		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
 		CameraRotation,
 		SpawnParams);
-	if (Projectile && bZoom)
+	if (Projectile)
 	{
-		Projectile->SetAttackStrength(true);
+		if(bZoom)
+			Projectile->SetAttackStrength(true);
+		else
+			Projectile->SetAttackStrength(false);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
 }

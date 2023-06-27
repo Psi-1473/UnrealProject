@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 
+
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
 	Id = 2;

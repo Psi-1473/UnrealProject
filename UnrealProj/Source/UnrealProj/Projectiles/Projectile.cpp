@@ -9,6 +9,8 @@
 #include "Engine/DamageEvents.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "Particles/ParticleSystem.h"
+#include "Particles/ParticleSystemComponent.h"
 
 AProjectile::AProjectile()
 {
@@ -16,6 +18,9 @@ AProjectile::AProjectile()
 	
 	BoxCollider = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	MeshComp = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
+	ParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("ParticleComponent"));
+	ParticleComponent->SetRelativeLocation(FVector(20.f, 0.f, 0.f));
+
 	ProjectileMovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileMovementComponent"));
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/Arrow/Arrow.Arrow'"));
@@ -26,7 +31,7 @@ AProjectile::AProjectile()
 
 	BoxCollider->SetRelativeScale3D(FVector(1.0f, 0.25f, 0.25f));
 	BoxCollider->SetRelativeRotation(FRotator(0.f, 0.f, 0.f));
-	BoxCollider->SetCollisionProfileName(TEXT("Arrow"));
+	BoxCollider->SetCollisionProfileName(TEXT("NoCollision"));
 	MeshComp->SetCollisionProfileName(TEXT("NoCollision"));
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnOverlapBegin);
 	BoxCollider->OnComponentEndOverlap.AddDynamic(this, &AProjectile::OnOverlapEnd);
@@ -34,7 +39,7 @@ AProjectile::AProjectile()
 
 	RootComponent = BoxCollider;
 	MeshComp->SetupAttachment(RootComponent);
-
+	ParticleComponent->SetupAttachment(MeshComp);
 
 	ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
 	ProjectileMovementComponent->InitialSpeed = 6000.f;
@@ -73,6 +78,7 @@ void AProjectile::BeginPlay()
 	Super::BeginPlay();
 	auto MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
 	OwnerPlayer = MyPlayer;
+	
 }
 
 void AProjectile::Tick(float DeltaTime)
@@ -80,8 +86,24 @@ void AProjectile::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AProjectile::SetAttackStrength(bool Value)
+{
+	bHeavyAttack = Value;
+	BoxCollider->SetCollisionProfileName(TEXT("Arrow"));
+}
+
 void AProjectile::FireInDirection(const FVector& ShootDirection, float Power = 1.f)
 {
 	ProjectileMovementComponent->Velocity = ShootDirection * ProjectileMovementComponent->InitialSpeed * Power;
+}
+
+void AProjectile::SetParticle(UParticleSystem* Value)
+{
+	ParticleComponent->SetTemplate(Value);
+}
+
+void AProjectile::SetMaxSpeed(float Speed)
+{
+	ProjectileMovementComponent->MaxSpeed = Speed;
 }
 

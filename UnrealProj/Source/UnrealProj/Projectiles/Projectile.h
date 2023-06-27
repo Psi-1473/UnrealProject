@@ -27,8 +27,10 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	void SetAttackStrength(bool Value) { bHeavyAttack = Value; }
+	void SetAttackStrength(bool Value);
 	void FireInDirection(const FVector& ShootDirection, float Power);
+	void SetParticle(class UParticleSystem* Value);
+	void SetMaxSpeed(float Speed);
 private:
 	bool bHeavyAttack = false;
 
@@ -41,6 +43,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* MeshComp;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystemComponent* ParticleComponent;
 
 	UPROPERTY()
 		class AMyPlayer* OwnerPlayer;

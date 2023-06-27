@@ -19,4 +19,7 @@ public:
 public:
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) override;
+
+private:
+	class UParticleSystem* PlayerParticle;
 };
