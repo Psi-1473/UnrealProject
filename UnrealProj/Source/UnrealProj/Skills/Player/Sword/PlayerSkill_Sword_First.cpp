@@ -28,11 +28,7 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	Super::Execute(OwnerActor, bRangeAttack);
-	OwnerPlayer->SetState(STATE::SKILL);
-	OwnerPlayer->SetSkill(this);
-	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
-
-
+	SetDefaultValue();
 }
 
 void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)

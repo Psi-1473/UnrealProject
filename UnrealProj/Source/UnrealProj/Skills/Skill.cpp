@@ -9,6 +9,13 @@
 #include "EffectActor//SkillRangeActor.h"
 #include "../State/CharacterState.h"
 
+void USkill::SetDefaultValue()
+{
+	OwnerPlayer->SetState(STATE::SKILL);
+	OwnerPlayer->SetSkill(this);
+	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
+}
+
 void USkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	if (!bCanUse)
@@ -25,6 +32,7 @@ void USkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (!bRangeAttack)
 		OwnerPlayer->SetState(STATE::SKILLCAST);
 }
+
 
 void USkill::PlayParticle(AActor* OwnerActor)
 {

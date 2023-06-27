@@ -46,7 +46,6 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	RangeActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillRangeActor>(ASkillRangeActor::StaticClass(), SpawnPos, SpawnRot, SpawnParams);
 	RangeActor->MakeThisToCircle(2.2f);
 	RangeActor->GetMesh()->SetCollisionProfileName("NoCollision");
-	//RangeActor->GetMesh()->SetMaterial(0, )
 	OwnerPlayer->SetRangeActor(RangeActor);
 
 }
@@ -62,10 +61,8 @@ void UPlayerSkill_Bow_First::DestroyActor()
 void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 {
 	Super::CastToExecute(OwnerActor);
-	OwnerPlayer->SetState(STATE::SKILL);
-	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->SetBowCast(false);
-	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
+	SetDefaultValue();
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = OwnerPlayer; 

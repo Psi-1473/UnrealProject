@@ -32,14 +32,12 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	Super::Execute(OwnerActor, bRangeAttack);
-	OwnerPlayer->SetState(STATE::SKILL);
 	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
 		return;
 	MoveDir = OwnerActor->GetActorForwardVector();
 	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 	OwnerPlayer->bUseControllerRotationYaw = false;
-	OwnerPlayer->SetSkill(this);
-	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
+	SetDefaultValue();
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 }
 

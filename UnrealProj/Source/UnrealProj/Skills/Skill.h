@@ -14,10 +14,13 @@ UCLASS()
 class UNREALPROJ_API USkill : public UObject
 {
 	GENERATED_BODY()
-
+protected:
+	void SetDefaultValue();
 public:
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
-	virtual void PlayParticle(AActor* OwnerActor);
+	virtual void PlayParticle(AActor* OwnerActor); //Attack Or Fire
+
+
 	virtual void DestroyActor();
 	virtual void CancleCast(AActor* OwnerActor);
 	virtual void CastToExecute(AActor* OwnerActor);

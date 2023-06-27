@@ -17,6 +17,7 @@
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
+#include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
 
 
 
@@ -76,6 +77,8 @@ void AMyPlayer::BeginPlay()
 	// SKILL : ARROW
 	UPlayerSkill_Bow_First* NewSkill = NewObject<UPlayerSkill_Bow_First>();
 	SkillComponent->RegisterSkill(KEY_E, NewSkill);
+	UPlayerSkill_Bow_Second* NewSkill2 = NewObject<UPlayerSkill_Bow_Second>();
+	SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
 	
 
 	if (StateMachine == nullptr)
