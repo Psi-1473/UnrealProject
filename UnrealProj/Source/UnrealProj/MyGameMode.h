@@ -16,4 +16,11 @@ class UNREALPROJ_API AMyGameMode : public AGameModeBase
 	
 public:
 	AMyGameMode();
+
+private:
+	UPROPERTY(VisibleAnywhere)
+		TSubclassOf<UUserWidget> HUD_Class;
+
+	UPROPERTY(VisibleAnywhere)
+		UUserWidget* CurrentWidget;
 };

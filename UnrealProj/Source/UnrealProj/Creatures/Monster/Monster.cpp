@@ -23,7 +23,7 @@ AMonster::AMonster()
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
 	SetHpBar();
-	static ConstructorHelpers::FClassFinder<UUserWidget> WIDGETHP(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/09_UI/WidgetComponent/WBP_HpBar.WBP_HpBar_C'"));
+	static ConstructorHelpers::FClassFinder<UUserWidget> WIDGETHP(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Components/WBP_HpBar.WBP_HpBar_C'"));
 	if (WIDGETHP.Succeeded())
 	{
 		HpBar->SetWidgetClass(WIDGETHP.Class);
