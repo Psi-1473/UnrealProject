@@ -8,6 +8,14 @@
  * 
  */
 UENUM(BlueprintType)
+enum class UIType : uint8
+{
+	Inventory,
+
+	End,
+};
+
+UENUM(BlueprintType)
 enum class STATE : uint8
 {
 	IDLE,
@@ -33,6 +41,8 @@ enum SKILLKEYS
 
 	KEY_END
 };
+
+
 
 class UNREALPROJ_API DEFINE
 {

@@ -17,6 +17,7 @@ UMyGameInstance::UMyGameInstance()
 
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
 {
+	ManagerUI.TestFunc();
 	return PlayerStats->FindRow<FMyPlayerData>(*FString::FromInt(Level), TEXT(""));
 }
 

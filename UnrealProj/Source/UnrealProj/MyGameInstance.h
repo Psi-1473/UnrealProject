@@ -5,11 +5,13 @@
 #include "CoreMinimal.h"
 #include "Engine/GameInstance.h"
 #include "Engine/DataTable.h"
+#include "Managers//UIManager.h"
 #include "MyGameInstance.generated.h"
 
-/**
- * 
- */
+
+
+static UIManager ManagerUI;
+
 USTRUCT()
 struct FMyPlayerData : public FTableRowBase
 {
@@ -51,7 +53,6 @@ class UNREALPROJ_API UMyGameInstance : public UGameInstance
 public:
 	UMyGameInstance();
 
-
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(FString Name);
 
@@ -61,5 +62,4 @@ private:
 
 	UPROPERTY()
 	class UDataTable* MonsterStats;
-
 };

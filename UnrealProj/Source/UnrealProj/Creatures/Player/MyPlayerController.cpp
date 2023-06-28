@@ -17,6 +17,8 @@
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
 #include "../../Skills/Skill.h"
+#include "../../MyGameInstance.h"
+#include "../../Managers/UIManager.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -31,6 +33,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Q(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillQ.IA_SkillQ'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_E(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillE.IA_SkillE'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_R(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillR.IA_SkillR'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Inven(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Inventory.IA_Inventory'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -44,6 +47,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_Q.Succeeded()) Push_Q = IA_Q.Object;
 	if (IA_E.Succeeded()) Push_E = IA_E.Object;
 	if (IA_R.Succeeded()) Push_R = IA_R.Object;
+	if (IA_Inven.Succeeded()) InvenAction = IA_Inven.Object;
 	
 }
 
@@ -69,6 +73,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Push_Q, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_Q);
 		EnhancedInputComponent->BindAction(Push_E, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_E);
 		EnhancedInputComponent->BindAction(Push_R, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_R);
+		EnhancedInputComponent->BindAction(InvenAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Inventory);
 	}
 
 }
@@ -220,6 +225,12 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 		MyPlayer->GetSkillComponent()->CancleCast(KEY_R);
 	else
 		MyPlayer->GetSkillComponent()->ExecuteSkill(KEY_R);
+}
+
+void AMyPlayerController::IA_Inventory(const FInputActionValue& Value)
+{
+	ManagerUI.TestFunc();
+	ManagerUI.PopupUI(GetWorld(), UIType::Inventory);
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
