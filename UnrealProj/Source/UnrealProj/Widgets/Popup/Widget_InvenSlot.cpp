@@ -3,3 +3,6 @@
 
 #include "Widget_InvenSlot.h"
 
+void UWidget_InvenSlot::NativeConstruct()
+{
+}
