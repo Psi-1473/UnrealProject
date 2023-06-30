@@ -5,7 +5,9 @@
 #include "../../MyGameInstance.h"
 #include "Components/StaticMeshComponent.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "GameFramework/Actor.h"
 #include "../../Projectiles/Projectile.h"
+#include "Kismet/GameplayStatics.h"
 
 AUseItem::AUseItem()
 {
@@ -28,10 +30,11 @@ void AUseItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
 	//StaticMeshComponent->SetStaticMesh(StaticMesh);
 }
 
-FRichImageRow* AUseItem::GetItemImage()
+FRichImageRow* AUseItem::GetItemImage(UMyGameInstance* GInstance)
 {
-	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
-	return GInstance->GetUseItemImage(Id);
+	if (OwnerPlayer->GetInstance() == nullptr)
+		UE_LOG(LogTemp, Warning, TEXT("Owner Player Null"));
+	return GInstance->GetUseItemImage(1);
 }
 
 

@@ -19,6 +19,8 @@
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
 #include "../../Inventory/Inventory.h"
+#include "Kismet/GameplayStatics.h"
+
 
 
 
@@ -45,7 +47,6 @@ AMyPlayer::AMyPlayer()
 	if (AnimAsset2.Succeeded())
 		AnimClasses[WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
 
-
 	
 	SetDefaultCamera();
 	SetWeaponSocket();
@@ -56,6 +57,7 @@ AMyPlayer::AMyPlayer()
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+	
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -67,6 +69,9 @@ void AMyPlayer::PostInitializeComponents()
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
+	Inventory->SetOwnerPlayer(this);
+	Inventory->ItemMake();
+	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
 	NewWeapon->SetItemMesh(0, WEAPONTYPE::WEAPON_ARROW);

@@ -1,6 +1,8 @@
 
 #include "Item.h"
-
+#include "Kismet/GameplayStatics.h"
+#include "../MyGameInstance.h"
+#include "../Creatures/Player/MyPlayer.h"
 
 AItem::AItem()
 {
@@ -27,9 +29,10 @@ void AItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
 {
 }
 
-FRichImageRow* AItem::GetItemImage()
+FRichImageRow* AItem::GetItemImage(UMyGameInstance* GInstance)
 {
-	return nullptr;
+
+	return GInstance->GetUseItemImage(1);
 }
 
 

@@ -2,6 +2,8 @@
 
 
 #include "Inventory.h"
+#include "../Items/Item.h"
+#include "../Items/UseItem/UseItem.h"
 
 
 UInventory::UInventory()
@@ -16,6 +18,8 @@ UInventory::UInventory()
 void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
+
+	
 }
 
 TArray<class AItem*> UInventory::GetInventory()
@@ -28,6 +32,15 @@ TArray<class AItem*> UInventory::GetInventory()
 
 void UInventory::GainItem()
 {
+}
+
+void UInventory::ItemMake()
+{
+	Type = Use;
+	UseItems[1] = NewObject<AUseItem>();
+	UseItems[1]->SetId(1);
+	UseItems[1]->SetCount(1);
+	UseItems[1]->SetOwnerPlayer(OwnerPlayer);
 }
 
 

@@ -25,10 +25,11 @@ public:
 	virtual void UseItem();
 	virtual void SetItemMesh(int _Id, WEAPONTYPE _Type = WEAPON_END);
 
-	virtual FRichImageRow* GetItemImage();
+	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance);
 public:
 	void SetId(int Value) { Id = Value; }
 	void SetCount(int Value) { Count = Value; }
+	void SetOwnerPlayer(class AMyPlayer* Player) { OwnerPlayer = Player; }
 
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 	int GetCount() { return Count; }

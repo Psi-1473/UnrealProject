@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../../DEFINE.h"
+#include "../../MyGameInstance.h"
 #include "MyPlayer.generated.h"
 
 UCLASS()
@@ -32,6 +33,7 @@ public:
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	class UInventory* GetInventory() { return Inventory; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
+	class UMyGameInstance* GetInstance() { return GInstance; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 	class USkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
@@ -100,4 +102,8 @@ private:
 
 	UPROPERTY()
 	class ASkillRangeActor* SpawnedRangeActor;
+
+private:
+	UPROPERTY()
+	class UMyGameInstance* GInstance;
 };

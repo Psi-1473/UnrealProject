@@ -25,6 +25,7 @@ void UWidget_Inventory::CreateSlot()
 	{
 		Slots.Add(Cast<UWidget_InvenSlot>(SlotBox->GetChildAt(i)));
 		Slots[i]->SetItem(MyPlayer->GetInventory()->GetInventory()[i]);
+
 		Slots[i]->SetImage();
 		Slots[i]->SetCount();
 	}

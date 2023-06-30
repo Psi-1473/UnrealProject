@@ -22,12 +22,18 @@ protected:
 public:
 	InventoryType GetType() { return Type; }
 	TArray<class AItem*> GetInventory();
+
+	void SetOwnerPlayer(class AMyPlayer* Player) { OwnerPlayer = Player; }
 public:
 	void GainItem();
-	
+//Test
+	void ItemMake();
 
 private:
 	InventoryType Type;
+
+	UPROPERTY()
+	class AMyPlayer* OwnerPlayer;
 
 	UPROPERTY()
 	TArray<class AItem*> EquipItems;

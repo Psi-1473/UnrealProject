@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "../../MyGameInstance.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../MyGameInstance.h"
 #include "../../Projectiles/Projectile.h"
 
 AWeapon::AWeapon()
@@ -37,9 +38,8 @@ void AWeapon::SetItemMesh(int _Id, WEAPONTYPE _Type)
 	StaticMeshComponent->SetStaticMesh(StaticMesh);
 }
 
-FRichImageRow* AWeapon::GetItemImage()
+FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 {
-	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
-	return GInstance->GetUseItemImage(Id);
+	return GInstance->GetUseItemImage(1);
 }
 

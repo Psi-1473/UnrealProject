@@ -20,5 +20,6 @@ public:
 	virtual void UseItem() override;
 	virtual void SetItemMesh(int _Id, WEAPONTYPE _Type = WEAPON_END) override;
 
-	virtual FRichImageRow* GetItemImage() override;
+	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
+
 };

@@ -8,11 +8,15 @@ UMyGameInstance::UMyGameInstance()
 {
 	static ConstructorHelpers::FObjectFinder<UDataTable> DATA(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/PlayerStat.PlayerStat'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> MOBDATA(TEXT("/Script/Engine.DataTable'/Game/08_Data/Monster/MonsterStat.MonsterStat'"));
-	static ConstructorHelpers::FObjectFinder<UDataTable> ITEMIMAGE(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemImage.UseItemImage'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> UseImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemImage.UseItemImage'"));
 	
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
-	if (ITEMIMAGE.Succeeded()) ItemImages = ITEMIMAGE.Object;
+	if (UseImage.Succeeded())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Image Load"));
+		ItemImages = UseImage.Object;
+	}
 }
 
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
