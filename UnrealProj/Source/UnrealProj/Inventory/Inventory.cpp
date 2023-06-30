@@ -7,15 +7,22 @@
 UInventory::UInventory()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	//EquipItems.Init(ITEM_NONE, MAX_Inventory);
-	//UseItems.Init(ITEM_NONE, MAX_Inventory);
-	//EtcItems.Init(ITEM_NONE, MAX_Inventory);
+	EquipItems.Init(nullptr, MAX_Inventory);
+	UseItems.Init(nullptr, MAX_Inventory);
+	EtcItems.Init(nullptr, MAX_Inventory);
+	Type = Equip;
 }
 
 void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
+}
 
+TArray<class AItem*> UInventory::GetInventory()
+{
+	if (Type == Equip) return EquipItems;
+	else if (Type == Use) return UseItems;
+	else return EtcItems;
 	
 }
 

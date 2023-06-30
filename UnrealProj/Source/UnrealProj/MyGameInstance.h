@@ -6,6 +6,7 @@
 #include "Engine/GameInstance.h"
 #include "Engine/DataTable.h"
 #include "Managers//UIManager.h"
+#include "Components/RichTextBlockImageDecorator.h"
 #include "MyGameInstance.generated.h"
 
 
@@ -55,6 +56,7 @@ public:
 
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(FString Name);
+	FRichImageRow* GetUseItemImage(int32 Id);
 
 private:
 	UPROPERTY()
@@ -62,4 +64,7 @@ private:
 
 	UPROPERTY()
 	class UDataTable* MonsterStats;
+
+	UPROPERTY()
+	class UDataTable* ItemImages;
 };

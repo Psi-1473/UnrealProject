@@ -3,6 +3,8 @@
 
 #include "Weapon.h"
 #include "Components/StaticMeshComponent.h"
+#include "../../MyGameInstance.h"
+#include "../../Creatures/Player/MyPlayer.h"
 #include "../../Projectiles/Projectile.h"
 
 AWeapon::AWeapon()
@@ -14,11 +16,15 @@ AWeapon::AWeapon()
 		Arrow = ARROW.Class;
 }
 
-void AWeapon::Init(WEAPONTYPE _Type, int _Id)
+void AWeapon::UseItem()
 {
+	// 아이템 장착 구현
+}
+
+void AWeapon::SetItemMesh(int _Id, WEAPONTYPE _Type)
+{
+	Super::SetItemMesh(_Id, _Type);
 	Type = _Type;
-	Id = _Id;
-	
 	if (Type == WEAPON_ARROW)
 		bRight = false;
 
@@ -30,3 +36,10 @@ void AWeapon::Init(WEAPONTYPE _Type, int _Id)
 	StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
 	StaticMeshComponent->SetStaticMesh(StaticMesh);
 }
+
+FRichImageRow* AWeapon::GetItemImage()
+{
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	return GInstance->GetUseItemImage(Id);
+}
+

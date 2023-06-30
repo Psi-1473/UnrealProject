@@ -30,6 +30,7 @@ public:
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
 	class UCameraComponent* GetCamera() { return Camera; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
+	class UInventory* GetInventory() { return Inventory; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 	class USkill* GetSkill() { return ExecuteSkill; }
@@ -93,6 +94,9 @@ private:
 
 	UPROPERTY()
 	class UPlayerSkillComponent* SkillComponent;
+
+	UPROPERTY()
+	class UInventory* Inventory;
 
 	UPROPERTY()
 	class ASkillRangeActor* SpawnedRangeActor;

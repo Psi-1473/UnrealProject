@@ -4,18 +4,8 @@
 
 #include "CoreMinimal.h"
 
-/**
- * 
- */
- //struct Item
- //{
- //	uint8 Type;
- //	uint16 Id;
- //	Item(int8 T, int16 I) { Type = T; Id = I; }
- //};
- //const Item ITEM_NONE = Item(-1, -1);
-const int8 MAX_Inventory = 18;
 
+const int8 MAX_Inventory = 18;
 
 
 UENUM(BlueprintType)
@@ -36,6 +26,14 @@ enum class STATE : uint8
 	SKILL,
 	SKILLCAST,
 };
+
+enum InventoryType
+{
+	Equip,
+	Use,
+	Etc,
+};
+
 enum WEAPONTYPE
 {
 	WEAPON_SWORD,

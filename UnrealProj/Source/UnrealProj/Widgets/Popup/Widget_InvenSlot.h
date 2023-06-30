@@ -17,6 +17,20 @@ class UNREALPROJ_API UWidget_InvenSlot : public UUserWidget
 public:
 	virtual void NativeConstruct();
 
+	void SetItem(class AItem* ItemValue) { SlotItem = ItemValue; }
+	void SetImage();
+	void SetCount();
 
+
+	class AItem* GetItem() { return SlotItem; }
+private:
+	UPROPERTY()
+	class AItem* SlotItem;
+
+private:
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Count;
 	
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_Item;
 };

@@ -20,17 +20,22 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	InventoryType GetType() { return Type; }
+	TArray<class AItem*> GetInventory();
+public:
 	void GainItem();
 	
 
 private:
-	//UPROPERTY()
-	//TArray<Item> EquipItems;
-	//
-	//UPROPERTY()
-	//TArray<Item> UseItems;
-	//
-	//UPROPERTY()
-	//TArray<Item> EtcItems;
+	InventoryType Type;
+
+	UPROPERTY()
+	TArray<class AItem*> EquipItems;
+
+	UPROPERTY()
+	TArray<class AItem*> UseItems;
+
+	UPROPERTY()
+	TArray<class AItem*> EtcItems;
 
 };

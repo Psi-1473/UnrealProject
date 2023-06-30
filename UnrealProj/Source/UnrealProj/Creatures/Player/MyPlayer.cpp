@@ -18,6 +18,7 @@
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
+#include "../../Inventory/Inventory.h"
 
 
 
@@ -54,6 +55,7 @@ AMyPlayer::AMyPlayer()
 
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
+	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -67,7 +69,7 @@ void AMyPlayer::BeginPlay()
 	Super::BeginPlay();
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->Init(WEAPONTYPE::WEAPON_ARROW, 0);
+	NewWeapon->SetItemMesh(0, WEAPONTYPE::WEAPON_ARROW);
 	EquipWeapon(NewWeapon);
 	//TEMP : Skill Sword
 	//UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();

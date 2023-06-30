@@ -17,16 +17,22 @@ class UNREALPROJ_API UWidget_Inventory : public UUserWidget
 public:
 	virtual void NativeConstruct();
 
+
+private:
+	void CreateSlot();
 private:
 	UPROPERTY(meta = (BindWidget))
-		class UButton* Btn_Equip;
+	class UButton* Btn_Equip;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* Btn_Use;
+	class UButton* Btn_Use;
 
 	UPROPERTY(meta = (BindWidget))
-		class UButton* Btn_Etc;
+	class UButton* Btn_Etc;
 
 	UPROPERTY(meta = (BindWidget))
-		class UWrapBox* SlotBox;
+	class UWrapBox* SlotBox;
+
+	UPROPERTY()
+	TArray<class UWidget_InvenSlot*> Slots;
 };
