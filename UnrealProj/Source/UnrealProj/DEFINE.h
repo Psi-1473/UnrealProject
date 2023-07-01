@@ -12,6 +12,7 @@ UENUM(BlueprintType)
 enum class UIType : uint8
 {
 	Inventory,
+	Script,
 
 	End,
 };
@@ -51,7 +52,12 @@ enum SKILLKEYS
 	KEY_END
 };
 
-
+enum NpcType
+{
+	NONE_SHOP,
+	EQUIP_SHOP,
+	USE_SHOP,
+};
 
 class UNREALPROJ_API DEFINE
 {

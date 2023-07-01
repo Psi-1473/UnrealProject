@@ -39,6 +39,7 @@ public:
 	bool GetDash() { return bDash; }
 
 
+	void SetInteractingNpc(class ANpc* Npc) { InteractingNpc = Npc; }
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
 	void SetState(STATE Value);
 	void SetSkill(class USkill* Value) { ExecuteSkill = Value; }
@@ -47,6 +48,7 @@ public:
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
 	void AttackCheck(float UpRange, float FrontRange, float SideRange);
+	void Interact();
 
 private:
 	void SetDefaultCamera(); // 생성자에서 카메라 생성
@@ -106,4 +108,7 @@ private:
 private:
 	UPROPERTY()
 	class UMyGameInstance* GInstance;
+
+	UPROPERTY()
+	class ANpc* InteractingNpc;
 };

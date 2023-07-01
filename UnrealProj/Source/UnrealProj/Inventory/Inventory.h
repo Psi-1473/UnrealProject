@@ -25,7 +25,7 @@ public:
 
 	void SetOwnerPlayer(class AMyPlayer* Player) { OwnerPlayer = Player; }
 public:
-	void GainItem();
+	void GainItem(class AItem* Item);
 //Test
 	void ItemMake();
 

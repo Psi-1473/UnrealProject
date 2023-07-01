@@ -20,6 +20,7 @@
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
 #include "../../Inventory/Inventory.h"
 #include "Kismet/GameplayStatics.h"
+#include "../Npc/Npc.h"
 
 
 
@@ -184,6 +185,14 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 			Enemy->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
 		}
 	}
+}
+
+void AMyPlayer::Interact()
+{
+	if (InteractingNpc == nullptr)
+		return;
+
+	InteractingNpc->Interact();
 }
 
 

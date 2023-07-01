@@ -30,7 +30,7 @@ TArray<class AItem*> UInventory::GetInventory()
 	
 }
 
-void UInventory::GainItem()
+void UInventory::GainItem(class AItem* Item)
 {
 }
 

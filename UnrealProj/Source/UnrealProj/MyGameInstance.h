@@ -46,6 +46,24 @@ struct FMonsterData : public FTableRowBase
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxHp;
 };
+USTRUCT()
+struct FNpcData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString DefaultLine;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Type;
+};
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -56,6 +74,7 @@ public:
 
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(FString Name);
+	FNpcData* GetNpcData(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
 
 private:
@@ -64,6 +83,9 @@ private:
 
 	UPROPERTY()
 	class UDataTable* MonsterStats;
+
+	UPROPERTY()
+	class UDataTable* NpcData;
 
 	UPROPERTY()
 	class UDataTable* ItemImages;

@@ -34,6 +34,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_E(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillE.IA_SkillE'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_R(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillR.IA_SkillR'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Inven(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Inventory.IA_Inventory'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Interact(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Interact.IA_Interact'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -48,6 +49,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_E.Succeeded()) Push_E = IA_E.Object;
 	if (IA_R.Succeeded()) Push_R = IA_R.Object;
 	if (IA_Inven.Succeeded()) InvenAction = IA_Inven.Object;
+	if (IA_Interact.Succeeded()) InteractAction = IA_Interact.Object;
 	
 }
 
@@ -74,6 +76,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Push_E, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_E);
 		EnhancedInputComponent->BindAction(Push_R, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_R);
 		EnhancedInputComponent->BindAction(InvenAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Inventory);
+		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Interact);
 	}
 
 }
@@ -229,8 +232,12 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Inventory(const FInputActionValue& Value)
 {
-	ManagerUI.TestFunc();
 	ManagerUI.PopupUI(GetWorld(), UIType::Inventory);
+}
+
+void AMyPlayerController::IA_Interact(const FInputActionValue& Value)
+{
+	MyPlayer->Interact();
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
