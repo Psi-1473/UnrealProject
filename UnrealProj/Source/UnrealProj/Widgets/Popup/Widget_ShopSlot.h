@@ -14,4 +14,17 @@ class UNREALPROJ_API UWidget_ShopSlot : public UUserWidget
 {
 	GENERATED_BODY()
 	
+private:
+	UPROPERTY()
+	int16 ItemId;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* Btn_Buy;
+	
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Name;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Gold;
+
 };

@@ -3,6 +3,7 @@
 
 #include "UIManager.h"
 #include "Blueprint/UserWidget.h"
+#include "GameFramework/PlayerController.h"
 
 UIManager::UIManager()
 {
@@ -11,11 +12,7 @@ UIManager::UIManager()
 
 UIManager::~UIManager()
 {
-}
-
-void UIManager::TestFunc()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Test Static"));
+	PopupUiArray.Empty();
 }
 
 UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
@@ -44,6 +41,14 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	PopupUi->AddToViewport();
 	PopupUiArray[(int)Type] = PopupUi;
 	UiNumber++;
+
+	//if (UiNumber == 1)
+	//{
+	//	auto PC = Cast<APlayerController>(PlayerController);
+	//	PC->SetInputMode(FInputModeGameAndUI());
+	//	PC->bShowMouseCursor = true;
+	//}
+
 	return PopupUi;
 }
 
@@ -52,12 +57,18 @@ void UIManager::CloseUI(UIType Type)
 	if(PopupUiArray[(int)Type] == nullptr)
 		return;
 
+	PopupUiArray[(int)Type]->Destruct();
 	PopupUiArray[(int)Type]->RemoveFromViewport();
 	PopupUiArray[(int)Type] = nullptr;
 
 	UiNumber--;
 
-	if (UiNumber <= 0)
-		UiNumber = 0;
+	//if (UiNumber <= 0)
+	//{
+	//	UiNumber = 0;
+	//	auto PC = Cast<APlayerController>(PlayerController);
+	//	PC->SetInputMode(FInputModeGameOnly());
+	//	PC->bShowMouseCursor = false;
+	//}
 
 }

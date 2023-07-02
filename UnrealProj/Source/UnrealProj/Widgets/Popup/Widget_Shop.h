@@ -14,4 +14,11 @@ class UNREALPROJ_API UWidget_Shop : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+private:
+	UPROPERTY(meta = (BindWidget))
+	class UButton* Btn_Exit;
+
+	UPROPERTY(meta = (BindWidget))
+	class UWrapBox* SlotBox;
 };

@@ -73,6 +73,7 @@ void AMyPlayer::BeginPlay()
 	Inventory->SetOwnerPlayer(this);
 	Inventory->ItemMake();
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	ManagerUI.SetController(GetController());
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
 	NewWeapon->SetItemMesh(0, WEAPONTYPE::WEAPON_ARROW);
