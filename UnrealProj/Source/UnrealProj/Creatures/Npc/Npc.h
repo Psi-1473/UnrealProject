@@ -22,6 +22,8 @@ public:
 	int16 GetId() { return Id; }
 	FString GetName() { return Name; }
 	FString GetDefaultLine() { return DefaultLine; }
+	NpcType GetNpcType() { return Type; }
+
 protected:
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
