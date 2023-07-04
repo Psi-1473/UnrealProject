@@ -83,6 +83,27 @@ struct FWeaponData : public FTableRowBase
 	int32 Price;
 };
 
+USTRUCT()
+struct FUseItemData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Type;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Amount;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Price;
+};
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -96,6 +117,9 @@ public:
 	FNpcData* GetNpcData(int32 Id);
 	FWeaponData* GetSwordData(int32 Id);
 	FWeaponData* GetBowData(int32 Id);
+	FUseItemData* GetUseItemData(int32 Id);
+	FRichImageRow* GetSwordImage(int32 Id);
+	FRichImageRow* GetBowImage(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
@@ -115,6 +139,15 @@ private:
 	
 	UPROPERTY()
 	class UDataTable* BowData;
+
+	UPROPERTY()
+	class UDataTable* UseItemData;
+
+	UPROPERTY()
+	class UDataTable* SwordImages;
+	
+	UPROPERTY()
+	class UDataTable* BowImages;
 
 	UPROPERTY()
 	class UDataTable* ItemImages;

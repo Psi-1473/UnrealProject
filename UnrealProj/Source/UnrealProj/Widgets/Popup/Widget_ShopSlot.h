@@ -18,11 +18,24 @@ class UNREALPROJ_API UWidget_ShopSlot : public UUserWidget
 
 public:
 	void ClickBuyButton();
-private:
-	InventoryType Type;
 
+	void SetSlot(class UMyGameInstance* GInstance, ItemType TemType, int16 Id);
+private:
+	class AWeapon* CreateNewWeapon();
+	//AWeapon* CreateNewBow();
+	class AUseItem* CreateNewUseItem();
+private:
+	ItemType IType;
+
+	WEAPONTYPE WType;
 	UPROPERTY()
 	int16 ItemId;
+
+	// 아이템 타입이랑 아이디로 나누지 말고
+	// 변수를 그냥 AItem 객체로 가지자.
+
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_Item;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Buy;

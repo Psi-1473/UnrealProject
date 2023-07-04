@@ -21,6 +21,7 @@ public:
 	AWeapon();
 
 	void SetMuzzleOffset(FVector Offset) { MuzzleOffset = Offset; }
+	void SetWeaponType(WEAPONTYPE NewType) { Type = NewType; }
 
 	WEAPONTYPE GetType() { return Type; }
 	bool GetIsRight() { return bRight; }

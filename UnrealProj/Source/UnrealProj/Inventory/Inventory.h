@@ -25,7 +25,8 @@ public:
 
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
-	void GainNewItem(class AItem* Item);
+	void GainNewWeapon(class AWeapon* Item);
+	void GainNewUseItem(class AUseItem* Item);
 //Test
 	void ItemMake();
 

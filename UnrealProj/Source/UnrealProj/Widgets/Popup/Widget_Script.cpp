@@ -35,6 +35,7 @@ void UWidget_Script::PopupShopWidget()
 	auto ShopUI = GInstance->GetUIMgr()->PopupUI(OwnerNpc->GetWorld(), UIType::Shop);
 	auto Shop = Cast<UWidget_Shop>(ShopUI);
 	Shop->SetOwnerNpc(OwnerNpc);
+	Shop->CreateSlot(OwnerNpc);
 }
 
 void UWidget_Script::CloseUI()

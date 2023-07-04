@@ -29,6 +29,28 @@ enum class STATE : uint8
 	SKILLCAST,
 };
 
+enum ItemType
+{
+	ITEM_SWORD,
+	ITEM_BOW,
+	ITEM_USE
+};
+enum WEAPONTYPE
+{
+	WEAPON_SWORD,
+	WEAPON_ARROW,
+
+	WEAPON_END,
+}; //여기도 좀 깔끔하게 정리할 필요가..
+
+
+enum UseItemType
+{
+	ITEM_HP,
+	ITEM_MP,
+	ITEM_HPMP,
+};
+
 enum InventoryType
 {
 	Equip,
@@ -36,13 +58,7 @@ enum InventoryType
 	Etc,
 };
 
-enum WEAPONTYPE
-{
-	WEAPON_SWORD,
-	WEAPON_ARROW,
 
-	WEAPON_END,
-};
 
 enum SKILLKEYS
 {

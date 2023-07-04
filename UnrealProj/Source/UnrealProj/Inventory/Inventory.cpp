@@ -4,6 +4,7 @@
 #include "Inventory.h"
 #include "../Items/Item.h"
 #include "../Items/UseItem/UseItem.h"
+#include "../Items/Weapons/Weapon.h"
 
 
 UInventory::UInventory()
@@ -30,7 +31,11 @@ TArray<class AItem*> UInventory::GetInventory()
 	
 }
 
-void UInventory::GainNewItem(class AItem* Item)
+void UInventory::GainNewWeapon(AWeapon* Item)
+{
+}
+
+void UInventory::GainNewUseItem(AUseItem* Item)
 {
 }
 

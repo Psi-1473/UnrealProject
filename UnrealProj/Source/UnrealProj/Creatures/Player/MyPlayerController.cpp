@@ -278,6 +278,6 @@ void AMyPlayerController::ZoomOut()
 	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
 	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, -60.f, 0.f));
 	MyPlayer->GetCamera()->FieldOfView = 90.f;
-	Movement->MaxWalkSpeed = 350.f;
+	Movement->MaxWalkSpeed = 600.f;
 	CameraMoved = false;
 }

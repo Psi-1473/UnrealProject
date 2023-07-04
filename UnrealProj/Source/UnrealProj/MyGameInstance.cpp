@@ -12,6 +12,9 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> NPC(TEXT("/Script/Engine.DataTable'/Game/08_Data/Npc/NpcDataTable.NpcDataTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> Sword(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/SwordData.SwordData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> Bow(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/BowData.BowData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> UseItem(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemData.UseItemData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> SwordImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/SwordImageTable.SwordImageTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> BowImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/BowImageTable.BowImageTable'"));
 	
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
@@ -19,6 +22,9 @@ UMyGameInstance::UMyGameInstance()
 	if (NPC.Succeeded()) NpcData = NPC.Object;
 	if (Sword.Succeeded()) SwordData = Sword.Object;
 	if (Bow.Succeeded()) BowData = Bow.Object;
+	if (UseItem.Succeeded()) UseItemData = UseItem.Object;
+	if (SwordImage.Succeeded()) SwordImages = SwordImage.Object;
+	if (BowImage.Succeeded()) BowImages = BowImage.Object;
 
 	UIMgr = MakeShared<UIManager>();
 }
@@ -46,6 +52,21 @@ FWeaponData* UMyGameInstance::GetSwordData(int32 Id)
 FWeaponData* UMyGameInstance::GetBowData(int32 Id)
 {
 	return BowData->FindRow<FWeaponData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FUseItemData* UMyGameInstance::GetUseItemData(int32 Id)
+{
+	return UseItemData->FindRow<FUseItemData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FRichImageRow* UMyGameInstance::GetSwordImage(int32 Id)
+{
+	return SwordImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
+}
+
+FRichImageRow* UMyGameInstance::GetBowImage(int32 Id)
+{
+	return BowImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
 }
 
 FRichImageRow* UMyGameInstance::GetUseItemImage(int32 Id)

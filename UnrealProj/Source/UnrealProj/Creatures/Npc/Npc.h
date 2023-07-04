@@ -23,6 +23,10 @@ public:
 	FString GetName() { return Name; }
 	FString GetDefaultLine() { return DefaultLine; }
 	NpcType GetNpcType() { return Type; }
+	TArray<int16> GetSwordIds() { return SwordIds; }
+	TArray<int16> GetBowIds() { return BowIds; }
+	TArray<int16> GetUseItemIds() { return UseItemIds; }
+	int16 GetItemSize() { return BowIds.Num() + SwordIds.Num() + UseItemIds.Num(); }
 
 protected:
 	UFUNCTION()
@@ -33,6 +37,7 @@ protected:
 
 public:
 	void Interact();
+
 private:
 	void GetIdFromActor();
 	void SetNpcInfo();
@@ -57,4 +62,17 @@ protected:
 
 	UPROPERTY()
 	class UBoxComponent* InteractBox;
+
+protected:
+	UPROPERTY(EditAnywhere)
+	TArray<int16> SwordIds;
+
+	UPROPERTY(EditAnywhere)
+	TArray<int16> BowIds;
+
+	UPROPERTY(EditAnywhere)
+	TArray<int16> UseItemIds;
+
+	// 방어구 추가하면 리스트도 추가
+	// + 블루프린트에서 말고 C++ 스크립트에서 할 수 있는 방법없나 확인
 };

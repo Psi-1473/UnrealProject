@@ -15,6 +15,7 @@ class UNREALPROJ_API UWidget_Shop : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UWidget_Shop(const FObjectInitializer& ObjectInitializer);
 	virtual void NativeConstruct();
 
 public:
@@ -33,4 +34,7 @@ private:
 
 	UPROPERTY()
 	TWeakObjectPtr<class ANpc> OwnerNpc;
+
+	TSubclassOf<UUserWidget> BP_Slot;
+	UUserWidget* Slot;
 };
