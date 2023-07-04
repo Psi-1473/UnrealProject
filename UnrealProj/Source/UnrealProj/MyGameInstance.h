@@ -11,8 +11,6 @@
 
 
 
-static UIManager ManagerUI;
-
 USTRUCT()
 struct FMyPlayerData : public FTableRowBase
 {
@@ -64,6 +62,27 @@ struct FNpcData : public FTableRowBase
 	FString Type;
 };
 
+USTRUCT()
+struct FWeaponData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Type;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Damage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Price;
+};
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -75,7 +94,11 @@ public:
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(FString Name);
 	FNpcData* GetNpcData(int32 Id);
+	FWeaponData* GetSwordData(int32 Id);
+	FWeaponData* GetBowData(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
+
+	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 
 private:
 	UPROPERTY()
@@ -86,7 +109,16 @@ private:
 
 	UPROPERTY()
 	class UDataTable* NpcData;
+	
+	UPROPERTY()
+	class UDataTable* SwordData;
+	
+	UPROPERTY()
+	class UDataTable* BowData;
 
 	UPROPERTY()
 	class UDataTable* ItemImages;
+
+private:
+	TSharedPtr<UIManager> UIMgr;
 };

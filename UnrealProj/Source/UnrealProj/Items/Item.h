@@ -29,7 +29,7 @@ public:
 public:
 	void SetId(int Value) { Id = Value; }
 	void SetCount(int Value) { Count = Value; }
-	void SetOwnerPlayer(class AMyPlayer* Player) { OwnerPlayer = Player; }
+	void SetInventory(TWeakObjectPtr<class UInventory> Inven) { Inventory = Inven; }
 
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 	int GetCount() { return Count; }
@@ -39,7 +39,7 @@ protected:
 	int Id;
 
 	UPROPERTY()
-	class AMyPlayer* OwnerPlayer;
+	TWeakObjectPtr<class UInventory> Inventory;
 
 	UPROPERTY()
 	int Count = 0;

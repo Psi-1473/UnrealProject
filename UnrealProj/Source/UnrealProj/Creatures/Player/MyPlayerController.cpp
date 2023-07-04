@@ -232,7 +232,8 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Inventory(const FInputActionValue& Value)
 {
-	ManagerUI.PopupUI(GetWorld(), UIType::Inventory);
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Inventory);
 }
 
 void AMyPlayerController::IA_Interact(const FInputActionValue& Value)

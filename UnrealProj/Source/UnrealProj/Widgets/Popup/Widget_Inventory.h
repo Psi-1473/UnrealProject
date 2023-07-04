@@ -33,6 +33,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UWrapBox* SlotBox;
 
+
+	
 	UPROPERTY()
 	TArray<class UWidget_InvenSlot*> Slots;
 };

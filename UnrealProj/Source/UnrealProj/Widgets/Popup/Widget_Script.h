@@ -15,7 +15,19 @@ class UNREALPROJ_API UWidget_Script : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	void SetScript(class ANpc* Npc);
+	virtual void NativeConstruct() override;
+
+	void SetScript(TWeakObjectPtr<class ANpc> Npc);
+
+	UFUNCTION()
+	void PopupShopWidget();
+
+	//UFUNCTION()
+	//void PopupQuestWidget(TWeakObjectPtr<class ANpc>);
+
+	UFUNCTION()
+	void CloseUI();
+	
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -32,4 +44,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Exit;
+
+	UPROPERTY()
+	TWeakObjectPtr<class ANpc> OwnerNpc;
 };

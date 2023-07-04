@@ -42,12 +42,12 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	PopupUiArray[(int)Type] = PopupUi;
 	UiNumber++;
 
-	//if (UiNumber == 1)
-	//{
-	//	auto PC = Cast<APlayerController>(PlayerController);
-	//	PC->SetInputMode(FInputModeGameAndUI());
-	//	PC->bShowMouseCursor = true;
-	//}
+	if (UiNumber == 1)
+	{
+		auto PC = Cast<APlayerController>(PlayerController);
+		PC->SetInputMode(FInputModeGameAndUI());
+		PC->bShowMouseCursor = true;
+	}
 
 	return PopupUi;
 }
@@ -63,12 +63,12 @@ void UIManager::CloseUI(UIType Type)
 
 	UiNumber--;
 
-	//if (UiNumber <= 0)
-	//{
-	//	UiNumber = 0;
-	//	auto PC = Cast<APlayerController>(PlayerController);
-	//	PC->SetInputMode(FInputModeGameOnly());
-	//	PC->bShowMouseCursor = false;
-	//}
+	if (UiNumber <= 0)
+	{
+		UiNumber = 0;
+		auto PC = Cast<APlayerController>(PlayerController);
+		PC->SetInputMode(FInputModeGameOnly());
+		PC->bShowMouseCursor = false;
+	}
 
 }

@@ -100,10 +100,10 @@ private:
 	class UPlayerSkillComponent* SkillComponent;
 
 	UPROPERTY()
-	class UInventory* Inventory;
+	class ASkillRangeActor* SpawnedRangeActor;
 
 	UPROPERTY()
-	class ASkillRangeActor* SpawnedRangeActor;
+	class UInventory* Inventory;
 
 private:
 	UPROPERTY()

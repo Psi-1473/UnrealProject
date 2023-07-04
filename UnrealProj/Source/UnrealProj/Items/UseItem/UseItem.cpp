@@ -32,8 +32,7 @@ void AUseItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
 
 FRichImageRow* AUseItem::GetItemImage(UMyGameInstance* GInstance)
 {
-	if (OwnerPlayer->GetInstance() == nullptr)
-		UE_LOG(LogTemp, Warning, TEXT("Owner Player Null"));
+
 	return GInstance->GetUseItemImage(1);
 }
 

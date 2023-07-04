@@ -16,14 +16,14 @@ public:
 
 	UUserWidget* PopupUI(UWorld* World, UIType Type);
 	void CloseUI(UIType Type);
-	void SetController(class AController* Controller) { PlayerController = Controller; }
+	void SetController(TWeakObjectPtr<class APlayerController> Controller) { PlayerController = Controller; }
 
 public:
 	int UiNumber = 0;
 	TSubclassOf<UUserWidget> WidgetAsset;
 
 	UPROPERTY()
-	class AController* PlayerController;
+	TWeakObjectPtr<class APlayerController> PlayerController;
 
 	UPROPERTY()
 	TArray<UUserWidget*> PopupUiArray;

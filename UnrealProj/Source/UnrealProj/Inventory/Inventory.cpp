@@ -30,7 +30,7 @@ TArray<class AItem*> UInventory::GetInventory()
 	
 }
 
-void UInventory::GainItem(class AItem* Item)
+void UInventory::GainNewItem(class AItem* Item)
 {
 }
 
@@ -40,7 +40,7 @@ void UInventory::ItemMake()
 	UseItems[1] = NewObject<AUseItem>();
 	UseItems[1]->SetId(1);
 	UseItems[1]->SetCount(1);
-	UseItems[1]->SetOwnerPlayer(OwnerPlayer);
+	UseItems[1]->SetInventory(this);
 }
 
 

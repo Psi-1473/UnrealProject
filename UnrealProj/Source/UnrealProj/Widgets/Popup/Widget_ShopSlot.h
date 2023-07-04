@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "../../DEFINE.h"
 #include "Widget_ShopSlot.generated.h"
 
 /**
@@ -14,7 +15,12 @@ class UNREALPROJ_API UWidget_ShopSlot : public UUserWidget
 {
 	GENERATED_BODY()
 	
+
+public:
+	void ClickBuyButton();
 private:
+	InventoryType Type;
+
 	UPROPERTY()
 	int16 ItemId;
 

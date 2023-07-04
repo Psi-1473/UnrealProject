@@ -23,17 +23,18 @@ public:
 	InventoryType GetType() { return Type; }
 	TArray<class AItem*> GetInventory();
 
-	void SetOwnerPlayer(class AMyPlayer* Player) { OwnerPlayer = Player; }
+	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
-	void GainItem(class AItem* Item);
+	void GainNewItem(class AItem* Item);
 //Test
 	void ItemMake();
 
 private:
 	InventoryType Type;
-
+	
+	
 	UPROPERTY()
-	class AMyPlayer* OwnerPlayer;
+	TWeakObjectPtr<class AMyPlayer> OwnerPlayer;
 
 	UPROPERTY()
 	TArray<class AItem*> EquipItems;

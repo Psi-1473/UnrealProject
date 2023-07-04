@@ -13,6 +13,7 @@ enum class UIType : uint8
 {
 	Inventory,
 	Script,
+	Shop,
 
 	End,
 };

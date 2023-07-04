@@ -69,7 +69,8 @@ void ANpc::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
 
 void ANpc::Interact()
 {
-	UUserWidget* Widget = ManagerUI.PopupUI(GetWorld(), UIType::Script);
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	UUserWidget* Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Script);
 	auto Script = Cast<UWidget_Script>(Widget);
 	if (Script != nullptr)
 		Script->SetScript(this);

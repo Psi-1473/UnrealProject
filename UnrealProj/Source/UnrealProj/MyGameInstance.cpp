@@ -10,11 +10,17 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> MOBDATA(TEXT("/Script/Engine.DataTable'/Game/08_Data/Monster/MonsterStat.MonsterStat'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> UseImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemImage.UseItemImage'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> NPC(TEXT("/Script/Engine.DataTable'/Game/08_Data/Npc/NpcDataTable.NpcDataTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Sword(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/SwordData.SwordData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Bow(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/BowData.BowData'"));
 	
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
 	if (UseImage.Succeeded()) ItemImages = UseImage.Object;
 	if (NPC.Succeeded()) NpcData = NPC.Object;
+	if (Sword.Succeeded()) SwordData = Sword.Object;
+	if (Bow.Succeeded()) BowData = Bow.Object;
+
+	UIMgr = MakeShared<UIManager>();
 }
 
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
@@ -30,6 +36,16 @@ FMonsterData* UMyGameInstance::GetMonsterStat(FString Name)
 FNpcData* UMyGameInstance::GetNpcData(int32 Id)
 {
 	return NpcData->FindRow<FNpcData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FWeaponData* UMyGameInstance::GetSwordData(int32 Id)
+{
+	return SwordData->FindRow<FWeaponData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FWeaponData* UMyGameInstance::GetBowData(int32 Id)
+{
+	return BowData->FindRow<FWeaponData>(*FString::FromInt(Id), TEXT(""));
 }
 
 FRichImageRow* UMyGameInstance::GetUseItemImage(int32 Id)
