@@ -20,6 +20,11 @@ public:
 
 private:
 	void CreateSlot();
+
+	void SetInventoryTypeEquip();
+	void SetInventoryTypeUse();
+	void SetInventoryTypeEtc();
+
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Equip;

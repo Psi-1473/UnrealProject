@@ -40,6 +40,19 @@ void AWeapon::SetItemMesh(int _Id, WEAPONTYPE _Type)
 
 FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 {
-	return GInstance->GetUseItemImage(1);
+	switch (Type)
+	{
+	case WEAPON_SWORD:
+		UE_LOG(LogTemp, Warning, TEXT("SWORD IMAGE LOAD"));
+		return GInstance->GetSwordImage(Id);
+		break;
+	case WEAPON_ARROW:
+		UE_LOG(LogTemp, Warning, TEXT("BOW IMAGE LOAD"));
+		return GInstance->GetBowImage(Id);
+		break;
+	default:
+		return nullptr;
+		break;
+	}
 }
 

@@ -9,10 +9,14 @@
 #include "../../Inventory/Inventory.h"
 #include "../../Items/Item.h"
 #include "Widget_InvenSlot.h"
+#include "Components/Button.h"
 
 void UWidget_Inventory::NativeConstruct()
 {
 	CreateSlot();
+	//Btn_Equip->OnClicked.AddDynamic(this, &UWidget_Script::PopupShopWidget);
+	//Btn_Use->OnClicked.AddDynamic(this, &UWidget_Script::CloseUI);
+	//Btn_Etc->OnClicked.AddDynamic(this, &UWidget_Script::CloseUI);
 }
 
 void UWidget_Inventory::CreateSlot()
@@ -30,4 +34,20 @@ void UWidget_Inventory::CreateSlot()
 		Slots[i]->SetCount();
 	}
 	//RefreshSlot(TypeIndex);
+}
+
+void UWidget_Inventory::SetInventoryTypeEquip()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	//MyPlayer->GetInventory()->SetType
+}
+
+void UWidget_Inventory::SetInventoryTypeUse()
+{
+}
+
+void UWidget_Inventory::SetInventoryTypeEtc()
+{
 }

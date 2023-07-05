@@ -17,17 +17,19 @@ class UNREALPROJ_API UWidget_ShopSlot : public UUserWidget
 	
 
 public:
+	virtual void NativeConstruct() override;
+
+	UFUNCTION()
 	void ClickBuyButton();
 
 	void SetSlot(class UMyGameInstance* GInstance, ItemType TemType, int16 Id);
 private:
 	class AWeapon* CreateNewWeapon();
-	//AWeapon* CreateNewBow();
 	class AUseItem* CreateNewUseItem();
 private:
 	ItemType IType;
-
 	WEAPONTYPE WType;
+
 	UPROPERTY()
 	int16 ItemId;
 

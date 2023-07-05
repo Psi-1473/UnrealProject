@@ -8,22 +8,31 @@
 #include "../../Items/Item.h"
 #include "../../Items/UseItem/UseItem.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "Kismet/GameplayStatics.h"
+#include "../../Creatures/Player/MyPlayer.h"
+#include "../../Inventory/Inventory.h"
+#include "Components/Button.h"
+
+
+
+void UWidget_ShopSlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	Btn_Buy->OnClicked.AddDynamic(this, &UWidget_ShopSlot::ClickBuyButton);
+}
 
 void UWidget_ShopSlot::ClickBuyButton()
 {
-	//if (IType == ITEM_USE)
-	//{
-	//	AUseItem* NewItem = CreateNewUseItem();
-	//}
-	//else
-	//{
-	//	AWeapon* NewItem = CreateNewWeapon();
-	//}
-	//Type = Use;
-	//UseItems[1] = NewObject<AUseItem>();
-	//UseItems[1]->SetId(1);
-	//UseItems[1]->SetCount(1);
-	//UseItems[1]->SetInventory(this);
+	// 돈있나 확인 먼저
+
+	AItem* NewItem;
+	if (IType == ITEM_USE)NewItem = CreateNewUseItem();
+	else NewItem = CreateNewWeapon();
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	MyPlayer->GetInventory()->GainNewItem(NewItem);
 }
 
 void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int16 Id)

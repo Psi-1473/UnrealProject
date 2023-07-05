@@ -71,7 +71,7 @@ void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 	Inventory->SetOwnerPlayer(this);
-	Inventory->ItemMake();
+	//Inventory->ItemMake();
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
 	//ManagerUI.SetController(Cast<APlayerController>(GetController()));

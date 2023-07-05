@@ -19,8 +19,7 @@ UInventory::UInventory()
 void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
-
-	
+	Type = InventoryType::Equip;
 }
 
 TArray<class AItem*> UInventory::GetInventory()
@@ -33,19 +32,44 @@ TArray<class AItem*> UInventory::GetInventory()
 
 void UInventory::GainNewWeapon(AWeapon* Item)
 {
+	
+	if(Item->GetType() == WEAPON_SWORD)
+		UE_LOG(LogTemp, Warning, TEXT("Sword Gain!"));
+	if (Item->GetType() == WEAPON_ARROW)
+		UE_LOG(LogTemp, Warning, TEXT("Bow Gain!"));
+
+	int Index = FindEmptySlotIndex(EquipItems);
+
+	if (Index == -1)
+		return;//ºóÄ­ ¾øÀ½
+
+	EquipItems[Index] = Item;
 }
 
 void UInventory::GainNewUseItem(AUseItem* Item)
 {
+	UE_LOG(LogTemp, Warning, TEXT("UseItem Gain!"));
 }
 
-void UInventory::ItemMake()
+int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 {
-	Type = Use;
-	UseItems[1] = NewObject<AUseItem>();
-	UseItems[1]->SetId(1);
-	UseItems[1]->SetCount(1);
-	UseItems[1]->SetInventory(this);
+	for (int i = 0; i < MAX_Inventory; i++)
+	{
+		if (ItemArray[i] == nullptr) return i;
+	}
+
+	return -1;
 }
+
+void UInventory::GainNewItem(AItem* Item)
+{
+	auto Weapon = Cast<AWeapon>(Item);
+	if (Weapon != nullptr) GainNewWeapon(Weapon);
+	
+	auto UseItem = Cast<AUseItem>(Item);
+	if (UseItem != nullptr) GainNewUseItem(UseItem);
+}
+
+
 
 

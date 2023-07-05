@@ -32,8 +32,7 @@ void AUseItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
 
 FRichImageRow* AUseItem::GetItemImage(UMyGameInstance* GInstance)
 {
-
-	return GInstance->GetUseItemImage(1);
+	return GInstance->GetUseItemImage(Id);
 }
 
 

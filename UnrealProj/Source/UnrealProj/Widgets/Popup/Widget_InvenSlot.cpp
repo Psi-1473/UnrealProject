@@ -19,10 +19,8 @@ void UWidget_InvenSlot::NativeConstruct()
 void UWidget_InvenSlot::SetImage()
 {
 	if (SlotItem == nullptr) return;
-	
+	UE_LOG(LogTemp, Warning, TEXT("SET IMAGE FUNC"));
 	auto GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	//Img_Item->SetBrush(GInstance->GetUseItemImage(1)->Brush);
-	// 주석처리한 얘네는 실행된다.
 	Img_Item->SetBrush(SlotItem->GetItemImage(GInstance)->Brush);
 } 
 
@@ -37,6 +35,9 @@ void UWidget_InvenSlot::SetCount()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("NOT NULL SLOT"));
 		FString Cnt = FString::FromInt(SlotItem->GetCount());
-		Text_Count->SetText(FText::FromString(Cnt));
+		if (Cnt == TEXT("0"))
+			Text_Count->SetText(FText::FromString(TEXT("")));
+		else
+			Text_Count->SetText(FText::FromString(Cnt));
 	}
 }
