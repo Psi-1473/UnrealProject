@@ -25,6 +25,7 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 
 void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	
 	Super::Execute(OwnerActor, bRangeAttack);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetDefaultValue();

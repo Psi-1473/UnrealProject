@@ -32,7 +32,7 @@ void UWidget_ShopSlot::ClickBuyButton()
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 
-	MyPlayer->GetInventory()->GainNewItem(NewItem);
+	MyPlayer->GetInventory()->GainNewItem(NewItem); // 나머지 세팅은 여기서
 }
 
 void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int16 Id)

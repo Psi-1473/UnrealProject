@@ -34,7 +34,7 @@ protected:
 	bool bCanUse = true; // 지금 사용 가능한가
 
 	UPROPERTY()
-	int32 Id; // Id
+	int32 Id;// Id
 	
 	UPROPERTY()
 	bool bRange;

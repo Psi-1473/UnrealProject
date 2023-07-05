@@ -77,7 +77,9 @@ void AMyPlayer::BeginPlay()
 	//ManagerUI.SetController(Cast<APlayerController>(GetController()));
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->SetItemMesh(0, WEAPONTYPE::WEAPON_ARROW);
+	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_ARROW);
+	NewWeapon->SetId(0);
+	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
 	//TEMP : Skill Sword
 	//UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
