@@ -22,18 +22,20 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void UseItem();
-	virtual void SetItemMesh(int _Id, WEAPONTYPE _Type = WEAPON_END);
+	virtual void UseItem(int SlotNumber);
+	virtual void SetItemMesh();
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance);
 public:
+
+
 	void SetId(int Value) { Id = Value; }
 	void SetCount(int Value) { Count = Value; }
 	void SetInventory(TWeakObjectPtr<class UInventory> Inven) { Inventory = Inven; }
 
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 	int GetCount() { return Count; }
-
+	int GetId() { return Id; }
 protected:
 	UPROPERTY()
 	int Id;

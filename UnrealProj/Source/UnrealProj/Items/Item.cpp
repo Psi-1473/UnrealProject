@@ -23,11 +23,11 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::UseItem()
+void AItem::UseItem(int SlotNumber)
 {
 }
 
-void AItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
+void AItem::SetItemMesh()
 {
 }
 

@@ -13,13 +13,14 @@ AUseItem::AUseItem()
 {
 }
 
-void AUseItem::UseItem()
+void AUseItem::UseItem(int SlotNumber)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Item Use"));
 }
 
-void AUseItem::SetItemMesh(int _Id, WEAPONTYPE _Type)
+void AUseItem::SetItemMesh()
 {
-	Super::SetItemMesh(_Id, _Type);
+	Super::SetItemMesh();
 	// 스태틱 매시 설정
 
 	//FString IdString = FString::FromInt(Id);

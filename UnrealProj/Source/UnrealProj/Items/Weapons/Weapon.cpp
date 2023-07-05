@@ -7,6 +7,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../MyGameInstance.h"
 #include "../../Projectiles/Projectile.h"
+#include "../../Inventory/Inventory.h"
 
 AWeapon::AWeapon()
 {
@@ -17,19 +18,30 @@ AWeapon::AWeapon()
 		Arrow = ARROW.Class;
 }
 
-void AWeapon::UseItem()
+void AWeapon::UseItem(int SlotNumber)
 {
 	// 아이템 장착 구현
+	UE_LOG(LogTemp, Warning, TEXT("Weapon Equip"));
+	auto Player = Inventory->GetPlayer();
+
+	auto EquipedWeapon = Player->GetWeapon();
+	Player->EquipWeapon(this);
+	Inventory->RemoveWeapon(SlotNumber);
+	Inventory->GainNewItem(EquipedWeapon);
+
+	if (Player->GetWeapon()->GetType() == WEAPON_SWORD)
+		UE_LOG(LogTemp, Warning, TEXT("Sword EQUIP!"));
+	if (Player->GetWeapon()->GetType() == WEAPON_ARROW)
+		UE_LOG(LogTemp, Warning, TEXT("Bow EQUIP!"));
 }
 
-void AWeapon::SetItemMesh(int _Id, WEAPONTYPE _Type)
+void AWeapon::SetItemMesh()
 {
-	Super::SetItemMesh(_Id, _Type);
-	Type = _Type;
+	Super::SetItemMesh();
 	if (Type == WEAPON_ARROW)
 		bRight = false;
 
-	FString TypeString = FString::FromInt(_Type);
+	FString TypeString = FString::FromInt(Type);
 	FString IdString = FString::FromInt(Id);
 	FString Directory = TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/");
 	Directory += TypeString + TEXT("/") + IdString + TEXT(".") + IdString + TEXT("'");

@@ -20,9 +20,13 @@ public:
 
 private:
 	void CreateSlot();
+	void UpdateSlotInfo();
 
+	UFUNCTION()
 	void SetInventoryTypeEquip();
+	UFUNCTION()
 	void SetInventoryTypeUse();
+	UFUNCTION()
 	void SetInventoryTypeEtc();
 
 private:
@@ -38,6 +42,14 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UWrapBox* SlotBox;
 
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_EquipWeapon;
+
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_EquipTop;
+
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_EquipPants;
 
 	
 	UPROPERTY()

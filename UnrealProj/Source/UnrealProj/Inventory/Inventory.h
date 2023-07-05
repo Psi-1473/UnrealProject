@@ -21,11 +21,14 @@ protected:
 
 public:
 	InventoryType GetType() { return Type; }
+	TWeakObjectPtr<class AMyPlayer> GetPlayer() { return OwnerPlayer; }
 	TArray<class AItem*> GetInventory();
 
+	void SetType(InventoryType NewType) { Type = NewType; }
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
 	void GainNewItem(class AItem* Item);
+	void RemoveWeapon(int SlotIndex);
 
 private:
 	void GainNewWeapon(class AWeapon* Item);

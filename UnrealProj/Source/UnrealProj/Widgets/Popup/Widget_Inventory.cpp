@@ -14,9 +14,9 @@
 void UWidget_Inventory::NativeConstruct()
 {
 	CreateSlot();
-	//Btn_Equip->OnClicked.AddDynamic(this, &UWidget_Script::PopupShopWidget);
-	//Btn_Use->OnClicked.AddDynamic(this, &UWidget_Script::CloseUI);
-	//Btn_Etc->OnClicked.AddDynamic(this, &UWidget_Script::CloseUI);
+	Btn_Equip->OnClicked.AddDynamic(this, &UWidget_Inventory::SetInventoryTypeEquip);
+	Btn_Use->OnClicked.AddDynamic(this, &UWidget_Inventory::SetInventoryTypeUse);
+	Btn_Etc->OnClicked.AddDynamic(this, &UWidget_Inventory::SetInventoryTypeEtc);
 }
 
 void UWidget_Inventory::CreateSlot()
@@ -26,28 +26,49 @@ void UWidget_Inventory::CreateSlot()
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	
 	for(int i = 0; i < SlotBox->GetChildrenCount(); i++)
-	{
 		Slots.Add(Cast<UWidget_InvenSlot>(SlotBox->GetChildAt(i)));
-		Slots[i]->SetItem(MyPlayer->GetInventory()->GetInventory()[i]);
 
+	UpdateSlotInfo();
+}
+
+void UWidget_Inventory::UpdateSlotInfo()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	for (int i = 0; i < SlotBox->GetChildrenCount(); i++)
+	{
+		Slots[i]->SetItem(MyPlayer->GetInventory()->GetInventory()[i]);
 		Slots[i]->SetImage();
 		Slots[i]->SetCount();
+		Slots[i]->SetSlotIndex(i);
 	}
-	//RefreshSlot(TypeIndex);
 }
+
 
 void UWidget_Inventory::SetInventoryTypeEquip()
 {
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 
-	//MyPlayer->GetInventory()->SetType
+	MyPlayer->GetInventory()->SetType(InventoryType::Equip);
+	UpdateSlotInfo();
 }
 
 void UWidget_Inventory::SetInventoryTypeUse()
 {
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	MyPlayer->GetInventory()->SetType(InventoryType::Use);
+	UpdateSlotInfo();
 }
 
 void UWidget_Inventory::SetInventoryTypeEtc()
 {
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	MyPlayer->GetInventory()->SetType(InventoryType::Etc);
+	UpdateSlotInfo();
 }

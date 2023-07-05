@@ -42,7 +42,7 @@ void UInventory::GainNewWeapon(AWeapon* Item)
 
 	if (Index == -1)
 		return;//ºóÄ­ ¾øÀ½
-
+	Item->SetItemMesh();
 	EquipItems[Index] = Item;
 }
 
@@ -63,11 +63,17 @@ int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 
 void UInventory::GainNewItem(AItem* Item)
 {
+	Item->SetInventory(this);
 	auto Weapon = Cast<AWeapon>(Item);
 	if (Weapon != nullptr) GainNewWeapon(Weapon);
 	
 	auto UseItem = Cast<AUseItem>(Item);
 	if (UseItem != nullptr) GainNewUseItem(UseItem);
+}
+
+void UInventory::RemoveWeapon(int SlotIndex)
+{
+	EquipItems[SlotIndex] = nullptr;
 }
 
 
