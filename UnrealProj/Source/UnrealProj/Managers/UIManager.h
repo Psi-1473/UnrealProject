@@ -13,13 +13,15 @@ class UNREALPROJ_API UIManager
 public:
 	UIManager();
 	~UIManager();
-
+	int GetUiNumber() { return UiNumber; }
 	UUserWidget* PopupUI(UWorld* World, UIType Type);
 	void CloseUI(UIType Type);
 	void SetController(TWeakObjectPtr<class APlayerController> Controller) { PlayerController = Controller; }
 
 public:
+	UPROPERTY()
 	int UiNumber = 0;
+
 	TSubclassOf<UUserWidget> WidgetAsset;
 
 	UPROPERTY()

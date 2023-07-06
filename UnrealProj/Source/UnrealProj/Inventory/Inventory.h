@@ -22,17 +22,18 @@ protected:
 public:
 	InventoryType GetType() { return Type; }
 	TWeakObjectPtr<class AMyPlayer> GetPlayer() { return OwnerPlayer; }
-	TArray<class AItem*> GetInventory();
+	TArray<class AItem*>& GetInventory();
 
 	void SetType(InventoryType NewType) { Type = NewType; }
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
-	void GainNewItem(class AItem* Item);
+	void GainNewItem(class AItem* Item, int SlotIndex = -1);
 	void RemoveWeapon(int SlotIndex);
+	void SwapItem(int DragedIndex, int ArrivedIndex);
 
 private:
-	void GainNewWeapon(class AWeapon* Item);
-	void GainNewUseItem(class AUseItem* Item);
+	void GainNewWeapon(class AWeapon* Item, int SlotIndex = -1);
+	void GainNewUseItem(class AUseItem* Item, int SlotIndex = -1);
 
 	int FindEmptySlotIndex(TArray<class AItem*>& ItemArray);
 

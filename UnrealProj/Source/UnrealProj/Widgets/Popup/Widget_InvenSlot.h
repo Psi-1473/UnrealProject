@@ -15,13 +15,20 @@ class UNREALPROJ_API UWidget_InvenSlot : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	UWidget_InvenSlot(const FObjectInitializer& ObjectInitializer);
+public:
 	virtual void NativeConstruct();
 	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
 
 	void SetItem(class AItem* ItemValue) { SlotItem = ItemValue; }
 	void SetImage();
 	void SetCount();
 	void SetSlotIndex(int16 Value) { SlotIndex = Value; }
+	void SetInvenWidget(TWeakObjectPtr<class UWidget_Inventory> Value) { InvenWidget = Value; }
 
 
 	class AItem* GetItem() { return SlotItem; }
@@ -37,4 +44,9 @@ private:
 	
 	UPROPERTY(meta = (BindWidget))
 	class UImage* Img_Item;
+
+	TWeakObjectPtr<class UWidget_Inventory> InvenWidget;
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UWidget_InvenSlot> DragVisualClass;
 };

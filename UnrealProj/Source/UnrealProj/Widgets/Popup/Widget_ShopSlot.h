@@ -30,6 +30,7 @@ private:
 	ItemType IType;
 	WEAPONTYPE WType;
 
+
 	UPROPERTY()
 	int16 ItemId;
 

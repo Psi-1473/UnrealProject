@@ -16,11 +16,11 @@ class UNREALPROJ_API UWidget_Inventory : public UUserWidget
 	
 public:
 	virtual void NativeConstruct();
-
+	void UpdateSlotInfo();
 
 private:
 	void CreateSlot();
-	void UpdateSlotInfo();
+	
 
 	UFUNCTION()
 	void SetInventoryTypeEquip();

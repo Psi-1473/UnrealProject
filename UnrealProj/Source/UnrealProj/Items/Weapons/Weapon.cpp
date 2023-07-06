@@ -27,7 +27,7 @@ void AWeapon::UseItem(int SlotNumber)
 	auto EquipedWeapon = Player->GetWeapon();
 	Player->EquipWeapon(this);
 	Inventory->RemoveWeapon(SlotNumber);
-	Inventory->GainNewItem(EquipedWeapon);
+	Inventory->GainNewItem(EquipedWeapon, SlotNumber);
 
 	if (Player->GetWeapon()->GetType() == WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword EQUIP!"));

@@ -25,8 +25,11 @@ void UWidget_Inventory::CreateSlot()
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	
-	for(int i = 0; i < SlotBox->GetChildrenCount(); i++)
+	for (int i = 0; i < SlotBox->GetChildrenCount(); i++)
+	{
 		Slots.Add(Cast<UWidget_InvenSlot>(SlotBox->GetChildAt(i)));
+		Slots[i]->SetInvenWidget(this);
+	}
 
 	UpdateSlotInfo();
 }

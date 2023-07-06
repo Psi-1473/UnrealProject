@@ -18,15 +18,15 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 
 	if (PParticle.Succeeded())
 		PlayerParticle = PParticle.Object;
-
-	
-
 }
 
 void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	
 	Super::Execute(OwnerActor, bRangeAttack);
+	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
+		return;
+
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetDefaultValue();
 }

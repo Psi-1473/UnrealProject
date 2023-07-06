@@ -174,6 +174,9 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 {
+	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
+		return;
+
 	if (MyPlayer->GetWeapon()->GetType() != WEAPON_ARROW)
 	{
 		FString Str = FString::FromInt(MyPlayer->GetWeapon()->GetType());
@@ -243,6 +246,9 @@ void AMyPlayerController::IA_Interact(const FInputActionValue& Value)
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 {
+	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
+		return;
+
 	if (Value.Get<bool>())
 	{
 		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))

@@ -9,6 +9,7 @@
 #include "../../EffectActor/SkillRangeActor.h"
 #include "Components/CapsuleComponent.h"
 #include "../../EffectActor/SkillEffectActor.h"
+#include "../../../Items/Weapons/Weapon.h"
 
 UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 {
@@ -30,6 +31,9 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	Super::Execute(OwnerActor, bRangeAttack);
 
 	if (OwnerPlayer->GetState() == OwnerPlayer->GetSpecificState(STATE::ATTACK))
+		return;
+
+	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
 		return;
 
 	OwnerPlayer->SetSkill(this);

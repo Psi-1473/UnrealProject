@@ -22,7 +22,7 @@ void UInventory::BeginPlay()
 	Type = InventoryType::Equip;
 }
 
-TArray<class AItem*> UInventory::GetInventory()
+TArray<class AItem*>& UInventory::GetInventory()
 {
 	if (Type == Equip) return EquipItems;
 	else if (Type == Use) return UseItems;
@@ -30,7 +30,7 @@ TArray<class AItem*> UInventory::GetInventory()
 	
 }
 
-void UInventory::GainNewWeapon(AWeapon* Item)
+void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
 {
 	
 	if(Item->GetType() == WEAPON_SWORD)
@@ -38,7 +38,11 @@ void UInventory::GainNewWeapon(AWeapon* Item)
 	if (Item->GetType() == WEAPON_ARROW)
 		UE_LOG(LogTemp, Warning, TEXT("Bow Gain!"));
 
-	int Index = FindEmptySlotIndex(EquipItems);
+	int Index;
+	if (SlotIndex == -1)
+		Index = FindEmptySlotIndex(EquipItems);
+	else
+		Index = SlotIndex;
 
 	if (Index == -1)
 		return;//ºóÄ­ ¾øÀ½
@@ -46,7 +50,7 @@ void UInventory::GainNewWeapon(AWeapon* Item)
 	EquipItems[Index] = Item;
 }
 
-void UInventory::GainNewUseItem(AUseItem* Item)
+void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("UseItem Gain!"));
 }
@@ -61,19 +65,26 @@ int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 	return -1;
 }
 
-void UInventory::GainNewItem(AItem* Item)
+void UInventory::GainNewItem(AItem* Item, int SlotIndex)
 {
 	Item->SetInventory(this);
 	auto Weapon = Cast<AWeapon>(Item);
-	if (Weapon != nullptr) GainNewWeapon(Weapon);
+	if (Weapon != nullptr) GainNewWeapon(Weapon, SlotIndex);
 	
 	auto UseItem = Cast<AUseItem>(Item);
-	if (UseItem != nullptr) GainNewUseItem(UseItem);
+	if (UseItem != nullptr) GainNewUseItem(UseItem, SlotIndex);
 }
 
 void UInventory::RemoveWeapon(int SlotIndex)
 {
 	EquipItems[SlotIndex] = nullptr;
+}
+
+void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
+{
+	AItem* ItemTemp = GetInventory()[ArrivedIndex];
+	GetInventory()[ArrivedIndex] = GetInventory()[DragedIndex];
+	GetInventory()[DragedIndex] = ItemTemp;
 }
 
 
