@@ -9,7 +9,7 @@
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-	Skills.Init(nullptr, KEY_END);
+	RegisteredSkills.Init(nullptr, KEY_END);
 }
 
 
@@ -20,27 +20,27 @@ void UPlayerSkillComponent::BeginPlay()
 
 void UPlayerSkillComponent::RegisterSkill(int SkillKey, USkill* Skill)
 {
-	Skills[SkillKey] = Skill;
+	RegisteredSkills[SkillKey] = Skill;
 }
 
 void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 {
 	
-	if (Skills[SkillKey] == nullptr)
+	if (RegisteredSkills[SkillKey] == nullptr)
 		return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
 
-	Skills[SkillKey]->Execute(Player, Skills[SkillKey]->GetIsRangeAttack());
+	RegisteredSkills[SkillKey]->Execute(Player, RegisteredSkills[SkillKey]->GetIsRangeAttack());
 }
 
 void UPlayerSkillComponent::CancleCast(int SkillKey)
 {
-	if (Skills[SkillKey] == nullptr)
+	if (RegisteredSkills[SkillKey] == nullptr)
 		return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
-	Skills[SkillKey]->CancleCast(Player);
+	RegisteredSkills[SkillKey]->CancleCast(Player);
 }
 
 

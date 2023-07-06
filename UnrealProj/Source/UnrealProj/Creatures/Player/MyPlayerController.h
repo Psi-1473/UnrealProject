@@ -37,6 +37,8 @@ private:
 	void IA_Push_R(const FInputActionValue& Value);
 	void IA_Inventory(const FInputActionValue& Value);
 	void IA_Interact(const FInputActionValue& Value);
+	void IA_Skill(const FInputActionValue& Value);
+	
 
 	void IA_Sword_Attack(const FInputActionValue& Value);
 private:
@@ -94,6 +96,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* InteractAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* SkillUIAction;
 
 	UPROPERTY(VisibleAnywhere)
 	class AMyPlayer* MyPlayer;

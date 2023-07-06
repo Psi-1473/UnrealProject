@@ -35,6 +35,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_R(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/Skill/IA_SkillR.IA_SkillR'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Inven(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Inventory.IA_Inventory'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Interact(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Interact.IA_Interact'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Skill(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Skill.IA_Skill'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -50,6 +51,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_R.Succeeded()) Push_R = IA_R.Object;
 	if (IA_Inven.Succeeded()) InvenAction = IA_Inven.Object;
 	if (IA_Interact.Succeeded()) InteractAction = IA_Interact.Object;
+	if (IA_Skill.Succeeded()) SkillUIAction = IA_Skill.Object;
 	
 }
 
@@ -77,6 +79,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Push_R, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_R);
 		EnhancedInputComponent->BindAction(InvenAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Inventory);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Interact);
+		EnhancedInputComponent->BindAction(SkillUIAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Skill);
 	}
 
 }
@@ -242,6 +245,12 @@ void AMyPlayerController::IA_Inventory(const FInputActionValue& Value)
 void AMyPlayerController::IA_Interact(const FInputActionValue& Value)
 {
 	MyPlayer->Interact();
+}
+
+void AMyPlayerController::IA_Skill(const FInputActionValue& Value)
+{
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Skill);
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)

@@ -22,8 +22,10 @@ public:
 	void RegisterSkill(int SkillKey, class USkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
+	void AddSkill(class USkill* Skill) { Skills.Add(Skill); };
 
 private:
 	UPROPERTY()
 	TArray<class USkill*> Skills;
+	TArray<class USkill*> RegisteredSkills;
 };
