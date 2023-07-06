@@ -24,8 +24,12 @@ public:
 	void CancleCast(int SkillKey);
 	void AddSkill(class USkill* Skill) { Skills.Add(Skill); };
 
+	int GetSkillNumber() { return Skills.Num(); }
+	TArray<class USkill*>& GetSkills() { return Skills; }
 private:
 	UPROPERTY()
 	TArray<class USkill*> Skills;
+
+	UPROPERTY()
 	TArray<class USkill*> RegisteredSkills;
 };

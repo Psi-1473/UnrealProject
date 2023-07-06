@@ -25,7 +25,9 @@ public:
 	virtual void CancleCast(AActor* OwnerActor);
 	virtual void CastToExecute(AActor* OwnerActor);
 
+	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
+	FString GetSkillName() { return Name; }
 	bool GetIsRangeAttack() { return bRange; }
 protected:
 	WEAPONTYPE WeaponType;
@@ -36,6 +38,12 @@ protected:
 	UPROPERTY()
 	int32 Id;// Id
 	
+	UPROPERTY()
+	FString Name;
+
+	UPROPERTY()
+	UTexture2D* Txt;
+
 	UPROPERTY()
 	bool bRange;
 

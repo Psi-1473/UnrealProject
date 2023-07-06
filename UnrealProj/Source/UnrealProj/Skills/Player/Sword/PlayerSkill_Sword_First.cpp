@@ -8,21 +8,29 @@
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/Image.h"
+#include "Engine/Texture2D.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
 	Id = 1;
 	WeaponType = WEAPON_SWORD;
 	bRange = false;
+	Name = TEXT("Sword 1");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_1.BP_Effect_0_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PARTICLE_Player(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Whrilwind.P_Aurora_Freeze_Whrilwind'"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Swrod1.Swrod1'"));
 
+	
 	if (EFFECT.Succeeded())
 		Effect = EFFECT.Class;
 
 	if (PARTICLE_Player.Succeeded())
 		PlayerParticle = PARTICLE_Player.Object;
+
+	if (IMG.Succeeded())
+		Txt = IMG.Object;
 }
 
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)

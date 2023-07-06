@@ -8,6 +8,7 @@
 #include "EffectActor//SkillEffectActor.h"
 #include "EffectActor//SkillRangeActor.h"
 #include "../State/CharacterState.h"
+#include "Components/Image.h"
 
 void USkill::SetDefaultValue()
 {
@@ -62,3 +63,4 @@ void USkill::CastToExecute(AActor* OwnerActor)
 {
 	
 }
+

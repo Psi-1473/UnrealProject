@@ -10,24 +10,31 @@
 #include "../../EffectActor/Player/SEA_Sword_SecondDash.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
-
+#include "Components/Image.h"
+#include "Engine/Texture2D.h"
 
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
 	Id = 2;
 	WeaponType = WEAPON_SWORD;
 	bRange = false;
+	Name = TEXT("Sword 2");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_2_Dash.BP_Effect_0_2_Dash_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Spawn.P_Aurora_Decoy_Spawn'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> DP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Explode_Fragments.P_Aurora_Decoy_Explode_Fragments'"));
-	
+	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Sword2.Sword2'"));
+
+
 	if (EFFECT.Succeeded())
 		Effect = EFFECT.Class;
 	if (PP.Succeeded())
 		PlayerParticle = PP.Object;
 	if (DP.Succeeded())
 		DestroyParticle = DP.Object;
+	if (IMG.Succeeded())
+		Txt = IMG.Object;
+
 }
 
 void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)

@@ -10,17 +10,24 @@
 #include "Components/CapsuleComponent.h"
 #include "../../EffectActor/SkillEffectActor.h"
 #include "../../../Items/Weapons/Weapon.h"
+#include "Engine/Texture2D.h"
+#include "Components/Image.h"
+
 
 UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 {
 	Id = 1;
 	WeaponType = WEAPON_ARROW;
 	bRange = true;
+	Name = TEXT("Bow 1");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/1/BP_Effect_1_1.BP_Effect_1_1_C'"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow2.Arrow2'"));
 
-	if (EFFECT.Succeeded())
-		Effect = EFFECT.Class;
+	if (EFFECT.Succeeded()) Effect = EFFECT.Class;
+
+	if (IMG.Succeeded())
+		Txt = IMG.Object;
 
 
 

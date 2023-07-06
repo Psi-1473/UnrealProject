@@ -28,6 +28,7 @@ void UWidget_Shop::CreateSlot(TWeakObjectPtr<class ANpc> Npc)
 	{
 		Slot = CreateWidget(GetWorld(), BP_Slot);
 		SlotBox->AddChild(Slot);
+		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
 		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
 		ShopSlot->SetSlot(GInstance, ITEM_SWORD, Npc->GetSwordIds()[i]);
 	}
@@ -36,6 +37,7 @@ void UWidget_Shop::CreateSlot(TWeakObjectPtr<class ANpc> Npc)
 	{
 		Slot = CreateWidget(GetWorld(), BP_Slot);
 		SlotBox->AddChild(Slot);
+		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
 		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
 		ShopSlot->SetSlot(GInstance, ITEM_BOW, Npc->GetBowIds()[i]);
 	}
@@ -44,6 +46,7 @@ void UWidget_Shop::CreateSlot(TWeakObjectPtr<class ANpc> Npc)
 	{
 		Slot = CreateWidget(GetWorld(), BP_Slot);
 		SlotBox->AddChild(Slot);
+		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
 		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
 		ShopSlot->SetSlot(GInstance, ITEM_USE, Npc->GetUseItemIds()[i]);
 	}

@@ -4,31 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "Widget_Skill.generated.h"
+#include "Widget_PlayerMain.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API UWidget_Skill : public UUserWidget
+class UNREALPROJ_API UWidget_PlayerMain : public UUserWidget
 {
 	GENERATED_BODY()
 public:
-	UWidget_Skill(const FObjectInitializer& ObjectInitializer);
 	virtual void NativeConstruct() override;
-	
-	void CreateSlot();
+private:
+	void SetSkillQuick();
+	void SetItemQuick();
 
 private:
 	UPROPERTY(meta = (BindWidget))
-		class UButton* Btn_Exit;
+	class UHorizontalBox* SkillBox;
 
 	UPROPERTY(meta = (BindWidget))
-		class UScrollBox* SkillSlot;
-	
+	class UHorizontalBox* ItemBox;
+
 	UPROPERTY()
-	TArray<class UWidget_SkillSlot*> Slots;
+	TArray<class UWidget_SkillQuick*> SkillQuickSlots;
+
+	UPROPERTY()
+	TArray<class UWidget_ItemQuick*> ItemQuickSlots;
 	
-	TSubclassOf<UUserWidget> BP_Slot;
-	UUserWidget* Slot;
 };

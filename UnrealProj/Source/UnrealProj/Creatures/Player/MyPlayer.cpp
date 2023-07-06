@@ -81,16 +81,16 @@ void AMyPlayer::BeginPlay()
 	NewWeapon->SetId(0);
 	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
-	//TEMP : Skill Sword
-	//UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
-	//SkillComponent->RegisterSkill(KEY_E, NewSkill);
-	//UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
-	//SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
-	// SKILL : ARROW
-	UPlayerSkill_Bow_First* NewSkill = NewObject<UPlayerSkill_Bow_First>();
-	SkillComponent->RegisterSkill(KEY_E, NewSkill);
-	UPlayerSkill_Bow_Second* NewSkill2 = NewObject<UPlayerSkill_Bow_Second>();
-	SkillComponent->RegisterSkill(KEY_Q, NewSkill2);
+//	TEMP : Skill Sword
+	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
+	SkillComponent->AddSkill(NewSkill);
+	UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
+	SkillComponent->AddSkill(NewSkill2);
+//	SKILL: ARROW
+	UPlayerSkill_Bow_First* NewBowSkill = NewObject<UPlayerSkill_Bow_First>();
+	SkillComponent->AddSkill(NewBowSkill);
+	UPlayerSkill_Bow_Second* NewBowSkill2 = NewObject<UPlayerSkill_Bow_Second>();
+	SkillComponent->AddSkill(NewBowSkill2);
 	
 
 	if (StateMachine == nullptr)
