@@ -15,6 +15,9 @@ class UNREALPROJ_API UWidget_SkillSlot : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+
 	void SetSkill(class USkill* Value) { Skill = Value; }
 	void SetInfo();
 
@@ -28,4 +31,7 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_Name;
 
+public:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<class UWidget_InvenSlot> DragVisualClass;
 };

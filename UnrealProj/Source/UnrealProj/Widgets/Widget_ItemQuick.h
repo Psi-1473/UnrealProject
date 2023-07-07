@@ -14,4 +14,20 @@ class UNREALPROJ_API UWidget_ItemQuick : public UWidget_QuickSlot
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
+
+	class AItem* GetItem() { return QuickItem; }
+
+	void SetItem(class AItem* Item) { QuickItem = Item; }
+	void SetImage();
+private:
+	
+	//void SetCount();
+private:
+	UPROPERTY()
+	class AItem* QuickItem;
+
+
 };

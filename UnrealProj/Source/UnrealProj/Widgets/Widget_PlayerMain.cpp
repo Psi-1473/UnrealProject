@@ -8,6 +8,7 @@
 #include "Widget_ItemQuick.h"
 #include "../DEFINE.h"
 #include "Components/TextBlock.h"
+#include "../Items/Item.h"
 
 const int SkillSlotCount = 3;
 const int ItemSlotCount = 3;
@@ -18,31 +19,48 @@ void UWidget_PlayerMain::NativeConstruct()
 	SetItemQuick();
 }
 
+void UWidget_PlayerMain::SwapSkillQuickSlot(int From, int To)
+{
+}
+
+void UWidget_PlayerMain::SwapItemQuickSlot(int From, int To)
+{
+	AItem* Item = ItemQuickSlots[From]->GetItem();
+	ItemQuickSlots[From]->SetItem(ItemQuickSlots[To]->GetItem());
+	ItemQuickSlots[From]->SetImage();
+	ItemQuickSlots[To]->SetItem(Item);
+	ItemQuickSlots[To]->SetImage();
+	// 등록된 키도 변경
+}
+
 void UWidget_PlayerMain::SetSkillQuick()
 {
 	for (int i = 0; i < SkillSlotCount; i++)
 	{
 		auto SkillQuick = Cast<UWidget_SkillQuick>(SkillBox->GetChildAt(i));
 		SkillQuickSlots.Add(SkillQuick);
-		
+		SkillQuickSlots[i]->SetSlotIndex(i);
+		SkillQuickSlots[i]->SetMainWidget(this);
 		// 0 - Q
 		// 1 - E
 		// 2 - R
 	}
-	//SkillQuickSlots[KEY_Q]->GetTextKey()->SetText(FText::FromString(*TEXT("Q")));
-	//SkillQuickSlots[KEY_E]->GetTextKey()->SetText(FText::FromString(*TEXT("E")));
-	//SkillQuickSlots[KEY_R]->GetTextKey()->SetText(FText::FromString(*TEXT("R")));
+	SkillQuickSlots[KEY_Q]->GetTextKey()->SetText(FText::FromString(TEXT("Q")));
+	SkillQuickSlots[KEY_E]->GetTextKey()->SetText(FText::FromString(TEXT("E")));
+	SkillQuickSlots[KEY_R]->GetTextKey()->SetText(FText::FromString(TEXT("R")));
 }
 
 void UWidget_PlayerMain::SetItemQuick()
 {
 	for (int i = 0; i < SkillSlotCount; i++)
 	{
-		auto ItemQuick = Cast<UWidget_ItemQuick>(SkillBox->GetChildAt(i));
+		auto ItemQuick = Cast<UWidget_ItemQuick>(ItemBox->GetChildAt(i));
 		ItemQuickSlots.Add(ItemQuick);
-		//ItemQuickSlots[i]->GetTextKey()->SetText(FText::FromString(*FString::FromInt(i+1)));
-		// 0 - 1
-		// 1 - 2
-		// 2 - 3
+		ItemQuickSlots[i]->SetSlotIndex(i);
+		ItemQuickSlots[i]->GetTextKey()->SetText(FText::FromString(FString::FromInt(i+1)));
+		ItemQuickSlots[i]->SetMainWidget(this);
+		 //0 - 1
+		 //1 - 2
+		 //2 - 3
 	}
 }

@@ -26,6 +26,7 @@ public:
 
 	void SetItem(class AItem* ItemValue) { SlotItem = ItemValue; }
 	void SetImage();
+	void SetImage(class UImage* Img);
 	void SetCount();
 	void SetSlotIndex(int16 Value) { SlotIndex = Value; }
 	void SetInvenWidget(TWeakObjectPtr<class UWidget_Inventory> Value) { InvenWidget = Value; }

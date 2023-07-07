@@ -15,6 +15,7 @@ class UNREALPROJ_API UWidget_Skill : public UUserWidget
 	GENERATED_BODY()
 public:
 	UWidget_Skill(const FObjectInitializer& ObjectInitializer);
+
 	virtual void NativeConstruct() override;
 	
 	void CreateSlot();
@@ -31,4 +32,6 @@ private:
 	
 	TSubclassOf<UUserWidget> BP_Slot;
 	UUserWidget* Slot;
+
+
 };

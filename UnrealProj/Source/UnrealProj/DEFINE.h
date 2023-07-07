@@ -59,7 +59,11 @@ enum InventoryType
 	Etc,
 };
 
-
+enum class DragType
+{
+	Skill,
+	Item,
+};
 
 enum SKILLKEYS
 {

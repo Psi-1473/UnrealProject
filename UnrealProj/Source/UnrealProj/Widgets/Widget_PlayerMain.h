@@ -15,9 +15,13 @@ class UNREALPROJ_API UWidget_PlayerMain : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	void SwapSkillQuickSlot(int From, int To);
+	void SwapItemQuickSlot(int From, int To);
+
 private:
 	void SetSkillQuick();
 	void SetItemQuick();
+	
 
 private:
 	UPROPERTY(meta = (BindWidget))

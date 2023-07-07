@@ -70,7 +70,9 @@ void UWidget_InvenSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 		UDragWidget* DragOper = NewObject<UDragWidget>();
 		OutOperation = DragOper;
 		DragOper->SlotItem = SlotItem;
+		DragOper->Type = DragType::Item;
 		DragOper->SlotIndex = SlotIndex;
+		DragOper->bFromQuickSlot = false;
 
 		if (DragVisualClass != nullptr)
 		{
@@ -107,6 +109,8 @@ bool UWidget_InvenSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 			return true;
 		}
 
+		if (DragOper->bFromQuickSlot)
+			return false;
 		// 스왑
 		// 1. Inventory 정보 변경
 		// 2. 업데이트
@@ -135,7 +139,12 @@ void UWidget_InvenSlot::SetImage()
 	Img_Item->SetVisibility(ESlateVisibility::Visible);
 	auto GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	Img_Item->SetBrush(SlotItem->GetItemImage(GInstance)->Brush);
-} 
+}
+void UWidget_InvenSlot::SetImage(UImage* Img)
+{
+	Img_Item->SetBrush(Img->Brush);
+}
+
 
 void UWidget_InvenSlot::SetCount()
 {

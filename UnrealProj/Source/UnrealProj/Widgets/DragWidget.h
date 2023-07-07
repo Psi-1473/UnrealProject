@@ -16,10 +16,17 @@ class UNREALPROJ_API UDragWidget : public UDragDropOperation
 	GENERATED_BODY()
 
 public:
+	DragType Type;
+	UPROPERTY(EditAnyWhere)
+	bool bFromQuickSlot;
+
 	UPROPERTY(EditAnyWhere)
 	int SlotIndex;
 
 	UPROPERTY(EditAnyWhere)
 	class AItem* SlotItem;
+
+	UPROPERTY(EditAnyWhere)
+	class USkill* Skill;
 	
 };
