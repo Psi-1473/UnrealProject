@@ -9,6 +9,8 @@
 #include "../DEFINE.h"
 #include "Components/TextBlock.h"
 #include "../Items/Item.h"
+#include "../Skills/Skill.h"
+#include "../Skills/Components/PlayerSkillComponent.h"
 
 const int SkillSlotCount = 3;
 const int ItemSlotCount = 3;
@@ -19,8 +21,17 @@ void UWidget_PlayerMain::NativeConstruct()
 	SetItemQuick();
 }
 
-void UWidget_PlayerMain::SwapSkillQuickSlot(int From, int To)
+void UWidget_PlayerMain::SwapSkillQuickSlot(UPlayerSkillComponent* SkillComponent, int From, int To)
 {
+	USkill* Skill = SkillQuickSlots[From]->GetSkill();
+	SkillQuickSlots[From]->SetSkill(SkillQuickSlots[To]->GetSkill());
+	SkillQuickSlots[From]->SetImage();
+	SkillQuickSlots[To]->SetSkill(Skill);
+	SkillQuickSlots[To]->SetImage();
+	// 등록된 키 변경 (완)
+	SkillComponent->RegisterSkill(From, SkillQuickSlots[From]->GetSkill());
+	SkillComponent->RegisterSkill(To, SkillQuickSlots[To]->GetSkill());
+	
 }
 
 void UWidget_PlayerMain::SwapItemQuickSlot(int From, int To)
@@ -31,6 +42,11 @@ void UWidget_PlayerMain::SwapItemQuickSlot(int From, int To)
 	ItemQuickSlots[To]->SetItem(Item);
 	ItemQuickSlots[To]->SetImage();
 	// 등록된 키도 변경
+}
+
+void UWidget_PlayerMain::PressQuickSlot(int Index)
+{
+	ItemQuickSlots[Index]->UseItem();
 }
 
 void UWidget_PlayerMain::SetSkillQuick()

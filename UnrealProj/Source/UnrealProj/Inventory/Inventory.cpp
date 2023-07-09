@@ -53,6 +53,24 @@ void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
 void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("UseItem Gain!"));
+	int Index;
+	int HavingIndex;
+
+	HavingIndex = FindItem(UseItems, Item->GetId());
+	if (HavingIndex != -1)
+	{
+		UseItems[HavingIndex]->SetCount(UseItems[HavingIndex]->GetCount() + 1);
+		return;
+	}
+
+	if (SlotIndex == -1)
+		Index = FindEmptySlotIndex(UseItems);
+	else
+		Index = SlotIndex;
+
+	if (Index == -1)
+		return;//ºóÄ­ ¾øÀ½
+	UseItems[Index] = Item;
 }
 
 int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
@@ -62,6 +80,17 @@ int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 		if (ItemArray[i] == nullptr) return i;
 	}
 
+	return -1;
+}
+
+int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
+{
+	for (int i = 0; i < MAX_Inventory; i++)
+	{
+		if (ItemArray[i] == nullptr) continue;
+		if (ItemArray[i]->GetId() == Id && ItemArray[i]->GetCount() < 10)
+			return i;
+	}
 	return -1;
 }
 

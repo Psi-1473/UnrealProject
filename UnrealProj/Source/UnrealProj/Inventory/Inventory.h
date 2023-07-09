@@ -27,7 +27,7 @@ public:
 	void SetType(InventoryType NewType) { Type = NewType; }
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
-	void GainNewItem(class AItem* Item, int SlotIndex = -1);
+	void GainNewItem(class AItem* Item, int SlotIndex = -1); // SlotIndex는 인벤토리 특정 위치에 바로 아이템을 넣는지 확인하기 위해 사용 (ex. 아이템 끌어당겨서 넣기)
 	void RemoveWeapon(int SlotIndex);
 	void SwapItem(int DragedIndex, int ArrivedIndex);
 
@@ -36,6 +36,7 @@ private:
 	void GainNewUseItem(class AUseItem* Item, int SlotIndex = -1);
 
 	int FindEmptySlotIndex(TArray<class AItem*>& ItemArray);
+	int FindItem(TArray<class AItem*>& ItemArray, int Id);
 
 private:
 	InventoryType Type;

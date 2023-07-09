@@ -25,10 +25,14 @@ public:
 	virtual void CancleCast(AActor* OwnerActor);
 	virtual void CastToExecute(AActor* OwnerActor);
 
+	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
+	
 	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }
 	bool GetIsRangeAttack() { return bRange; }
+
+	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 protected:
 	WEAPONTYPE WeaponType;
 
@@ -57,5 +61,5 @@ protected:
 	FTimerHandle CoolDownTimer; // 쿨타임 타이머
 
 	UPROPERTY();
-	class AMyPlayer* OwnerPlayer; // 사용한 플레이어
+	TWeakObjectPtr<class AMyPlayer> OwnerPlayer; // 사용한 플레이어
 };

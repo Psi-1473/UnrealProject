@@ -72,6 +72,7 @@ AWeapon* UWidget_ShopSlot::CreateNewWeapon()
 {
 	AWeapon* Weapon = NewObject<AWeapon>();
 	Weapon->SetId(ItemId);
+	Weapon->SetCount(1);
 	Weapon->SetWeaponType(WType);
 	
 	return Weapon;
@@ -82,6 +83,7 @@ AUseItem* UWidget_ShopSlot::CreateNewUseItem()
 {
 	AUseItem* UseItem = NewObject<AUseItem>();
 	UseItem->SetId(ItemId);
+	UseItem->SetCount(1);
 
 	return UseItem;
 }

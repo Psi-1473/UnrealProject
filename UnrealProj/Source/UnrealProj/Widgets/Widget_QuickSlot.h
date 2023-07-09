@@ -31,6 +31,7 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_Key;
 
+	UPROPERTY()
 	TWeakObjectPtr<class UWidget_PlayerMain> MainWidget;
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

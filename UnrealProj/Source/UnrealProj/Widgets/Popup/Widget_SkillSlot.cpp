@@ -43,7 +43,7 @@ void UWidget_SkillSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
 			UWidget_InvenSlot* VisualWidget = CreateWidget<UWidget_InvenSlot>(GetWorld(), DragVisualClass);
 			VisualWidget->SetVisibility(ESlateVisibility::Visible);
-			VisualWidget->SetImage(Img_Skill);
+			VisualWidget->SetImage(Skill->GetTexture());
 			VisualWidget->SetPositionInViewport(InMouseEvent.GetScreenSpacePosition());
 			DragOper->DefaultDragVisual = VisualWidget;
 		}

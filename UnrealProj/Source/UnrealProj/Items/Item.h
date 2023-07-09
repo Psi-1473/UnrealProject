@@ -41,6 +41,9 @@ protected:
 	int Id;
 
 	UPROPERTY()
+	int16 SlotIndex;
+
+	UPROPERTY()
 	TWeakObjectPtr<class UInventory> Inventory;
 
 	UPROPERTY()

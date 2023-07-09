@@ -10,6 +10,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
+#include "../../../Items/Weapons/Weapon.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
@@ -36,6 +37,8 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	Super::Execute(OwnerActor, bRangeAttack);
+	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
+		return;
 	SetDefaultValue();
 }
 
@@ -58,7 +61,7 @@ void UPlayerSkill_Sword_First::SetParticleTimer()
 			return;
 
 		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = OwnerPlayer;
+		SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 		SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 		FRotator SpawnRot = OwnerPlayer->GetActorRotation() + FRotator(0.f, RotZ[SpawnCount], 0.f);

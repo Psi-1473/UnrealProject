@@ -5,6 +5,41 @@
 #include "DragWidget.h"
 #include "Components/Image.h"
 #include "../Skills/Skill.h"
+#include "../Skills/Components/PlayerSkillComponent.h"
+#include "../Creatures/Player/MyPlayer.h"
+#include "Popup/Widget_InvenSlot.h"
+#include "Widget_PlayerMain.h"
+
+void UWidget_SkillQuick::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
+{
+	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
+
+	if (OutOperation == nullptr)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Start"));
+
+		UDragWidget* DragOper = NewObject<UDragWidget>();
+		OutOperation = DragOper;
+		DragOper->Skill = QuickSkill;
+		DragOper->Type = DragType::Skill;
+		DragOper->SlotIndex = QuickSlotIndex;
+		DragOper->bFromQuickSlot = true;
+
+		if (DragVisualClass != nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
+			UWidget_InvenSlot* VisualWidget = CreateWidget<UWidget_InvenSlot>(GetWorld(), DragVisualClass);
+			VisualWidget->SetVisibility(ESlateVisibility::Visible);
+			VisualWidget->SetImage(QuickSkill->GetTexture());
+			VisualWidget->SetPositionInViewport(InMouseEvent.GetScreenSpacePosition());
+			DragOper->DefaultDragVisual = VisualWidget;
+		}
+	}
+	else
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Again"));
+	}
+}
 
 bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation)
 {
@@ -26,14 +61,16 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill Droped"));
 			QuickSkill = DragOper->Skill;
-			SetImage(QuickSkill->GetTexture());
+			SetImage();
 			// Å°¿¡ ½ºÅ³ µî·Ï
+			QuickSkill->GetOwnerPlayer()->GetSkillComponent()->RegisterSkill(QuickSlotIndex, QuickSkill);
 			return true;
 		}
 		else
 		{
 			// Äü½½·Ô³¢¸® ½º¿Ò
-			//MainWidget->SwapItemQuickSlot(DragOper->SlotIndex, QuickSlotIndex);
+			MainWidget->SwapSkillQuickSlot(QuickSkill->GetOwnerPlayer()->GetSkillComponent(), DragOper->SlotIndex, QuickSlotIndex);
+
 			return true;
 		}
 	}
@@ -42,6 +79,17 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging false"));
 		return false;
 	}
+}
+
+void UWidget_SkillQuick::SetImage()
+{
+	if (QuickSkill == nullptr)
+	{
+		Img_Object->SetVisibility(ESlateVisibility::Hidden);
+		return;
+	}
+	Img_Object->SetVisibility(ESlateVisibility::Visible);
+	SetImage(QuickSkill->GetTexture());
 }
 
 void UWidget_SkillQuick::SetImage(UTexture2D* Texture)

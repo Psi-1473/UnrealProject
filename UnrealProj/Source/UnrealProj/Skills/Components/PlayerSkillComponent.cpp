@@ -5,6 +5,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../State/CharacterState.h"
 #include "../../State/StateMachine.h"
+#include "../../Creatures/Player/MyPlayer.h"
 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -41,6 +42,12 @@ void UPlayerSkillComponent::CancleCast(int SkillKey)
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
 	RegisteredSkills[SkillKey]->CancleCast(Player);
+}
+
+void UPlayerSkillComponent::AddSkill(USkill* Skill)
+{
+	Skill->SetOwnerPlayer(OwnerPlayer);
+	Skills.Add(Skill);
 }
 
 

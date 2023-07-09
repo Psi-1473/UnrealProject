@@ -19,6 +19,8 @@
 #include "../../Skills/Skill.h"
 #include "../../MyGameInstance.h"
 #include "../../Managers/UIManager.h"
+#include "../../MyGameMode.h"
+#include "../../Widgets/Widget_PlayerMain.h"
 
 
 AMyPlayerController::AMyPlayerController()
@@ -36,6 +38,9 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Inven(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Inventory.IA_Inventory'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Interact(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Interact.IA_Interact'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Skill(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/UI/IA_Skill.IA_Skill'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick1(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick1.IA_Quick1'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick2(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick2.IA_Quick2'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick3(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick3.IA_Quick3'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -52,6 +57,9 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_Inven.Succeeded()) InvenAction = IA_Inven.Object;
 	if (IA_Interact.Succeeded()) InteractAction = IA_Interact.Object;
 	if (IA_Skill.Succeeded()) SkillUIAction = IA_Skill.Object;
+	if (IA_Quick1.Succeeded()) Quick1 = IA_Quick1.Object;
+	if (IA_Quick2.Succeeded()) Quick2 = IA_Quick2.Object;
+	if (IA_Quick3.Succeeded()) Quick3 = IA_Quick3.Object;
 	
 }
 
@@ -80,6 +88,9 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(InvenAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Inventory);
 		EnhancedInputComponent->BindAction(InteractAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Interact);
 		EnhancedInputComponent->BindAction(SkillUIAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Skill);
+		EnhancedInputComponent->BindAction(Quick1, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick1);
+		EnhancedInputComponent->BindAction(Quick2, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick2);
+		EnhancedInputComponent->BindAction(Quick3, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick3);
 	}
 
 }
@@ -251,6 +262,48 @@ void AMyPlayerController::IA_Skill(const FInputActionValue& Value)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
 	GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Skill);
+}
+
+void AMyPlayerController::IA_Quick1(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (MyGameMode == nullptr) return;
+
+		auto MainWidget = Cast<UWidget_PlayerMain>(MyGameMode->GetCurrentWidget());
+		if (MainWidget == nullptr) return;
+
+		MainWidget->PressQuickSlot(0);
+	}
+}
+
+void AMyPlayerController::IA_Quick2(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (MyGameMode == nullptr) return;
+
+		auto MainWidget = Cast<UWidget_PlayerMain>(MyGameMode->GetCurrentWidget());
+		if (MainWidget == nullptr) return;
+
+		MainWidget->PressQuickSlot(1);
+	}
+}
+
+void AMyPlayerController::IA_Quick3(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		if (MyGameMode == nullptr) return;
+
+		auto MainWidget = Cast<UWidget_PlayerMain>(MyGameMode->GetCurrentWidget());
+		if (MainWidget == nullptr) return;
+
+		MainWidget->PressQuickSlot(2);
+	}
 }
 
 void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)

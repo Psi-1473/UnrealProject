@@ -16,6 +16,8 @@ class UNREALPROJ_API AMyGameMode : public AGameModeBase
 	
 public:
 	AMyGameMode();
+	UUserWidget* GetCurrentWidget() { return CurrentWidget; }
+
 
 private:
 	UPROPERTY(VisibleAnywhere)

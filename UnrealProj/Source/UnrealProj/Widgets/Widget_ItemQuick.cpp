@@ -9,6 +9,7 @@
 #include "../MyGameInstance.h"
 #include "Popup/Widget_InvenSlot.h"
 #include "Widget_PlayerMain.h"
+#include "Components/TextBlock.h"
 
 
 void UWidget_ItemQuick::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
@@ -91,4 +92,28 @@ void UWidget_ItemQuick::SetImage()
 	}
 	Img_Object->SetVisibility(ESlateVisibility::Visible);
 	Img_Object->SetBrush(QuickItem->GetItemImage(Cast<UMyGameInstance>(GetWorld()->GetGameInstance()))->Brush);
+}
+
+void UWidget_ItemQuick::UseItem()
+{
+	if (QuickItem == nullptr)
+		return;
+
+	QuickItem->SetCount(QuickItem->GetCount() - 1);
+	if (QuickItem->GetCount() == 0)
+	{
+		QuickItem = nullptr;
+		SetImage();
+	}
+	SetTextCount();
+}
+
+void UWidget_ItemQuick::SetTextCount()
+{
+	if (QuickItem == nullptr)
+	{
+		Text_Count->SetText(FText::FromString(TEXT("")));
+		return;
+	}
+	Text_Count->SetText(FText::FromString(FString::FromInt(QuickItem->GetCount())));
 }

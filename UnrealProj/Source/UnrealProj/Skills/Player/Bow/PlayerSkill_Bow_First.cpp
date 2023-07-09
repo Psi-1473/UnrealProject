@@ -48,7 +48,7 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerPlayer->SetState(STATE::SKILLCAST);
 
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerPlayer;
+	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 	FRotator SpawnRot = OwnerPlayer->GetActorRotation();
@@ -76,7 +76,7 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	SetDefaultValue();
 
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerPlayer; 
+	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 	FRotator SpawnRot = OwnerPlayer->GetSpawnedRangeActor()->GetActorRotation();

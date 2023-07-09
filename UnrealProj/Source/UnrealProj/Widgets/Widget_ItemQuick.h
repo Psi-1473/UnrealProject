@@ -22,10 +22,15 @@ public:
 
 	void SetItem(class AItem* Item) { QuickItem = Item; }
 	void SetImage();
+	void UseItem();
+	void SetTextCount();
 private:
 	
 	//void SetCount();
 private:
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Count;
+
 	UPROPERTY()
 	class AItem* QuickItem;
 

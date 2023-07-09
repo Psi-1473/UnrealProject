@@ -43,7 +43,7 @@ void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 {
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerPlayer;
+	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 	FVector CameraLocation;

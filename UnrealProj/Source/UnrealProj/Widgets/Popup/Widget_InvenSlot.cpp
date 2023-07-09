@@ -140,9 +140,9 @@ void UWidget_InvenSlot::SetImage()
 	auto GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	Img_Item->SetBrush(SlotItem->GetItemImage(GInstance)->Brush);
 }
-void UWidget_InvenSlot::SetImage(UImage* Img)
+void UWidget_InvenSlot::SetImage(class UTexture2D* Img)
 {
-	Img_Item->SetBrush(Img->Brush);
+	Img_Item->SetBrushFromTexture(Img);
 }
 
 

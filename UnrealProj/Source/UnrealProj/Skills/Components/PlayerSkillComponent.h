@@ -19,10 +19,11 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 	void RegisterSkill(int SkillKey, class USkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
-	void AddSkill(class USkill* Skill) { Skills.Add(Skill); };
+	void AddSkill(class USkill* Skill);
 
 	int GetSkillNumber() { return Skills.Num(); }
 	TArray<class USkill*>& GetSkills() { return Skills; }
@@ -32,4 +33,7 @@ private:
 
 	UPROPERTY()
 	TArray<class USkill*> RegisteredSkills;
+
+	UPROPERTY()
+	TWeakObjectPtr<class AMyPlayer> OwnerPlayer;
 };

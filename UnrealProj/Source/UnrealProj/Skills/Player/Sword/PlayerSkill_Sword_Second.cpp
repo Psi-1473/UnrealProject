@@ -56,7 +56,7 @@ void UPlayerSkill_Sword_Second::PlayParticle(AActor* OwnerActor)
 	if (Effect == nullptr)
 		return;
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = OwnerPlayer;
+	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 	FRotator SpawnRot = OwnerPlayer->GetActorRotation();
