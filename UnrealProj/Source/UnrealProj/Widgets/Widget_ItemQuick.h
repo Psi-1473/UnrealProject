@@ -20,8 +20,8 @@ public:
 
 	class AItem* GetItem() { return QuickItem; }
 
-	void SetItem(class AItem* Item) { QuickItem = Item; }
-	void SetImage();
+	void SetItem(class AItem* Item);
+	virtual void SetImage() override;
 	void UseItem();
 	void SetTextCount();
 private:

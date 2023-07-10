@@ -37,7 +37,7 @@ FReply UWidget_InvenSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeom
 	UE_LOG(LogTemp, Warning, TEXT("Double Clicked!"));
 	if (SlotItem != nullptr)
 	{
-		SlotItem->UseItem(SlotIndex);
+		SlotItem->UseItem();
 		InvenWidget->UpdateSlotInfo();
 	}
 
@@ -52,6 +52,8 @@ FReply UWidget_InvenSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, c
 	if(InMouseEvent.IsMouseButtonDown(EKeys::RightMouseButton) == true)
 		return Reply.NativeReply;
 
+	if(SlotItem == nullptr)
+		return Reply.NativeReply;
 
 	Reply = UWidgetBlueprintLibrary::DetectDragIfPressed(InMouseEvent, this, EKeys::LeftMouseButton);
 

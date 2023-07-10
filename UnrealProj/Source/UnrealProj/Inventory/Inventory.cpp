@@ -47,7 +47,9 @@ void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
 	if (Index == -1)
 		return;//ºóÄ­ ¾øÀ½
 	Item->SetItemMesh();
+	Item->SetSlotIndex(Index);
 	EquipItems[Index] = Item;
+	
 }
 
 void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
@@ -70,6 +72,7 @@ void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
 
 	if (Index == -1)
 		return;//ºóÄ­ ¾øÀ½
+	Item->SetSlotIndex(Index);
 	UseItems[Index] = Item;
 }
 
@@ -104,9 +107,9 @@ void UInventory::GainNewItem(AItem* Item, int SlotIndex)
 	if (UseItem != nullptr) GainNewUseItem(UseItem, SlotIndex);
 }
 
-void UInventory::RemoveWeapon(int SlotIndex)
+void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
 {
-	EquipItems[SlotIndex] = nullptr;
+	ItemArray[Index] = nullptr;
 }
 
 void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
@@ -114,6 +117,13 @@ void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
 	AItem* ItemTemp = GetInventory()[ArrivedIndex];
 	GetInventory()[ArrivedIndex] = GetInventory()[DragedIndex];
 	GetInventory()[DragedIndex] = ItemTemp;
+
+	if(GetInventory()[ArrivedIndex] != nullptr)
+		GetInventory()[ArrivedIndex]->SetSlotIndex(ArrivedIndex);
+
+	if (GetInventory()[DragedIndex] != nullptr)
+		GetInventory()[DragedIndex]->SetSlotIndex(DragedIndex);
+	
 }
 
 

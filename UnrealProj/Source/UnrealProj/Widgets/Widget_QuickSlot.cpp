@@ -19,3 +19,8 @@ FReply UWidget_QuickSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, c
 	return Reply.NativeReply;
 }
 
+void UWidget_QuickSlot::SetImage()
+{
+
+}
+

@@ -10,11 +10,13 @@
 #include "Popup/Widget_InvenSlot.h"
 #include "Widget_PlayerMain.h"
 #include "Components/TextBlock.h"
+#include "../Items/Weapons/Weapon.h"
 
 
 void UWidget_ItemQuick::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
+	if (QuickItem == nullptr) return;
 
 	if (OutOperation == nullptr)
 	{
@@ -62,11 +64,12 @@ bool UWidget_ItemQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 		if (DragOper->SlotIndex == QuickSlotIndex && DragOper->bFromQuickSlot)
 			return true;
 
+		if (Cast<AWeapon>(DragOper->SlotItem) != nullptr)
+			return true;
+
 		if (DragOper->bFromQuickSlot == false)
 		{
-			QuickItem = DragOper->SlotItem;
-			SetImage();
-			// 키에 아이템 등록
+			SetItem(DragOper->SlotItem);
 			return true;
 		}
 		else
@@ -81,6 +84,16 @@ bool UWidget_ItemQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging false"));
 		return false;
 	}
+}
+
+void UWidget_ItemQuick::SetItem(AItem* Item)
+{
+	QuickItem = Item;
+	SetImage();
+	SetTextCount();
+
+	if (QuickItem == nullptr) return;
+	Item->SetQuickSlotIndex(QuickSlotIndex);
 }
 
 void UWidget_ItemQuick::SetImage()
@@ -99,12 +112,7 @@ void UWidget_ItemQuick::UseItem()
 	if (QuickItem == nullptr)
 		return;
 
-	QuickItem->SetCount(QuickItem->GetCount() - 1);
-	if (QuickItem->GetCount() == 0)
-	{
-		QuickItem = nullptr;
-		SetImage();
-	}
+	QuickItem->UseItem();
 	SetTextCount();
 }
 

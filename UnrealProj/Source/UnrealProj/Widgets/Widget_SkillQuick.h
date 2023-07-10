@@ -18,9 +18,8 @@ public:
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 	
-	void SetSkill(class USkill* Skill) { QuickSkill = Skill; }
-	void SetImage();
-	void SetImage(class UTexture2D* Texture);
+	void SetSkill(class USkill* Skill);
+	virtual void SetImage() override;
 
 	class USkill* GetSkill() { return QuickSkill; }
 private:

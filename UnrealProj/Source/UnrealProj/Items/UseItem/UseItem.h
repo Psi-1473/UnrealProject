@@ -17,8 +17,9 @@ public:
 	AUseItem();
 
 public:
-	virtual void UseItem(int SlotNumber) override;
+	virtual void UseItem() override;
 	virtual void SetItemMesh() override;
+	virtual void SetCount(int Value);
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
 

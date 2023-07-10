@@ -22,16 +22,19 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void UseItem(int SlotNumber);
+	virtual void UseItem();
 	virtual void SetItemMesh();
+	virtual void SetCount(int Value);
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance);
+	
 public:
 
 
 	void SetId(int Value) { Id = Value; }
-	void SetCount(int Value) { Count = Value; }
 	void SetInventory(TWeakObjectPtr<class UInventory> Inven) { Inventory = Inven; }
+	void SetSlotIndex(int Value) { SlotIndex = Value; }
+	void SetQuickSlotIndex(int Value) { QuickSlotIndex = Value; }
 
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 	int GetCount() { return Count; }
@@ -42,6 +45,9 @@ protected:
 
 	UPROPERTY()
 	int16 SlotIndex;
+
+	UPROPERTY()
+	int16 QuickSlotIndex;
 
 	UPROPERTY()
 	TWeakObjectPtr<class UInventory> Inventory;

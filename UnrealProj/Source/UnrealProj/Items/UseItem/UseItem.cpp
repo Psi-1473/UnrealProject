@@ -8,14 +8,18 @@
 #include "GameFramework/Actor.h"
 #include "../../Projectiles/Projectile.h"
 #include "Kismet/GameplayStatics.h"
+#include "../../Inventory/Inventory.h"
+#include "../../MyGameMode.h"
+#include "../../Widgets/Widget_PlayerMain.h"
 
 AUseItem::AUseItem()
 {
 }
 
-void AUseItem::UseItem(int SlotNumber)
+void AUseItem::UseItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item Use"));
+	SetCount(Count - 1);
 }
 
 void AUseItem::SetItemMesh()
@@ -29,6 +33,37 @@ void AUseItem::SetItemMesh()
 	//
 	//StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
 	//StaticMeshComponent->SetStaticMesh(StaticMesh);
+}
+
+void AUseItem::SetCount(int Value)
+{
+	Super::SetCount(Value);
+	Count = Value;
+	if (Count == 0)
+	{
+		Inventory->EmptySlot(Inventory->GetUseItems(), SlotIndex);
+		// Äü½½·Ôµµ 
+		UWorld* Wolrd = Inventory->GetPlayer()->GetWorld();
+		auto GMode = UGameplayStatics::GetGameMode(Wolrd);
+		auto GameMode = Cast<AMyGameMode>(GMode);
+
+		if (GameMode == nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("GAME MODE NULL"));
+			return;
+		}
+
+		auto Widget = Cast<UWidget_PlayerMain>(GameMode->GetCurrentWidget());
+
+		if (Widget == nullptr)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("WIDGET NULL"));
+			return;
+		}
+
+		Widget->EmptyItemSlot(QuickSlotIndex);
+
+	}
 }
 
 FRichImageRow* AUseItem::GetItemImage(UMyGameInstance* GInstance)

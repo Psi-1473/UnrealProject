@@ -23,12 +23,15 @@ public:
 	InventoryType GetType() { return Type; }
 	TWeakObjectPtr<class AMyPlayer> GetPlayer() { return OwnerPlayer; }
 	TArray<class AItem*>& GetInventory();
+	TArray<class AItem*>& GetUseItems() { return UseItems; }
+	TArray<class AItem*>& GetEtcItems() { return UseItems; }
+	TArray<class AItem*>& GetWeaponItems() { return UseItems; }
 
 	void SetType(InventoryType NewType) { Type = NewType; }
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 public:
 	void GainNewItem(class AItem* Item, int SlotIndex = -1); // SlotIndex는 인벤토리 특정 위치에 바로 아이템을 넣는지 확인하기 위해 사용 (ex. 아이템 끌어당겨서 넣기)
-	void RemoveWeapon(int SlotIndex);
+	void EmptySlot(TArray<class AItem*>& ItemArray, int Index);
 	void SwapItem(int DragedIndex, int ArrivedIndex);
 
 private:

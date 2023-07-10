@@ -19,6 +19,7 @@ public:
 	void SwapItemQuickSlot(int From, int To);
 
 	void PressQuickSlot(int Index);
+	void EmptyItemSlot(int Index);
 
 private:
 	void SetSkillQuick();

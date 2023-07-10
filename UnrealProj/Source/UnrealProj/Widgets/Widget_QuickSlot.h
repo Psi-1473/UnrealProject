@@ -19,7 +19,10 @@ public:
 	void SetMainWidget(TWeakObjectPtr<class UWidget_PlayerMain> Widget) { MainWidget = Widget; }
 
 	class UTextBlock* GetTextKey() { return Text_Key; }
+
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	
+	virtual void SetImage();
 
 protected:
 	UPROPERTY()

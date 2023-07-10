@@ -23,7 +23,7 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::UseItem(int SlotNumber)
+void AItem::UseItem()
 {
 }
 
@@ -34,6 +34,11 @@ void AItem::SetItemMesh()
 FRichImageRow* AItem::GetItemImage(UMyGameInstance* GInstance)
 {
 	return nullptr;
+}
+
+void AItem::SetCount(int Value)
+{
+	Count = Value;
 }
 
 

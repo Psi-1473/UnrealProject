@@ -18,7 +18,7 @@ AWeapon::AWeapon()
 		Arrow = ARROW.Class;
 }
 
-void AWeapon::UseItem(int SlotNumber)
+void AWeapon::UseItem()
 {
 	// 아이템 장착 구현
 	UE_LOG(LogTemp, Warning, TEXT("Weapon Equip"));
@@ -26,8 +26,8 @@ void AWeapon::UseItem(int SlotNumber)
 
 	auto EquipedWeapon = Player->GetWeapon();
 	Player->EquipWeapon(this);
-	Inventory->RemoveWeapon(SlotNumber);
-	Inventory->GainNewItem(EquipedWeapon, SlotNumber);
+	Inventory->EmptySlot(Inventory->GetWeaponItems(), SlotIndex);
+	Inventory->GainNewItem(EquipedWeapon, SlotIndex);
 
 	if (Player->GetWeapon()->GetType() == WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword EQUIP!"));
@@ -48,6 +48,10 @@ void AWeapon::SetItemMesh()
 
 	StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
 	StaticMeshComponent->SetStaticMesh(StaticMesh);
+}
+
+void AWeapon::SetCount(int Value)
+{
 }
 
 FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)

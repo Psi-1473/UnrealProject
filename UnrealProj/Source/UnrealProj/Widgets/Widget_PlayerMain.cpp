@@ -25,9 +25,7 @@ void UWidget_PlayerMain::SwapSkillQuickSlot(UPlayerSkillComponent* SkillComponen
 {
 	USkill* Skill = SkillQuickSlots[From]->GetSkill();
 	SkillQuickSlots[From]->SetSkill(SkillQuickSlots[To]->GetSkill());
-	SkillQuickSlots[From]->SetImage();
 	SkillQuickSlots[To]->SetSkill(Skill);
-	SkillQuickSlots[To]->SetImage();
 	// 등록된 키 변경 (완)
 	SkillComponent->RegisterSkill(From, SkillQuickSlots[From]->GetSkill());
 	SkillComponent->RegisterSkill(To, SkillQuickSlots[To]->GetSkill());
@@ -38,15 +36,17 @@ void UWidget_PlayerMain::SwapItemQuickSlot(int From, int To)
 {
 	AItem* Item = ItemQuickSlots[From]->GetItem();
 	ItemQuickSlots[From]->SetItem(ItemQuickSlots[To]->GetItem());
-	ItemQuickSlots[From]->SetImage();
 	ItemQuickSlots[To]->SetItem(Item);
-	ItemQuickSlots[To]->SetImage();
-	// 등록된 키도 변경
 }
 
 void UWidget_PlayerMain::PressQuickSlot(int Index)
 {
 	ItemQuickSlots[Index]->UseItem();
+}
+
+void UWidget_PlayerMain::EmptyItemSlot(int Index)
+{
+	ItemQuickSlots[Index]->SetItem(nullptr);
 }
 
 void UWidget_PlayerMain::SetSkillQuick()

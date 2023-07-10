@@ -13,6 +13,7 @@
 void UWidget_SkillQuick::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
+	if (QuickSkill == nullptr) return;
 
 	if (OutOperation == nullptr)
 	{
@@ -60,8 +61,7 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		if (DragOper->bFromQuickSlot == false)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill Droped"));
-			QuickSkill = DragOper->Skill;
-			SetImage();
+			SetSkill(DragOper->Skill);
 			// 키에 스킬 등록
 			QuickSkill->GetOwnerPlayer()->GetSkillComponent()->RegisterSkill(QuickSlotIndex, QuickSkill);
 			return true;
@@ -81,18 +81,23 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 	}
 }
 
+void UWidget_SkillQuick::SetSkill(USkill* Skill)
+{
+	QuickSkill = Skill;
+	if (QuickSkill == nullptr) return;
+	SetImage();
+}
+
 void UWidget_SkillQuick::SetImage()
 {
+	Super::SetImage();
 	if (QuickSkill == nullptr)
 	{
 		Img_Object->SetVisibility(ESlateVisibility::Hidden);
 		return;
 	}
 	Img_Object->SetVisibility(ESlateVisibility::Visible);
-	SetImage(QuickSkill->GetTexture());
+	Img_Object->SetBrushFromTexture(QuickSkill->GetTexture());
 }
 
-void UWidget_SkillQuick::SetImage(UTexture2D* Texture)
-{
-	Img_Object->SetBrushFromTexture(Texture);
-}
+
