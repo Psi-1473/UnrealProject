@@ -17,6 +17,7 @@ public:
 	UUserWidget* PopupUI(UWorld* World, UIType Type);
 	void CloseUI(UIType Type);
 	void SetController(TWeakObjectPtr<class APlayerController> Controller) { PlayerController = Controller; }
+	UUserWidget* GetUI(UIType Type) { return PopupUiArray[(int)Type]; }
 
 public:
 	UPROPERTY()

@@ -48,6 +48,11 @@ void UWidget_Inventory::UpdateSlotInfo()
 	}
 }
 
+void UWidget_Inventory::RefreshSlotByIndex(int SlotIndex)
+{
+	Slots[SlotIndex]->RefreshSlot();
+}
+
 
 void UWidget_Inventory::SetInventoryTypeEquip()
 {

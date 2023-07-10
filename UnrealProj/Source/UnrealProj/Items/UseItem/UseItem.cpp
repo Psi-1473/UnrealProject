@@ -11,6 +11,7 @@
 #include "../../Inventory/Inventory.h"
 #include "../../MyGameMode.h"
 #include "../../Widgets/Widget_PlayerMain.h"
+#include "../../Widgets/Popup/Widget_Inventory.h"
 
 AUseItem::AUseItem()
 {
@@ -18,7 +19,9 @@ AUseItem::AUseItem()
 
 void AUseItem::UseItem()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Item Use"));
+	UE_LOG(LogTemp, Warning, TEXT("Item Use %d, %d"), UseType, Amount);
+	
+
 	SetCount(Count - 1);
 }
 
@@ -39,6 +42,8 @@ void AUseItem::SetCount(int Value)
 {
 	Super::SetCount(Value);
 	Count = Value;
+	auto GInstance = Cast<UMyGameInstance>(Inventory->GetPlayer()->GetInstance());
+	auto Inven = GInstance->GetUIMgr()->GetUI(UIType::Inventory);
 	if (Count == 0)
 	{
 		Inventory->EmptySlot(Inventory->GetUseItems(), SlotIndex);
@@ -47,22 +52,19 @@ void AUseItem::SetCount(int Value)
 		auto GMode = UGameplayStatics::GetGameMode(Wolrd);
 		auto GameMode = Cast<AMyGameMode>(GMode);
 
-		if (GameMode == nullptr)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("GAME MODE NULL"));
-			return;
-		}
+		if (GameMode == nullptr) return;
 
 		auto Widget = Cast<UWidget_PlayerMain>(GameMode->GetCurrentWidget());
 
-		if (Widget == nullptr)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("WIDGET NULL"));
-			return;
-		}
+		if (Widget == nullptr) return;
 
 		Widget->EmptyItemSlot(QuickSlotIndex);
+	}
 
+	if (Inven != nullptr)
+	{
+		auto InvenWidget = Cast<UWidget_Inventory>(Inven);
+		InvenWidget->RefreshSlotByIndex(SlotIndex);
 	}
 }
 

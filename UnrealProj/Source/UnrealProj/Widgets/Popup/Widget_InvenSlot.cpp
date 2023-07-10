@@ -129,6 +129,15 @@ bool UWidget_InvenSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 	}
 }
 
+void UWidget_InvenSlot::RefreshSlot()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	SetItem(MyPlayer->GetInventory()->GetInventory()[SlotIndex]);
+	SetImage();
+	SetCount();
+}
+
 
 void UWidget_InvenSlot::SetImage()
 {

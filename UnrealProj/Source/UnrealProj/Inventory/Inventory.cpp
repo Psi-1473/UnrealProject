@@ -99,12 +99,14 @@ int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 
 void UInventory::GainNewItem(AItem* Item, int SlotIndex)
 {
-	Item->SetInventory(this);
 	auto Weapon = Cast<AWeapon>(Item);
 	if (Weapon != nullptr) GainNewWeapon(Weapon, SlotIndex);
 	
 	auto UseItem = Cast<AUseItem>(Item);
 	if (UseItem != nullptr) GainNewUseItem(UseItem, SlotIndex);
+
+	Item->SetInventory(this);
+	Item->SetCount(1);
 }
 
 void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)

@@ -17,6 +17,7 @@ class UNREALPROJ_API UWidget_Inventory : public UUserWidget
 public:
 	virtual void NativeConstruct();
 	void UpdateSlotInfo();
+	void RefreshSlotByIndex(int SlotIndex);
 
 private:
 	void CreateSlot();

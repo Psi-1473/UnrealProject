@@ -25,7 +25,7 @@ public:
 	void SetSlot(class UMyGameInstance* GInstance, ItemType TemType, int16 Id);
 private:
 	class AWeapon* CreateNewWeapon();
-	class AUseItem* CreateNewUseItem();
+	class AUseItem* CreateNewUseItem(class UMyGameInstance* GInstance);
 private:
 	ItemType IType;
 	WEAPONTYPE WType;

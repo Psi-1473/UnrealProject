@@ -26,11 +26,14 @@ void UWidget_ShopSlot::ClickBuyButton()
 	// 돈있나 확인 먼저
 
 	AItem* NewItem;
-	if (IType == ITEM_USE)NewItem = CreateNewUseItem();
-	else NewItem = CreateNewWeapon();
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	if (IType == ITEM_USE)NewItem = CreateNewUseItem(MyPlayer->GetInstance());
+	else NewItem = CreateNewWeapon();
+
+	
 
 	MyPlayer->GetInventory()->GainNewItem(NewItem); // 나머지 세팅은 여기서
 }
@@ -72,18 +75,22 @@ AWeapon* UWidget_ShopSlot::CreateNewWeapon()
 {
 	AWeapon* Weapon = NewObject<AWeapon>();
 	Weapon->SetId(ItemId);
-	Weapon->SetCount(1);
+	//Weapon->SetCount(1);
 	Weapon->SetWeaponType(WType);
 	
 	return Weapon;
 }
 
 
-AUseItem* UWidget_ShopSlot::CreateNewUseItem()
+AUseItem* UWidget_ShopSlot::CreateNewUseItem(UMyGameInstance* GInstance)
 {
 	AUseItem* UseItem = NewObject<AUseItem>();
 	UseItem->SetId(ItemId);
-	UseItem->SetCount(1);
+	//UseItem->SetCount(1);
+
+	// 정보 세팅
+	UseItem->SetUseType(GInstance->GetUseItemData(ItemId)->Type);
+	UseItem->SetAmount(GInstance->GetUseItemData(ItemId)->Amount);
 
 	return UseItem;
 }

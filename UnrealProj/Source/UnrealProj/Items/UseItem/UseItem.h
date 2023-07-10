@@ -20,7 +20,16 @@ public:
 	virtual void UseItem() override;
 	virtual void SetItemMesh() override;
 	virtual void SetCount(int Value);
+	
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
 
+	void SetUseType(int Value) { UseType = Value; }
+	void SetAmount(int Value) { Amount = Value; }
+private:
+	UPROPERTY()
+	int UseType;
+
+	UPROPERTY()
+	int Amount;
 };

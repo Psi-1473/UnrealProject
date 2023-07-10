@@ -23,6 +23,7 @@ public:
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
 
+	void RefreshSlot();
 
 	void SetItem(class AItem* ItemValue) { SlotItem = ItemValue; }
 	void SetImage();
@@ -30,7 +31,6 @@ public:
 	void SetCount();
 	void SetSlotIndex(int16 Value) { SlotIndex = Value; }
 	void SetInvenWidget(TWeakObjectPtr<class UWidget_Inventory> Value) { InvenWidget = Value; }
-
 
 	class AItem* GetItem() { return SlotItem; }
 private:
