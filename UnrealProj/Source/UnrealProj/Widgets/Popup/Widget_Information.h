@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include <UnrealProj/DEFINE.h>
 #include "Widget_Information.generated.h"
 
 /**
@@ -13,5 +14,14 @@ UCLASS()
 class UNREALPROJ_API UWidget_Information : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+public:
+	void SetInfo(InformationType Type, int Id);
+
+private:
+	UPROPERTY(meta = (BindWidget))
+		class UTextBlock* Text_Name;
+
+	UPROPERTY(meta = (BindWidget))
+		class UTextBlock* Text_Sub;
 };

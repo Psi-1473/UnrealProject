@@ -52,6 +52,11 @@ enum UseItemType
 	ITEM_HPMP,
 };
 
+enum InformationType
+{
+	INFO_ITEM,
+	INFO_SKILL,
+};
 enum InventoryType
 {
 	Equip,
