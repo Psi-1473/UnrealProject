@@ -8,6 +8,9 @@
 #include <Blueprint/WidgetBlueprintLibrary.h>
 #include "../DragWidget.h"
 #include "Widget_InvenSlot.h"
+#include "../../Creatures/Player/MyPlayer.h"
+#include "Kismet/GameplayStatics.h"
+#include "Widget_Information.h"
 
 FReply UWidget_SkillSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -52,6 +55,42 @@ void UWidget_SkillSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 	{
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Again"));
 	}
+}
+
+void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	UUserWidget* Widget = MyPlayer->GetInstance()->GetUIMgr()->PopupUI(GetWorld(), UIType::Information);
+	if (Widget == nullptr) return;
+
+	UWidget_Information* InfoWidget = Cast<UWidget_Information>(Widget);
+	if (InfoWidget == nullptr) return;
+
+
+	FGeometry Geometry = GetCachedGeometry();
+	FVector2D Position = Geometry.GetAbsolutePosition();
+	Position.X += 200.f;
+	Position.Y -= 100.f;
+	InfoWidget->SetPosition(Position);
+	InfoWidget->SetInfoBySkill(Skill);
+
+}
+
+void UWidget_SkillSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	MyPlayer->GetInstance()->GetUIMgr()->CloseUI(UIType::Information);
+
 }
 
 void UWidget_SkillSlot::SetInfo()

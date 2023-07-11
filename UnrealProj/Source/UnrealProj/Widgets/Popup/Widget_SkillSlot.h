@@ -17,6 +17,9 @@ class UNREALPROJ_API UWidget_SkillSlot : public UUserWidget
 public:
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
+	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
+	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
+
 
 	void SetSkill(class USkill* Value) { Skill = Value; }
 	void SetInfo();

@@ -64,3 +64,11 @@ void USkill::CastToExecute(AActor* OwnerActor)
 	
 }
 
+FSkillData* USkill::GetSkillInfo()
+{
+	if (WeaponType == WEAPONTYPE::WEAPON_SWORD)
+		return OwnerPlayer->GetInstance()->GetSwordSkillData(Id);
+	else
+		return OwnerPlayer->GetInstance()->GetBowSkillData(Id);
+}
+

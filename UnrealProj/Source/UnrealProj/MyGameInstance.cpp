@@ -15,6 +15,8 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> UseItem(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemData.UseItemData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> SwordImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/SwordImageTable.SwordImageTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/BowImageTable.BowImageTable'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> SwordSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/SwordSkillData.SwordSkillData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> BowSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/BowSkillData.BowSkillData'"));
 	
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
@@ -25,6 +27,8 @@ UMyGameInstance::UMyGameInstance()
 	if (UseItem.Succeeded()) UseItemData = UseItem.Object;
 	if (SwordImage.Succeeded()) SwordImages = SwordImage.Object;
 	if (BowImage.Succeeded()) BowImages = BowImage.Object;
+	if (SwordSkill.Succeeded()) SwordSkillData = SwordSkill.Object;
+	if (BowSkill.Succeeded()) BowSkillData = BowSkill.Object;
 
 	UIMgr = MakeShared<UIManager>();
 }
@@ -72,5 +76,15 @@ FRichImageRow* UMyGameInstance::GetBowImage(int32 Id)
 FRichImageRow* UMyGameInstance::GetUseItemImage(int32 Id)
 {
 	return ItemImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
+}
+
+FSkillData* UMyGameInstance::GetSwordSkillData(int32 Id)
+{
+	return SwordSkillData->FindRow<FSkillData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FSkillData* UMyGameInstance::GetBowSkillData(int32 Id)
+{
+	return BowSkillData->FindRow<FSkillData>(*FString::FromInt(Id), TEXT(""));
 }
 

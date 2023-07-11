@@ -31,6 +31,8 @@ public:
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }
 	bool GetIsRangeAttack() { return bRange; }
+	WEAPONTYPE GetWeaponType() { return WeaponType; }
+	struct FSkillData* GetSkillInfo();
 
 	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 protected:

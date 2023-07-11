@@ -60,7 +60,8 @@ enum InformationType
 {
 	INFO_WEAPON,
 	INFO_USEITEM,
-	INFO_SKILL,
+	INFO_SWORDSKILL,
+	INFO_BOWSKILL,
 };
 enum InventoryType
 {

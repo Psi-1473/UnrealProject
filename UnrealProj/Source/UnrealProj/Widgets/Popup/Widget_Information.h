@@ -16,7 +16,8 @@ class UNREALPROJ_API UWidget_Information : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetInfo(InformationType Type, class AItem* Item);
+	void SetInfoByItem(InformationType Type, class AItem* Item);
+	void SetInfoBySkill(class USkill* Skill);
 	void SetPosition(FVector2D Pos);
 
 private:
@@ -25,4 +26,7 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* Text_Sub;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Value;
 };

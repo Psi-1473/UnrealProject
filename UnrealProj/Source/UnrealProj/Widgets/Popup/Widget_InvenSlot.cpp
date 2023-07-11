@@ -159,9 +159,9 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	auto UseItem = Cast<AUseItem>(SlotItem);
 
 	if(Weapon != nullptr)
-		InfoWidget->SetInfo(InformationType::INFO_WEAPON, SlotItem);
+		InfoWidget->SetInfoByItem(InformationType::INFO_WEAPON, SlotItem);
 	else if(UseItem != nullptr)
-		InfoWidget->SetInfo(InformationType::INFO_USEITEM, SlotItem);
+		InfoWidget->SetInfoByItem(InformationType::INFO_USEITEM, SlotItem);
 
 	
 	
@@ -176,10 +176,6 @@ void UWidget_InvenSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	MyPlayer->GetInstance()->GetUIMgr()->CloseUI(UIType::Information);
-
-
-
-	
 
 }
 

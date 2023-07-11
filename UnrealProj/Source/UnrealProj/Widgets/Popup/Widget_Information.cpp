@@ -8,11 +8,13 @@
 #include "../../Items/Item.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "Components/TextBlock.h"
+#include "../../Skills/Skill.h"
 
-void UWidget_Information::SetInfo(InformationType Type, AItem* Item)
+void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 {
 	FString Name;
 	FString Explain;
+	FString Value;
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	auto GInstance = MyPlayer->GetInstance();
@@ -20,6 +22,7 @@ void UWidget_Information::SetInfo(InformationType Type, AItem* Item)
 	{
 		Name = GInstance->GetUseItemData(Item->GetId())->Name;
 		Explain = GInstance->GetUseItemData(Item->GetId())->Explanation;
+		Value = TEXT("");
 	}
 	else if (Type == INFO_WEAPON)
 	{
@@ -31,19 +34,34 @@ void UWidget_Information::SetInfo(InformationType Type, AItem* Item)
 		case WEAPONTYPE::WEAPON_SWORD:
 			Name = GInstance->GetSwordData(Item->GetId())->Name;
 			Explain = GInstance->GetSwordData(Item->GetId())->Explanation;
+			Value = FString::FromInt(GInstance->GetSwordData(Item->GetId())->Damage);
 			break;
 		case WEAPONTYPE::WEAPON_ARROW:
 			Name = GInstance->GetBowData(Item->GetId())->Name;
 			Explain = GInstance->GetBowData(Item->GetId())->Explanation;
+			Value = FString::FromInt(GInstance->GetBowData(Item->GetId())->Damage);
 			break;
 		default:
 			break;
 		}
 	}
-	else if (Type == INFO_SKILL)
-	{
-		// 검스킬인지 활스킬인지 확인필요할듯
-	}
+
+
+	Text_Name->SetText(FText::FromString(*Name));
+	Text_Sub->SetText(FText::FromString(*Explain));
+	Text_Value->SetText(FText::FromString(*Value));
+}
+
+void UWidget_Information::SetInfoBySkill(USkill* Skill)
+{
+	FString Name;
+	FString Explain;
+	FString Value;
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	auto GInstance = MyPlayer->GetInstance();
+	Name = Skill->GetSkillInfo()->Name;
+	Explain = Skill->GetSkillInfo()->Explanation;
 
 	Text_Name->SetText(FText::FromString(*Name));
 	Text_Sub->SetText(FText::FromString(*Explain));

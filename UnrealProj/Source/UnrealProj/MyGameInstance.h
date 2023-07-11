@@ -110,6 +110,21 @@ struct FUseItemData : public FTableRowBase
 	FString Explanation;
 };
 
+USTRUCT()
+struct FSkillData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
+};
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -127,6 +142,8 @@ public:
 	FRichImageRow* GetSwordImage(int32 Id);
 	FRichImageRow* GetBowImage(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
+	FSkillData* GetSwordSkillData(int32 Id);
+	FSkillData* GetBowSkillData(int32 Id);
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 
@@ -157,6 +174,12 @@ private:
 
 	UPROPERTY()
 	class UDataTable* ItemImages;
+
+	UPROPERTY()
+	class UDataTable* SwordSkillData;
+
+	UPROPERTY()
+	class UDataTable* BowSkillData;
 
 private:
 	TSharedPtr<UIManager> UIMgr;
