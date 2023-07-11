@@ -51,14 +51,14 @@ void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int
 		Name = GInstance->GetSwordData(Id)->Name;
 		Price = FString::FromInt(GInstance->GetSwordData(Id)->Price);
 		Img_Item->SetBrush(GInstance->GetSwordImage(Id)->Brush);
-		WType = WEAPON_SWORD;
+		WType = WEAPONTYPE::WEAPON_SWORD;
 	}
 	else if (TemType == ITEM_BOW)
 	{
 		Name = GInstance->GetBowData(Id)->Name;
 		Price = FString::FromInt(GInstance->GetBowData(Id)->Price);
 		Img_Item->SetBrush(GInstance->GetBowImage(Id)->Brush);
-		WType = WEAPON_ARROW;
+		WType = WEAPONTYPE::WEAPON_ARROW;
 	}
 	else if (TemType == ITEM_USE)
 	{

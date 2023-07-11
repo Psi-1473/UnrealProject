@@ -15,6 +15,8 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Inventory/Inventory.h"
 #include "Widget_Inventory.h"
+#include "Widget_Information.h"
+#include "../../DEFINE.h"
 
 
 UWidget_InvenSlot::UWidget_InvenSlot(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -127,6 +129,58 @@ bool UWidget_InvenSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging false"));
 		return false;
 	}
+}
+
+void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+
+	if (SlotItem == nullptr)
+		return;
+
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	UUserWidget* Widget = MyPlayer->GetInstance()->GetUIMgr()->PopupUI(GetWorld(), UIType::Information);
+	if (Widget == nullptr) return;
+
+	UWidget_Information* InfoWidget = Cast<UWidget_Information>(Widget);
+	if (InfoWidget == nullptr) return;
+
+
+	FGeometry Geometry = GetCachedGeometry();
+	FVector2D Position = Geometry.GetAbsolutePosition();
+	Position.X += 50.f;
+	Position.Y -= 100.f;
+	InfoWidget->SetPosition(Position);
+
+	auto Weapon = Cast<AWeapon>(SlotItem);
+	auto UseItem = Cast<AUseItem>(SlotItem);
+
+	if(Weapon != nullptr)
+		InfoWidget->SetInfo(InformationType::INFO_WEAPON, SlotItem);
+	else if(UseItem != nullptr)
+		InfoWidget->SetInfo(InformationType::INFO_USEITEM, SlotItem);
+
+	
+	
+	//Information
+}
+
+void UWidget_InvenSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+{
+	Super::NativeOnMouseLeave(InMouseEvent);
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	MyPlayer->GetInstance()->GetUIMgr()->CloseUI(UIType::Information);
+
+
+
+	
+
 }
 
 void UWidget_InvenSlot::RefreshSlot()

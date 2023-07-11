@@ -81,6 +81,9 @@ struct FWeaponData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Price;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
 };
 
 USTRUCT()
@@ -102,6 +105,9 @@ struct FUseItemData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Price;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
 };
 
 UCLASS()

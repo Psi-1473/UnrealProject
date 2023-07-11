@@ -17,7 +17,7 @@
 UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 {
 	Id = 1;
-	WeaponType = WEAPON_ARROW;
+	WeaponType = WEAPONTYPE::WEAPON_ARROW;
 	bRange = true;
 	Name = TEXT("Bow 1");
 

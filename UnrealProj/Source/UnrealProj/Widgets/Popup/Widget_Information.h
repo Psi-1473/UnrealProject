@@ -16,7 +16,8 @@ class UNREALPROJ_API UWidget_Information : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetInfo(InformationType Type, int Id);
+	void SetInfo(InformationType Type, class AItem* Item);
+	void SetPosition(FVector2D Pos);
 
 private:
 	UPROPERTY(meta = (BindWidget))

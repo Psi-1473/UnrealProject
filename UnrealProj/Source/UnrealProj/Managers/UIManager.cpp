@@ -19,6 +19,8 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 {
 	if (PopupUiArray[(int)Type] != nullptr)
 	{
+		if (Type == UIType::Inventory || Type == UIType::Skill) 
+			CloseUI(UIType::Information);
 		CloseUI(Type);
 		return nullptr;
 	}

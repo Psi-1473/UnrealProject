@@ -191,9 +191,9 @@ void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
 
-	if (MyPlayer->GetWeapon()->GetType() != WEAPON_ARROW)
+	if (MyPlayer->GetWeapon()->GetType() != WEAPONTYPE::WEAPON_ARROW)
 	{
-		FString Str = FString::FromInt(MyPlayer->GetWeapon()->GetType());
+		FString Str = FString::FromInt((int)MyPlayer->GetWeapon()->GetType());
 		UE_LOG(LogTemp, Warning, TEXT("WEAPON IS NOT A BOW : %s"), *Str);
 		return;
 	}

@@ -14,7 +14,7 @@
 UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 {
 	Id = 2;
-	WeaponType = WEAPON_ARROW;
+	WeaponType = WEAPONTYPE::WEAPON_ARROW;
 	bRange = false;
 	Name = TEXT("Bow 2");
 

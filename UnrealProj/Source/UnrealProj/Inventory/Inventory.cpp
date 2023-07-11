@@ -33,9 +33,9 @@ TArray<class AItem*>& UInventory::GetInventory()
 void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
 {
 	
-	if(Item->GetType() == WEAPON_SWORD)
+	if(Item->GetType() == WEAPONTYPE::WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword Gain!"));
-	if (Item->GetType() == WEAPON_ARROW)
+	if (Item->GetType() == WEAPONTYPE::WEAPON_ARROW)
 		UE_LOG(LogTemp, Warning, TEXT("Bow Gain!"));
 
 	int Index;

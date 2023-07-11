@@ -12,17 +12,17 @@
 
 UPlayerAnim::UPlayerAnim()
 {
-	AttackMontages.Init(nullptr, WEAPON_END);
-	SkillMontages.Init(nullptr, WEAPON_END);
+	AttackMontages.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
+	SkillMontages.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack.AM_Attack'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack_Arrow.AM_Attack_Arrow'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Sword.AM_Skill_Sword'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Arrow.AM_Skill_Arrow'"));
 
-	if(AM.Succeeded()) AttackMontages[WEAPON_SWORD] = AM.Object;
-	if(AM2.Succeeded()) AttackMontages[WEAPON_ARROW] = AM2.Object;
-	if(SM.Succeeded()) SkillMontages[WEAPON_SWORD] = SM.Object;
-	if(SM2.Succeeded()) SkillMontages[WEAPON_ARROW] = SM2.Object;
+	if(AM.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_SWORD] = AM.Object;
+	if(AM2.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_ARROW] = AM2.Object;
+	if(SM.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_SWORD] = SM.Object;
+	if(SM2.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_ARROW] = SM2.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -61,27 +61,27 @@ void UPlayerAnim::PlayAttackMontage()
 {
 	if (!bCombo)
 		return;
-	if (!Montage_IsPlaying(AttackMontages[WeaponType]))
+	if (!Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 	{
 		bCombo = false;
-		Montage_Play(AttackMontages[WeaponType], 1.f);
-		if (WeaponType == WEAPON_ARROW)
+		Montage_Play(AttackMontages[(int)WeaponType], 1.f);
+		if (WeaponType == WEAPONTYPE::WEAPON_ARROW)
 		{
 			FName Name;
 			Name = (bZoom) ? FName(*FString::Printf(TEXT("HeavyAttack"))) : FName(*FString::Printf(TEXT("Attack")));
-			Montage_JumpToSection(Name, AttackMontages[WeaponType]);
+			Montage_JumpToSection(Name, AttackMontages[(int)WeaponType]);
 			return;
 		}
-		JumpToSection(AttackMontages[WeaponType], AttackStep);
+		JumpToSection(AttackMontages[(int)WeaponType], AttackStep);
 		AttackStep++;
 	}
 }
 void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
 {
-	if (!Montage_IsPlaying(SkillMontages[WeaponType]))
+	if (!Montage_IsPlaying(SkillMontages[(int)WeaponType]))
 	{
-		Montage_Play(SkillMontages[WeaponType], 1.f);
-		JumpToSection(SkillMontages[WeaponType], SkillNumber);
+		Montage_Play(SkillMontages[(int)WeaponType], 1.f);
+		JumpToSection(SkillMontages[(int)WeaponType], SkillNumber);
 	}
 }
 FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
@@ -127,7 +127,7 @@ void UPlayerAnim::AnimNotify_SkillEnd()
 	Character->SetSkill(nullptr);
 	bCombo = true;
 	AttackStep = 1;
-	if (Montage_IsPlaying(SkillMontages[WeaponType]))
+	if (Montage_IsPlaying(SkillMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
 }
 
@@ -165,7 +165,7 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	Character->SetState(STATE::IDLE);
 	bCombo = true;
 	AttackStep = 1;
-	if (Montage_IsPlaying(AttackMontages[WeaponType]))
+	if (Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
 	
 }

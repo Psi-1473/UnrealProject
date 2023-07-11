@@ -29,19 +29,19 @@ void AWeapon::UseItem()
 	Inventory->EmptySlot(Inventory->GetWeaponItems(), SlotIndex);
 	Inventory->GainNewItem(EquipedWeapon, SlotIndex);
 
-	if (Player->GetWeapon()->GetType() == WEAPON_SWORD)
+	if (Player->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword EQUIP!"));
-	if (Player->GetWeapon()->GetType() == WEAPON_ARROW)
+	if (Player->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_ARROW)
 		UE_LOG(LogTemp, Warning, TEXT("Bow EQUIP!"));
 }
 
 void AWeapon::SetItemMesh()
 {
 	Super::SetItemMesh();
-	if (Type == WEAPON_ARROW)
+	if (Type == WEAPONTYPE::WEAPON_ARROW)
 		bRight = false;
 
-	FString TypeString = FString::FromInt(Type);
+	FString TypeString = FString::FromInt((int)Type);
 	FString IdString = FString::FromInt(Id);
 	FString Directory = TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/");
 	Directory += TypeString + TEXT("/") + IdString + TEXT(".") + IdString + TEXT("'");
@@ -58,11 +58,11 @@ FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 {
 	switch (Type)
 	{
-	case WEAPON_SWORD:
+	case WEAPONTYPE::WEAPON_SWORD:
 		UE_LOG(LogTemp, Warning, TEXT("SWORD IMAGE LOAD"));
 		return GInstance->GetSwordImage(Id);
 		break;
-	case WEAPON_ARROW:
+	case WEAPONTYPE::WEAPON_ARROW:
 		UE_LOG(LogTemp, Warning, TEXT("BOW IMAGE LOAD"));
 		return GInstance->GetBowImage(Id);
 		break;

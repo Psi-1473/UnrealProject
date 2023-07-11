@@ -15,7 +15,7 @@
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
 	Id = 1;
-	WeaponType = WEAPON_SWORD;
+	WeaponType = WEAPONTYPE::WEAPON_SWORD;
 	bRange = false;
 	Name = TEXT("Sword 1");
 

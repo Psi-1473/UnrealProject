@@ -15,6 +15,7 @@ enum class UIType : uint8
 	Script,
 	Shop,
 	Skill,
+	Information,
 
 	End,
 };
@@ -30,19 +31,22 @@ enum class STATE : uint8
 	SKILLCAST,
 };
 
-enum ItemType
-{
-	ITEM_SWORD,
-	ITEM_BOW,
-	ITEM_USE
-};
-enum WEAPONTYPE
+UENUM(BlueprintType)
+enum class WEAPONTYPE : uint8
 {
 	WEAPON_SWORD,
 	WEAPON_ARROW,
 
 	WEAPON_END,
 }; //여기도 좀 깔끔하게 정리할 필요가..
+
+enum ItemType
+{
+	ITEM_SWORD,
+	ITEM_BOW,
+	ITEM_USE
+};
+
 
 
 enum UseItemType
@@ -54,7 +58,8 @@ enum UseItemType
 
 enum InformationType
 {
-	INFO_ITEM,
+	INFO_WEAPON,
+	INFO_USEITEM,
 	INFO_SKILL,
 };
 enum InventoryType

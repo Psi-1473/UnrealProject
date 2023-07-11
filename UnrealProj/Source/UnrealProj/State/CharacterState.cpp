@@ -93,10 +93,10 @@ void USkillState::OnEnter()
 
 void USkillState::OnUpdate()
 {
-	int WeaponType = Machine->GetOwner()->GetWeapon()->GetType();
+	WEAPONTYPE WeaponType = Machine->GetOwner()->GetWeapon()->GetType();
 	int SkillId = Machine->GetOwner()->GetSkill()->GetId();
 
-	if (WeaponType == WEAPON_SWORD)
+	if (WeaponType == WEAPONTYPE::WEAPON_SWORD)
 	{
 		if (SkillId == 2 && Machine->GetOwner()->GetDash())
 		{

@@ -47,7 +47,7 @@ public:
 	void SetBowCast(bool Value) { bBowSkillCast = Value; }
 
 public:
-	WEAPONTYPE WeaponType = WEAPON_SWORD;
+	WEAPONTYPE WeaponType = WEAPONTYPE::WEAPON_SWORD;
 
 	UPROPERTY()
 	int AttackStep = 1;

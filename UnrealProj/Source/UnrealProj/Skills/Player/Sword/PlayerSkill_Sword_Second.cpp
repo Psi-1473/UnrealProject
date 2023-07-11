@@ -16,7 +16,7 @@
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
 	Id = 2;
-	WeaponType = WEAPON_SWORD;
+	WeaponType = WEAPONTYPE::WEAPON_SWORD;
 	bRange = false;
 	Name = TEXT("Sword 2");
 

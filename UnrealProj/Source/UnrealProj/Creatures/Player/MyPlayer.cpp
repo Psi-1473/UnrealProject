@@ -30,7 +30,7 @@ AMyPlayer::AMyPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
-	AnimClasses.Init(nullptr, WEAPON_END);
+	AnimClasses.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
 	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
 	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2 (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
@@ -44,9 +44,9 @@ AMyPlayer::AMyPlayer()
 	}
 
 	if (AnimAsset.Succeeded())
-		AnimClasses[WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
+		AnimClasses[(int)WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
 	if (AnimAsset2.Succeeded())
-		AnimClasses[WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
+		AnimClasses[(int)WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
 
 	
 	SetDefaultCamera();
@@ -234,7 +234,7 @@ void AMyPlayer::SetWeaponSocket()
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 {
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	GetMesh()->SetAnimClass(AnimClasses[Type]);
+	GetMesh()->SetAnimClass(AnimClasses[(int)Type]);
 	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 	AnimInst->WeaponType = Type;
 }

@@ -34,6 +34,7 @@ public:
 
 	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 protected:
+	UPROPERTY()
 	WEAPONTYPE WeaponType;
 
 	UPROPERTY()
