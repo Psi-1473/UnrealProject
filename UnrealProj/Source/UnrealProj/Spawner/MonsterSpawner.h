@@ -20,8 +20,7 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	void SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn, FVector Location);
-	void StartSpawnTimer();
+	class AMonster* SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn, FVector Location);
 
 private:
 	FVector FindSpawnSpot();
@@ -29,10 +28,10 @@ private:
 
 private:
 	UPROPERTY(EditAnywhere)
-	TArray<TSubclassOf<class AMonster>> Monsters;
+	TArray<TSubclassOf<class AMonster>> MonsterActors;
 
-
-
+	UPROPERTY()
+	TArray<class AMonster*> Monsters;
 
 	UPROPERTY()
 	FTimerHandle SpawnTimerHandle;

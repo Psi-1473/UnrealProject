@@ -9,12 +9,14 @@ AMonsterSpawner::AMonsterSpawner()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
+	//Monsters.Init(nullptr, MonsterActors.Num());
 }
 
 void AMonsterSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Monsters.Init(nullptr, MonsterActors.Num());
+	CheckSpawnTimer();
 }
 
 void AMonsterSpawner::Tick(float DeltaTime)
@@ -25,21 +27,18 @@ void AMonsterSpawner::Tick(float DeltaTime)
 
 
 
-void AMonsterSpawner::SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn, FVector Location)
+AMonster* AMonsterSpawner::SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn, FVector Location)
 {
 	FTransform SpawnTrans;
 	SpawnTrans.SetLocation(Location);
 
 	AActor* Mob = GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnTrans);
-	//auto Kwang = Cast<ASpawnMonster>(Mob);
+	auto Monster = Cast<AMonster>(Mob);
 	//if (Kwang == nullptr)
 	//	return;
 	//Kwang->SetSpawner(this);
-}
 
-void AMonsterSpawner::StartSpawnTimer()
-{
-
+	return Monster;
 }
 
 
@@ -56,6 +55,17 @@ void AMonsterSpawner::StartSpawnTimer()
 
  void AMonsterSpawner::CheckSpawnTimer()
  {
+	 UE_LOG(LogTemp, Warning, TEXT("CHECK ! "));
+	 int Number = Monsters.Num();
+	 for (int i = 0; i < Number; i++)
+	 {
+		 if (Monsters[i] == nullptr)
+		 {
+			 Monsters[i] = SpawnMonster(MonsterActors[i], FindSpawnSpot());
+		 }
+	 }
+
+	 GetWorldTimerManager().SetTimer(SpawnTimerHandle, this, &AMonsterSpawner::CheckSpawnTimer, 15.f, true);
  }
 
 
