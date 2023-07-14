@@ -35,4 +35,8 @@ private:
 
 	UPROPERTY()
 	FTimerHandle SpawnTimerHandle;
+
+	UPROPERTY()
+	FVector SpawnerLocation;
+	
 };

@@ -34,6 +34,14 @@ private:
 	void SetHpBar();
 	void PopupDamageText(float Damage);
 
+	// Spawn Monster 클래스 만들면 거기에 옮겨놓을 함수, 변수들
+public:
+	TWeakObjectPtr<class AMonsterSpawner> GetSpawner() { return Spawner; }
+	void SetSpawner(TWeakObjectPtr<class AMonsterSpawner> Value) { Spawner = Value; }
+
+private:
+	TWeakObjectPtr<class AMonsterSpawner> Spawner;
+
 public:
 	//temp
 	bool bDeath = false;

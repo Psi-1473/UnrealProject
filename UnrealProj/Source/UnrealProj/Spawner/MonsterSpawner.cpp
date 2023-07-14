@@ -15,6 +15,8 @@ AMonsterSpawner::AMonsterSpawner()
 void AMonsterSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+	SpawnerLocation = GetActorLocation();
+
 	Monsters.Init(nullptr, MonsterActors.Num());
 	CheckSpawnTimer();
 }
@@ -31,12 +33,14 @@ AMonster* AMonsterSpawner::SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn
 {
 	FTransform SpawnTrans;
 	SpawnTrans.SetLocation(Location);
+	FActorSpawnParameters SpawnParam;
+	SpawnParam.Owner = this;
+	SpawnParam.Instigator = GetInstigator();
+	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-	AActor* Mob = GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnTrans);
+	AActor* Mob = GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnTrans, SpawnParam);
 	auto Monster = Cast<AMonster>(Mob);
-	//if (Kwang == nullptr)
-	//	return;
-	//Kwang->SetSpawner(this);
+	Monster->SetSpawner(this);
 
 	return Monster;
 }
@@ -48,14 +52,14 @@ AMonster* AMonsterSpawner::SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn
  
  	FNavLocation RandomLocation;
  
- 	NavSystem->GetRandomPointInNavigableRadius(GetActorTransform().GetLocation(), 500.f, RandomLocation);
+ 	NavSystem->GetRandomPointInNavigableRadius(SpawnerLocation, 500.f, RandomLocation);
  	RandomLocation.Location.Z += 50;
+
  	return RandomLocation.Location;
  }
 
  void AMonsterSpawner::CheckSpawnTimer()
  {
-	 UE_LOG(LogTemp, Warning, TEXT("CHECK ! "));
 	 int Number = Monsters.Num();
 	 for (int i = 0; i < Number; i++)
 	 {

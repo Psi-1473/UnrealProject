@@ -6,6 +6,9 @@
 #include "BehaviorTree/BlackboardData.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "../../AI/MonsterAIController.h"
+#include "../../Creatures/Monster/Monster.h"
+#include "../../Spawner/MonsterSpawner.h"
 
 UBTTask_FindPatrolPos::UBTTask_FindPatrolPos()
 {
@@ -23,8 +26,18 @@ EBTNodeResult::Type UBTTask_FindPatrolPos::ExecuteTask(UBehaviorTreeComponent& O
 	if (NavSystem == nullptr)
 		return EBTNodeResult::Failed;
 
+	auto Mob = Cast<AMonster>(CurrentPawn->GetPawn());
+	if (Mob == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Mob NULL"));
+		return EBTNodeResult::Failed;
+	}
+
+	FVector CenterPos = Mob->GetSpawner()->GetActorLocation();
+
+
 	FNavLocation RandomLocation;
-	if (NavSystem->GetRandomPointInNavigableRadius(FVector::ZeroVector, 500.f, RandomLocation))
+	if (NavSystem->GetRandomPointInNavigableRadius(CenterPos, 500.f, RandomLocation))
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsVector(FName("PatrolPos"), RandomLocation.Location);
 	}
