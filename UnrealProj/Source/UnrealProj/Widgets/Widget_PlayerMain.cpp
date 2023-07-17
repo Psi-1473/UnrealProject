@@ -11,6 +11,8 @@
 #include "../Items/Item.h"
 #include "../Skills/Skill.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
+#include "../Stat/PlayerStatComponent.h"
+#include "Components/ProgressBar.h"
 
 const int SkillSlotCount = 3;
 const int ItemSlotCount = 3;
@@ -49,6 +51,15 @@ void UWidget_PlayerMain::EmptyItemSlot(int Index)
 	ItemQuickSlots[Index]->SetItem(nullptr);
 }
 
+void UWidget_PlayerMain::BindPlayer(UPlayerStatComponent* StatComp)
+{
+	PlayerStatComp = StatComp;
+
+	PlayerStatComp->OnHpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateHpBar);
+	PlayerStatComp->OnMpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateMpBar);
+	PlayerStatComp->OnExpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateExpBar);
+}
+
 void UWidget_PlayerMain::SetSkillQuick()
 {
 	for (int i = 0; i < SkillSlotCount; i++)
@@ -79,4 +90,22 @@ void UWidget_PlayerMain::SetItemQuick()
 		 //1 - 2
 		 //2 - 3
 	}
+}
+
+void UWidget_PlayerMain::UpdateHpBar()
+{
+	if (PlayerStatComp.IsValid())
+		PB_Hp->SetPercent(PlayerStatComp->GetHpRatio());
+}
+
+void UWidget_PlayerMain::UpdateMpBar()
+{
+	if (PlayerStatComp.IsValid())
+		PB_Mp->SetPercent(PlayerStatComp->GetMpRatio());
+}
+
+void UWidget_PlayerMain::UpdateExpBar()
+{
+	if (PlayerStatComp.IsValid())
+		PB_Exp->SetPercent(PlayerStatComp->GetExpRatio());
 }

@@ -21,12 +21,25 @@ public:
 	void PressQuickSlot(int Index);
 	void EmptyItemSlot(int Index);
 
+	void BindPlayer(class UPlayerStatComponent* StatComp);
 private:
 	void SetSkillQuick();
 	void SetItemQuick();
 	
+	void UpdateHpBar();
+	void UpdateMpBar();
+	void UpdateExpBar();
 
 private:
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* PB_Hp;
+
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* PB_Mp;
+
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* PB_Exp;
+
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* SkillBox;
 
@@ -38,5 +51,8 @@ private:
 
 	UPROPERTY()
 	TArray<class UWidget_ItemQuick*> ItemQuickSlots;
+	
+	UPROPERTY()
+	TWeakObjectPtr<class UPlayerStatComponent> PlayerStatComp;
 	
 };

@@ -66,7 +66,7 @@ void ASEA_Bow_First::AttackCheck()
 				AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
 				FDamageEvent DamageEvent;
 				if (Enemy != nullptr)
-					Enemy->TakeDamage(15.f, DamageEvent, OwnerPlayer->GetController(), this); //Temp
+					Enemy->TakeDamage(15.f, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer); //Temp
 			}
 		}
 

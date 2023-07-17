@@ -28,7 +28,7 @@ public:
 public:
 	void AttackTarget(class AMyPlayer* Target);
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-	void Die();
+	void Die(class AMyPlayer* Player);
 	void DestroyObject();
 private:
 	void SetHpBar();

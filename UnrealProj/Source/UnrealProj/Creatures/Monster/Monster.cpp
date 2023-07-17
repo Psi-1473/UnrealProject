@@ -8,6 +8,9 @@
 #include "Components/SceneComponent.h"
 #include "../../TextRender/DamageText.h"
 #include "../../Widgets/Components/Widget_HpBar.h"
+#include "../../MyGameInstance.h"
+#include "../Player/MyPlayer.h"
+#include "../../Stat/PlayerStatComponent.h"
 
 AMonster::AMonster()
 {
@@ -77,14 +80,16 @@ float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 	AnimInst->PlayDamagedMontage();
 	StatComponent->OnAttacked(Damage);
 
+	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
+
 	PopupDamageText(Damage);
 	if (StatComponent->GetHp() <= 0)
-		Die();
+		Die(CauserPlayer);
 
 	return Damage;
 }
 
-void AMonster::Die()
+void AMonster::Die(AMyPlayer* Player)
 {
 	auto AIController = Cast<AMonsterAIController>(GetController());
 
@@ -92,6 +97,9 @@ void AMonster::Die()
 	AIController->StopAI();
 	bDeath = true;
 	AnimInst->StopAllMontages(1.f);
+
+	Player->GetStatComponent()->AddExp(StatComponent->GetExp());
+	// Player °ñµå È¹µæ Ãß°¡
 
 }
 

@@ -29,6 +29,12 @@ void UMonsterStatComponent::InitializeComponent()
 	SetInfo(Owner->GetObjectName());
 }
 
+int32 UMonsterStatComponent::GetGold()
+{
+	// min gold ~ max gold ·£´ý°ª ¸®ÅÏ
+	return 1;
+}
+
 void UMonsterStatComponent::SetInfo(FString NameInfo)
 {
 	auto MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -43,6 +49,10 @@ void UMonsterStatComponent::SetInfo(FString NameInfo)
 				Id = StatData->Id;
 				Level = StatData->Level;
 				MaxHp = StatData->MaxHp;
+				Exp = StatData->Exp;
+				MaxGold = StatData->MaxGold;
+				MinGold = StatData->MinGold;
+				//Gold = MinGold¿Í MaxGold »çÀÌ ·£´ý
 				SetHp(MaxHp);
 				Attack = StatData->Attack;
 				UE_LOG(LogTemp, Warning, TEXT("%d"), Hp);

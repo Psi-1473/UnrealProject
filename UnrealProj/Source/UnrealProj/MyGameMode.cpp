@@ -3,6 +3,9 @@
 
 #include "MyGameMode.h"
 #include "Blueprint/UserWidget.h"
+#include "Widgets/Widget_PlayerMain.h"
+#include "Creatures/Player/MyPlayer.h"
+#include "Stat/PlayerStatComponent.h"
 
 AMyGameMode::AMyGameMode()
 {
@@ -16,4 +19,12 @@ AMyGameMode::AMyGameMode()
 		if (CurrentWidget)
 			CurrentWidget->AddToViewport();
 	}
+}
+
+void AMyGameMode::BindPlayer(AMyPlayer* Player)
+{
+	auto Widget = Cast<UWidget_PlayerMain>(CurrentWidget);
+	if (Widget == nullptr) return;
+
+	Widget->BindPlayer(Player->GetStatComponent());
 }

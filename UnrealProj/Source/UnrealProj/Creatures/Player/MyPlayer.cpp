@@ -21,7 +21,7 @@
 #include "../../Inventory/Inventory.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
-
+#include "../../MyGameMode.h"
 
 
 
@@ -101,6 +101,14 @@ void AMyPlayer::BeginPlay()
 		StateMachine = NewObject<UStateMachine>();
 		StateMachine->SetOwner(this);
 	}
+
+	auto GMode = UGameplayStatics::GetGameMode(GetWorld());
+	auto GameMode = Cast<AMyGameMode>(GMode);
+
+	if (GameMode == nullptr) return;
+	GameMode->BindPlayer(this);
+
+
 }
 
 void AMyPlayer::Tick(float DeltaTime)

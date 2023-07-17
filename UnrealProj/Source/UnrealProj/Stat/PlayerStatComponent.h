@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "PlayerStatComponent.generated.h"
 
+DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
+DECLARE_MULTICAST_DELEGATE(FOnMpChanged);
+DECLARE_MULTICAST_DELEGATE(FOnExpChanged);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALPROJ_API UPlayerStatComponent : public UActorComponent
@@ -26,7 +29,15 @@ public:
 	int32 GetAttack() { return Attack; }
 	int32 GetMaxHp() { return MaxHp; }
 
+	float GetHpRatio() { return Hp / (float)MaxHp; }
+	float GetMpRatio() { return Mp / (float)MaxMp; }
+	float GetExpRatio() { return Exp / (float)MaxExp; }
+
 	void SetLevel(int32 NewLevel);
+	void AddExp(int32 Value);
+	void SetHp(int32 Value);
+	void SetExp(int32 Value);
+	void SetMp(int32 Value);
 public:
 	void OnAttacked(float DamageAmount);
 
@@ -42,4 +53,21 @@ private:
 
 	UPROPERTY()
 	int32 Hp;
+
+	UPROPERTY()
+	int32 MaxExp;
+
+	UPROPERTY()
+	int32 Exp;
+
+	UPROPERTY()
+	int32 MaxMp;
+
+	UPROPERTY()
+	int32 Mp;
+
+public:
+	FOnHpChanged OnHpChanged;
+	FOnMpChanged OnMpChanged;
+	FOnExpChanged OnExpChanged;
 };

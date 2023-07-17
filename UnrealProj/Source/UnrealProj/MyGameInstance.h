@@ -24,11 +24,18 @@ struct FMyPlayerData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxHp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MaxMp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MaxExp;
 };
 USTRUCT()
 struct FMonsterData : public FTableRowBase
 {
 	GENERATED_BODY()
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
 
@@ -43,6 +50,15 @@ struct FMonsterData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxHp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Exp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MinGold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 MaxGold;
 };
 USTRUCT()
 struct FNpcData : public FTableRowBase

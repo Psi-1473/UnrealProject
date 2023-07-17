@@ -30,6 +30,7 @@ public:
 	class UCharacterState* GetSpecificState(STATE Value);
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
 	class UCameraComponent* GetCamera() { return Camera; }
+	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	class UInventory* GetInventory() { return Inventory; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }

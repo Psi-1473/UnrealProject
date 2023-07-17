@@ -18,6 +18,8 @@ public:
 	AMyGameMode();
 	UUserWidget* GetCurrentWidget() { return CurrentWidget; }
 
+	void BindPlayer(class AMyPlayer* Player);
+
 
 private:
 	UPROPERTY(VisibleAnywhere)

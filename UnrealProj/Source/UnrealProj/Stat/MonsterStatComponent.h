@@ -27,6 +27,8 @@ public:
 	int32 GetAttack() { return Attack; }
 	int32 GetMaxHp() { return MaxHp; }
 	int32 GetHp() { return Hp; }
+	int32 GetExp() { return Exp; }
+	int32 GetGold();
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
@@ -50,7 +52,16 @@ private:
 	int32 MaxHp;
 
 	UPROPERTY()
-		int32 Hp;
+	int32 Hp;
+
+	UPROPERTY()
+	int32 Exp;
+
+	UPROPERTY()
+	int32 MaxGold;
+
+	UPROPERTY()
+	int32 MinGold;
 
 public:
 	FOnHpChanged OnHpChanged;
