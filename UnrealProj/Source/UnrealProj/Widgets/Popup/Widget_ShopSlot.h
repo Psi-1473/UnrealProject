@@ -23,17 +23,20 @@ public:
 	void ClickBuyButton();
 
 	void SetSlot(class UMyGameInstance* GInstance, ItemType TemType, int16 Id);
-private:
-	class AWeapon* CreateNewWeapon();
-	class AUseItem* CreateNewUseItem(class UMyGameInstance* GInstance);
+
+
 private:
 	ItemType IType;
+
+	UPROPERTY()
 	WEAPONTYPE WType;
 
 
 	UPROPERTY()
 	int16 ItemId;
 
+	UPROPERTY()
+	int16 ItemPrice;
 	// 아이템 타입이랑 아이디로 나누지 말고
 	// 변수를 그냥 AItem 객체로 가지자.
 

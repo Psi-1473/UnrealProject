@@ -10,6 +10,7 @@
 #include "../../Items/Item.h"
 #include "Widget_InvenSlot.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 
 void UWidget_Inventory::NativeConstruct()
 {
@@ -46,11 +47,18 @@ void UWidget_Inventory::UpdateSlotInfo()
 		Slots[i]->SetCount();
 		Slots[i]->SetSlotIndex(i);
 	}
+	RefreshGoldText(MyPlayer);
 }
 
 void UWidget_Inventory::RefreshSlotByIndex(int SlotIndex)
 {
 	Slots[SlotIndex]->RefreshSlot();
+}
+
+void UWidget_Inventory::RefreshGoldText(TWeakObjectPtr<class AMyPlayer> Player)
+{
+	FString GoldText = TEXT("Gold : ") + FString::FromInt(Player->GetInventory()->GetGold());
+	Text_Gold->SetText(FText::FromString(GoldText));
 }
 
 

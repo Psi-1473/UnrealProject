@@ -28,7 +28,7 @@ public:
 	int32 GetMaxHp() { return MaxHp; }
 	int32 GetHp() { return Hp; }
 	int32 GetExp() { return Exp; }
-	int32 GetGold();
+	int32 GetGold() { return FMath::RandRange(MinGold, MaxGold);}
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:

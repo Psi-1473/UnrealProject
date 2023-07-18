@@ -5,6 +5,10 @@
 #include "../Items/Item.h"
 #include "../Items/UseItem/UseItem.h"
 #include "../Items/Weapons/Weapon.h"
+#include "../Widgets/Popup/Widget_Inventory.h"
+#include "../Managers/UIManager.h"
+#include "../MyGameInstance.h"
+#include "../Creatures/Player/MyPlayer.h"
 
 
 UInventory::UInventory()
@@ -20,6 +24,7 @@ void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
 	Type = InventoryType::Equip;
+	Gold = 0;
 }
 
 TArray<class AItem*>& UInventory::GetInventory()
@@ -30,12 +35,38 @@ TArray<class AItem*>& UInventory::GetInventory()
 	
 }
 
-void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
+void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 {
-	
-	if(Item->GetType() == WEAPONTYPE::WEAPON_SWORD)
+	UE_LOG(LogTemp, Warning, TEXT("GainNewItem"));
+	AItem* NewItem;
+	if (IType == ItemType::ITEM_USE)
+	{
+		NewItem = CreateUseItem(Id);
+		GainNewUseItem(NewItem);
+	}
+	else //무기
+	{
+		if (IType == ItemType::ITEM_SWORD)
+			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_SWORD);
+		else// if (IType == ItemType::ITEM_BOW)
+			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_ARROW);
+
+		GainNewWeapon(NewItem);
+	}
+
+	NewItem->SetInventory(this);
+	NewItem->SetCount(1);
+}
+
+
+void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
+{
+	auto Weapon = Cast<AWeapon>(Item);
+	if (Weapon == nullptr) return;
+
+	if(Weapon->GetType() == WEAPONTYPE::WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword Gain!"));
-	if (Item->GetType() == WEAPONTYPE::WEAPON_ARROW)
+	if (Weapon->GetType() == WEAPONTYPE::WEAPON_ARROW)
 		UE_LOG(LogTemp, Warning, TEXT("Bow Gain!"));
 
 	int Index;
@@ -52,8 +83,11 @@ void UInventory::GainNewWeapon(AWeapon* Item, int SlotIndex)
 	
 }
 
-void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
+void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 {
+	auto UseItem = Cast<AUseItem>(Item);
+	if (UseItem == nullptr) return;
+
 	UE_LOG(LogTemp, Warning, TEXT("UseItem Gain!"));
 	int Index;
 	int HavingIndex;
@@ -74,6 +108,31 @@ void UInventory::GainNewUseItem(AUseItem* Item, int SlotIndex)
 		return;//빈칸 없음
 	Item->SetSlotIndex(Index);
 	UseItems[Index] = Item;
+}
+
+AWeapon* UInventory::CreateWeapon(int Id, WEAPONTYPE WType)
+{
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance()); // 나중에 Weapon Data 끌고오기 위함
+
+	AWeapon* Weapon = NewObject<AWeapon>();
+	Weapon->SetId(Id);
+	Weapon->SetWeaponType(WType);
+	// 나중에 공격력 이런 정보들 다 여기서 세팅
+	// WType에 따라 GInstance -> Data에 접근해서 무기 정보 가져오기
+	return Weapon;
+}
+
+AUseItem* UInventory::CreateUseItem(int Id)
+{
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	AUseItem* UseItem = NewObject<AUseItem>();
+	UseItem->SetId(Id);
+
+	// 정보 세팅 + 못한 정보세팅 다 여기서
+	UseItem->SetUseType(GInstance->GetUseItemData(Id)->Type);
+	UseItem->SetAmount(GInstance->GetUseItemData(Id)->Amount);
+
+	return UseItem;
 }
 
 int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
@@ -97,17 +156,6 @@ int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 	return -1;
 }
 
-void UInventory::GainNewItem(AItem* Item, int SlotIndex)
-{
-	auto Weapon = Cast<AWeapon>(Item);
-	if (Weapon != nullptr) GainNewWeapon(Weapon, SlotIndex);
-	
-	auto UseItem = Cast<AUseItem>(Item);
-	if (UseItem != nullptr) GainNewUseItem(UseItem, SlotIndex);
-
-	Item->SetInventory(this);
-	Item->SetCount(1);
-}
 
 void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
 {
@@ -126,6 +174,18 @@ void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
 	if (GetInventory()[DragedIndex] != nullptr)
 		GetInventory()[DragedIndex]->SetSlotIndex(DragedIndex);
 	
+}
+
+void UInventory::AddGold(int Value)
+{
+	Gold += Value;
+
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
+	if (Widget != nullptr)
+	{
+		Widget->RefreshGoldText(OwnerPlayer);
+	}
 }
 
 

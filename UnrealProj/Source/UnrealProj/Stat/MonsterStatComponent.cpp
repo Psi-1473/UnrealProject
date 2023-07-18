@@ -29,12 +29,6 @@ void UMonsterStatComponent::InitializeComponent()
 	SetInfo(Owner->GetObjectName());
 }
 
-int32 UMonsterStatComponent::GetGold()
-{
-	// min gold ~ max gold ·£´ý°ª ¸®ÅÏ
-	return 1;
-}
-
 void UMonsterStatComponent::SetInfo(FString NameInfo)
 {
 	auto MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));

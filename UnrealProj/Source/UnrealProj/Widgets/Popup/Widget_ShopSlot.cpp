@@ -24,18 +24,15 @@ void UWidget_ShopSlot::NativeConstruct()
 void UWidget_ShopSlot::ClickBuyButton()
 {
 	// 돈있나 확인 먼저
-
-	AItem* NewItem;
-
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
+	//if (MyPlayer->GetInventory()->GetGold() < ItemPrice)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("돈이 부족"));
+	//	return;
+	//}
 
-	if (IType == ITEM_USE)NewItem = CreateNewUseItem(MyPlayer->GetInstance());
-	else NewItem = CreateNewWeapon();
-
-	
-
-	MyPlayer->GetInventory()->GainNewItem(NewItem); // 나머지 세팅은 여기서
+	MyPlayer->GetInventory()->GainNewItem(IType, ItemId); // 나머지 세팅은 여기서
 }
 
 void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int16 Id)
@@ -49,48 +46,30 @@ void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int
 	if (TemType == ITEM_SWORD)
 	{
 		Name = GInstance->GetSwordData(Id)->Name;
-		Price = FString::FromInt(GInstance->GetSwordData(Id)->Price);
+		ItemPrice = GInstance->GetSwordData(Id)->Price;
 		Img_Item->SetBrush(GInstance->GetSwordImage(Id)->Brush);
 		WType = WEAPONTYPE::WEAPON_SWORD;
 	}
 	else if (TemType == ITEM_BOW)
 	{
 		Name = GInstance->GetBowData(Id)->Name;
-		Price = FString::FromInt(GInstance->GetBowData(Id)->Price);
+		ItemPrice = GInstance->GetBowData(Id)->Price;
 		Img_Item->SetBrush(GInstance->GetBowImage(Id)->Brush);
 		WType = WEAPONTYPE::WEAPON_ARROW;
 	}
 	else if (TemType == ITEM_USE)
 	{
 		Name = GInstance->GetUseItemData(Id)->Name;
-		Price = FString::FromInt(GInstance->GetUseItemData(Id)->Price);
+		ItemPrice = GInstance->GetUseItemData(Id)->Price;
 		Img_Item->SetBrush(GInstance->GetUseItemImage(Id)->Brush);
 	}
 
+	Price = FString::FromInt(ItemPrice);
 	Text_Name->SetText(FText::FromString(*Name));
 	Text_Gold->SetText(FText::FromString(*Price));
 }
 
-AWeapon* UWidget_ShopSlot::CreateNewWeapon()
-{
-	AWeapon* Weapon = NewObject<AWeapon>();
-	Weapon->SetId(ItemId);
-	//Weapon->SetCount(1);
-	Weapon->SetWeaponType(WType);
-	
-	return Weapon;
-}
 
 
-AUseItem* UWidget_ShopSlot::CreateNewUseItem(UMyGameInstance* GInstance)
-{
-	AUseItem* UseItem = NewObject<AUseItem>();
-	UseItem->SetId(ItemId);
-	//UseItem->SetCount(1);
 
-	// 정보 세팅
-	UseItem->SetUseType(GInstance->GetUseItemData(ItemId)->Type);
-	UseItem->SetAmount(GInstance->GetUseItemData(ItemId)->Amount);
 
-	return UseItem;
-}

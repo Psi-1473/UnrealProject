@@ -18,6 +18,8 @@ public:
 	virtual void NativeConstruct();
 	void UpdateSlotInfo();
 	void RefreshSlotByIndex(int SlotIndex);
+	void RefreshGoldText(TWeakObjectPtr<class AMyPlayer> Player);
+
 
 private:
 	void CreateSlot();
@@ -52,6 +54,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UImage* Img_EquipPants;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Gold;
 	
 	UPROPERTY()
 	TArray<class UWidget_InvenSlot*> Slots;

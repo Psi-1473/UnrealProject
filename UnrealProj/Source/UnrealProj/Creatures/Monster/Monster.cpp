@@ -11,6 +11,7 @@
 #include "../../MyGameInstance.h"
 #include "../Player/MyPlayer.h"
 #include "../../Stat/PlayerStatComponent.h"
+#include "../../Inventory/Inventory.h"
 
 AMonster::AMonster()
 {
@@ -99,8 +100,7 @@ void AMonster::Die(AMyPlayer* Player)
 	AnimInst->StopAllMontages(1.f);
 
 	Player->GetStatComponent()->AddExp(StatComponent->GetExp());
-	// Player °ñµå È¹µæ Ãß°¡
-
+	Player->GetInventory()->AddGold(StatComponent->GetGold());
 }
 
 void AMonster::DestroyObject()
