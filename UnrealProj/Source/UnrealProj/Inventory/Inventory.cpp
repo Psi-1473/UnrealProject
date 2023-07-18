@@ -42,7 +42,7 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 	if (IType == ItemType::ITEM_USE)
 	{
 		NewItem = CreateUseItem(Id);
-		GainNewUseItem(NewItem);
+		GainNewUseItem(NewItem, SlotIndex);
 	}
 	else //¹«±â
 	{
@@ -51,7 +51,7 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 		else// if (IType == ItemType::ITEM_BOW)
 			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_ARROW);
 
-		GainNewWeapon(NewItem);
+		GainNewWeapon(NewItem, SlotIndex);
 	}
 
 	NewItem->SetInventory(this);
