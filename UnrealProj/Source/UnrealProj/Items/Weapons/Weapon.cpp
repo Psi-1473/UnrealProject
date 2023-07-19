@@ -27,11 +27,7 @@ void AWeapon::UseItem()
 	auto EquipedWeapon = Player->GetWeapon();
 	Player->EquipWeapon(this);
 	Inventory->EmptySlot(Inventory->GetWeaponItems(), SlotIndex);
-	// 변경해야함 여기 에러남 무기 바꿔끼면
-	// 1. 장착하려는 아이템 자리 비움
-	// 2. 기존에 장착하던 아이템을 그 자리에 채움
-	// 3. 장착한 장비 바꿈
-	// 여기서 1~2번이 안된다.
+	// 변경해야함 여기
 	ItemType IType;
 	if (EquipedWeapon->GetType() == WEAPONTYPE::WEAPON_SWORD) IType = ITEM_SWORD;
 	else if (EquipedWeapon->GetType() == WEAPONTYPE::WEAPON_ARROW) IType = ITEM_BOW;

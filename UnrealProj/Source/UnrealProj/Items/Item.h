@@ -47,7 +47,7 @@ protected:
 	int16 SlotIndex;
 
 	UPROPERTY()
-	int16 QuickSlotIndex;
+	int16 QuickSlotIndex = -1;
 
 	UPROPERTY()
 	TWeakObjectPtr<class UInventory> Inventory;

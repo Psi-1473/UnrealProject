@@ -20,6 +20,7 @@ public:
 
 	void PressQuickSlot(int Index);
 	void EmptyItemSlot(int Index);
+	void RefreshItemQuickSlot(int Index);
 
 	void BindPlayer(class UPlayerStatComponent* StatComp);
 private:

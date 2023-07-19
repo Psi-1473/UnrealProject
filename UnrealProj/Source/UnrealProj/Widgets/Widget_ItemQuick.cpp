@@ -75,6 +75,7 @@ bool UWidget_ItemQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 		else
 		{
 			// Äü½½·Ô³¢¸® ½º¿Ò
+			if (QuickItem != nullptr) QuickItem->SetQuickSlotIndex(-1);
 			MainWidget->SwapItemQuickSlot(DragOper->SlotIndex, QuickSlotIndex);
 			return true;
 		}

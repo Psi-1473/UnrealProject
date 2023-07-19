@@ -44,22 +44,22 @@ void AUseItem::SetCount(int Value)
 	Count = Value;
 	auto GInstance = Cast<UMyGameInstance>(Inventory->GetPlayer()->GetInstance());
 	auto Inven = GInstance->GetUIMgr()->GetUI(UIType::Inventory);
+
+	UWorld* Wolrd = Inventory->GetPlayer()->GetWorld();
+	auto GMode = UGameplayStatics::GetGameMode(Wolrd);
+	auto GameMode = Cast<AMyGameMode>(GMode);
+	if (GameMode == nullptr) return;
+	auto Widget = Cast<UWidget_PlayerMain>(GameMode->GetCurrentWidget());
+	if (Widget == nullptr) return;
+
 	if (Count == 0)
 	{
 		Inventory->EmptySlot(Inventory->GetUseItems(), SlotIndex);
-		// Äü½½·Ôµµ 
-		UWorld* Wolrd = Inventory->GetPlayer()->GetWorld();
-		auto GMode = UGameplayStatics::GetGameMode(Wolrd);
-		auto GameMode = Cast<AMyGameMode>(GMode);
-
-		if (GameMode == nullptr) return;
-
-		auto Widget = Cast<UWidget_PlayerMain>(GameMode->GetCurrentWidget());
-
-		if (Widget == nullptr) return;
-
 		Widget->EmptyItemSlot(QuickSlotIndex);
 	}
+
+	if (QuickSlotIndex != -1)
+		Widget->RefreshItemQuickSlot(QuickSlotIndex);
 
 	if (Inven != nullptr)
 	{
