@@ -1,5 +1,4 @@
 #include "Monster.h"
-#include "../../AI/MonsterAIController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../../Stat/MonsterStatComponent.h"
@@ -12,6 +11,7 @@
 #include "../Player/MyPlayer.h"
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Inventory/Inventory.h"
+#include "../../AI/MonsterAIController.h"
 
 AMonster::AMonster()
 {
@@ -20,9 +20,10 @@ AMonster::AMonster()
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
 
-	AIControllerClass = AMonsterAIController::StaticClass();
-	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
+	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
+	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	GetMesh()->SetCollisionProfileName("NoCollision");
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
@@ -45,8 +46,11 @@ void AMonster::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 	UE_LOG(LogTemp, Warning, TEXT("POST INIT"));
-	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
-	AnimInst->OnDied.AddUObject(this, &AMonster::DestroyObject);
+	if (GetMesh()->GetAnimInstance() != nullptr)
+	{
+		AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
+		AnimInst->OnDied.AddUObject(this, &AMonster::DestroyObject);
+	}
 	HpBar->InitWidget();
 	auto Bar = Cast<UWidget_HpBar>(HpBar->GetUserWidgetObject());
 	if (Bar != nullptr)

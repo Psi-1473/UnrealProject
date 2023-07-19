@@ -3,7 +3,7 @@
 
 #include "MonsterSpawner.h"
 #include <NavigationSystem.h>
-#include "../Creatures/Monster/Monster.h"
+#include "../Creatures/Monster/SpawnMonster.h"
 
 AMonsterSpawner::AMonsterSpawner()
 {
@@ -39,7 +39,7 @@ AMonster* AMonsterSpawner::SpawnMonster(TSubclassOf<class AMonster> ActorToSpawn
 	SpawnParam.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	AActor* Mob = GetWorld()->SpawnActor<AActor>(ActorToSpawn, SpawnTrans, SpawnParam);
-	auto Monster = Cast<AMonster>(Mob);
+	auto Monster = Cast<ASpawnMonster>(Mob);
 	Monster->SetSpawner(this);
 
 	return Monster;

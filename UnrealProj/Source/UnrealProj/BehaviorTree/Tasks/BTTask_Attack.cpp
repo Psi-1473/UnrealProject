@@ -24,5 +24,5 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 	auto TargetPlayer = Cast<AMyPlayer>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Target"))));
 	CurrentMonster->AttackTarget(TargetPlayer);
 
-	return EBTNodeResult::Type();
+	return Result;
 }

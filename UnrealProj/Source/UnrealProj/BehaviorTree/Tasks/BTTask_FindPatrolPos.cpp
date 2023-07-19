@@ -8,6 +8,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "../../AI/MonsterAIController.h"
 #include "../../Creatures/Monster/Monster.h"
+#include "../../Creatures/Monster/SpawnMonster.h"
 #include "../../Spawner/MonsterSpawner.h"
 
 UBTTask_FindPatrolPos::UBTTask_FindPatrolPos()
@@ -26,7 +27,7 @@ EBTNodeResult::Type UBTTask_FindPatrolPos::ExecuteTask(UBehaviorTreeComponent& O
 	if (NavSystem == nullptr)
 		return EBTNodeResult::Failed;
 
-	auto Mob = Cast<AMonster>(CurrentPawn->GetPawn());
+	auto Mob = Cast<ASpawnMonster>(CurrentPawn->GetPawn());
 	if (Mob == nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Mob NULL"));
