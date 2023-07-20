@@ -7,6 +7,8 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Creatures/Player/MyPlayer.h"
 
 ABossAIController::ABossAIController()
 {
@@ -27,7 +29,7 @@ void ABossAIController::OnPossess(APawn* InPawn)
 	{
 		if (RunBehaviorTree(BehaviorTree))//매개변수 : Behavior Tree
 		{
-
+			
 		}
 	}
 }
@@ -35,4 +37,30 @@ void ABossAIController::OnPossess(APawn* InPawn)
 void ABossAIController::OnUnPossess()
 {
 	Super::OnUnPossess();
+}
+
+void ABossAIController::SetTarget(AMyPlayer* Player)
+{
+	Blackboard->SetValueAsObject(FName(TEXT("Target")), Player);
+	UE_LOG(LogTemp, Warning, TEXT("Black Board Target Set! - Boss"));
+}
+
+void ABossAIController::StopAI()
+{
+	UBehaviorTreeComponent* BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
+
+	if (nullptr != BehaviorTreeComponent)
+		BehaviorTreeComponent->StopTree();
+}
+
+
+void ABossAIController::StartAI()
+{
+	UE_LOG(LogTemp, Warning, TEXT("START"));
+	auto BehaviorTreeComponent = Cast<UBehaviorTreeComponent>(BrainComponent);
+
+	if (BehaviorTreeComponent == nullptr)
+		return;
+
+	BehaviorTreeComponent->StartTree(*BehaviorTree, EBTExecutionMode::Looped);
 }

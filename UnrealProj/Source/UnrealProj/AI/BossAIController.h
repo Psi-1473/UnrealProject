@@ -19,6 +19,9 @@ public:
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
 
+	void SetTarget(class AMyPlayer* Player);
+	void StopAI();
+	void StartAI();
 private:
 	UPROPERTY()
 		class UBehaviorTree* BehaviorTree;

@@ -17,7 +17,7 @@ public:
 
 protected:
 	virtual void BeginPlay();
-	virtual void PostInitializeComponents() override;
+	virtual void PostInitializeComponents();
 
 public:	
 	virtual void Tick(float DeltaTime) override;
@@ -26,31 +26,25 @@ public:
 	FString GetObjectName();
 
 public:
-	void AttackTarget(class AMyPlayer* Target);
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-	void Die(class AMyPlayer* Player);
-	void DestroyObject();
-private:
-	void SetHpBar();
+	virtual void AttackTarget(class AMyPlayer* Target);
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+	virtual void Die(class AMyPlayer* Player);
+	virtual void DestroyObject();
+protected:
 	void PopupDamageText(float Damage);
 
 
 
 public:
-	//temp
 	bool bDeath = false;
-private:
-	UPROPERTY()
-	class UMonsterAnimInstance* AnimInst;
+protected:
+
 
 	UPROPERTY()
 	class UMonsterStatComponent* StatComponent;
 
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* DamageTextComp;
-
-	UPROPERTY()
-	class UWidgetComponent* HpBar;
 
 	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;

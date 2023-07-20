@@ -24,6 +24,9 @@ bool UBTDecorator_CanDash::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 	if (Boss == nullptr)
 		return false;
 
+	if (Boss->GetCanDash() == false)
+		return false;
+
 	auto Target = Boss->GetTarget();
 
 	if (Target == nullptr)

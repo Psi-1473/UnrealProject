@@ -18,14 +18,19 @@ public:
 	ABossMonster();
 
 	virtual void BeginPlay() override;
+	virtual void PostInitializeComponents();
 public:
 	bool GetCanSkill() { return bCanSkill; }
 	bool GetCanDash() { return bCanDash; }
-	class AMyPlayer* GetTarget() { return Target; }
+	class AMyPlayer* GetTarget() { return TargetPlayer; }
 
 	void UseSkill();
 	void Dash();
 	
+	virtual void AttackTarget(class AMyPlayer* Target) override;
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+	virtual void Die(class AMyPlayer* Player) override;
+	virtual void DestroyObject() override;
 
 private:
 	void SetCanSkillTrue();
@@ -33,13 +38,16 @@ private:
 
 private:
 	UPROPERTY()
+	class UBossAnimInstance* AnimInst;
+
+	UPROPERTY()
 	bool bCanSkill = true;
 
 	UPROPERTY()
 	bool bCanDash = true;
 
 	UPROPERTY()
-	class AMyPlayer* Target;
+	class AMyPlayer* TargetPlayer;
 
 	UPROPERTY()
 	FTimerHandle DashCoolTimer;

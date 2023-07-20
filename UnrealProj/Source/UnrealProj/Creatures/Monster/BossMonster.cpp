@@ -5,6 +5,7 @@
 #include "../../AI/BossAIController.h"
 #include "../Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
+#include "../../Animations/Monster/BossAnimInstance.h"
 
 ABossMonster::ABossMonster()
 {
@@ -18,7 +19,18 @@ void ABossMonster::BeginPlay()
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-	Target = MyPlayer;
+	TargetPlayer = MyPlayer;
+
+	auto AIController = Cast<ABossAIController>(GetController());
+	AIController->SetTarget(TargetPlayer);
+
+}
+
+void ABossMonster::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	AnimInst = Cast<UBossAnimInstance>(GetMesh()->GetAnimInstance());
+	//AnimInst->OnDied.AddUObject(this, &ABossMonster::DestroyObject);
 }
 
 void ABossMonster::UseSkill()
@@ -38,12 +50,38 @@ void ABossMonster::Dash()
 	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
 }
 
+void ABossMonster::AttackTarget(AMyPlayer* Target)
+{
+	AnimInst->PlayAttackMontage();
+}
+
+float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	// 부모 상속받을지 결정
+	PopupDamageText(Damage);
+	return Damage;
+}
+
+void ABossMonster::Die(AMyPlayer* Player)
+{
+}
+
+void ABossMonster::DestroyObject()
+{
+}
+
 void ABossMonster::SetCanSkillTrue()
 {
 	bCanSkill = true;
+	auto AIController = Cast<ABossAIController>(GetController());
+	AIController->StopAI();
+	AIController->StartAI();
 }
 
 void ABossMonster::SetCanDashTrue()
 {
 	bCanDash = true;
+	auto AIController = Cast<ABossAIController>(GetController());
+	AIController->StopAI();
+	AIController->StartAI();
 }
