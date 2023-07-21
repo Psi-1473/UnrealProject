@@ -9,6 +9,7 @@
 #include "Animation/AnimMontage.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../Skills/Skill.h"
+#include "../../Skills/Player/PlayerSkill.h"
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -114,7 +115,7 @@ void UPlayerAnim::AnimNotify_SkillEffect()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
 
-	USkill* Skill = Character->GetSkill();
+	UPlayerSkill* Skill = Character->GetSkill();
 	Skill->PlayParticle(Character);
 
 }
@@ -136,7 +137,7 @@ void UPlayerAnim::AnimNotify_DashStart()
 	auto pawn = TryGetPawnOwner();
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 	MyPlayer->SetDash(true);
-	USkill* Skill = MyPlayer->GetSkill();
+	UPlayerSkill* Skill = MyPlayer->GetSkill();
 	Skill->PlayParticle(MyPlayer);
 	
 }
@@ -146,7 +147,7 @@ void UPlayerAnim::AnimNotify_DashEnd()
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 	MyPlayer->SetDash(false);
 	MyPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
-	USkill* Skill = MyPlayer->GetSkill();
+	UPlayerSkill* Skill = MyPlayer->GetSkill();
 	Skill->DestroyActor();
 }
 void UPlayerAnim::AnimNotify_HitCheck()

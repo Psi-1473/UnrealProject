@@ -26,9 +26,9 @@ public:
 	FString GetObjectName();
 
 public:
-	virtual void AttackTarget(class AMyPlayer* Target);
+	virtual void AttackTarget(class AMyPlayer* Target) {};
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
-	virtual void Die(class AMyPlayer* Player);
+	virtual void Die(class AMyPlayer* Player) {};
 	virtual void DestroyObject();
 protected:
 	void PopupDamageText(float Damage);

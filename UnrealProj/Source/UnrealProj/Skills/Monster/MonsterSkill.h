@@ -14,4 +14,13 @@ class UNREALPROJ_API UMonsterSkill : public USkill
 {
 	GENERATED_BODY()
 	
+public:
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
+	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
+
+	void SetOwnerMonster(TWeakObjectPtr<class AMonster> Monster) { OwnerMonster = Monster; }
+
+protected:
+	UPROPERTY();
+	TWeakObjectPtr<class AMonster> OwnerMonster;
 };

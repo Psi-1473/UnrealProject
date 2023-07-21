@@ -54,20 +54,12 @@ FString AMonster::GetObjectName()
 	return MyName;
 }
 
-void AMonster::AttackTarget(AMyPlayer* Target)
-{
-	
-}
 
 float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	return Damage;
 }
 
-void AMonster::Die(AMyPlayer* Player)
-{
-	
-}
 
 void AMonster::DestroyObject()
 {

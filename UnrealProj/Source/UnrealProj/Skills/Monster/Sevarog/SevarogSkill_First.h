@@ -3,15 +3,25 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../../Skill.h"
+#include "../MonsterSkill.h"
 #include "SevarogSkill_First.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API USevarogSkill_First : public USkill
+class UNREALPROJ_API USevarogSkill_First : public UMonsterSkill
 {
 	GENERATED_BODY()
 	
+public:
+	USevarogSkill_First();
+
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
+	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
+
+	void Swing();
+
+	UPROPERTY()
+	FTimerHandle ExecuteTimerHandle;
 };

@@ -6,6 +6,7 @@
 #include "../Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Animations/Monster/BossAnimInstance.h"
+#include "../../Skills/Monster/Sevarog/SevarogSkill_First.h"
 
 ABossMonster::ABossMonster()
 {
@@ -20,9 +21,14 @@ void ABossMonster::BeginPlay()
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	TargetPlayer = MyPlayer;
+	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
+	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
 
 	auto AIController = Cast<ABossAIController>(GetController());
 	AIController->SetTarget(TargetPlayer);
+	USevarogSkill_First* NewSkill = NewObject<USevarogSkill_First>();
+	NewSkill->SetOwnerMonster(this);
+	SkillList.Add(NewSkill);
 
 }
 
@@ -38,6 +44,10 @@ void ABossMonster::UseSkill()
 	// 테스트용 함수
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Use Skill !"));
 	bCanSkill = false;
+	if (SkillList.Num() <= 0)
+		return;
+
+	SkillList[0]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }
@@ -73,15 +83,9 @@ void ABossMonster::DestroyObject()
 void ABossMonster::SetCanSkillTrue()
 {
 	bCanSkill = true;
-	auto AIController = Cast<ABossAIController>(GetController());
-	AIController->StopAI();
-	AIController->StartAI();
 }
 
 void ABossMonster::SetCanDashTrue()
 {
 	bCanDash = true;
-	auto AIController = Cast<ABossAIController>(GetController());
-	AIController->StopAI();
-	AIController->StartAI();
 }

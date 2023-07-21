@@ -6,9 +6,13 @@
 #include "Monster.h"
 #include "BossMonster.generated.h"
 
-/**
- * 
- */
+UENUM(BlueprintType)
+ enum class SevarogCastType : uint8
+ {
+	 CAST_SWING,
+	 
+	 CAST_NONE
+ };
 UCLASS()
 class UNREALPROJ_API ABossMonster : public AMonster
 {
@@ -20,9 +24,15 @@ public:
 	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents();
 public:
+	void SetCastSkill(bool Value) { bCastSkill = Value; }
+	void SetExecutingSkill(class UMonsterSkill* NewSkill) { ExecutingSkill = NewSkill; }
+
 	bool GetCanSkill() { return bCanSkill; }
 	bool GetCanDash() { return bCanDash; }
+	bool GetCastSkill() { return bCastSkill; }
+	class UMonsterSkill* GetExecutingSkill() { return ExecutingSkill; }
 	class AMyPlayer* GetTarget() { return TargetPlayer; }
+	class UBossAnimInstance* GetAnimInst() { return AnimInst; }
 
 	void UseSkill();
 	void Dash();
@@ -41,10 +51,19 @@ private:
 	class UBossAnimInstance* AnimInst;
 
 	UPROPERTY()
-	bool bCanSkill = true;
+	bool bCanSkill = false;
 
 	UPROPERTY()
-	bool bCanDash = true;
+	bool bCanDash = false;
+
+	UPROPERTY()
+	bool bCastSkill = false;
+
+	UPROPERTY()
+	class UMonsterSkill* ExecutingSkill;
+	//용도 - 캐스팅 후 사용하는 스킬이 많을 때, 
+	// bCastSkill를 통해 Cast 애니메이션 실행
+	// 어떤 Cast 애니메이션을 실행할 지는 ExecutingSkill의 Id를 통해서 결정
 
 	UPROPERTY()
 	class AMyPlayer* TargetPlayer;
@@ -56,6 +75,6 @@ private:
 	FTimerHandle SkillCoolTimer;
 
 	UPROPERTY()
-	TArray<class USkill*> SkillList;
+	TArray<class UMonsterSkill*> SkillList;
 	
 };
