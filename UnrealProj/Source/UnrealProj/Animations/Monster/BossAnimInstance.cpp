@@ -13,7 +13,7 @@ void UBossAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
 	//DamagedMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Damaged")), NULL, LOAD_None, NULL);
-	//AttackMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
+	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetBossMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
 
 }
 
@@ -31,7 +31,7 @@ void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		bDeath = Character->bDeath;
 	}
 }
-
+	
 FString UBossAnimInstance::GetBossMontageDir(FString MontageType)
 {
 	auto MyPawn = Cast<AMonster>(TryGetPawnOwner());

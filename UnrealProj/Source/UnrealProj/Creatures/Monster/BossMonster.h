@@ -54,5 +54,8 @@ private:
 
 	UPROPERTY()
 	FTimerHandle SkillCoolTimer;
+
+	UPROPERTY()
+	TArray<class USkill*> SkillList;
 	
 };
