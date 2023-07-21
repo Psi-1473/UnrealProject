@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../../Skill.h"
+#include "../PlayerSkill.h"
 #include "PlayerSkill_Sword_First.generated.h"
 
 /**
@@ -12,7 +12,7 @@
 const int MaxSpawnCount = 5;
 
 UCLASS()
-class UNREALPROJ_API UPlayerSkill_Sword_First : public USkill
+class UNREALPROJ_API UPlayerSkill_Sword_First : public UPlayerSkill
 {
 	GENERATED_BODY()
 public:

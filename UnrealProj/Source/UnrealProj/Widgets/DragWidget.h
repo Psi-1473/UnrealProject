@@ -27,6 +27,6 @@ public:
 	class AItem* SlotItem;
 
 	UPROPERTY(EditAnyWhere)
-	class USkill* Skill;
+	class UPlayerSkill* Skill;
 	
 };

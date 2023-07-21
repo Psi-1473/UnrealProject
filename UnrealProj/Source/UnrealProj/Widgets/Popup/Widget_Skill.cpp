@@ -6,6 +6,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/Skill.h"
+#include "../../Skills/Player/PlayerSkill.h"
 #include "Widget_SkillSlot.h"
 #include "Components/ScrollBox.h"
 

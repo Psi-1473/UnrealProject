@@ -5,6 +5,7 @@
 #include "DragWidget.h"
 #include "Components/Image.h"
 #include "../Skills/Skill.h"
+#include "../Skills/Player/PlayerSkill.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
 #include "../Creatures/Player/MyPlayer.h"
 #include "Popup/Widget_InvenSlot.h"
@@ -81,7 +82,7 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 	}
 }
 
-void UWidget_SkillQuick::SetSkill(USkill* Skill)
+void UWidget_SkillQuick::SetSkill(UPlayerSkill* Skill)
 {
 	QuickSkill = Skill;
 	if (QuickSkill == nullptr) return;

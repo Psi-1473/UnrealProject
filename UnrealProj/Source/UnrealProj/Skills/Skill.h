@@ -15,30 +15,19 @@ class UNREALPROJ_API USkill : public UObject
 {
 	GENERATED_BODY()
 protected:
-	virtual void SetDefaultValue();
+	virtual void SetDefaultValue() {};
 public:
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
-	virtual void PlayParticle(AActor* OwnerActor); //Attack Or Fire
-
-
+	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 	virtual void DestroyActor();
-	virtual void CancleCast(AActor* OwnerActor);
-	virtual void CastToExecute(AActor* OwnerActor);
-
-	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 	
 	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }
 	bool GetIsRangeAttack() { return bRange; }
-	WEAPONTYPE GetWeaponType() { return WeaponType; }
-	struct FSkillData* GetSkillInfo();
 
-	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
+
 protected:
-	UPROPERTY()
-	WEAPONTYPE WeaponType;
-
 	UPROPERTY()
 	bool bCanUse = true; // 지금 사용 가능한가
 
@@ -63,6 +52,4 @@ protected:
 	UPROPERTY()
 	FTimerHandle CoolDownTimer; // 쿨타임 타이머
 
-	UPROPERTY();
-	TWeakObjectPtr<class AMyPlayer> OwnerPlayer; // 사용한 플레이어
 };

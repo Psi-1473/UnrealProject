@@ -10,6 +10,7 @@
 #include "Components/TextBlock.h"
 #include "../Items/Item.h"
 #include "../Skills/Skill.h"
+#include "../Skills/Player/PlayerSkill.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
 #include "../Stat/PlayerStatComponent.h"
 #include "Components/ProgressBar.h"
@@ -25,7 +26,7 @@ void UWidget_PlayerMain::NativeConstruct()
 
 void UWidget_PlayerMain::SwapSkillQuickSlot(UPlayerSkillComponent* SkillComponent, int From, int To)
 {
-	USkill* Skill = SkillQuickSlots[From]->GetSkill();
+	UPlayerSkill* Skill = SkillQuickSlots[From]->GetSkill();
 	SkillQuickSlots[From]->SetSkill(SkillQuickSlots[To]->GetSkill());
 	SkillQuickSlots[To]->SetSkill(Skill);
 	// 등록된 키 변경 (완)

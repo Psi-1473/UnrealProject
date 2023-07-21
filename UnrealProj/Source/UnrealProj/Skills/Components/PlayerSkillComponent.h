@@ -20,19 +20,19 @@ protected:
 
 public:	
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
-	void RegisterSkill(int SkillKey, class USkill* Skill);
+	void RegisterSkill(int SkillKey, class UPlayerSkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
-	void AddSkill(class USkill* Skill);
+	void AddSkill(class UPlayerSkill* Skill);
 
 	int GetSkillNumber() { return Skills.Num(); }
-	TArray<class USkill*>& GetSkills() { return Skills; }
+	TArray<class UPlayerSkill*>& GetSkills() { return Skills; }
 private:
 	UPROPERTY()
-	TArray<class USkill*> Skills;
+	TArray<class UPlayerSkill*> Skills;
 
 	UPROPERTY()
-	TArray<class USkill*> RegisteredSkills;
+	TArray<class UPlayerSkill*> RegisteredSkills;
 
 	UPROPERTY()
 	TWeakObjectPtr<class AMyPlayer> OwnerPlayer;

@@ -17,6 +17,7 @@
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
 #include "../../Skills/Skill.h"
+#include "../../Skills/Player/PlayerSkill.h"
 #include "../../MyGameInstance.h"
 #include "../../Managers/UIManager.h"
 #include "../../MyGameMode.h"

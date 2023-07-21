@@ -9,6 +9,7 @@
 #include "../../Items/Weapons/Weapon.h"
 #include "Components/TextBlock.h"
 #include "../../Skills/Skill.h"
+#include "../../Skills/Player/PlayerSkill.h"
 
 void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 {
@@ -52,7 +53,7 @@ void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 	Text_Value->SetText(FText::FromString(*Value));
 }
 
-void UWidget_Information::SetInfoBySkill(USkill* Skill)
+void UWidget_Information::SetInfoBySkill(UPlayerSkill* Skill)
 {
 	FString Name;
 	FString Explain;

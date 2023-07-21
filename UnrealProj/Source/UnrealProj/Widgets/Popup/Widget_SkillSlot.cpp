@@ -5,6 +5,7 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 #include "../../Skills/Skill.h"
+#include "../../Skills/Player/PlayerSkill.h"
 #include <Blueprint/WidgetBlueprintLibrary.h>
 #include "../DragWidget.h"
 #include "Widget_InvenSlot.h"

@@ -36,14 +36,14 @@ public:
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
-	class USkill* GetSkill() { return ExecuteSkill; }
+	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
 
 
 	void SetInteractingNpc(class ANpc* Npc) { InteractingNpc = Npc; }
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
 	void SetState(STATE Value);
-	void SetSkill(class USkill* Value) { ExecuteSkill = Value; }
+	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
 
 public:
@@ -63,7 +63,7 @@ private:
 	class AWeapon* EquipedWeapon;
 
 	UPROPERTY()
-	class USkill* ExecuteSkill;
+	class UPlayerSkill* ExecuteSkill;
 
 	UPROPERTY()
 	bool bDash = false;

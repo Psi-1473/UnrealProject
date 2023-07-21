@@ -1,6 +1,6 @@
 
 #include "PlayerSkillComponent.h"
-#include "../Skill.h"
+#include "../Player/PlayerSkill.h"
 #include "../../DEFINE.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../State/CharacterState.h"
@@ -19,7 +19,7 @@ void UPlayerSkillComponent::BeginPlay()
 	Super::BeginPlay();
 }
 
-void UPlayerSkillComponent::RegisterSkill(int SkillKey, USkill* Skill)
+void UPlayerSkillComponent::RegisterSkill(int SkillKey, UPlayerSkill* Skill)
 {
 	RegisteredSkills[SkillKey] = Skill;
 }
@@ -44,7 +44,7 @@ void UPlayerSkillComponent::CancleCast(int SkillKey)
 	RegisteredSkills[SkillKey]->CancleCast(Player);
 }
 
-void UPlayerSkillComponent::AddSkill(USkill* Skill)
+void UPlayerSkillComponent::AddSkill(UPlayerSkill* Skill)
 {
 	Skill->SetOwnerPlayer(OwnerPlayer);
 	Skills.Add(Skill);

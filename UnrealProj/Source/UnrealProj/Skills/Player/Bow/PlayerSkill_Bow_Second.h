@@ -3,14 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../../Skill.h"
+#include "../PlayerSkill.h"
 #include "PlayerSkill_Bow_Second.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API UPlayerSkill_Bow_Second : public USkill
+class UNREALPROJ_API UPlayerSkill_Bow_Second : public UPlayerSkill
 {
 	GENERATED_BODY()
 public:

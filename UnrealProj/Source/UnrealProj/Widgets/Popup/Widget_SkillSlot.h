@@ -21,12 +21,12 @@ public:
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
 
 
-	void SetSkill(class USkill* Value) { Skill = Value; }
+	void SetSkill(class UPlayerSkill* Value) { Skill = Value; }
 	void SetInfo();
 
 private:
 	UPROPERTY()
-	class USkill* Skill;
+	class UPlayerSkill* Skill;
 
 	UPROPERTY(meta = (BindWidget))
 	class UImage* Img_Skill;
