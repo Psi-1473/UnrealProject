@@ -24,4 +24,10 @@ public:
 
 	UPROPERTY()
 	FTimerHandle ExecuteTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* SkillEffect;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystemComponent* CastingEffectComponent;
 };
