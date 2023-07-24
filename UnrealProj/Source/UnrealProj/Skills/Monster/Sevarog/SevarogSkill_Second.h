@@ -4,35 +4,33 @@
 
 #include "CoreMinimal.h"
 #include "../MonsterSkill.h"
-#include "SevarogSkill_First.generated.h"
+#include "SevarogSkill_Second.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API USevarogSkill_First : public UMonsterSkill
+class UNREALPROJ_API USevarogSkill_Second : public UMonsterSkill
 {
 	GENERATED_BODY()
 	
 public:
-	USevarogSkill_First();
+	USevarogSkill_Second();
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
-	virtual void PlaySkillEffect();
-	void Swing();
-
+	virtual void PlaySkillEffect() override;
+	virtual void Attack() override;
 private:
-	UPROPERTY()
-	FTimerHandle ExecuteTimerHandle;
-
 	UPROPERTY(EditAnywhere)
-	class UParticleSystem* SkillEffect;
-
+	FVector TargetPos;
 	UPROPERTY(EditAnywhere)
-	class UParticleSystemComponent* CastingEffectComponent;
-
+	class UParticleSystem* CastEffect;
 	UPROPERTY(EditAnywhere)
-	class UParticleSystem* SwingEffect;
+	class UParticleSystem* CastEffect2;
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* FireEffect;
+
+
 };

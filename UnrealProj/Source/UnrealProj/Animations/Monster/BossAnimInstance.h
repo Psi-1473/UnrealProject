@@ -29,6 +29,13 @@ public:
 
 	UFUNCTION()
 	void AnimNotify_SkillEnd();
+	
+	UFUNCTION()
+	void AnimNotify_PlayEffect();
+
+	UFUNCTION()
+	void AnimNotify_HitCheck();
+
 public:
 	void PlayDamagedMontage();
 	void PlayAttackMontage();

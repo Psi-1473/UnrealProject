@@ -11,9 +11,12 @@
 USevarogSkill_First::USevarogSkill_First()
 {
 	Id = 1;
-	static ConstructorHelpers::FObjectFinder<UParticleSystem> EFFECT (TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_ShadowTrails.P_ShadowTrails'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> EFFECT (TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Ultimate/FX/P_UltimateLooping.P_UltimateLooping'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> SWING (TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Ultimate/FX/P_UltMeshArc_Expanding.P_UltMeshArc_Expanding'"));
 	if (EFFECT.Succeeded())
 		SkillEffect = EFFECT.Object;
+	if (SWING.Succeeded())
+		SwingEffect = SWING.Object;
 }
 
 void USevarogSkill_First::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -22,10 +25,20 @@ void USevarogSkill_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->SetCastSkill(true);
+	Boss->SetExecutingSkill(this);
 	// * 기모으는 이펙트 켜기
 	FTransform Trans = OwnerMonster->GetActorTransform();
 	CastingEffectComponent = UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), SkillEffect, Trans);
 	OwnerMonster->GetWorldTimerManager().SetTimer(ExecuteTimerHandle, this, &USevarogSkill_First::Swing, 3.f, false);
+}
+
+void USevarogSkill_First::PlaySkillEffect()
+{
+	FVector EffectVector = OwnerMonster->GetActorLocation();
+	EffectVector.Z = 0;
+	FTransform Trans(OwnerMonster->GetActorTransform());
+	Trans.SetLocation(EffectVector);
+	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), SwingEffect, Trans);
 }
 
 void USevarogSkill_First::Swing()

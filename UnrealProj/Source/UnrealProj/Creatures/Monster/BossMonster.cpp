@@ -7,6 +7,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "../../Animations/Monster/BossAnimInstance.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_First.h"
+#include "../../Skills/Monster/Sevarog/SevarogSkill_Second.h"
+#include "../../Skills/Monster/Sevarog/SevarogSkill_Third.h"
 
 ABossMonster::ABossMonster()
 {
@@ -29,7 +31,11 @@ void ABossMonster::BeginPlay()
 	USevarogSkill_First* NewSkill = NewObject<USevarogSkill_First>();
 	NewSkill->SetOwnerMonster(this);
 	SkillList.Add(NewSkill);
+	USevarogSkill_Second* NewSkill2 = NewObject<USevarogSkill_Second>();
+	NewSkill2->SetOwnerMonster(this);
+	SkillList.Add(NewSkill2);
 
+	UE_LOG(LogTemp, Warning, TEXT("Boss : Skill Size : %d"), SkillList.Num());
 }
 
 void ABossMonster::PostInitializeComponents()
@@ -47,7 +53,7 @@ void ABossMonster::UseSkill()
 	if (SkillList.Num() <= 0)
 		return;
 
-	SkillList[0]->Execute(this, false);
+	SkillList[1]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }
@@ -82,6 +88,9 @@ void ABossMonster::DestroyObject()
 
 void ABossMonster::SetCanSkillTrue()
 {
+	auto AIController = Cast<ABossAIController>(GetController());
+	AIController->StopAI();
+	AIController->StartAI();
 	bCanSkill = true;
 }
 

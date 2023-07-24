@@ -73,6 +73,20 @@ void UBossAnimInstance::AnimNotify_SkillEnd()
 	AIController->StartAI();
 }
 
+void UBossAnimInstance::AnimNotify_PlayEffect()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ABossMonster>(pawn);
+	Character->GetExecutingSkill()->PlaySkillEffect();
+}
+
+void UBossAnimInstance::AnimNotify_HitCheck()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ABossMonster>(pawn);
+	Character->GetExecutingSkill()->Attack();
+}
+
 void UBossAnimInstance::PlayDamagedMontage()
 {
 }

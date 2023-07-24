@@ -19,7 +19,8 @@ public:
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
 	void SetOwnerMonster(TWeakObjectPtr<class AMonster> Monster) { OwnerMonster = Monster; }
-
+	virtual void PlaySkillEffect() {};
+	virtual void Attack() {};
 protected:
 	UPROPERTY();
 	TWeakObjectPtr<class AMonster> OwnerMonster;
