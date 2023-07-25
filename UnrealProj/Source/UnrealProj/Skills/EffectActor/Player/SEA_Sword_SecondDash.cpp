@@ -42,6 +42,7 @@ void ASEA_Sword_SecondDash::BeginPlay()
 void ASEA_Sword_SecondDash::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	auto OwnerPlayer = Cast<AMyPlayer>(Owner);
 	SetActorLocation(OwnerPlayer->GetActorLocation());
 	SetActorRotation(OwnerPlayer->GetActorRotation());
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), GroundParticle, GetActorLocation() * FVector(1.f, 1.f, 0.f));

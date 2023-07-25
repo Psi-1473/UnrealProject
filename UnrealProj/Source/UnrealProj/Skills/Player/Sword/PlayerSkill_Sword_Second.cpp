@@ -63,6 +63,7 @@ void UPlayerSkill_Sword_Second::PlayParticle(AActor* OwnerActor)
 	FVector SpawnPos = OwnerPlayer->GetActorLocation();
 
 	EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);
+	EffectActor->SetOwner(Cast<AActor>(OwnerPlayer));
 }
 
 void UPlayerSkill_Sword_Second::DestroyActor()

@@ -13,7 +13,8 @@
 ASkillEffectActor::ASkillEffectActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	ParticleComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("PARTICLE"));
+	ParticleComponent = CreateDefaultSubobject<UNiagaraComponent>(TEXT("NIAGARA"));
+	LegacyParticleComponent = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("PARTICLE"));
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
 
 	RootComponent = RootScene;
@@ -23,8 +24,6 @@ ASkillEffectActor::ASkillEffectActor()
 void ASkillEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
-	auto MyPlayer = Cast<AMyPlayer>(UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-	OwnerPlayer = MyPlayer;
 }
 
 void ASkillEffectActor::Tick(float DeltaTime)

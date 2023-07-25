@@ -19,13 +19,18 @@ protected:
 
 public:
 	virtual void Tick(float DeltaTime);
+
+	void SetOwner(AActor* Actor) { Owner = Actor; }
 protected:
 	UPROPERTY(EditAnywhere)
 	class UNiagaraComponent* ParticleComponent;
 
-	UPROPERTY()
-	class AMyPlayer* OwnerPlayer;
+	UPROPERTY(EditAnywhere)
+	class UParticleSystemComponent* LegacyParticleComponent;
 
 	UPROPERTY(EditAnywhere)
 	class USceneComponent* RootScene;
+
+	UPROPERTY(EditAnywhere)
+	struct FTimerHandle DestroyTimerHandle;
 };

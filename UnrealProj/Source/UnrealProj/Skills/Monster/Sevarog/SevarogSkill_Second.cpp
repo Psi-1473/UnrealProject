@@ -44,5 +44,47 @@ void USevarogSkill_Second::Attack()
 	FTransform Trans(TargetPos);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
 
-	// 히트 체크
+	
+	float AttackX = 100.f;
+	float AttackY = 100.f;
+	float AttackZ = 100.f;
+
+	FHitResult HitResult;
+	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
+	FVector BoxVector(AttackX, AttackY, AttackZ);
+	FVector SkillLocation = TargetPos;
+	bool bResult = GetWorld()->SweepSingleByChannel(
+		OUT HitResult,
+		TargetPos,
+		TargetPos + FVector(AttackX, 0.f, 0.f),
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel5,
+		FCollisionShape::MakeBox(BoxVector),
+		Params);
+	// Attack 콜리전 새로 제대로 만들 것
+
+	FVector Vec(AttackX, 0.f, 0.f);
+	FVector Center = SkillLocation + Vec * 0.5f;
+	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
+	FColor DrawColor;
+
+	if (bResult)
+		DrawColor = FColor::Green;
+	else
+		DrawColor = FColor::Red;
+
+	DrawDebugBox(OwnerMonster->GetWorld(), Center, BoxVector, Rotation, DrawColor, false, 2.f);
+	//if (bResult)
+	//{
+	//	AMyPlayer* HitPlayer = Cast<AMyPlayer>(HitResult.GetActor());
+	//	if (HitPlayer)
+	//	{
+	//
+	//	}
+	//	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Player Hit"));
+	////FDamageEvent DamageEvent;
+	//////HitPlayer->OnStun(2.f);
+	//}
+
+	
 }

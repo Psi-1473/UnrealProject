@@ -29,7 +29,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* PlayerParticle;
-	
+
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* DestroyParticle;
+
 };

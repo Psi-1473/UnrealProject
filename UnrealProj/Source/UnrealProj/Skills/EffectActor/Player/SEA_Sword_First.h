@@ -31,6 +31,4 @@ private:
 	class UParticleSystem* GroundParticle;
 
 
-	UPROPERTY()
-	FTimerHandle DestroyTimerHandle;
 };

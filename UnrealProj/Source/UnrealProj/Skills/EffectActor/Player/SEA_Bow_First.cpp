@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Fill out your copyright notice in the Description page of Project Settings.
 
 
 #include "SEA_Bow_First.h"
@@ -65,6 +65,7 @@ void ASEA_Bow_First::AttackCheck()
 				UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
 				AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
 				FDamageEvent DamageEvent;
+				auto OwnerPlayer = Cast<AMyPlayer>(Owner);
 				if (Enemy != nullptr)
 					Enemy->TakeDamage(15.f, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer); //Temp
 			}

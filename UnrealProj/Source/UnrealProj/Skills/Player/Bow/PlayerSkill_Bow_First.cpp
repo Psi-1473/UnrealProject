@@ -84,4 +84,5 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	OwnerPlayer->GetSpawnedRangeActor()->Destroy();
 	OwnerPlayer->SetRangeActor(nullptr);
 	EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);
+	EffectActor->SetOwner(Cast<AActor>(OwnerPlayer));
 }

@@ -55,6 +55,7 @@ void ASEA_Sword_First::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 	if (OtherActor && (OtherActor != this))
 	{
 		auto Enemy = Cast<AMonster>(OtherActor);
+		auto OwnerPlayer = Cast<AMyPlayer>(Owner);
 		if (Enemy)
 		{
 			FDamageEvent DamageEvent;
