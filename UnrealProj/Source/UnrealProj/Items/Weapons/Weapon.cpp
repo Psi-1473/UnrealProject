@@ -7,6 +7,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../MyGameInstance.h"
 #include "../../Projectiles/Projectile.h"
+#include "../../Projectiles/Player/Arrow.h"
 #include "../../Inventory/Inventory.h"
 
 AWeapon::AWeapon()

@@ -17,11 +17,12 @@ class UNREALPROJ_API USevarogSkill_Second : public UMonsterSkill
 public:
 	USevarogSkill_Second();
 
-	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
 	virtual void PlaySkillEffect() override;
 	virtual void Attack() override;
+	void HitCheck();
 private:
 	UPROPERTY(EditAnywhere)
 	FVector TargetPos;
@@ -32,5 +33,7 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* FireEffect;
 
+	UPROPERTY(EditAnywhere)
+	struct FTimerHandle HitCheckTimerHandle;
 
 };

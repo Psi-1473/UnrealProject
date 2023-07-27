@@ -34,6 +34,9 @@ void ABossMonster::BeginPlay()
 	USevarogSkill_Second* NewSkill2 = NewObject<USevarogSkill_Second>();
 	NewSkill2->SetOwnerMonster(this);
 	SkillList.Add(NewSkill2);
+	USevarogSkill_Third* NewSkill3 = NewObject<USevarogSkill_Third>();
+	NewSkill3->SetOwnerMonster(this);
+	SkillList.Add(NewSkill3);
 
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Skill Size : %d"), SkillList.Num());
 }
@@ -53,7 +56,7 @@ void ABossMonster::UseSkill()
 	if (SkillList.Num() <= 0)
 		return;
 
-	SkillList[1]->Execute(this, false);
+	SkillList[2]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }

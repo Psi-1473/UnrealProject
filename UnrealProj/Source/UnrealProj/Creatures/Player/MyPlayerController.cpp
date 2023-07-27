@@ -13,6 +13,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Projectiles/Projectile.h"
+#include "../../Projectiles/Player/Arrow.h"
 #include "Camera/CameraComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
@@ -106,7 +107,7 @@ void AMyPlayerController::Fire()
 	FRotator CameraRotation;
 	MyPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 	CameraRotation.Pitch += 5.f;
-	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(MyPlayer->GetWeapon()->GetArrow(),
+	AProjectile* Projectile = GetWorld()->SpawnActor<AArrow>(MyPlayer->GetWeapon()->GetArrow(),
 		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
 		CameraRotation,
 		SpawnParams);

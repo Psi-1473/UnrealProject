@@ -17,10 +17,10 @@ class UNREALPROJ_API USevarogSkill_First : public UMonsterSkill
 public:
 	USevarogSkill_First();
 
-	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
-	virtual void PlaySkillEffect();
+	virtual void PlaySkillEffect() override;
 	void Swing();
 
 private:

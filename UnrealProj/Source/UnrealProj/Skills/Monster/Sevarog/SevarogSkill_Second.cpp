@@ -25,6 +25,7 @@ void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	TargetPos = Boss->GetTarget()->GetActorLocation();
+	Boss->SetExecutingSkill(this);
 	PlaySkillEffect();
 }
 
@@ -41,29 +42,38 @@ void USevarogSkill_Second::PlaySkillEffect()
 
 void USevarogSkill_Second::Attack()
 {
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	TargetPos = Boss->GetTarget()->GetActorLocation();
 	FTransform Trans(TargetPos);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
 
+	OwnerMonster->GetWorldTimerManager().SetTimer(HitCheckTimerHandle, this, &USevarogSkill_Second::HitCheck, 0.5f, false);
 	
+
+	
+}
+
+void USevarogSkill_Second::HitCheck()
+{
 	float AttackX = 100.f;
 	float AttackY = 100.f;
 	float AttackZ = 100.f;
 
-	FHitResult HitResult;
+	TArray<FHitResult> HitResults;
 	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
 	FVector BoxVector(AttackX, AttackY, AttackZ);
 	FVector SkillLocation = TargetPos;
-	bool bResult = GetWorld()->SweepSingleByChannel(
-		OUT HitResult,
-		TargetPos,
-		TargetPos + FVector(AttackX, 0.f, 0.f),
+	bool bResult = OwnerMonster->GetWorld()->SweepMultiByChannel(
+		OUT HitResults,
+		SkillLocation,
+		SkillLocation + OwnerMonster->GetActorForwardVector() * AttackX,
 		FQuat::Identity,
-		ECollisionChannel::ECC_GameTraceChannel5,
+		ECollisionChannel::ECC_GameTraceChannel6,
 		FCollisionShape::MakeBox(BoxVector),
 		Params);
 	// Attack 콜리전 새로 제대로 만들 것
 
-	FVector Vec(AttackX, 0.f, 0.f);
+	FVector Vec = OwnerMonster->GetActorForwardVector() * AttackX;
 	FVector Center = SkillLocation + Vec * 0.5f;
 	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
 	FColor DrawColor;
@@ -86,5 +96,5 @@ void USevarogSkill_Second::Attack()
 	//////HitPlayer->OnStun(2.f);
 	//}
 
-	
+	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
 }
