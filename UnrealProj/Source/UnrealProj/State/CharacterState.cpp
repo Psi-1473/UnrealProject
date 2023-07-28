@@ -129,4 +129,21 @@ void USkillCastState::OnExit()
 }
 #pragma endregion
 
+#pragma region PULLED
+void UPulledState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : PULLED"));
+}
 
+void UPulledState::OnUpdate()
+{
+	// 타겟 포지션으로 이동시킨다.
+	//Machine->GetOwner()->AddMovementInput(Machine->GetOwner()->GetPullPos());
+	//Machine->GetOwner()->SetActorLocation(Machine->GetOwner()->GetPullPos());
+}
+
+void UPulledState::OnExit()
+{
+	//Machine->GetOwner()->SetState(STATE::IDLE); // 임시로 Idle
+}
+#pragma endregion

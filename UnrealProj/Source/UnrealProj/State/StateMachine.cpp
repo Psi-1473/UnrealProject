@@ -11,6 +11,7 @@ UStateMachine::UStateMachine()
 	UAttackState* AttackState = NewObject<UAttackState>();
 	USkillState* SkillState = NewObject<USkillState>();
 	USkillCastState* SkillCastState = NewObject<USkillCastState>();
+	UPulledState* PulledState = NewObject<UPulledState>();
 
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
@@ -18,6 +19,7 @@ UStateMachine::UStateMachine()
 	AttackState->SetMachine(this);
 	SkillState->SetMachine(this);
 	SkillCastState->SetMachine(this);
+	PulledState->SetMachine(this);
 
 	States.Add(STATE::IDLE, IdleState);
 	States.Add(STATE::MOVE, MoveState);
@@ -25,6 +27,7 @@ UStateMachine::UStateMachine()
 	States.Add(STATE::ATTACK, AttackState);
 	States.Add(STATE::SKILL, SkillState);
 	States.Add(STATE::SKILLCAST, SkillCastState);
+	States.Add(STATE::PULLED, PulledState);
 
 	State = States[STATE::IDLE];
 }

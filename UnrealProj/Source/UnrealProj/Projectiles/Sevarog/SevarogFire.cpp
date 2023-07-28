@@ -11,6 +11,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
+#include "../../DEFINE.h"
 
 ASevarogFire::ASevarogFire()
 {
@@ -35,22 +36,35 @@ ASevarogFire::ASevarogFire()
 	ParticleComponent->SetupAttachment(MeshComp);
 
 	ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
-	ProjectileMovementComponent->InitialSpeed = 1500.f;
-	ProjectileMovementComponent->MaxSpeed = 1500.f;
+	ProjectileMovementComponent->InitialSpeed = 800.f;
+	ProjectileMovementComponent->MaxSpeed = 800.f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = false;
 	ProjectileMovementComponent->ProjectileGravityScale = 0.f;
-	InitialLifeSpan = 1.5f;
+	InitialLifeSpan = 0.f;
 }
 
 void ASevarogFire::BeginPlay()
 {
 	Super::BeginPlay();
+	GetWorldTimerManager().SetTimer(DestroyTimerHandle, this, &ASevarogFire::DestroyThis, 2.0f, false);
 }
 
 void ASevarogFire::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (TargetPlayer == nullptr)
+		return;
+
+	//TargetPlayer->SetPullPos(GetActorLocation());
+	FVector Location = TargetPlayer->GetActorLocation();
+	Location += GetActorForwardVector() * 100;
+	TargetPlayer->SetActorLocation(Location);
+
+	// 
+
+
 }
 
 void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -60,13 +74,13 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 		auto Player = Cast<AMyPlayer>(OtherActor);
 		if (Player)
 		{
+			TargetPlayer = Player;
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
-			//if (OwnerPlayer == nullptr)
-			//{
-			//	UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
-			//	return;
-			//}
+			//Player->SetFlyMode(4000.f);
+			TargetPlayer->SetPullPos(GetActorLocation());
+			TargetPlayer->AddMovementInput(TargetPlayer->GetPullPos());
+			Player->SetState(STATE::PULLED);
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
 	}
@@ -74,4 +88,26 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 void ASevarogFire::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
+	if (OtherActor && (OtherActor != this))
+	{
+		auto Player = Cast<AMyPlayer>(OtherActor);
+		if (Player && Player == TargetPlayer)
+		{
+			TargetPlayer->SetWalkMode();
+			TargetPlayer->SetState(STATE::IDLE);
+			TargetPlayer = nullptr;
+		}
+	}
+
+}
+
+void ASevarogFire::DestroyThis()
+{
+	if (TargetPlayer != nullptr)
+	{
+		TargetPlayer->SetWalkMode();
+		TargetPlayer->SetState(STATE::IDLE);
+	}
+	Destroy();
+
 }

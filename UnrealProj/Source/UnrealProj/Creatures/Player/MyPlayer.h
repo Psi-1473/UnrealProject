@@ -36,6 +36,7 @@ public:
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
+	FVector GetPullPos() { return PullPos; }
 	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
 
@@ -45,12 +46,16 @@ public:
 	void SetState(STATE Value);
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
+	void SetPullPos(FVector Value) { PullPos = Value; }
 
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
 	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 	void Interact();
 
+public:
+	void SetFlyMode(float Speed);
+	void SetWalkMode(float Speed = 600.f);
 private:
 	void SetDefaultCamera(); // 생성자에서 카메라 생성
 	void SetWeaponSocket();
@@ -107,6 +112,9 @@ private:
 	class UInventory* Inventory;
 
 private:
+	UPROPERTY()
+	FVector PullPos;
+
 	UPROPERTY()
 	class UMyGameInstance* GInstance;
 

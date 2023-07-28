@@ -29,6 +29,7 @@ enum class STATE : uint8
 	ATTACK,
 	SKILL,
 	SKILLCAST,
+	PULLED,
 };
 
 UENUM(BlueprintType)

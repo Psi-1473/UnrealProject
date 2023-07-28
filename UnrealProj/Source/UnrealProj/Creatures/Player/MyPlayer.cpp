@@ -210,6 +210,17 @@ void AMyPlayer::Interact()
 	InteractingNpc->Interact();
 }
 
+void AMyPlayer::SetFlyMode(float Speed)
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Flying);
+	//GetCharacterMovement()->MaxFl
+}
+
+void AMyPlayer::SetWalkMode(float Speed)
+{
+	GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+}
+
 
 void AMyPlayer::SetDefaultCamera()
 {
