@@ -12,15 +12,19 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
 #include "../../DEFINE.h"
+#include "Kismet/GameplayStatics.h"
 
 ASevarogFire::ASevarogFire()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/BigNiagaraBundle/NiagaraEffectMix3/ExampleContent/SM_MaterialSphere.SM_MaterialSphere'"));
 	static ConstructorHelpers::FObjectFinder<UMaterial> MatAsset(TEXT("/Script/Engine.Material'/Game/ParagonSevarog/FX/Materials/Energy/M_SiphonSouls.M_SiphonSouls'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> Explosion(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_Burst.P_Sparrow_Burst'"));
 	if (MeshAsset.Succeeded())
 		MeshComp->SetStaticMesh(MeshAsset.Object);
 	if (MatAsset.Succeeded())
 		MeshComp->SetMaterial(0, MatAsset.Object);
+	if (MatAsset.Succeeded())
+		ExplosionParticle = Explosion.Object;
 
 	BoxCollider->SetRelativeScale3D(FVector(7.f, 7.f, 7.f));
 	BoxCollider->SetCollisionProfileName(TEXT("InteractBox"));
@@ -56,15 +60,10 @@ void ASevarogFire::Tick(float DeltaTime)
 
 	if (TargetPlayer == nullptr)
 		return;
-
-	//TargetPlayer->SetPullPos(GetActorLocation());
-	FVector Location = TargetPlayer->GetActorLocation();
-	Location += GetActorForwardVector() * 100;
-	TargetPlayer->SetActorLocation(Location);
-
-	// 
-
-
+	
+	FVector NowPos(GetActorLocation().X, GetActorLocation().Y, TargetPlayer->GetActorLocation().Z);
+	FVector PosToAdd = NowPos - TargetPlayer->GetActorLocation();
+	TargetPlayer->SetActorLocation(TargetPlayer->GetActorLocation() + PosToAdd);
 }
 
 void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -77,10 +76,9 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			TargetPlayer = Player;
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
-			//Player->SetFlyMode(4000.f);
-			TargetPlayer->SetPullPos(GetActorLocation());
-			TargetPlayer->AddMovementInput(TargetPlayer->GetPullPos());
+			PrevTargetPos = TargetPlayer->GetActorLocation();
 			Player->SetState(STATE::PULLED);
+
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
 	}
@@ -93,7 +91,6 @@ void ASevarogFire::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 		auto Player = Cast<AMyPlayer>(OtherActor);
 		if (Player && Player == TargetPlayer)
 		{
-			TargetPlayer->SetWalkMode();
 			TargetPlayer->SetState(STATE::IDLE);
 			TargetPlayer = nullptr;
 		}
@@ -105,9 +102,13 @@ void ASevarogFire::DestroyThis()
 {
 	if (TargetPlayer != nullptr)
 	{
-		TargetPlayer->SetWalkMode();
 		TargetPlayer->SetState(STATE::IDLE);
 	}
+	FTransform Trans(GetActorLocation());
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticle, Trans);
+	// 터지는 히트 판정 넣기
+	// 폭발 구현
+
 	Destroy();
 
 }

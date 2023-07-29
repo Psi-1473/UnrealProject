@@ -35,4 +35,10 @@ private:
 
 	UPROPERTY()
 	struct FTimerHandle DestroyTimerHandle;
+
+	UPROPERTY()
+	FVector PrevTargetPos;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystem* ExplosionParticle;
 };
