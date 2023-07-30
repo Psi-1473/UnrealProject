@@ -18,7 +18,7 @@ ASevarogFire::ASevarogFire()
 {
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/BigNiagaraBundle/NiagaraEffectMix3/ExampleContent/SM_MaterialSphere.SM_MaterialSphere'"));
 	static ConstructorHelpers::FObjectFinder<UMaterial> MatAsset(TEXT("/Script/Engine.Material'/Game/ParagonSevarog/FX/Materials/Energy/M_SiphonSouls.M_SiphonSouls'"));
-	static ConstructorHelpers::FObjectFinder<UParticleSystem> Explosion(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_Burst.P_Sparrow_Burst'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> Explosion(TEXT("/Script/Engine.ParticleSystem'/Game/Realistic_Starter_VFX_Pack_Vol2/Particles/Explosion/P_Explosion_Big_B.P_Explosion_Big_B'"));
 	if (MeshAsset.Succeeded())
 		MeshComp->SetStaticMesh(MeshAsset.Object);
 	if (MatAsset.Succeeded())
@@ -61,9 +61,9 @@ void ASevarogFire::Tick(float DeltaTime)
 	if (TargetPlayer == nullptr)
 		return;
 	
-	FVector NowPos(GetActorLocation().X, GetActorLocation().Y, TargetPlayer->GetActorLocation().Z);
-	FVector PosToAdd = NowPos - TargetPlayer->GetActorLocation();
+	FVector PosToAdd = GetActorLocation() - PrevTargetPos;
 	TargetPlayer->SetActorLocation(TargetPlayer->GetActorLocation() + PosToAdd);
+	PrevTargetPos = GetActorLocation();
 }
 
 void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -76,7 +76,7 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			TargetPlayer = Player;
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
-			PrevTargetPos = TargetPlayer->GetActorLocation();
+			PrevTargetPos = GetActorLocation();
 			Player->SetState(STATE::PULLED);
 
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
@@ -108,7 +108,20 @@ void ASevarogFire::DestroyThis()
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticle, Trans);
 	// 터지는 히트 판정 넣기
 	// 폭발 구현
-
+	Explode();
 	Destroy();
 
+}
+
+void ASevarogFire::Explode()
+{
+	if (TargetPlayer == nullptr)
+		return;
+
+	UE_LOG(LogTemp, Warning, TEXT("Explode!"));
+	FVector DirVector = TargetPlayer->GetActorLocation() - GetActorLocation();
+	DirVector.Normalize();
+	FVector Power = DirVector * 300.f;
+	Power.Z = 700.f;
+	TargetPlayer->LaunchCharacter(Power, true, true);
 }

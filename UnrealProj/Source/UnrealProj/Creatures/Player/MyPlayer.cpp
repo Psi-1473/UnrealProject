@@ -159,7 +159,6 @@ void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 {
 	TArray<FHitResult> HitResults;
-
 	FCollisionQueryParams Params(NAME_None, false, this);
 
 	float Start = 100.f;
