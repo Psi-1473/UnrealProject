@@ -183,8 +183,8 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
 			MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 			return;
-
-			MyPlayer->Jump();
+		MyPlayer->Jump();
+		MyPlayer->SetState(STATE::JUMP);
 	}
 }
 
