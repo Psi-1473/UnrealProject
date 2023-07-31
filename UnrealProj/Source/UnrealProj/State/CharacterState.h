@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UObject/NoExportTypes.h"
+#include "../DEFINE.h"
 #include "CharacterState.generated.h"
+
 
 /**
  * 
@@ -19,11 +21,17 @@ public:
 	virtual void OnUpdate();
 	virtual void OnExit();
 
+	void SetState(STATE Value) { State = Value; }
+	STATE GetState() { return State; }
+
 	void SetMachine(class UStateMachine* M) { Machine = M; }
 
 protected:
 	UPROPERTY()
 	class UStateMachine* Machine;
+
+	UPROPERTY()
+	STATE State;
 };
 
 UCLASS()

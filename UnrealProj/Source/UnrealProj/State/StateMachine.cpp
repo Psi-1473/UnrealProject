@@ -23,14 +23,14 @@ UStateMachine::UStateMachine()
 	PulledState->SetMachine(this);
 	KnockedState->SetMachine(this);
 
-	States.Add(STATE::IDLE, IdleState);
-	States.Add(STATE::MOVE, MoveState);
-	States.Add(STATE::JUMP, JumpState);
-	States.Add(STATE::ATTACK, AttackState);
-	States.Add(STATE::SKILL, SkillState);
-	States.Add(STATE::SKILLCAST, SkillCastState);
-	States.Add(STATE::PULLED, PulledState);
-	States.Add(STATE::KNOCKED, KnockedState);
+	AddState(STATE::IDLE, IdleState);
+	AddState(STATE::MOVE, MoveState);
+	AddState(STATE::JUMP, JumpState);
+	AddState(STATE::ATTACK, AttackState);
+	AddState(STATE::SKILL, SkillState);
+	AddState(STATE::SKILLCAST, SkillCastState);
+	AddState(STATE::PULLED, PulledState);
+	AddState(STATE::KNOCKED, KnockedState);
 
 	State = States[STATE::IDLE];
 }
@@ -41,4 +41,10 @@ void UStateMachine::OnUpdate()
 		return;
 
 	State->OnUpdate();
+}
+
+void UStateMachine::AddState(STATE StateValue, UCharacterState* StatePtr)
+{
+	StatePtr->SetState(StateValue);
+	States.Add(StateValue, StatePtr);
 }

@@ -5,6 +5,7 @@
 #include "../Creatures/Player/MyPlayer.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "StateMachine.h"
+#include "../DEFINE.h"
 #include "../Skills/Skill.h"
 #include "../Items/Weapons/Weapon.h"
 #include "../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
@@ -61,6 +62,11 @@ void UJumpState::OnEnter()
 
 void UJumpState::OnUpdate()
 {
+	if (Machine->GetOwner()->GetVelocity().Z == 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Z : %f"), Machine->GetOwner()->GetVelocity().Z);
+		Machine->GetOwner()->SetState(STATE::IDLE);
+	}
 }
 
 void UJumpState::OnExit()

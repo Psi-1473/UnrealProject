@@ -10,6 +10,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../Skills/Skill.h"
 #include "../../Skills/Player/PlayerSkill.h"
+#include "../../State/CharacterState.h"
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -38,9 +39,13 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		JumpSpeed = pawn->GetVelocity().Z;
 		
 		auto Character = Cast<AMyPlayer>(pawn);
-		bKnocked = Character->GetKnocked();
+
+
 		if (Character)
 		{
+			if(Character->GetState() != nullptr)
+				CharacterState = Character->GetState()->GetState();
+			bKnocked = Character->GetKnocked();
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
 				return;

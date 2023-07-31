@@ -125,6 +125,9 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 UCharacterState* AMyPlayer::GetState()
 {
+	if (StateMachine == nullptr)
+		return nullptr;
+
 	return StateMachine->GetState();
 }
 

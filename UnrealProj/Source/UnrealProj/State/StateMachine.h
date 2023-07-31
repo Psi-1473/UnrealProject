@@ -29,9 +29,11 @@ public:
 		State->OnEnter();
 	};
 
+
 	void SetOwner(class AMyPlayer* Owner) { OwnerCreature = Owner; }
 
 	void OnUpdate();
+	void AddState(STATE StateValue, UCharacterState* StatePtr);
 public:
 	void SetOwnerCreature(class AMyPlayer* Creature) { OwnerCreature = Creature; }
 
