@@ -147,3 +147,24 @@ void UPulledState::OnExit()
 	//Machine->GetOwner()->SetState(STATE::IDLE); // юс╫ц╥н Idle
 }
 #pragma endregion
+
+#pragma region KNOCKED
+void UKnockedState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
+	Machine->GetOwner()->SetKnocked(true);
+}
+
+void UKnockedState::OnUpdate()
+{
+	if (FMath::Abs(Machine->GetOwner()->GetVelocity().Z) <= 0.1f)
+	{
+		Machine->GetOwner()->SetState(STATE::IDLE);
+		Machine->GetOwner()->SetKnocked(false);
+	}
+}
+
+void UKnockedState::OnExit()
+{
+}
+#pragma endregion

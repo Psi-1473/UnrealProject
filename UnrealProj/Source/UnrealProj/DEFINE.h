@@ -30,6 +30,7 @@ enum class STATE : uint8
 	SKILL,
 	SKILLCAST,
 	PULLED,
+	KNOCKED,
 };
 
 UENUM(BlueprintType)

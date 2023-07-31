@@ -38,6 +38,7 @@ public:
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
 	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
+	bool GetKnocked() { return bKnocked; }
 
 
 	void SetInteractingNpc(class ANpc* Npc) { InteractingNpc = Npc; }
@@ -45,6 +46,7 @@ public:
 	void SetState(STATE Value);
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
+	void SetKnocked(bool Value) { bKnocked = Value; }
 
 public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
@@ -67,6 +69,9 @@ private:
 
 	UPROPERTY()
 	bool bDash = false;
+
+	UPROPERTY()
+	bool bKnocked = false;
 	// Components
 private:
 	UPROPERTY(EditAnywhere)

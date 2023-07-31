@@ -12,6 +12,7 @@ UStateMachine::UStateMachine()
 	USkillState* SkillState = NewObject<USkillState>();
 	USkillCastState* SkillCastState = NewObject<USkillCastState>();
 	UPulledState* PulledState = NewObject<UPulledState>();
+	UKnockedState* KnockedState = NewObject<UKnockedState>();
 
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
@@ -20,6 +21,7 @@ UStateMachine::UStateMachine()
 	SkillState->SetMachine(this);
 	SkillCastState->SetMachine(this);
 	PulledState->SetMachine(this);
+	KnockedState->SetMachine(this);
 
 	States.Add(STATE::IDLE, IdleState);
 	States.Add(STATE::MOVE, MoveState);
@@ -28,6 +30,7 @@ UStateMachine::UStateMachine()
 	States.Add(STATE::SKILL, SkillState);
 	States.Add(STATE::SKILLCAST, SkillCastState);
 	States.Add(STATE::PULLED, PulledState);
+	States.Add(STATE::KNOCKED, KnockedState);
 
 	State = States[STATE::IDLE];
 }

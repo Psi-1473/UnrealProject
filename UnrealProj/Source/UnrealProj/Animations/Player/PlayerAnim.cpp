@@ -38,7 +38,7 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		JumpSpeed = pawn->GetVelocity().Z;
 		
 		auto Character = Cast<AMyPlayer>(pawn);
-
+		bKnocked = Character->GetKnocked();
 		if (Character)
 		{
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
@@ -47,6 +47,7 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 
 			Horizontal = PC->GetHorizontal();
 			Vertical = PC->GetVertical();
+	
 			if (Horizontal == 1 && Vertical == 1)
 			{
 				Horizontal = 0.5f;

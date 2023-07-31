@@ -123,5 +123,6 @@ void ASevarogFire::Explode()
 	DirVector.Normalize();
 	FVector Power = DirVector * 300.f;
 	Power.Z = 700.f;
+	TargetPlayer->SetState(STATE::KNOCKED);
 	TargetPlayer->LaunchCharacter(Power, true, true);
 }
