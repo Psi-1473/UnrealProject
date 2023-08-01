@@ -86,15 +86,15 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 void ASevarogFire::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	if (OtherActor && (OtherActor != this))
-	{
-		auto Player = Cast<AMyPlayer>(OtherActor);
-		if (Player && Player == TargetPlayer)
-		{
-			TargetPlayer->SetState(STATE::IDLE);
-			TargetPlayer = nullptr;
-		}
-	}
+	//if (OtherActor && (OtherActor != this))
+	//{
+	//	auto Player = Cast<AMyPlayer>(OtherActor);
+	//	if (Player && Player == TargetPlayer)
+	//	{
+	//		TargetPlayer->SetState(STATE::IDLE);
+	//		TargetPlayer = nullptr;
+	//	}
+	//}
 
 }
 
@@ -123,6 +123,6 @@ void ASevarogFire::Explode()
 	DirVector.Normalize();
 	FVector Power = DirVector * 300.f;
 	Power.Z = 700.f;
-	TargetPlayer->SetState(STATE::KNOCKED);
 	TargetPlayer->LaunchCharacter(Power, true, true);
+	TargetPlayer->SetState(STATE::KNOCKED);
 }

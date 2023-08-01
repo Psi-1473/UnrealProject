@@ -159,15 +159,19 @@ void UKnockedState::OnEnter()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
 	Machine->GetOwner()->SetKnocked(true);
+	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
 }
 
 void UKnockedState::OnUpdate()
 {
-	if (FMath::Abs(Machine->GetOwner()->GetVelocity().Z) <= 0.1f)
+	UE_LOG(LogTemp, Warning, TEXT("Z : %f"), Machine->GetOwner()->GetVelocity().Z);
+	if (Machine->GetOwner()->GetVelocity().Z == 0 && PrevVelocity < 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("KNOCKED OUT! Prev, Now : %f, %f"), PrevVelocity, Machine->GetOwner()->GetVelocity().Z);
 		Machine->GetOwner()->SetState(STATE::IDLE);
 		Machine->GetOwner()->SetKnocked(false);
 	}
+	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
 }
 
 void UKnockedState::OnExit()
