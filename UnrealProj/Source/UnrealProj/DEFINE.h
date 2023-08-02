@@ -94,6 +94,14 @@ enum NpcType
 	USE_SHOP,
 };
 
+enum class AttackType
+{
+	NORMAL, // 기본 약공격
+	STRONG, // 강공격 - 경직
+	THRUST, // 밀치기 공격 - 경직 + 밀려남
+	KNOCKDOWN, // 날라가서 넘어짐
+};
+
 class UNREALPROJ_API DEFINE
 {
 public:

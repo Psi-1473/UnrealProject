@@ -67,6 +67,8 @@ void AMonster::DestroyObject()
 }
 
 
+
+
 void AMonster::PopupDamageText(float Damage)
 {
 	FActorSpawnParameters SpawnParams;

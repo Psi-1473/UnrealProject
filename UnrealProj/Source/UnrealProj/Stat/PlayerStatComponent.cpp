@@ -91,8 +91,7 @@ void UPlayerStatComponent::SetMp(int32 Value)
 
 void UPlayerStatComponent::OnAttacked(float DamageAmount)
 {
-	Hp -= DamageAmount;
-	if (Hp < 0)
-		Hp = 0;
+	int32 NewHp = Hp - DamageAmount;
+	SetHp(NewHp);
 }
 

@@ -26,6 +26,9 @@ public:
 	FString GetMontageDir(FString MontageType);
 public:
 	UFUNCTION()
+	void AnimNotify_HitCheck();
+
+	UFUNCTION()
 	void AnimNotify_DamagedEnd();
 
 	UFUNCTION()

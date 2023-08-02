@@ -3,6 +3,7 @@
 
 #include "MonsterAnimInstance.h"
 #include "../../Creatures/Monster/Monster.h"
+#include "../../Creatures/Monster/SpawnMonster.h"
 #include "../../AI/MonsterAIController.h"
 
 
@@ -46,6 +47,14 @@ FString UMonsterAnimInstance::GetMontageDir(FString MontageType)
 	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");
 
 	return Dir;
+}
+
+void UMonsterAnimInstance::AnimNotify_HitCheck()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ASpawnMonster>(pawn);
+
+	Character->AttackCheck();
 }
 
 void UMonsterAnimInstance::AnimNotify_DamagedEnd()

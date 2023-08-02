@@ -11,6 +11,7 @@
 #include "../../Stat/MonsterStatComponent.h"
 #include "../../Widgets/Components/Widget_HpBar.h"
 #include "Components/WidgetComponent.h"
+#include "Engine/DamageEvents.h"
 
 ASpawnMonster::ASpawnMonster()
 {
@@ -40,6 +41,51 @@ void ASpawnMonster::PostInitializeComponents()
 void ASpawnMonster::AttackTarget(AMyPlayer* Target)
 {
 	AnimInst->PlayAttackMontage();
+}
+
+void ASpawnMonster::AttackCheck()
+{
+	TArray<FHitResult> HitResults;
+	FCollisionQueryParams Params(NAME_None, false, this);
+
+	float Start = 100.f;
+
+	FVector StartVector = GetActorLocation() + GetActorForwardVector() * Start;
+	FVector EndVector = GetActorLocation() + GetActorForwardVector() * (50 + Start);
+
+
+	bool bResult = GetWorld()->SweepMultiByChannel(
+		OUT HitResults,
+		StartVector,
+		EndVector,
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel6,
+		FCollisionShape::MakeBox(FVector(50.f, 50.f, 50.f)),//측면, 높이, 정면
+		Params);
+
+	FVector Vec = GetActorForwardVector() * Start;
+	FVector Center = StartVector + (EndVector - StartVector) / 2;
+	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
+	FColor DrawColor;
+	if (bResult)
+		DrawColor = FColor::Green;
+	else
+		DrawColor = FColor::Red;
+
+	DrawDebugBox(GetWorld(), Center, FVector(50.f, 50.f, 50.f), Rotation, DrawColor, false, 2.f);
+
+	if (bResult && !HitResults.IsEmpty())
+	{
+		for (FHitResult HitResult : HitResults)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+			AMyPlayer* Player = Cast<AMyPlayer>(HitResult.GetActor());
+			FDamageEvent DamageEvent;
+			if (Player == nullptr)
+				return;
+			Player->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
+		}
+	}
 }
 
 float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

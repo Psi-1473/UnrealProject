@@ -23,9 +23,9 @@ bool UBTDecorator_CanAttack::CalculateRawConditionValue(UBehaviorTreeComponent& 
 	if (Target == nullptr)
 		return false;
 
-	if(!(bResult && Target->GetDistanceTo(CurrrentPawn) <= 800.f))
+	if(!(bResult && Target->GetDistanceTo(CurrrentPawn) <= 150.f))
 		UE_LOG(LogTemp, Warning, TEXT("Can Attack : Return False"));
 
-	return bResult&& Target->GetDistanceTo(CurrrentPawn) <= 800.f; //문제 ! : 이게 True를 Return 안함 거리문제였음
+	return bResult&& Target->GetDistanceTo(CurrrentPawn) <= 150.f; //문제 ! : 이게 True를 Return 안함 거리문제였음
 
 }

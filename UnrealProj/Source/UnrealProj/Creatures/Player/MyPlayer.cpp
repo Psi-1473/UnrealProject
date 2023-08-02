@@ -32,8 +32,8 @@ AMyPlayer::AMyPlayer()
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
 	AnimClasses.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
-	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
-	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2 (TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
 
 	if (MeshAsset.Succeeded())
 	{
@@ -48,17 +48,17 @@ AMyPlayer::AMyPlayer()
 	if (AnimAsset2.Succeeded())
 		AnimClasses[(int)WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
 
-	
+
 	SetDefaultCamera();
 	SetWeaponSocket();
-	
+
 	StateMachine = NewObject<UStateMachine>();
 	StateMachine->SetOwner(this);
 
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
-	
+
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -84,17 +84,17 @@ void AMyPlayer::BeginPlay()
 	EquipWeapon(NewWeapon);
 
 
-//	TEMP : Skill Sword
+	//	TEMP : Skill Sword
 	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
 	SkillComponent->AddSkill(NewSkill);
 	UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
 	SkillComponent->AddSkill(NewSkill2);
-//	SKILL: ARROW
+	//	SKILL: ARROW
 	UPlayerSkill_Bow_First* NewBowSkill = NewObject<UPlayerSkill_Bow_First>();
 	SkillComponent->AddSkill(NewBowSkill);
 	UPlayerSkill_Bow_Second* NewBowSkill2 = NewObject<UPlayerSkill_Bow_Second>();
 	SkillComponent->AddSkill(NewBowSkill2);
-	
+
 
 	if (StateMachine == nullptr)
 	{
@@ -114,13 +114,50 @@ void AMyPlayer::BeginPlay()
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if(StateMachine != nullptr)
+	if (StateMachine != nullptr)
 		StateMachine->OnUpdate();
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+
+	StatComponent->OnAttacked(Damage);
+	//auto CauserPlayer = Cast<AMyPlayer>(DamageCauser); Causer를 몬스터로 하고
+	//PopupDamageText(Damage); 데미지 팝업 띄우기
+
+	//if (StatComponent->GetHp() <= 0)
+	//	Die(CauserPlayer);
+	// return -1;
+
+
+	return Damage;
+}
+
+void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+{
+	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	// HP UI 업데이트
+	// -1을 TakeDamage가 리턴하면 종료 (플레이어 죽었다는 뜻)
+
+	// 어택 타입에 따라 경직, 날리기, 노경직 선택 (애니메이션)
+	switch (Type)
+	{
+	case AttackType::NORMAL:
+		break;
+	case AttackType::STRONG:
+		// 경직 애니메이션 틀기
+		break;
+	}
+
+}
+
+void AMyPlayer::Die()
+{
 }
 
 UCharacterState* AMyPlayer::GetState()
@@ -144,7 +181,7 @@ void AMyPlayer::SetState(STATE Value)
 void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 {
 	EquipedWeapon = _Weapon;
-	
+
 	if (_Weapon->GetIsRight())
 	{
 		LWeapon->SetStaticMesh(nullptr);

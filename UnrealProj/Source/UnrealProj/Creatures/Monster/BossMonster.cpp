@@ -9,6 +9,7 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_First.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Second.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Third.h"
+#include "../../Skills/Monster/Sevarog/SevarogSkill_Fourth.h"
 
 ABossMonster::ABossMonster()
 {
@@ -37,6 +38,9 @@ void ABossMonster::BeginPlay()
 	USevarogSkill_Third* NewSkill3 = NewObject<USevarogSkill_Third>();
 	NewSkill3->SetOwnerMonster(this);
 	SkillList.Add(NewSkill3);
+	USevarogSkill_Fourth* NewSkill4 = NewObject<USevarogSkill_Fourth>();
+	NewSkill4->SetOwnerMonster(this);
+	SkillList.Add(NewSkill4);
 
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Skill Size : %d"), SkillList.Num());
 }
@@ -56,7 +60,7 @@ void ABossMonster::UseSkill()
 	if (SkillList.Num() <= 0)
 		return;
 
-	SkillList[2]->Execute(this, false);
+	SkillList[3]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }
