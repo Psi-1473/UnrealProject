@@ -27,9 +27,11 @@ enum class STATE : uint8
 	MOVE,
 	JUMP,
 	ATTACK,
+	DAMAGED,
 	SKILL,
 	SKILLCAST,
 	PULLED,
+	HITANDFALL,
 	KNOCKED,
 };
 
@@ -41,6 +43,17 @@ enum class WEAPONTYPE : uint8
 
 	WEAPON_END,
 }; //여기도 좀 깔끔하게 정리할 필요가..
+
+UENUM(BlueprintType)
+enum class AttackType : uint8
+{
+	NONE,
+	NORMAL, // 기본 약공격
+	STRONG, // 강공격 - 경직
+	THRUST, // 밀치기 공격 - 경직 + 밀려남
+	DOWN,
+	HITANDFALL, // 날라가서 넘어짐
+};
 
 enum ItemType
 {
@@ -94,13 +107,6 @@ enum NpcType
 	USE_SHOP,
 };
 
-enum class AttackType
-{
-	NORMAL, // 기본 약공격
-	STRONG, // 강공격 - 경직
-	THRUST, // 밀치기 공격 - 경직 + 밀려남
-	KNOCKDOWN, // 날라가서 넘어짐
-};
 
 class UNREALPROJ_API DEFINE
 {

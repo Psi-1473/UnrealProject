@@ -60,7 +60,7 @@ void ABossMonster::UseSkill()
 	if (SkillList.Num() <= 0)
 		return;
 
-	SkillList[3]->Execute(this, false);
+	SkillList[1]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }

@@ -52,6 +52,8 @@ void ASevarogFire::BeginPlay()
 {
 	Super::BeginPlay();
 	GetWorldTimerManager().SetTimer(DestroyTimerHandle, this, &ASevarogFire::DestroyThis, 2.0f, false);
+	GetWorldTimerManager().SetTimer(HitTimerHandler, this, &ASevarogFire::AttackTarget, 0.3f, true);
+
 }
 
 void ASevarogFire::Tick(float DeltaTime)
@@ -77,8 +79,9 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
 			PrevTargetPos = GetActorLocation();
+			TargetPlayer->SetState(STATE::IDLE);
 			Player->SetState(STATE::PULLED);
-
+			AttackTarget();
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
 	}
@@ -100,10 +103,6 @@ void ASevarogFire::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* Oth
 
 void ASevarogFire::DestroyThis()
 {
-	if (TargetPlayer != nullptr)
-	{
-		TargetPlayer->SetState(STATE::IDLE);
-	}
 	FTransform Trans(GetActorLocation());
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionParticle, Trans);
 	// 터지는 히트 판정 넣기
@@ -124,5 +123,17 @@ void ASevarogFire::Explode()
 	FVector Power = DirVector * 300.f;
 	Power.Z = 700.f;
 	TargetPlayer->LaunchCharacter(Power, true, true);
-	TargetPlayer->SetState(STATE::KNOCKED);
+	FDamageEvent DamageEvent;
+	TargetPlayer->OnDamaged(5.f, DamageEvent, Owner->GetInstigatorController(), Owner, AttackType::HITANDFALL);
+}
+
+void ASevarogFire::AttackTarget()
+{
+	if (TargetPlayer != nullptr)
+	{
+		FDamageEvent DamageEvent;
+		TargetPlayer->OnDamaged(1.f, DamageEvent, Owner->GetInstigatorController(), Owner, AttackType::STRONG);
+	}
+
+
 }

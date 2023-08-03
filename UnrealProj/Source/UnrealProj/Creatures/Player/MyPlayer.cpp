@@ -150,7 +150,15 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	case AttackType::NORMAL:
 		break;
 	case AttackType::STRONG:
-		// 경직 애니메이션 틀기
+		AnimInst->PlayDamagedMontage();
+		break;
+	case AttackType::THRUST:
+		break;
+	case AttackType::DOWN:
+		StateMachine->SetState(STATE::KNOCKED);
+		break;
+	case AttackType::HITANDFALL:
+		StateMachine->SetState(STATE::HITANDFALL);
 		break;
 	}
 

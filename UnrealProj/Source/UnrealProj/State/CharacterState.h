@@ -73,7 +73,15 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnExit() override;
 };
-
+UCLASS()
+class UNREALPROJ_API UDamagedState : public UCharacterState
+{
+	GENERATED_BODY()
+public:
+	virtual void OnEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnExit() override;
+};
 
 UCLASS()
 class UNREALPROJ_API USkillState : public UCharacterState
@@ -103,6 +111,20 @@ public:
 	virtual void OnEnter() override;
 	virtual void OnUpdate() override;
 	virtual void OnExit() override;
+};
+
+UCLASS()
+class UNREALPROJ_API UHitAndFallState : public UCharacterState
+{
+	GENERATED_BODY()
+public:
+	virtual void OnEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnExit() override;
+
+private:
+	float PrevVelocity;
+
 };
 
 UCLASS()

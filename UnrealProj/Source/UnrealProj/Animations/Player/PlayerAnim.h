@@ -20,6 +20,11 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
 	void PlayAttackMontage();
+	void PlayDamagedMontage();
+	// 경직 Motage
+	// 밀림 Montage;
+	// 다운 Montage;
+	// 날라감 상태바꾸고 날리기
 	void PlaySkillMontage(int32 SkillNumber);
 
 
@@ -43,6 +48,9 @@ public:
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
 
+	UFUNCTION()
+	void AnimNotify_SetIdle();
+
 public:
 	void SetBowCast(bool Value) { bBowSkillCast = Value; }
 
@@ -60,8 +68,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool bBowSkillCast = false;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
-	float Speed;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	float JumpSpeed;
@@ -76,13 +82,11 @@ public:
 	bool bSprint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
-	bool bKnocked;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	STATE CharacterState;
 
 private:
 	TArray<class UAnimMontage*> AttackMontages;
 	TArray<class UAnimMontage*> SkillMontages;
+	class UAnimMontage* DamagedMontage;
 	
 };

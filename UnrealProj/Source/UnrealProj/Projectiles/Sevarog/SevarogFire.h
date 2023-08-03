@@ -30,12 +30,16 @@ public:
 
 	void DestroyThis();
 	void Explode();
+	void AttackTarget();
 private:
 	UPROPERTY()
 	TWeakObjectPtr<class AMyPlayer> TargetPlayer;
 
 	UPROPERTY()
 	struct FTimerHandle DestroyTimerHandle;
+
+	UPROPERTY()
+	struct FTimerHandle HitTimerHandler;
 
 	UPROPERTY()
 	FVector PrevTargetPos;

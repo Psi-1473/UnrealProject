@@ -90,6 +90,20 @@ void UAttackState::OnExit()
 }
 #pragma endregion
 
+#pragma region DAMAGED
+void UDamagedState::OnEnter()
+{
+}
+
+void UDamagedState::OnUpdate()
+{
+}
+
+void UDamagedState::OnExit()
+{
+}
+#pragma endregion
+
 #pragma region SKILL
 void USkillState::OnEnter()
 {
@@ -139,6 +153,7 @@ void USkillCastState::OnExit()
 void UPulledState::OnEnter()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : PULLED"));
+	
 }
 
 void UPulledState::OnUpdate()
@@ -154,27 +169,42 @@ void UPulledState::OnExit()
 }
 #pragma endregion
 
-#pragma region KNOCKED
-void UKnockedState::OnEnter()
+#pragma region HITANDFALL
+void UHitAndFallState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
-	Machine->GetOwner()->SetKnocked(true);
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : FALL"));
 	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
 }
 
-void UKnockedState::OnUpdate()
+void UHitAndFallState::OnUpdate()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Z : %f"), Machine->GetOwner()->GetVelocity().Z);
 	if (Machine->GetOwner()->GetVelocity().Z == 0 && PrevVelocity < 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("KNOCKED OUT! Prev, Now : %f, %f"), PrevVelocity, Machine->GetOwner()->GetVelocity().Z);
-		Machine->GetOwner()->SetState(STATE::IDLE);
-		Machine->GetOwner()->SetKnocked(false);
+		Machine->GetOwner()->SetState(STATE::KNOCKED);
 	}
 	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
+}
+
+void UHitAndFallState::OnExit()
+{
+}
+#pragma endregion
+
+#pragma region KNOCKED
+void UKnockedState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
+}
+
+void UKnockedState::OnUpdate()
+{
+	
 }
 
 void UKnockedState::OnExit()
 {
 }
 #pragma endregion
+

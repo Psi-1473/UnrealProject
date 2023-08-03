@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Engine/DamageEvents.h"
 
 USevarogSkill_Second::USevarogSkill_Second()
 {
@@ -48,9 +49,6 @@ void USevarogSkill_Second::Attack()
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
 
 	OwnerMonster->GetWorldTimerManager().SetTimer(HitCheckTimerHandle, this, &USevarogSkill_Second::HitCheck, 0.5f, false);
-	
-
-	
 }
 
 void USevarogSkill_Second::HitCheck()
@@ -84,17 +82,19 @@ void USevarogSkill_Second::HitCheck()
 		DrawColor = FColor::Red;
 
 	DrawDebugBox(OwnerMonster->GetWorld(), Center, BoxVector, Rotation, DrawColor, false, 2.f);
-	//if (bResult)
-	//{
-	//	AMyPlayer* HitPlayer = Cast<AMyPlayer>(HitResult.GetActor());
-	//	if (HitPlayer)
-	//	{
-	//
-	//	}
-	//	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Player Hit"));
-	////FDamageEvent DamageEvent;
-	//////HitPlayer->OnStun(2.f);
-	//}
+	if (bResult)
+	{
+		for (FHitResult HitResult : HitResults)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+			AMyPlayer* Player = Cast<AMyPlayer>(HitResult.GetActor());
+			FDamageEvent DamageEvent;
+			if (Player == nullptr)
+				return;
+			//Player->TakeDamage(10.f, DamageEvent, OwnerMonster->GetController(), OwnerMonster, A); //Temp
+			// OnDamaged로 변경하기
+		}
+	}
 
 	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
 }

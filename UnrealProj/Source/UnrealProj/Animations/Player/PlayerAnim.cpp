@@ -20,11 +20,13 @@ UPlayerAnim::UPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Attack_Arrow.AM_Attack_Arrow'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Sword.AM_Skill_Sword'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Arrow.AM_Skill_Arrow'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> DM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Damaged.AM_Damaged'"));
 
 	if(AM.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_SWORD] = AM.Object;
 	if(AM2.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_ARROW] = AM2.Object;
 	if(SM.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_SWORD] = SM.Object;
 	if(SM2.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_ARROW] = SM2.Object;
+	if(DM.Succeeded()) DamagedMontage = DM.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -35,17 +37,14 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 
 	if (IsValid(pawn))
 	{
-		Speed = FMath::Abs(pawn->GetVelocity().X);
 		JumpSpeed = pawn->GetVelocity().Z;
-		
 		auto Character = Cast<AMyPlayer>(pawn);
-
 
 		if (Character)
 		{
 			if(Character->GetState() != nullptr)
 				CharacterState = Character->GetState()->GetState();
-			bKnocked = Character->GetKnocked();
+
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
 				return;
@@ -82,6 +81,10 @@ void UPlayerAnim::PlayAttackMontage()
 		JumpToSection(AttackMontages[(int)WeaponType], AttackStep);
 		AttackStep++;
 	}
+}
+void UPlayerAnim::PlayDamagedMontage()
+{
+	Montage_Play(DamagedMontage);
 }
 void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
 {
@@ -175,4 +178,12 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	if (Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
 	
+}
+
+void UPlayerAnim::AnimNotify_SetIdle()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+	if (Character)
+		Character->SetState(STATE::IDLE);
 }
