@@ -50,7 +50,8 @@ public:
 
 	UFUNCTION()
 	void AnimNotify_SetIdle();
-
+	UFUNCTION()
+	void AnimNotify_SetRevive();
 public:
 	void SetBowCast(bool Value) { bBowSkillCast = Value; }
 

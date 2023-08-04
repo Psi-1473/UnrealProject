@@ -14,6 +14,7 @@ UStateMachine::UStateMachine()
 	UPulledState* PulledState = NewObject<UPulledState>();
 	UKnockedState* KnockedState = NewObject<UKnockedState>();
 	UHitAndFallState* HitAndFallState = NewObject<UHitAndFallState>();
+	UReviveState* ReviveState = NewObject<UReviveState>();
 
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
@@ -24,6 +25,7 @@ UStateMachine::UStateMachine()
 	PulledState->SetMachine(this);
 	KnockedState->SetMachine(this);
 	HitAndFallState->SetMachine(this);
+	ReviveState->SetMachine(this);
 
 	AddState(STATE::IDLE, IdleState);
 	AddState(STATE::MOVE, MoveState);
@@ -34,6 +36,7 @@ UStateMachine::UStateMachine()
 	AddState(STATE::PULLED, PulledState);
 	AddState(STATE::KNOCKED, KnockedState);
 	AddState(STATE::HITANDFALL, HitAndFallState);
+	AddState(STATE::REVIVE, ReviveState);
 
 	State = States[STATE::IDLE];
 }

@@ -187,3 +187,11 @@ void UPlayerAnim::AnimNotify_SetIdle()
 	if (Character)
 		Character->SetState(STATE::IDLE);
 }
+
+void UPlayerAnim::AnimNotify_SetRevive()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+	if (Character)
+		Character->SetState(STATE::REVIVE);
+}

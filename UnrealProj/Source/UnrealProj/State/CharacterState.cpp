@@ -208,3 +208,17 @@ void UKnockedState::OnExit()
 }
 #pragma endregion
 
+#pragma region REVIVE
+void UReviveState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : REVIVE"));
+}
+
+void UReviveState::OnUpdate()
+{
+}
+
+void UReviveState::OnExit()
+{
+}
+#pragma endregion

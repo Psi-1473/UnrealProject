@@ -91,8 +91,7 @@ void USevarogSkill_Second::HitCheck()
 			FDamageEvent DamageEvent;
 			if (Player == nullptr)
 				return;
-			//Player->TakeDamage(10.f, DamageEvent, OwnerMonster->GetController(), OwnerMonster, A); //Temp
-			// OnDamaged로 변경하기
+			Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::DOWN); //Temp
 		}
 	}
 

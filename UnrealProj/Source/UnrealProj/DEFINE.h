@@ -33,6 +33,7 @@ enum class STATE : uint8
 	PULLED,
 	HITANDFALL,
 	KNOCKED,
+	REVIVE,
 };
 
 UENUM(BlueprintType)
