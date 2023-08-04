@@ -30,41 +30,15 @@ ANpc::ANpc()
 	Mesh->SetupAttachment(RootComponent);
 	// 박스 사이즈 조절
 
-	InteractBox->OnComponentBeginOverlap.AddDynamic(this, &ANpc::OnOverlapBegin);
-	InteractBox->OnComponentEndOverlap.AddDynamic(this, &ANpc::OnOverlapEnd);
+	InteractBox->OnComponentBeginOverlap.AddDynamic(this, &IInteractable::OnOverlapBegin);
+	InteractBox->OnComponentEndOverlap.AddDynamic(this, &IInteractable::OnOverlapEnd);
 }
 
 void ANpc::BeginPlay()
 {
-	Super::BeginPlay();
+	AActor::BeginPlay();
 	SetNpcInfo();
 	
-}
-
-void ANpc::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	if (OtherActor && (OtherActor != this))
-	{
-		auto Player = Cast<AMyPlayer>(OtherActor);
-		if (Player)
-		{
-			Player->SetInteractingNpc(this);
-			UE_LOG(LogTemp, Warning, TEXT("Player Enter!"));
-		}
-	}
-}
-
-void ANpc::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-	if (OtherActor && (OtherActor != this))
-	{
-		auto Player = Cast<AMyPlayer>(OtherActor);
-		if (Player)
-		{
-			Player->SetInteractingNpc(nullptr);
-			UE_LOG(LogTemp, Warning, TEXT("Player Out!"));
-		}
-	}
 }
 
 void ANpc::Interact()

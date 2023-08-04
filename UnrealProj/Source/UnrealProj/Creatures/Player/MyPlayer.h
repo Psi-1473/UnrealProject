@@ -43,7 +43,7 @@ public:
 	bool GetDash() { return bDash; }
 
 
-	void SetInteractingNpc(class ANpc* Npc) { InteractingNpc = Npc; }
+	void SetInteractObj(TScriptInterface<class IInteractable> Obj) { InteractObj = Obj; }
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
 	void SetState(STATE Value);
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
@@ -114,5 +114,9 @@ private:
 	class UMyGameInstance* GInstance;
 
 	UPROPERTY()
-	class ANpc* InteractingNpc;
+	TScriptInterface<class IInteractable> InteractObj;
+	//UPROPERTY()
+	//AActor* InteractObj;
+
+	
 };

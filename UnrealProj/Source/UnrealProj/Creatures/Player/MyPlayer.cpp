@@ -251,10 +251,10 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 
 void AMyPlayer::Interact()
 {
-	if (InteractingNpc == nullptr)
+	if (InteractObj == nullptr)
 		return;
 
-	InteractingNpc->Interact();
+	InteractObj->Interact();
 }
 
 
