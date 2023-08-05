@@ -222,3 +222,20 @@ void UReviveState::OnExit()
 {
 }
 #pragma endregion
+
+#pragma region LOOT
+void ULootState::OnEnter()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : LOOT"));
+	// 루팅 UI 틀기
+}
+
+void ULootState::OnUpdate()
+{
+
+}
+
+void ULootState::OnExit()
+{
+}
+#pragma endregion
