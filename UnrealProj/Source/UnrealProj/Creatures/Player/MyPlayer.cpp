@@ -254,7 +254,7 @@ void AMyPlayer::Interact()
 	if (InteractObj == nullptr)
 		return;
 
-	InteractObj->Interact();
+	InteractObj->Interact(this);
 }
 
 

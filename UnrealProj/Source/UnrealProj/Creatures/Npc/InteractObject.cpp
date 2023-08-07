@@ -4,6 +4,7 @@
 #include "InteractObject.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "../Player/MyPlayer.h"
 
 AInteractObject::AInteractObject()
 {
@@ -41,7 +42,7 @@ void AInteractObject::Tick(float DeltaTime)
 
 }
 
-void AInteractObject::Interact()
+void AInteractObject::Interact(AMyPlayer* Player)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Interact with Obj!"));
 }

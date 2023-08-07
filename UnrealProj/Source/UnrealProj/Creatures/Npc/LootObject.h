@@ -21,7 +21,15 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Interact() override;
+	virtual void Interact(class AMyPlayer* Player) override;
+	void LootEnd();
+	void LootCancle();
+private:
+	UPROPERTY(EditAnywhere)
+	float Time = 7.f;
+
+	UPROPERTY()
+	TWeakObjectPtr<class AMyPlayer> InteractingPlayer;
 private:
 	UPROPERTY(EditAnywhere)
 		class USkeletalMeshComponent* Mesh;

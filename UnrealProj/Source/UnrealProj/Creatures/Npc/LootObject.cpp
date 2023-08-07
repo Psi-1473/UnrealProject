@@ -2,6 +2,11 @@
 #include "LootObject.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "../../MyGameInstance.h"
+#include "../../DEFINE.h"
+#include "../../Managers/UIManager.h"
+#include "../../Widgets/Popup/Widget_Looting.h"
+#include "../Player/MyPlayer.h"
 
 // Sets default values
 ALootObject::ALootObject()
@@ -43,7 +48,27 @@ void ALootObject::Tick(float DeltaTime)
 
 }
 
-void ALootObject::Interact()
+void ALootObject::Interact(AMyPlayer* Player)
+{
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	auto UI = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Looting);
+	auto LootUI = Cast<UWidget_Looting>(UI);
+	if(LootUI != nullptr)
+		LootUI->SetTime(Time, this);
+	InteractingPlayer = Player;
+	InteractingPlayer->SetState(STATE::LOOT);
+}
+
+void ALootObject::LootEnd()
+{
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	GInstance->GetUIMgr()->CloseUI(UIType::Looting);
+	InteractingPlayer->SetState(STATE::IDLE);
+	InteractingPlayer = nullptr;
+	// 진행 중인 퀘스트가 있으면 진척도 올리기
+}
+
+void ALootObject::LootCancle()
 {
 }
 

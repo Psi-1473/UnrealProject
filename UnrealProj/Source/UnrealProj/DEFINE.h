@@ -16,6 +16,7 @@ enum class UIType : uint8
 	Shop,
 	Skill,
 	Information,
+	Looting,
 
 	End,
 };

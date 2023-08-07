@@ -26,5 +26,5 @@ public:
 	UFUNCTION()
 	virtual void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 public:
-	virtual void Interact() = 0;
+	virtual void Interact(class AMyPlayer* Player) = 0;
 };

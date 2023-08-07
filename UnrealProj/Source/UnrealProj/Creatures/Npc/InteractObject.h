@@ -21,7 +21,7 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void Interact() override;
+	virtual void Interact(class AMyPlayer* Player) override;
 
 private:
 	UPROPERTY(EditAnywhere)

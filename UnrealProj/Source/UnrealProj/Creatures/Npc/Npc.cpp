@@ -41,7 +41,7 @@ void ANpc::BeginPlay()
 	
 }
 
-void ANpc::Interact()
+void ANpc::Interact(AMyPlayer* Player)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
 	UUserWidget* Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Script);

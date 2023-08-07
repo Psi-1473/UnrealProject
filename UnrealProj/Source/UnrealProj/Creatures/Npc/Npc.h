@@ -29,7 +29,7 @@ public:
 	TArray<int16> GetUseItemIds() { return UseItemIds; }
 	int16 GetItemSize() { return BowIds.Num() + SwordIds.Num() + UseItemIds.Num(); }
 public:
-	void Interact();
+	virtual void Interact(class AMyPlayer* Player) override;
 
 private:
 	void GetIdFromActor();
