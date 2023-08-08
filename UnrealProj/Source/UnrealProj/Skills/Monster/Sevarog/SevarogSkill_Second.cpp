@@ -13,6 +13,7 @@
 USevarogSkill_Second::USevarogSkill_Second()
 {
 	Id = 2;
+	CoolTime = 10.f;
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_Sub_Cast.P_Sub_Cast'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_SoulStageEmbers.P_SoulStageEmbers'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> FIRE(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_SubjugateSwirls.P_SubjugateSwirls'"));
@@ -23,6 +24,7 @@ USevarogSkill_Second::USevarogSkill_Second()
 
 void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	TargetPos = Boss->GetTarget()->GetActorLocation();
@@ -96,4 +98,5 @@ void USevarogSkill_Second::HitCheck()
 	}
 
 	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
+	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 }

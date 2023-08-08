@@ -34,14 +34,14 @@ public:
 	class AMyPlayer* GetTarget() { return TargetPlayer; }
 	class UBossAnimInstance* GetAnimInst() { return AnimInst; }
 
-	void UseSkill();
-	void Dash();
-	
 	virtual void AttackTarget(class AMyPlayer* Target) override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 	virtual void Die(class AMyPlayer* Player) override;
 	virtual void DestroyObject() override;
 
+	void UseSkill();
+	class UMonsterSkill* SelectSkill();
+	void Dash();
 private:
 	void SetCanSkillTrue();
 	void SetCanDashTrue();

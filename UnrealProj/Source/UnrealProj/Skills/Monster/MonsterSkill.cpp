@@ -22,3 +22,8 @@ void UMonsterSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 
 	UE_LOG(LogTemp, Warning, TEXT("STOP AI FOR SKILL"));
 }
+
+void UMonsterSkill::EndCoolDown()
+{
+	bCanUse = true;
+}

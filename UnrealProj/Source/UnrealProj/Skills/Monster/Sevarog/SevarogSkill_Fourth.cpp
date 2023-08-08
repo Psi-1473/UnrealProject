@@ -11,7 +11,7 @@
 USevarogSkill_Fourth::USevarogSkill_Fourth()
 {
 	Id = 4;
-
+	CoolTime = 10.f;
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_SiphonTargeting.P_SiphonTargeting'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_SoulSwirlsBody.P_SoulSwirlsBody'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST3(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_SoulSwirls.P_SoulSwirls'"));
@@ -31,6 +31,7 @@ USevarogSkill_Fourth::USevarogSkill_Fourth()
 
 void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	Boss->SetExecutingSkill(this);
@@ -51,6 +52,7 @@ void USevarogSkill_Fourth::Attack()
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect, Trans);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect2, Trans);
 	CastingEffectComponent->DestroyComponent();
+	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 
 	// 히트 체크
 }

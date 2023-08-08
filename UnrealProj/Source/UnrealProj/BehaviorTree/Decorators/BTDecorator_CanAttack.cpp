@@ -4,6 +4,7 @@
 #include "BTDecorator_CanAttack.h"
 #include "../../AI/MonsterAIController.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../Creatures/Monster/BossMonster.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UBTDecorator_CanAttack::UBTDecorator_CanAttack()
@@ -23,9 +24,10 @@ bool UBTDecorator_CanAttack::CalculateRawConditionValue(UBehaviorTreeComponent& 
 	if (Target == nullptr)
 		return false;
 
-	if(!(bResult && Target->GetDistanceTo(CurrrentPawn) <= 150.f))
-		UE_LOG(LogTemp, Warning, TEXT("Can Attack : Return False"));
-
-	return bResult&& Target->GetDistanceTo(CurrrentPawn) <= 150.f; //문제 ! : 이게 True를 Return 안함 거리문제였음
-
+	auto Boss = Cast<ABossMonster>(CurrrentPawn);
+	UE_LOG(LogTemp, Warning, TEXT("Distance : %f"), Target->GetDistanceTo(CurrrentPawn));
+	if(Boss == nullptr)
+		return bResult && Target->GetDistanceTo(CurrrentPawn) <= 150.f;
+	else
+		return bResult && Target->GetDistanceTo(CurrrentPawn) <= 600.f;
 }

@@ -11,6 +11,7 @@
 USevarogSkill_First::USevarogSkill_First()
 {
 	Id = 1;
+	CoolTime = 10.f;
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> EFFECT (TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Ultimate/FX/P_UltimateLooping.P_UltimateLooping'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> SWING (TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Ultimate/FX/P_UltMeshArc_Expanding.P_UltMeshArc_Expanding'"));
 	if (EFFECT.Succeeded())
@@ -22,7 +23,7 @@ USevarogSkill_First::USevarogSkill_First()
 void USevarogSkill_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	Super::Execute(OwnerActor, bRangeAttack);
-	
+	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->SetCastSkill(true);
 	Boss->SetExecutingSkill(this);
@@ -49,4 +50,5 @@ void USevarogSkill_First::Swing()
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	CastingEffectComponent->DestroyComponent();
 	OwnerMonster->GetWorldTimerManager().ClearTimer(ExecuteTimerHandle);
+	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 }

@@ -6,6 +6,7 @@
 #include "../Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Animations/Monster/BossAnimInstance.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_First.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Second.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Third.h"
@@ -15,6 +16,8 @@ ABossMonster::ABossMonster()
 {
 	AIControllerClass = ABossAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
+	Movement->MaxWalkSpeed = 300.f;
 }
 
 void ABossMonster::BeginPlay()
@@ -29,6 +32,7 @@ void ABossMonster::BeginPlay()
 
 	auto AIController = Cast<ABossAIController>(GetController());
 	AIController->SetTarget(TargetPlayer);
+
 	USevarogSkill_First* NewSkill = NewObject<USevarogSkill_First>();
 	NewSkill->SetOwnerMonster(this);
 	SkillList.Add(NewSkill);
@@ -60,9 +64,33 @@ void ABossMonster::UseSkill()
 	if (SkillList.Num() <= 0)
 		return;
 
-	SkillList[1]->Execute(this, false);
+	// 어떤 스킬을 사용할 지 선택
+
+	UMonsterSkill* Skill = SelectSkill();
+	if (Skill == nullptr)
+		return;
+
+	Skill->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
+}
+
+UMonsterSkill* ABossMonster::SelectSkill()
+{
+	TArray<UMonsterSkill*> Arr;
+	for (int i = 0; i < SkillList.Num(); i++)
+	{
+		if (SkillList[i]->GetCanUse())
+			Arr.Add(SkillList[i]);
+	}
+
+	int SkillNumber = Arr.Num();
+
+	if (SkillNumber <= 0)
+		return nullptr;
+
+	int Index = FMath::RandRange(0, SkillNumber - 1);
+	return Arr[Index];
 }
 
 void ABossMonster::Dash()
