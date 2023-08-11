@@ -150,7 +150,7 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	case AttackType::NORMAL:
 		break;
 	case AttackType::STRONG:
-		AnimInst->PlayDamagedMontage();
+		StateMachine->SetState(STATE::DAMAGED);
 		break;
 	case AttackType::THRUST:
 		break;

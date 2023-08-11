@@ -11,6 +11,7 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Second.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Third.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Fourth.h"
+#include "../../Skills/Monster/Sevarog/SevarogSkill_Fifth.h"
 
 ABossMonster::ABossMonster()
 {
@@ -45,6 +46,9 @@ void ABossMonster::BeginPlay()
 	USevarogSkill_Fourth* NewSkill4 = NewObject<USevarogSkill_Fourth>();
 	NewSkill4->SetOwnerMonster(this);
 	SkillList.Add(NewSkill4);
+	USevarogSkill_Fifth* NewSkill5 = NewObject<USevarogSkill_Fifth>();
+	NewSkill5->SetOwnerMonster(this);
+	SkillList.Add(NewSkill5);
 
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Skill Size : %d"), SkillList.Num());
 }
@@ -66,11 +70,12 @@ void ABossMonster::UseSkill()
 
 	// 어떤 스킬을 사용할 지 선택
 
-	UMonsterSkill* Skill = SelectSkill();
-	if (Skill == nullptr)
-		return;
-
-	Skill->Execute(this, false);
+	//UMonsterSkill* Skill = SelectSkill();
+	//if (Skill == nullptr)
+	//	return;
+	//
+	//Skill->Execute(this, false);
+	SkillList[4]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
 
 }

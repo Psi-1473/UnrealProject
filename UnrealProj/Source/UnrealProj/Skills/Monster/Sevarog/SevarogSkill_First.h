@@ -21,6 +21,7 @@ public:
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
 	virtual void PlaySkillEffect() override;
+	virtual void Attack() {};
 	void Swing();
 
 private:

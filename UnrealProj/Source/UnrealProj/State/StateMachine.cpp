@@ -8,6 +8,7 @@ UStateMachine::UStateMachine()
 	UIdleState* IdleState = NewObject<UIdleState>();
 	UMoveState* MoveState = NewObject<UMoveState>();
 	UJumpState* JumpState = NewObject<UJumpState>();
+	UDamagedState* DamagedState = NewObject<UDamagedState>();
 	UAttackState* AttackState = NewObject<UAttackState>();
 	USkillState* SkillState = NewObject<USkillState>();
 	USkillCastState* SkillCastState = NewObject<USkillCastState>();
@@ -20,6 +21,7 @@ UStateMachine::UStateMachine()
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
 	JumpState->SetMachine(this);
+	DamagedState->SetMachine(this);
 	AttackState->SetMachine(this);
 	SkillState->SetMachine(this);
 	SkillCastState->SetMachine(this);
@@ -32,6 +34,7 @@ UStateMachine::UStateMachine()
 	AddState(STATE::IDLE, IdleState);
 	AddState(STATE::MOVE, MoveState);
 	AddState(STATE::JUMP, JumpState);
+	AddState(STATE::DAMAGED, DamagedState);
 	AddState(STATE::ATTACK, AttackState);
 	AddState(STATE::SKILL, SkillState);
 	AddState(STATE::SKILLCAST, SkillCastState);
