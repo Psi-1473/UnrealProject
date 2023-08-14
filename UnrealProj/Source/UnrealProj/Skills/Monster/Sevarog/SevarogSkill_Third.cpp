@@ -23,6 +23,7 @@ USevarogSkill_Third::USevarogSkill_Third()
 void USevarogSkill_Third::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	// 전조 이펙트 틀고 1.5초 뒤 발사
+	Super::Execute(OwnerActor, bRangeAttack);
 	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->SetExecutingSkill(this);

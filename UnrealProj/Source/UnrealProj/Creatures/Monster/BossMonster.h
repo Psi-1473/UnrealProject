@@ -25,11 +25,13 @@ public:
 	virtual void PostInitializeComponents();
 public:
 	void SetCastSkill(bool Value) { bCastSkill = Value; }
+	void SetSixthSkill(bool Value) { bSixthSkill = Value; }
 	void SetExecutingSkill(class UMonsterSkill* NewSkill) { ExecutingSkill = NewSkill; }
 
 	bool GetCanSkill() { return bCanSkill; }
 	bool GetCanDash() { return bCanDash; }
 	bool GetCastSkill() { return bCastSkill; }
+	bool GetSixthSkill() { return bSixthSkill; }
 	class UMonsterSkill* GetExecutingSkill() { return ExecutingSkill; }
 	class AMyPlayer* GetTarget() { return TargetPlayer; }
 	class UBossAnimInstance* GetAnimInst() { return AnimInst; }
@@ -58,6 +60,9 @@ private:
 
 	UPROPERTY()
 	bool bCastSkill = false;
+
+	UPROPERTY()
+	bool bSixthSkill = false;
 
 	UPROPERTY()
 	class UMonsterSkill* ExecutingSkill;

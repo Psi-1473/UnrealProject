@@ -24,6 +24,7 @@ USevarogSkill_Second::USevarogSkill_Second()
 
 void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	Super::Execute(OwnerActor, bRangeAttack);
 	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);

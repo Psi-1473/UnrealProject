@@ -31,6 +31,7 @@ USevarogSkill_Fourth::USevarogSkill_Fourth()
 
 void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	Super::Execute(OwnerActor, bRangeAttack);
 	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);

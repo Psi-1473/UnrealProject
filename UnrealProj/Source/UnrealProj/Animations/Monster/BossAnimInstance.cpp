@@ -33,6 +33,8 @@ void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		bDeath = Character->bDeath;
 
 		bCast = Character->GetCastSkill();
+		bSixthSkill = Character->GetSixthSkill();
+
 		if (Character->GetExecutingSkill() != nullptr)
 			SkillId = Character->GetExecutingSkill()->GetId();
 		if (Character->GetExecutingSkill() == nullptr)
