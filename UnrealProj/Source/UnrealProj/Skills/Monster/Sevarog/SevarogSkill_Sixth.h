@@ -28,11 +28,11 @@ private:
 	UPROPERTY()
 	int Count = 0;
 
+	UPROPERTY()
+	TArray<class ASkillEffectActor*> ActorArray;
+
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AProjectile> FireProjectile;
-
-	UPROPERTY()
-	struct FTimerHandle EndTimer;
 
 	UPROPERTY()
 	struct FTimerHandle SpawnTickTimer;

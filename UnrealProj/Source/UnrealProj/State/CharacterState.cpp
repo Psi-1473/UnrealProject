@@ -138,6 +138,7 @@ void USkillState::OnExit()
 #pragma region SKILLCast
 void USkillCastState::OnEnter()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL CAST"));
 }
 
 void USkillCastState::OnUpdate()

@@ -18,7 +18,8 @@ ASkillEffectActor::ASkillEffectActor()
 	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
 
 	RootComponent = RootScene;
-	ParticleComponent->SetupAttachment(RootScene);
+	ParticleComponent->SetupAttachment(RootComponent);
+	LegacyParticleComponent->SetupAttachment(RootComponent);
 }
 
 void ASkillEffectActor::BeginPlay()

@@ -99,11 +99,11 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::Fire()
 {
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
-		return;
-
+	//if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
+	//	return;
+	
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = MyPlayer;
 	SpawnParams.Instigator = MyPlayer->GetInstigator();
@@ -116,6 +116,7 @@ void AMyPlayerController::Fire()
 		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
 		CameraRotation,
 		SpawnParams);
+
 	if (Projectile)
 	{
 		if(bZoom)
@@ -318,11 +319,10 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
 
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
-		return;
+	//if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
+	//	return;
 
 	if (Value.Get<bool>())
 	{

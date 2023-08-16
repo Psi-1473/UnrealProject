@@ -24,9 +24,6 @@ private:
 	int AttackCount = 0;
 
 	UPROPERTY()
-	class UCapsuleComponent* CapsuleComponent;
-
-	UPROPERTY()
 	FTimerHandle AttackDelayTimerHandle;
 	
 };

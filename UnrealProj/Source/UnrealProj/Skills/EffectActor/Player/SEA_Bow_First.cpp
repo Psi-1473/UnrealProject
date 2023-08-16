@@ -12,10 +12,8 @@
 
 ASEA_Bow_First::ASEA_Bow_First()
 {
-	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> PA(TEXT("/Script/Niagara.NiagaraSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Skins/Rogue/P_RainofArrows_Converted.P_RainofArrows_Converted'"));
-	if (PA.Succeeded())
-		ParticleComponent->SetAsset(PA.Object);
-
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> Particle(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Skins/Rogue/P_RainofArrows.P_RainofArrows'"));
+	if (Particle.Succeeded()) LegacyParticleComponent->SetTemplate(Particle.Object);
 }
 
 void ASEA_Bow_First::BeginPlay()
