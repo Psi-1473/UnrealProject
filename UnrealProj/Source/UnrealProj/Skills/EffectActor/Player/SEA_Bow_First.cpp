@@ -32,7 +32,7 @@ void ASEA_Bow_First::AttackCheck()
 
 		FCollisionQueryParams Params(NAME_None, false, this);
 
-		float Radius = 250.f;
+		float Radius = 500.f;
 
 		FVector StartVector = GetActorLocation();
 		FVector EndVector = GetActorLocation() + GetActorForwardVector() * Radius;
@@ -46,7 +46,7 @@ void ASEA_Bow_First::AttackCheck()
 			ECollisionChannel::ECC_GameTraceChannel5,
 			FCollisionShape::MakeSphere(Radius),//측면, 높이, 정면
 			Params);
-
+		
 		FVector Center = GetActorLocation();
 		FColor DrawColor;
 		if (bResult)

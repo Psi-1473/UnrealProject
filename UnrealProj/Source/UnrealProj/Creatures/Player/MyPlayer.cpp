@@ -58,7 +58,6 @@ AMyPlayer::AMyPlayer()
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
-
 }
 
 void AMyPlayer::PostInitializeComponents()

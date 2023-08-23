@@ -22,6 +22,7 @@ public:
 public:
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
+	virtual void IndicateRange() {};
 
 	void SetOwnerMonster(TWeakObjectPtr<class AMonster> Monster) { OwnerMonster = Monster; }
 	virtual void PlaySkillEffect() {};
@@ -37,4 +38,10 @@ protected:
 
 	UPROPERTY();
 	float CoolTime;
+
+	UPROPERTY()
+	float RangeSize;
+
+	UPROPERTY()
+	float RangeAngle;
 };

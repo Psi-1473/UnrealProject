@@ -28,9 +28,6 @@ UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 
 	if (IMG.Succeeded())
 		Txt = IMG.Object;
-
-
-
 }
 
 void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -55,8 +52,7 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	FVector SpawnPos = OwnerPlayer->GetActorLocation() * FVector(1.f, 1.f, 0.f);
 	
 	RangeActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillRangeActor>(ASkillRangeActor::StaticClass(), SpawnPos, SpawnRot, SpawnParams);
-	RangeActor->MakeThisToCircle(2.2f);
-	RangeActor->GetMesh()->SetCollisionProfileName("NoCollision");
+	RangeActor->SetRange(Cast<AActor>(OwnerPlayer), false, 2);
 	OwnerPlayer->SetRangeActor(RangeActor);
 
 }
@@ -79,7 +75,7 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);
 	SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
-	FRotator SpawnRot = OwnerPlayer->GetSpawnedRangeActor()->GetActorRotation();
+	FRotator SpawnRot = OwnerPlayer->GetActorRotation();
 	FVector SpawnPos = OwnerPlayer->GetSpawnedRangeActor()->GetActorLocation();
 	OwnerPlayer->GetSpawnedRangeActor()->Destroy();
 	OwnerPlayer->SetRangeActor(nullptr);

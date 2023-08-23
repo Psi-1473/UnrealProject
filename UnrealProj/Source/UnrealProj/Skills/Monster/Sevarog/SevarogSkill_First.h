@@ -19,9 +19,10 @@ public:
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
+	virtual void IndicateRange() override;
 
 	virtual void PlaySkillEffect() override;
-	virtual void Attack() {};
+	virtual void Attack() override;
 	void Swing();
 
 private:

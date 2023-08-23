@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "../../EffectActor/SkillRangeActor.h"
 
 USevarogSkill_First::USevarogSkill_First()
 {
@@ -33,6 +34,25 @@ void USevarogSkill_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerMonster->GetWorldTimerManager().SetTimer(ExecuteTimerHandle, this, &USevarogSkill_First::Swing, 3.f, false);
 }
 
+void USevarogSkill_First::IndicateRange()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
+	SpawnParams.Instigator = OwnerMonster->GetInstigator();
+
+	FRotator SpawnRot = OwnerMonster->GetActorRotation();
+	FVector SpawnPos = OwnerMonster->GetActorLocation() * FVector(1.f, 1.f, 0.f);
+
+	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
+		ASkillRangeActor::StaticClass(), 
+		SpawnPos, 
+		SpawnRot, 
+		SpawnParams);
+
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), true, 3, 90.f);
+	//OwnerMonster->SetRangeActor(RangeActor);
+}
+
 void USevarogSkill_First::PlaySkillEffect()
 {
 	FVector EffectVector = OwnerMonster->GetActorLocation();
@@ -40,6 +60,11 @@ void USevarogSkill_First::PlaySkillEffect()
 	FTransform Trans(OwnerMonster->GetActorTransform());
 	Trans.SetLocation(EffectVector);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), SwingEffect, Trans);
+}
+
+void USevarogSkill_First::Attack()
+{
+
 }
 
 void USevarogSkill_First::Swing()
@@ -51,4 +76,6 @@ void USevarogSkill_First::Swing()
 	CastingEffectComponent->DestroyComponent();
 	OwnerMonster->GetWorldTimerManager().ClearTimer(ExecuteTimerHandle);
 	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
+
+
 }

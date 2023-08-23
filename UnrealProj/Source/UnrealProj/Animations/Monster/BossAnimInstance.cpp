@@ -89,6 +89,13 @@ void UBossAnimInstance::AnimNotify_HitCheck()
 	Character->GetExecutingSkill()->Attack();
 }
 
+void UBossAnimInstance::AnimNotify_IndicateRange()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ABossMonster>(pawn);
+	Character->GetExecutingSkill()->IndicateRange();
+}
+
 void UBossAnimInstance::PlayDamagedMontage()
 {
 }

@@ -36,6 +36,9 @@ public:
 	UFUNCTION()
 	void AnimNotify_HitCheck();
 
+	UFUNCTION()
+	void AnimNotify_IndicateRange();
+
 public:
 	void PlayDamagedMontage();
 	void PlayAttackMontage();

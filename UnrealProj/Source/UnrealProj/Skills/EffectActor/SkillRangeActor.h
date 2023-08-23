@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "Engine/DecalActor.h"
 #include "SkillRangeActor.generated.h"
 
 UCLASS()
-class UNREALPROJ_API ASkillRangeActor : public AActor
+class UNREALPROJ_API ASkillRangeActor : public ADecalActor
 {
 	GENERATED_BODY()
 	
@@ -18,19 +18,15 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	//static ASkillRangeActor* MakeCircleRange(float Radius);
 	void MakeThisToCircle(float Radius);
+	void SetRange(AActor* OwnerActor, bool bTemp, float Size, float Angle = 360.f);
 
 	void MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance);
-
-public:
-	class UStaticMeshComponent* GetMesh() { return Mesh; }
-
+	void DestroyThis();
 private:
 	UPROPERTY()
-	class UStaticMeshComponent* Mesh;
-	UPROPERTY()
-	class USceneComponent* Root;
-	UPROPERTY()
 	class UMaterial* Material;
+
+	UPROPERTY()
+	struct FTimerHandle DestroyTimer;
 };

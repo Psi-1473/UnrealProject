@@ -1,25 +1,21 @@
 #include "SkillRangeActor.h"
 #include "Math/Vector.h"
+#include "Components/DecalComponent.h"
 
 ASkillRangeActor::ASkillRangeActor()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MESH"));
-	Root = CreateDefaultSubobject<USceneComponent>(TEXT("ROOT"));
-
-	static ConstructorHelpers::FObjectFinder<UMaterial> Mat(TEXT("/Script/Engine.Material'/Game/02_Blueprints/SkillEffectActor/RangeMaterial.RangeMaterial'"));
+	static ConstructorHelpers::FObjectFinder<UMaterial> Mat(TEXT("/Script/Engine.Material'/Game/02_Blueprints/DecalMat.DecalMat'"));
 
 	if (Mat.Succeeded())
 		Material = Mat.Object;
 
-	RootComponent = Root;
-	Mesh->SetupAttachment(Root);
 }
 
 void ASkillRangeActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
 
@@ -29,8 +25,18 @@ void ASkillRangeActor::MakeThisToCircle(float Radius)
 	FString Directory = TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'");
 	UStaticMesh* StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
 	StaticMesh->SetMaterial(0, Material);
-	Mesh->SetStaticMesh(StaticMesh);
-	Mesh->SetRelativeScale3D(FVector(Size, Size, 0.01));
+}
+
+void ASkillRangeActor::SetRange(AActor* OwnerActor, bool bTemp, float Size, float Angle)
+{
+	SetActorRelativeRotation(FRotator(-90.f, OwnerActor->GetActorRotation().Yaw, 90.f));
+	SetActorRelativeScale3D(FVector(1.f, Size, Size));
+	UMaterialInstanceDynamic* dynamicMaterial = UMaterialInstanceDynamic::Create(Material, this);
+	dynamicMaterial->SetScalarParameterValue(FName(TEXT("Angle")), Angle);
+	GetDecal()->SetDecalMaterial(dynamicMaterial);
+
+	if(bTemp)
+		GetWorldTimerManager().SetTimer(DestroyTimer, this, &ASkillRangeActor::DestroyThis, 0.5f, false);
 }
 
 void ASkillRangeActor::MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance)
@@ -42,17 +48,7 @@ void ASkillRangeActor::MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxD
 	SetActorLocation(GetActorLocation() + Dir);
 }
 
-
-//ASkillRangeActor* ASkillRangeActor::MakeCircleRange(float Radius)
-//{
-//	float Size = Radius / 2;
-//	FString Directory = TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'");
-//
-//	ASkillRangeActor* Range = NewObject<ASkillRangeActor>();
-//	UStaticMesh* StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
-//
-//	Range->Mesh->SetStaticMesh(StaticMesh);
-//	Range->Mesh->SetRelativeScale3D(FVector(Size, Size, 0.01));
-//	
-//	return Range;
-//}
+void ASkillRangeActor::DestroyThis()
+{
+	Destroy();
+}
