@@ -7,6 +7,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "../../EffectActor/SkillRangeActor.h"
 
 USevarogSkill_Fourth::USevarogSkill_Fourth()
 {
@@ -37,6 +38,24 @@ void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	Boss->SetExecutingSkill(this);
 	PlaySkillEffect();
+}
+
+void USevarogSkill_Fourth::IndicateRange()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
+	SpawnParams.Instigator = OwnerMonster->GetInstigator();
+
+	FRotator SpawnRot = OwnerMonster->GetActorRotation();
+	FVector SpawnPos = OwnerMonster->GetActorLocation() * FVector(1.f, 1.f, 0.f);
+
+	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
+		ASkillRangeActor::StaticClass(),
+		SpawnPos,
+		SpawnRot,
+		SpawnParams);
+
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), true, 3, 100.f);
 }
 
 void USevarogSkill_Fourth::PlaySkillEffect()

@@ -9,6 +9,7 @@
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
+#include "../../EffectActor/SkillRangeActor.h"
 
 USevarogSkill_Second::USevarogSkill_Second()
 {
@@ -33,6 +34,25 @@ void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	PlaySkillEffect();
 }
 
+void USevarogSkill_Second::IndicateRange()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
+	SpawnParams.Instigator = OwnerMonster->GetInstigator();
+
+	FRotator SpawnRot = OwnerMonster->GetActorRotation();
+	FVector SpawnPos = TargetPos;
+
+	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
+		ASkillRangeActor::StaticClass(),
+		SpawnPos,
+		SpawnRot,
+		SpawnParams);
+
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), true, 1);
+	//OwnerMonster->SetRangeActor(RangeActor);
+}
+
 void USevarogSkill_Second::PlaySkillEffect()
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
@@ -47,7 +67,7 @@ void USevarogSkill_Second::PlaySkillEffect()
 void USevarogSkill_Second::Attack()
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
-	TargetPos = Boss->GetTarget()->GetActorLocation();
+	//TargetPos = Boss->GetTarget()->GetActorLocation();
 	FTransform Trans(TargetPos);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
 
