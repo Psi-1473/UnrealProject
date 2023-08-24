@@ -3,11 +3,15 @@
 
 #include "SevarogSkill_Fourth.h"
 #include "../../../Creatures/Monster/BossMonster.h"
+#include "../../../Creatures/Player/MyPlayer.h"
 #include "../../../Animations/Monster/BossAnimInstance.h"
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "../../EffectActor/SkillRangeActor.h"
+#include "NiagaraSystem.h"
+#include "NiagaraFunctionLibrary.h"
+#include <Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
 
 USevarogSkill_Fourth::USevarogSkill_Fourth()
 {
@@ -18,6 +22,7 @@ USevarogSkill_Fourth::USevarogSkill_Fourth()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST3(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_SoulSwirls.P_SoulSwirls'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> ATTACK(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_GhostHand.P_GhostHand'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> ATTACK2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulSiphon/FX/P_SiphonImpact.P_SiphonImpact'"));
+	static ConstructorHelpers::FObjectFinder<UNiagaraSystem> BLINK(TEXT("/Script/Niagara.NiagaraSystem'/Game/BlinkAndDashVFX/VFX_Niagara/NS_Curse_Blink.NS_Curse_Blink'"));
 	if (CAST.Succeeded())
 		CastEffect = CAST.Object;
 	if (CAST2.Succeeded())
@@ -28,6 +33,8 @@ USevarogSkill_Fourth::USevarogSkill_Fourth()
 		AttackEffect = ATTACK.Object;
 	if (ATTACK2.Succeeded())
 		AttackEffect2 = ATTACK2.Object;
+	if (ATTACK2.Succeeded())
+		BlinkEffect = BLINK.Object;
 }
 
 void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -35,9 +42,17 @@ void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	Super::Execute(OwnerActor, bRangeAttack);
 	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
-	Boss->GetAnimInst()->PlaySkillMontage(Id);
-	Boss->SetExecutingSkill(this);
-	PlaySkillEffect();
+	// 1. Invisible 상태로 만들고 그 자리에 이펙트
+	Boss->SetActorHiddenInGame(true);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(Boss->GetWorld(), 
+		BlinkEffect, 
+		Boss->GetActorLocation(), 
+		Boss->GetActorRotation());
+	
+	// 2. 0.5초 후 플레이어 뒤로 이동 시킨다. 이동 하려는 곳이 벽이면?
+	Boss->GetWorldTimerManager().SetTimer(BlinkTimer, this, &USevarogSkill_Fourth::Teleport, 0.5f, false);
+	// 3. 0.3초 후 밑에 3개 실행
+
 }
 
 void USevarogSkill_Fourth::IndicateRange()
@@ -55,7 +70,7 @@ void USevarogSkill_Fourth::IndicateRange()
 		SpawnRot,
 		SpawnParams);
 
-	RangeActor->SetRange(Cast<AActor>(OwnerMonster), true, 3, 100.f);
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 3, 100.f, 0.5f);
 }
 
 void USevarogSkill_Fourth::PlaySkillEffect()
@@ -75,4 +90,77 @@ void USevarogSkill_Fourth::Attack()
 	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 
 	// 히트 체크
+	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
+	float CapsuleRadius = 750.f;
+	float CapsuleHalfHeight = 200.f;
+	TArray<FOverlapResult> OutOverlaps;
+	bool bResult = OwnerMonster->GetWorld()->OverlapMultiByChannel(
+		OutOverlaps,
+		OwnerMonster->GetActorLocation(),
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel6,
+		FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight),
+		Params);
+
+	FColor DrawColor;
+	if (bResult)
+		DrawColor = FColor::Green;
+	else
+		DrawColor = FColor::Red;
+
+	DrawDebugCapsule(OwnerMonster->GetWorld(), OwnerMonster->GetActorLocation(),
+		CapsuleHalfHeight,
+		CapsuleRadius,
+		OwnerMonster->GetActorQuat(),
+		DrawColor, false, 2.f);
+
+	if (bResult)
+	{
+		for (const FOverlapResult& Result : OutOverlaps)
+		{
+			if (CheckInRadialRange(Cast<AActor>(OwnerMonster), Result.GetActor(), 100.f))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Target In Range : Skill4 Sevarog"));
+			}
+		}
+	}
+}
+
+void USevarogSkill_Fourth::Teleport()
+{
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	Boss->SetActorRelativeLocation(Boss->GetTarget()->GetActorLocation() - Boss->GetTarget()->GetActorForwardVector() * 300);
+	UNiagaraFunctionLibrary::SpawnSystemAtLocation(Boss->GetWorld(),
+		BlinkEffect,
+		Boss->GetActorLocation(),
+		Boss->GetActorRotation());
+	Boss->SetActorHiddenInGame(false);
+	ActSkill();
+}
+
+void USevarogSkill_Fourth::ActSkill()
+{
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(Boss->GetActorLocation(), Boss->GetTarget()->GetActorLocation());
+	Boss->SetActorRotation(Rot);
+
+	Boss->GetAnimInst()->PlaySkillMontage(Id);
+	Boss->SetExecutingSkill(this);
+	PlaySkillEffect();
+}
+
+bool USevarogSkill_Fourth::CheckInRadialRange(AActor* HitActor, AActor* TargetActor, float RadialAngle)
+{
+	FVector FirstVector = HitActor->GetActorForwardVector();
+	FVector SecondVector = TargetActor->GetActorLocation() - (HitActor->GetActorLocation() - HitActor->GetActorForwardVector() * 40);
+
+
+	float SizeMul = FirstVector.Size() * SecondVector.Size();
+	float DegreeBetween = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(FirstVector, SecondVector) / SizeMul));
+	UE_LOG(LogTemp, Warning, TEXT("Skill Angle : %f, Target To Hiter Angle : %f"), RadialAngle, DegreeBetween);
+	if (DegreeBetween <= RadialAngle / 2.0f)
+	{
+		return true;
+	}
+	return false;
 }

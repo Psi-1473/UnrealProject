@@ -24,6 +24,11 @@ public:
 	virtual void Attack() override;
 
 
+	void Teleport();
+	void ActSkill();
+	bool CheckInRadialRange(AActor* HitActor, AActor* TargetActor, float RadialAngle);
+
+
 private:
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* CastEffect;
@@ -35,10 +40,16 @@ private:
 	class UParticleSystem* AttackEffect;
 	UPROPERTY(EditAnywhere)
 	class UParticleSystem* AttackEffect2;
+	UPROPERTY(EditAnywhere)
+	class UNiagaraSystem* BlinkEffect;
+
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystemComponent* CastingEffectComponent;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AProjectile> FireProjectile;
+
+	UPROPERTY(EditAnywhere)
+	struct FTimerHandle BlinkTimer;
 };

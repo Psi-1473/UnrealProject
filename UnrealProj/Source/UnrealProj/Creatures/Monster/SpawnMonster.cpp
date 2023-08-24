@@ -38,7 +38,7 @@ void ASpawnMonster::PostInitializeComponents()
 	AnimInst->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
 }
 
-void ASpawnMonster::AttackTarget(AMyPlayer* Target)
+void ASpawnMonster::AttackTarget()
 {
 	AnimInst->PlayAttackMontage();
 }

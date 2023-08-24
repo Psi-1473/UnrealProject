@@ -23,7 +23,7 @@ public:
 	TWeakObjectPtr<class AMonsterSpawner> GetSpawner() { return Spawner; }
 	void SetSpawner(TWeakObjectPtr<class AMonsterSpawner> Value) { Spawner = Value; }
 
-	virtual void AttackTarget(class AMyPlayer* Target) override;
+	virtual void AttackTarget() override;
 	virtual void AttackCheck() override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 	virtual void Die(class AMyPlayer* Player) override;

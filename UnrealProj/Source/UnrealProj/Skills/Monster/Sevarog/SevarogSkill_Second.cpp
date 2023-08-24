@@ -49,7 +49,7 @@ void USevarogSkill_Second::IndicateRange()
 		SpawnRot,
 		SpawnParams);
 
-	RangeActor->SetRange(Cast<AActor>(OwnerMonster), true, 1);
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 1, 360.f, 0.5f);
 	//OwnerMonster->SetRangeActor(RangeActor);
 }
 

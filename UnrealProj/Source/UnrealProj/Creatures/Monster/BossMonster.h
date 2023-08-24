@@ -36,7 +36,8 @@ public:
 	class AMyPlayer* GetTarget() { return TargetPlayer; }
 	class UBossAnimInstance* GetAnimInst() { return AnimInst; }
 
-	virtual void AttackTarget(class AMyPlayer* Target) override;
+
+	virtual void AttackTarget() override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 	virtual void Die(class AMyPlayer* Player) override;
 	virtual void DestroyObject() override;
@@ -81,5 +82,11 @@ private:
 
 	UPROPERTY()
 	TArray<class UMonsterSkill*> SkillList;
+
+	UPROPERTY()
+	struct FTimerHandle RangeToAttackTimer;
+
+	UPROPERTY()
+	int RangeCount = 0;
 	
 };

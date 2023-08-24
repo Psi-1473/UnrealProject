@@ -3,6 +3,7 @@
 
 #include "BTTask_Attack.h"
 #include "../../Creatures/Monster/Monster.h"
+#include "../../Creatures/Monster/BossMonster.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../AI/MonsterAIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
@@ -22,7 +23,7 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 
 	auto CurrentMonster = Cast<AMonster>(CurrentPawn);
 	auto TargetPlayer = Cast<AMyPlayer>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Target"))));
-	CurrentMonster->AttackTarget(TargetPlayer);
+	CurrentMonster->AttackTarget();
 
 	return Result;
 }

@@ -19,7 +19,7 @@ protected:
 
 public:	
 	void MakeThisToCircle(float Radius);
-	void SetRange(AActor* OwnerActor, bool bTemp, float Size, float Angle = 360.f);
+	void SetRange(AActor* OwnerActor, float Size, float Angle = 360.f, float TempTime = 0.f);
 
 	void MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance);
 	void DestroyThis();

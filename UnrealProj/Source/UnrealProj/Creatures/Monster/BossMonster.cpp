@@ -13,6 +13,7 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Fourth.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Fifth.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Sixth.h"
+#include "../../Skills/EffectActor/SkillRangeActor.h"
 
 ABossMonster::ABossMonster()
 {
@@ -25,7 +26,6 @@ ABossMonster::ABossMonster()
 void ABossMonster::BeginPlay()
 {
 	Super::BeginPlay();
-
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	TargetPlayer = MyPlayer;
@@ -110,9 +110,28 @@ void ABossMonster::Dash()
 	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
 }
 
-void ABossMonster::AttackTarget(AMyPlayer* Target)
+
+void ABossMonster::AttackTarget()
 {
 	AnimInst->PlayAttackMontage();
+	//RangeCount++;
+	//if (RangeCount == 3)
+	//{
+	//	RangeCount = 0;
+
+		//	return;
+		//}
+		//FActorSpawnParameters SpawnParams;
+		//SpawnParams.Owner = this;
+		//SpawnParams.Instigator = GetInstigator();
+		//
+		//FRotator SpawnRot = GetActorRotation();
+		//FVector SpawnPos = GetActorLocation() * FVector(1.f, 1.f, 0.f);
+		//
+		//ASkillRangeActor* RangeActor = GetWorld()->SpawnActor<ASkillRangeActor>(ASkillRangeActor::StaticClass(), SpawnPos, SpawnRot, SpawnParams);
+		//RangeActor->SetRange(this, 2, 90.f, 0.2f);
+		//
+		//GetWorldTimerManager().SetTimer(RangeToAttackTimer, this, &ABossMonster::AttackTarget, 0.5f, false);
 }
 
 float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

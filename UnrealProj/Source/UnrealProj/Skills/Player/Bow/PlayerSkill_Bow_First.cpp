@@ -52,7 +52,7 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	FVector SpawnPos = OwnerPlayer->GetActorLocation() * FVector(1.f, 1.f, 0.f);
 	
 	RangeActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillRangeActor>(ASkillRangeActor::StaticClass(), SpawnPos, SpawnRot, SpawnParams);
-	RangeActor->SetRange(Cast<AActor>(OwnerPlayer), false, 2);
+	RangeActor->SetRange(Cast<AActor>(OwnerPlayer), 2);
 	OwnerPlayer->SetRangeActor(RangeActor);
 
 }

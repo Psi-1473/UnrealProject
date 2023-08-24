@@ -27,7 +27,7 @@ void ASkillRangeActor::MakeThisToCircle(float Radius)
 	StaticMesh->SetMaterial(0, Material);
 }
 
-void ASkillRangeActor::SetRange(AActor* OwnerActor, bool bTemp, float Size, float Angle)
+void ASkillRangeActor::SetRange(AActor* OwnerActor, float Size, float Angle, float TempTime)
 {
 	SetActorRelativeRotation(FRotator(-90.f, OwnerActor->GetActorRotation().Yaw, 90.f));
 	SetActorRelativeScale3D(FVector(1.f, Size, Size));
@@ -35,8 +35,8 @@ void ASkillRangeActor::SetRange(AActor* OwnerActor, bool bTemp, float Size, floa
 	dynamicMaterial->SetScalarParameterValue(FName(TEXT("Angle")), Angle);
 	GetDecal()->SetDecalMaterial(dynamicMaterial);
 
-	if(bTemp)
-		GetWorldTimerManager().SetTimer(DestroyTimer, this, &ASkillRangeActor::DestroyThis, 0.5f, false);
+	if(TempTime > 0.f)
+		GetWorldTimerManager().SetTimer(DestroyTimer, this, &ASkillRangeActor::DestroyThis, TempTime, false);
 }
 
 void ASkillRangeActor::MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance)

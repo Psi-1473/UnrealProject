@@ -93,6 +93,7 @@ void UBossAnimInstance::AnimNotify_IndicateRange()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<ABossMonster>(pawn);
+
 	Character->GetExecutingSkill()->IndicateRange();
 }
 
