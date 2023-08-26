@@ -26,8 +26,6 @@ public:
 
 	void Teleport();
 	void ActSkill();
-	bool CheckInRadialRange(AActor* HitActor, AActor* TargetActor, float RadialAngle);
-
 
 private:
 	UPROPERTY(EditAnywhere)

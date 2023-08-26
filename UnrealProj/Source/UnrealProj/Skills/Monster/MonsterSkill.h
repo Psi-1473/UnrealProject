@@ -30,6 +30,8 @@ public:
 	void EndCoolDown();
 
 protected:
+	bool IsTargetInCircleRange(AActor* HitActor, AActor* TargetActor, float RadialAngle = 360.f);
+protected:
 	UPROPERTY()
 	TWeakObjectPtr<class AMonster> OwnerMonster;
 

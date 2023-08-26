@@ -27,3 +27,19 @@ void UMonsterSkill::EndCoolDown()
 {
 	bCanUse = true;
 }
+
+bool UMonsterSkill::IsTargetInCircleRange(AActor* HitActor, AActor* TargetActor, float RadialAngle)
+{
+	FVector FirstVector = HitActor->GetActorForwardVector();
+	FVector SecondVector = TargetActor->GetActorLocation() - (HitActor->GetActorLocation() - HitActor->GetActorForwardVector() * 40);
+
+
+	float SizeMul = FirstVector.Size() * SecondVector.Size();
+	float DegreeBetween = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(FirstVector, SecondVector) / SizeMul));
+	UE_LOG(LogTemp, Warning, TEXT("Skill Angle : %f, Target To Hiter Angle : %f"), RadialAngle, DegreeBetween);
+	if (DegreeBetween <= RadialAngle / 2.0f)
+	{
+		return true;
+	}
+	return false;
+}

@@ -12,6 +12,7 @@
 #include "NiagaraSystem.h"
 #include "NiagaraFunctionLibrary.h"
 #include <Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
+#include "Engine/DamageEvents.h"
 
 USevarogSkill_Fourth::USevarogSkill_Fourth()
 {
@@ -118,9 +119,12 @@ void USevarogSkill_Fourth::Attack()
 	{
 		for (const FOverlapResult& Result : OutOverlaps)
 		{
-			if (CheckInRadialRange(Cast<AActor>(OwnerMonster), Result.GetActor(), 100.f))
+			if (IsTargetInCircleRange(Cast<AActor>(OwnerMonster), Result.GetActor(), 100.f))
 			{
 				UE_LOG(LogTemp, Warning, TEXT("Target In Range : Skill4 Sevarog"));
+				auto Player = Cast<AMyPlayer>(Result.GetActor());
+				FDamageEvent DamageEvent;
+				Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::STRONG); //Temp
 			}
 		}
 	}
@@ -147,20 +151,4 @@ void USevarogSkill_Fourth::ActSkill()
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	Boss->SetExecutingSkill(this);
 	PlaySkillEffect();
-}
-
-bool USevarogSkill_Fourth::CheckInRadialRange(AActor* HitActor, AActor* TargetActor, float RadialAngle)
-{
-	FVector FirstVector = HitActor->GetActorForwardVector();
-	FVector SecondVector = TargetActor->GetActorLocation() - (HitActor->GetActorLocation() - HitActor->GetActorForwardVector() * 40);
-
-
-	float SizeMul = FirstVector.Size() * SecondVector.Size();
-	float DegreeBetween = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(FirstVector, SecondVector) / SizeMul));
-	UE_LOG(LogTemp, Warning, TEXT("Skill Angle : %f, Target To Hiter Angle : %f"), RadialAngle, DegreeBetween);
-	if (DegreeBetween <= RadialAngle / 2.0f)
-	{
-		return true;
-	}
-	return false;
 }
