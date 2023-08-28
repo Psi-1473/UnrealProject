@@ -23,8 +23,8 @@ public:
 
 	virtual void PlaySkillEffect() override;
 	virtual void Attack() override;
-	void Swing();
 
+	void Swing();
 private:
 	UPROPERTY()
 	FTimerHandle ExecuteTimerHandle;

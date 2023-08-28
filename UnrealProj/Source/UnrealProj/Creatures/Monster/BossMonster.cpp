@@ -74,12 +74,12 @@ void ABossMonster::UseSkill()
 
 	// 어떤 스킬을 사용할 지 선택
 
-	//UMonsterSkill* Skill = SelectSkill();
-	//if (Skill == nullptr)
-	//	return;
-	//
-	//Skill->Execute(this, false);
-	SkillList[3]->Execute(this, false);
+	UMonsterSkill* Skill = SelectSkill();
+	if (Skill == nullptr)
+		return;
+
+	Skill->Execute(this, false);
+	//SkillList[0]->Execute(this, false);
 	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 20.f, true);
 
 }

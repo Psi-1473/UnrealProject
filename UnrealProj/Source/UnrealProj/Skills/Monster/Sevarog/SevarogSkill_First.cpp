@@ -8,6 +8,8 @@
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "../../EffectActor/SkillRangeActor.h"
+#include "Engine/DamageEvents.h"
+#include "../../../Creatures/Player/MyPlayer.h"
 
 USevarogSkill_First::USevarogSkill_First()
 {
@@ -59,11 +61,52 @@ void USevarogSkill_First::PlaySkillEffect()
 	FTransform Trans(OwnerMonster->GetActorTransform());
 	Trans.SetLocation(EffectVector);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), SwingEffect, Trans);
+	Attack();
 }
 
 void USevarogSkill_First::Attack()
 {
+	FTransform Trans = OwnerMonster->GetActorTransform();
+	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 
+	// 히트 체크
+	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
+	float CapsuleRadius = 750.f;
+	float CapsuleHalfHeight = 200.f;
+	TArray<FOverlapResult> OutOverlaps;
+	bool bResult = OwnerMonster->GetWorld()->OverlapMultiByChannel(
+		OutOverlaps,
+		OwnerMonster->GetActorLocation(),
+		FQuat::Identity,
+		ECollisionChannel::ECC_GameTraceChannel6,
+		FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight),
+		Params);
+
+	FColor DrawColor;
+	if (bResult)
+		DrawColor = FColor::Green;
+	else
+		DrawColor = FColor::Red;
+
+	DrawDebugCapsule(OwnerMonster->GetWorld(), OwnerMonster->GetActorLocation(),
+		CapsuleHalfHeight,
+		CapsuleRadius,
+		OwnerMonster->GetActorQuat(),
+		DrawColor, false, 2.f);
+
+	if (bResult)
+	{
+		for (const FOverlapResult& Result : OutOverlaps)
+		{
+			if (IsTargetInCircleRange(Cast<AActor>(OwnerMonster), Result.GetActor(), 90.f))
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Target In Range : Skill4 Sevarog"));
+				auto Player = Cast<AMyPlayer>(Result.GetActor());
+				FDamageEvent DamageEvent;
+				Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::STRONG); //Temp
+			}
+		}
+	}
 }
 
 void USevarogSkill_First::Swing()
@@ -75,6 +118,5 @@ void USevarogSkill_First::Swing()
 	CastingEffectComponent->DestroyComponent();
 	OwnerMonster->GetWorldTimerManager().ClearTimer(ExecuteTimerHandle);
 	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
-
 
 }
