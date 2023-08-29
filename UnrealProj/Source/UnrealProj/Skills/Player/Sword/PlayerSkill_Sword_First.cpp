@@ -65,7 +65,7 @@ void UPlayerSkill_Sword_First::SetParticleTimer()
 		SpawnParams.Instigator = OwnerPlayer->GetInstigator();
 
 		FRotator SpawnRot = OwnerPlayer->GetActorRotation() + FRotator(0.f, RotZ[SpawnCount], 0.f);
-		FVector SpawnPos = OwnerPlayer->GetActorLocation() * FVector(1.f, 1.f, 0.f);
+		FVector SpawnPos = OwnerPlayer->GetActorLocation() - FVector(0.f, 0.f, 50.f);
 		SpawnPos += OwnerPlayer->GetActorForwardVector() * LocX[SpawnCount];
 		SpawnPos += OwnerPlayer->GetActorRightVector() * LocY[SpawnCount];
 		EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);

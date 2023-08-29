@@ -67,6 +67,9 @@ void ABossMonster::PostInitializeComponents()
 void ABossMonster::UseSkill()
 {
 	// 테스트용 함수
+	if (bCanSkill == false)
+		return;
+
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Use Skill !"));
 	bCanSkill = false;
 	if (SkillList.Num() <= 0)
@@ -79,8 +82,8 @@ void ABossMonster::UseSkill()
 		return;
 
 	Skill->Execute(this, false);
-	//SkillList[0]->Execute(this, false);
-	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 20.f, true);
+	//SkillList[0]->Execute(this, false); Test 용
+
 
 }
 
@@ -106,8 +109,16 @@ void ABossMonster::Dash()
 {
 	// 테스트용 함수
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Dash !"));
+
 	bCanDash = false;
 	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
+	
+	//if(거리 체크, 멀면 대쉬)
+}
+
+void ABossMonster::StartCooldown()
+{
+	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 7.f, true);
 }
 
 

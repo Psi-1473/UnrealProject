@@ -73,6 +73,7 @@ void UBossAnimInstance::AnimNotify_SkillEnd()
 	Character->SetExecutingSkill(nullptr);
 	auto AIController = Cast<ABossAIController>(Character->GetController());
 	AIController->StartAI();
+	Character->StartCooldown();
 }
 
 void UBossAnimInstance::AnimNotify_PlayEffect()
@@ -93,6 +94,9 @@ void UBossAnimInstance::AnimNotify_IndicateRange()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<ABossMonster>(pawn);
+
+	if (Character->GetExecutingSkill() == nullptr)
+		return;
 
 	Character->GetExecutingSkill()->IndicateRange();
 }

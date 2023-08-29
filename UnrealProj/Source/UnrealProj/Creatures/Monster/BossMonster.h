@@ -45,6 +45,7 @@ public:
 	void UseSkill();
 	class UMonsterSkill* SelectSkill();
 	void Dash();
+	void StartCooldown();
 private:
 	void SetCanSkillTrue();
 	void SetCanDashTrue();

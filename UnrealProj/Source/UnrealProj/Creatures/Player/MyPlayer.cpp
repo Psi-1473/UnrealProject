@@ -147,16 +147,23 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	switch (Type)
 	{
 	case AttackType::NORMAL:
+		// 그냥 이펙트만 띄우고 따로 맞는 모션 없게함
 		break;
 	case AttackType::STRONG:
+		AnimInst->StopAllMontages(1.f);
+		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::DAMAGED);
 		break;
 	case AttackType::THRUST:
 		break;
 	case AttackType::DOWN:
+		AnimInst->StopAllMontages(1.f);
+		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::KNOCKED);
 		break;
 	case AttackType::HITANDFALL:
+		AnimInst->StopAllMontages(1.f);
+		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::HITANDFALL);
 		break;
 	}

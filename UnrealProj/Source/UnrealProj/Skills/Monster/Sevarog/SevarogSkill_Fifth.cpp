@@ -9,7 +9,7 @@
 USevarogSkill_Fifth::USevarogSkill_Fifth()
 {
 	Id = 5;
-	CoolTime = 10.f;
+	CoolTime = 5.f;
 	static ConstructorHelpers::FClassFinder<AProjectile> PROJ(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_SevarogFireball.BP_SevarogFireball_C'"));
 
 	if (PROJ.Succeeded())

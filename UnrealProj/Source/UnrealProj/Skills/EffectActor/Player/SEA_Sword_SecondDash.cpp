@@ -45,7 +45,7 @@ void ASEA_Sword_SecondDash::Tick(float DeltaTime)
 	auto OwnerPlayer = Cast<AMyPlayer>(Owner);
 	SetActorLocation(OwnerPlayer->GetActorLocation());
 	SetActorRotation(OwnerPlayer->GetActorRotation());
-	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), GroundParticle, GetActorLocation() * FVector(1.f, 1.f, 0.f));
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), GroundParticle, GetActorLocation() - FVector(1.f, 1.f, 50.f));
 }
 
 void ASEA_Sword_SecondDash::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)

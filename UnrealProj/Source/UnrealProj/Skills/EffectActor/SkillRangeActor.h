@@ -16,6 +16,7 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 public:	
 	void MakeThisToCircle(float Radius);
@@ -23,6 +24,10 @@ public:
 
 	void MoveRangeActor(FVector Dir, FVector PlayerPos, float MaxDistance);
 	void DestroyThis();
+
+private:
+	void CorrectPos();
+
 private:
 	UPROPERTY()
 	class UMaterial* Material;

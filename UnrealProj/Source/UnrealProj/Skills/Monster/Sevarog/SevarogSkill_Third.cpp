@@ -13,7 +13,7 @@
 USevarogSkill_Third::USevarogSkill_Third()
 {
 	Id = 3;
-	CoolTime = 10.f;
+	CoolTime = 20.f;
 	static ConstructorHelpers::FClassFinder<AProjectile> PROJ(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_SevarogFire.BP_SevarogFire_C'"));
 
 	if (PROJ.Succeeded())
