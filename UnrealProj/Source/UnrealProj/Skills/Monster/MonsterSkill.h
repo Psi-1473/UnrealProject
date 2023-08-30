@@ -18,15 +18,18 @@ public:
 	bool GetCanUse() { return bCanUse; }
 
 	void SetCanUse(bool Value) { bCanUse = Value; }
+	void SetOwnerMonster(TWeakObjectPtr<class AMonster> Monster) { OwnerMonster = Monster; }
 
 public:
-	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
-	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
-	virtual void IndicateRange() {};
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack); // 스킬 시작
+	virtual void IndicateRange() {}; // 히트 범위 표시
+	virtual void Update() {}; // 스킬 객체 Update 함수
+	virtual void AttackOrSpawnSkillActor() {}; // Hit체크, 스킬 액터 소환
+	virtual void PlaySkillEffect() {}; // AnimNotify를 통해 스킬 이펙트만 실행시킬 때
+	virtual void PlayParticle(AActor* OwnerActor) {}; // Execute등 코드에서 바로 이펙트 실행 시킬 때
+	
+	virtual void SkillEnd(); // 스킬 종료시 실행할 함수
 
-	void SetOwnerMonster(TWeakObjectPtr<class AMonster> Monster) { OwnerMonster = Monster; }
-	virtual void PlaySkillEffect() {};
-	virtual void Attack() {};
 	void EndCoolDown();
 
 protected:

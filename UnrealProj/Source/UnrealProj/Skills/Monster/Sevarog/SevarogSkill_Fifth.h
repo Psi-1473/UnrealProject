@@ -17,10 +17,8 @@ class UNREALPROJ_API USevarogSkill_Fifth : public UMonsterSkill
 public:
 	USevarogSkill_Fifth();
 
-	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
-	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
-
-	virtual void PlaySkillEffect() override;
+	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override; // 스킬 시작
+	virtual void AttackOrSpawnSkillActor() override; // Hit체크, 스킬 액터 소환
 
 private:
 	UPROPERTY(EditAnywhere)

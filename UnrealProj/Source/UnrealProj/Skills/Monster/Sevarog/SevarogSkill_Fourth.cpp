@@ -56,40 +56,12 @@ void USevarogSkill_Fourth::Execute(AActor* OwnerActor, bool bRangeAttack)
 
 }
 
-void USevarogSkill_Fourth::IndicateRange()
-{
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
-	SpawnParams.Instigator = OwnerMonster->GetInstigator();
-
-	FRotator SpawnRot = OwnerMonster->GetActorRotation();
-	FVector SpawnPos = OwnerMonster->GetActorLocation() - FVector(0.f, 0.f, 300.f);
-
-	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
-		ASkillRangeActor::StaticClass(),
-		SpawnPos,
-		SpawnRot,
-		SpawnParams);
-
-	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 3, 100.f, 0.5f);
-}
-
-void USevarogSkill_Fourth::PlaySkillEffect()
-{
-	FTransform Trans = OwnerMonster->GetActorTransform();
-	CastingEffectComponent = UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect, Trans);
-	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect2, Trans);
-	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect3, Trans);
-}
-
-void USevarogSkill_Fourth::Attack()
+void USevarogSkill_Fourth::AttackOrSpawnSkillActor()
 {
 	FTransform Trans = OwnerMonster->GetActorTransform();
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect, Trans);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect2, Trans);
 	CastingEffectComponent->DestroyComponent();
-	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
-
 	// 히트 체크
 	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
 	float CapsuleRadius = 750.f;
@@ -132,6 +104,32 @@ void USevarogSkill_Fourth::Attack()
 	}
 }
 
+void USevarogSkill_Fourth::IndicateRange()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
+	SpawnParams.Instigator = OwnerMonster->GetInstigator();
+
+	FRotator SpawnRot = OwnerMonster->GetActorRotation();
+	FVector SpawnPos = OwnerMonster->GetActorLocation() - FVector(0.f, 0.f, 300.f);
+
+	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
+		ASkillRangeActor::StaticClass(),
+		SpawnPos,
+		SpawnRot,
+		SpawnParams);
+
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 3, 100.f, 0.5f);
+}
+
+void USevarogSkill_Fourth::PlayParticle(AActor* OwnerActor)
+{
+	FTransform Trans = OwnerMonster->GetActorTransform();
+	CastingEffectComponent = UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect, Trans);
+	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect2, Trans);
+	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect3, Trans);
+}
+
 void USevarogSkill_Fourth::Teleport()
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
@@ -152,5 +150,5 @@ void USevarogSkill_Fourth::ActSkill()
 
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	Boss->SetExecutingSkill(this);
-	PlaySkillEffect();
+	PlayParticle(Cast<AActor>(OwnerMonster));
 }

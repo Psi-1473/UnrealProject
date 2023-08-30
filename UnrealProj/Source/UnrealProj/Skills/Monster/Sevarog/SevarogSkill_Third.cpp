@@ -27,19 +27,11 @@ void USevarogSkill_Third::Execute(AActor* OwnerActor, bool bRangeAttack)
 	bCanUse = false;
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->SetExecutingSkill(this);
-	OwnerMonster->GetWorldTimerManager().SetTimer(FireTimerHandle, this, &USevarogSkill_Third::PlaySkillEffect, 0.5f, false);
-}
-
-void USevarogSkill_Third::PlaySkillEffect()
-{
-	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 }
 
-void USevarogSkill_Third::Attack()
+void USevarogSkill_Third::AttackOrSpawnSkillActor()
 {
-	// น฿ป็
-
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
 	SpawnParams.Instigator = OwnerMonster->GetInstigator();
@@ -49,12 +41,10 @@ void USevarogSkill_Third::Attack()
 		OwnerMonster->GetActorRotation(),
 		SpawnParams);
 
-		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 1.f);
+	Projectile->FireInDirection(Projectile->GetActorForwardVector(), 1.f);
 
-		OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
+	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 
 }
 
-void USevarogSkill_Third::PlaySwingAnim()
-{
-}
+

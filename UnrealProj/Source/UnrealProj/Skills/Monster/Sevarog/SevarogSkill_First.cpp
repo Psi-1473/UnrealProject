@@ -36,35 +36,7 @@ void USevarogSkill_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerMonster->GetWorldTimerManager().SetTimer(ExecuteTimerHandle, this, &USevarogSkill_First::Swing, 3.f, false);
 }
 
-void USevarogSkill_First::IndicateRange()
-{
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
-	SpawnParams.Instigator = OwnerMonster->GetInstigator();
-
-	FRotator SpawnRot = OwnerMonster->GetActorRotation();
-	FVector SpawnPos = OwnerMonster->GetActorLocation() - FVector(0.f, 0.f, 300.f);
-
-	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
-		ASkillRangeActor::StaticClass(), 
-		SpawnPos, 
-		SpawnRot, 
-		SpawnParams);
-
-	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 3, 90.f, 0.5f);
-}
-
-void USevarogSkill_First::PlaySkillEffect()
-{
-	FVector EffectVector = OwnerMonster->GetActorLocation();
-	EffectVector.Z = 0;
-	FTransform Trans(OwnerMonster->GetActorTransform());
-	Trans.SetLocation(EffectVector);
-	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), SwingEffect, Trans);
-	Attack();
-}
-
-void USevarogSkill_First::Attack()
+void USevarogSkill_First::AttackOrSpawnSkillActor()
 {
 	FTransform Trans = OwnerMonster->GetActorTransform();
 	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
@@ -111,6 +83,24 @@ void USevarogSkill_First::Attack()
 	}
 }
 
+void USevarogSkill_First::IndicateRange()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = Cast<AActor>(OwnerMonster);
+	SpawnParams.Instigator = OwnerMonster->GetInstigator();
+
+	FRotator SpawnRot = OwnerMonster->GetActorRotation();
+	FVector SpawnPos = OwnerMonster->GetActorLocation() - FVector(0.f, 0.f, 300.f);
+
+	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
+		ASkillRangeActor::StaticClass(), 
+		SpawnPos, 
+		SpawnRot, 
+		SpawnParams);
+
+	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 3, 90.f, 0.5f);
+}
+
 void USevarogSkill_First::Swing()
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
@@ -119,6 +109,4 @@ void USevarogSkill_First::Swing()
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	CastingEffectComponent->DestroyComponent();
 	OwnerMonster->GetWorldTimerManager().ClearTimer(ExecuteTimerHandle);
-	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
-
 }

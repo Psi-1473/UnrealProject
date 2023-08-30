@@ -319,10 +319,11 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
 
-	//if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
-	//	return;
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::SKILLCAST))
+		return;
 
 	if (Value.Get<bool>())
 	{

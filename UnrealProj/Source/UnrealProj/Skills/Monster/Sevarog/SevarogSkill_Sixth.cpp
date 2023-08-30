@@ -19,11 +19,6 @@ USevarogSkill_Sixth::USevarogSkill_Sixth()
 	if (EFFECT.Succeeded()) Effect = EFFECT.Class;
 }
 
-void USevarogSkill_Sixth::BeginPlay()
-{
-	
-}
-
 void USevarogSkill_Sixth::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	// 캐스팅 애니메이션 틀기
@@ -35,17 +30,12 @@ void USevarogSkill_Sixth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::SpawnTornado, 1.f, true);
 }
 
-void USevarogSkill_Sixth::PlaySkillEffect()
-{
-
-}
-
 void USevarogSkill_Sixth::SpawnTornado()
 {
 	if (Count >= 5)
 	{
 		OwnerMonster->GetWorldTimerManager().ClearTimer(SpawnTickTimer);
-		OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::EndSkill, 3.f, false);
+		OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::DestroyTornado, 3.f, false);
 		UE_LOG(LogTemp, Warning, TEXT("START END SKILL TIMER"));
 	}
 	else
@@ -67,7 +57,7 @@ void USevarogSkill_Sixth::SpawnTornado()
 	}
 }
 
-void USevarogSkill_Sixth::EndSkill()
+void USevarogSkill_Sixth::DestroyTornado()
 {
 	// 저장한 변수들 전부 Destroy하기
 	for (int i = 0; i < ActorArray.Num(); i++)
@@ -86,12 +76,7 @@ void USevarogSkill_Sixth::EndSkill()
 	Count = 0;
 	ActorArray.Empty();
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
-
 	Boss->SetSixthSkill(false);
-	Boss->SetExecutingSkill(nullptr);
-	auto AIController = Cast<ABossAIController>(Boss->GetController());
-	AIController->StartAI();
-	OwnerMonster->GetWorldTimerManager().ClearTimer(SpawnTickTimer);
-	Boss->StartCooldown();
-	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
+	SkillEnd();
 }
+

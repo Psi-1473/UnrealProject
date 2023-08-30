@@ -26,7 +26,7 @@ void USevarogSkill_Fifth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	Boss->SetExecutingSkill(this);
 }
 
-void USevarogSkill_Fifth::PlaySkillEffect()
+void USevarogSkill_Fifth::AttackOrSpawnSkillActor()
 {
 	// Projectile ¼ÒÈ¯
 	FActorSpawnParameters SpawnParams;
@@ -39,7 +39,4 @@ void USevarogSkill_Fifth::PlaySkillEffect()
 		SpawnParams);
 
 	Projectile->FireInDirection(Projectile->GetActorForwardVector(), 1.f);
-
-	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
-
 }

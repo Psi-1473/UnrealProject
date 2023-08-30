@@ -17,8 +17,11 @@ public:
 	ASpawnMonster();
 
 protected:
+	virtual void BeginPlay() override;
 	virtual void PostInitializeComponents() override;
 
+public:
+	virtual void Tick(float DeltaTime) override;
 public:
 	TWeakObjectPtr<class AMonsterSpawner> GetSpawner() { return Spawner; }
 	void SetSpawner(TWeakObjectPtr<class AMonsterSpawner> Value) { Spawner = Value; }
@@ -31,13 +34,23 @@ public:
 
 private:
 	void SetHpBar();
+	void RevealHpBar();
+	void HideHpBar();
+	void CheckDistance();
+
 private:
 	UPROPERTY()
 	TWeakObjectPtr<class AMonsterSpawner> Spawner;
+
+	UPROPERTY()
+	TWeakObjectPtr<class AMyPlayer> Attacker;
 
 	UPROPERTY()
 	class UMonsterAnimInstance* AnimInst;
 
 	UPROPERTY()
 	class UWidgetComponent* HpBar;
+
+	UPROPERTY()
+	struct FTimerHandle AttackerTimer;
 };

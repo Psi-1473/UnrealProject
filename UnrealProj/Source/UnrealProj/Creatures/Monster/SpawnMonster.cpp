@@ -26,6 +26,12 @@ ASpawnMonster::ASpawnMonster()
 	}
 }
 
+void ASpawnMonster::BeginPlay()
+{
+	Super::BeginPlay();
+	HpBar->SetVisibility(false);
+}
+
 void ASpawnMonster::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -36,6 +42,12 @@ void ASpawnMonster::PostInitializeComponents()
 
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
 	AnimInst->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
+}
+
+void ASpawnMonster::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	CheckDistance();
 }
 
 void ASpawnMonster::AttackTarget()
@@ -96,8 +108,11 @@ float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, A
 	StatComponent->OnAttacked(Damage);
 
 	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
-
+	Attacker = CauserPlayer;
+	RevealHpBar();
 	PopupDamageText(Damage);
+	GetWorldTimerManager().ClearTimer(AttackerTimer);
+	GetWorldTimerManager().SetTimer(AttackerTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
 	if (StatComponent->GetHp() <= 0)
 		Die(CauserPlayer);
 	return Damage;
@@ -133,4 +148,24 @@ void ASpawnMonster::SetHpBar()
 	HpBar->SetupAttachment(GetMesh());
 	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 160.f));
 	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+}
+
+void ASpawnMonster::RevealHpBar()
+{
+	HpBar->SetVisibility(true);
+}
+
+void ASpawnMonster::CheckDistance()
+{
+	if (Attacker == nullptr)
+		return;
+
+	if (GetDistanceTo(Cast<AActor>(Attacker)) >= 2000.f)
+		HideHpBar();
+}
+
+void ASpawnMonster::HideHpBar()
+{
+	Attacker = nullptr;
+	HpBar->SetVisibility(false);
 }

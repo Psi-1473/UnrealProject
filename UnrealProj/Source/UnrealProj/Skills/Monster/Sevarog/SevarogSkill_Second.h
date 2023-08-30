@@ -18,11 +18,11 @@ public:
 	USevarogSkill_Second();
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
-	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 	virtual void IndicateRange() override;
+	virtual void AttackOrSpawnSkillActor() override;
+	virtual void PlayParticle(AActor* OwnerActor) override;
 
-	virtual void PlaySkillEffect() override;
-	virtual void Attack() override;
+private:
 	void HitCheck();
 private:
 	UPROPERTY(EditAnywhere)

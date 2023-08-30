@@ -20,7 +20,7 @@ protected:
 	virtual void PostInitializeComponents();
 
 public:	
-	virtual void Tick(float DeltaTime) override;
+	virtual void Tick(float DeltaTime);
 
 
 	FString GetObjectName();

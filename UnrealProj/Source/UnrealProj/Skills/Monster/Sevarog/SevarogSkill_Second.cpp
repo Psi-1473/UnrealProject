@@ -31,7 +31,7 @@ void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	TargetPos = Boss->GetTarget()->GetActorLocation();
 	Boss->SetExecutingSkill(this);
-	PlaySkillEffect();
+	PlayParticle(Cast<AActor>(OwnerMonster));
 }
 
 void USevarogSkill_Second::IndicateRange()
@@ -50,10 +50,19 @@ void USevarogSkill_Second::IndicateRange()
 		SpawnParams);
 
 	RangeActor->SetRange(Cast<AActor>(OwnerMonster), 1, 360.f, 0.5f);
-	//OwnerMonster->SetRangeActor(RangeActor);
 }
 
-void USevarogSkill_Second::PlaySkillEffect()
+void USevarogSkill_Second::AttackOrSpawnSkillActor()
+{
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	//TargetPos = Boss->GetTarget()->GetActorLocation();
+	FTransform Trans(TargetPos);
+	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
+
+	OwnerMonster->GetWorldTimerManager().SetTimer(HitCheckTimerHandle, this, &USevarogSkill_Second::HitCheck, 0.5f, false);
+}
+
+void USevarogSkill_Second::PlayParticle(AActor* OwnerActor)
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->SetCastSkill(true);
@@ -62,16 +71,6 @@ void USevarogSkill_Second::PlaySkillEffect()
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect, Trans);
 	FTransform TargetTrans = OwnerMonster->GetActorTransform();
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect2, TargetTrans);
-}
-
-void USevarogSkill_Second::Attack()
-{
-	auto Boss = Cast<ABossMonster>(OwnerMonster);
-	//TargetPos = Boss->GetTarget()->GetActorLocation();
-	FTransform Trans(TargetPos);
-	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), FireEffect, Trans);
-
-	OwnerMonster->GetWorldTimerManager().SetTimer(HitCheckTimerHandle, this, &USevarogSkill_Second::HitCheck, 0.5f, false);
 }
 
 void USevarogSkill_Second::HitCheck()
@@ -119,5 +118,4 @@ void USevarogSkill_Second::HitCheck()
 	}
 
 	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
-	OwnerMonster->GetWorldTimerManager().SetTimer(CoolTimeHandler, this, &UMonsterSkill::EndCoolDown, CoolTime, false);
 }

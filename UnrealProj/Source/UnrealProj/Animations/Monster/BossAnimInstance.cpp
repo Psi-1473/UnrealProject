@@ -69,17 +69,14 @@ void UBossAnimInstance::AnimNotify_SkillEnd()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<ABossMonster>(pawn);
 
-	Character->SetCastSkill(false);
-	Character->SetExecutingSkill(nullptr);
-	auto AIController = Cast<ABossAIController>(Character->GetController());
-	AIController->StartAI();
-	Character->StartCooldown();
+	Character->GetExecutingSkill()->SkillEnd();
 }
 
 void UBossAnimInstance::AnimNotify_PlayEffect()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<ABossMonster>(pawn);
+
 	Character->GetExecutingSkill()->PlaySkillEffect();
 }
 
@@ -87,7 +84,8 @@ void UBossAnimInstance::AnimNotify_HitCheck()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<ABossMonster>(pawn);
-	Character->GetExecutingSkill()->Attack();
+
+	Character->GetExecutingSkill()->AttackOrSpawnSkillActor();
 }
 
 void UBossAnimInstance::AnimNotify_IndicateRange()

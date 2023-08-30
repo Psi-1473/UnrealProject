@@ -15,15 +15,12 @@ class UNREALPROJ_API USevarogSkill_Sixth : public UMonsterSkill
 	GENERATED_BODY()
 public:
 	USevarogSkill_Sixth();
-	virtual void BeginPlay();
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
-	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 
-	virtual void PlaySkillEffect() override;
-
+private:
 	void SpawnTornado();
-	void EndSkill();
+	void DestroyTornado();
 private:
 	UPROPERTY()
 	int Count = 0;
@@ -36,4 +33,7 @@ private:
 
 	UPROPERTY()
 	struct FTimerHandle SpawnTickTimer;
+
+	UPROPERTY()
+	struct FTimerHandle SkillEndTimer;
 };

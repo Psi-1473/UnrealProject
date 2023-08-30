@@ -17,13 +17,10 @@ public:
 	USevarogSkill_Fourth();
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
-	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 	virtual void IndicateRange() override;
-
-	virtual void PlaySkillEffect() override;
-	virtual void Attack() override;
-
-
+	virtual void AttackOrSpawnSkillActor() override;
+	virtual void PlayParticle(AActor* OwnerActor) override; //Attack Or Fire
+private:
 	void Teleport();
 	void ActSkill();
 

@@ -151,6 +151,7 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 		break;
 	case AttackType::STRONG:
 		AnimInst->StopAllMontages(1.f);
+		StateMachine->SetState(STATE::IDLE);
 		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::DAMAGED);
 		break;
@@ -158,11 +159,13 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 		break;
 	case AttackType::DOWN:
 		AnimInst->StopAllMontages(1.f);
+		StateMachine->SetState(STATE::IDLE);
 		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::KNOCKED);
 		break;
 	case AttackType::HITANDFALL:
 		AnimInst->StopAllMontages(1.f);
+		StateMachine->SetState(STATE::IDLE);
 		AnimInst->AnimNotify_AttackEnd();
 		StateMachine->SetState(STATE::HITANDFALL);
 		break;

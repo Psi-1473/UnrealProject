@@ -66,21 +66,17 @@ void ABossMonster::PostInitializeComponents()
 
 void ABossMonster::UseSkill()
 {
-	// 테스트용 함수
 	if (bCanSkill == false)
 		return;
 
-	UE_LOG(LogTemp, Warning, TEXT("Boss : Use Skill !"));
-	bCanSkill = false;
 	if (SkillList.Num() <= 0)
 		return;
-
-	// 어떤 스킬을 사용할 지 선택
 
 	UMonsterSkill* Skill = SelectSkill();
 	if (Skill == nullptr)
 		return;
 
+	bCanSkill = false;
 	Skill->Execute(this, false);
 	//SkillList[0]->Execute(this, false); Test 용
 
