@@ -14,6 +14,10 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Fifth.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Sixth.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "Kismet/KismetMathLibrary.h"
+#include "Engine/LatentActionManager.h"
+#include "Particles/ParticleSystemComponent.h"
 
 ABossMonster::ABossMonster()
 {
@@ -21,6 +25,11 @@ ABossMonster::ABossMonster()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 300.f;
+	DashParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("DashEffect"));
+	DashParticleComp->SetupAttachment(RootComponent);
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> DASH(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_ShadowTrailsCharSelect.P_ShadowTrailsCharSelect'"));
+	if (DASH.Succeeded())
+		DashParticleComp->SetTemplate(DASH.Object);
 }
 
 void ABossMonster::BeginPlay()
@@ -29,11 +38,13 @@ void ABossMonster::BeginPlay()
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	TargetPlayer = MyPlayer;
-	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, true);
-	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
+	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, false);
+	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, false);
 
 	auto AIController = Cast<ABossAIController>(GetController());
 	AIController->SetTarget(TargetPlayer);
+
+	SetDashEffectVisibility(false);
 
 	USevarogSkill_First* NewSkill = NewObject<USevarogSkill_First>();
 	NewSkill->SetOwnerMonster(this);
@@ -64,6 +75,11 @@ void ABossMonster::PostInitializeComponents()
 	//AnimInst->OnDied.AddUObject(this, &ABossMonster::DestroyObject);
 }
 
+void ABossMonster::SetDashEffectVisibility(bool Value)
+{
+	DashParticleComp->SetVisibility(Value);
+}
+
 void ABossMonster::UseSkill()
 {
 	if (bCanSkill == false)
@@ -78,7 +94,7 @@ void ABossMonster::UseSkill()
 
 	bCanSkill = false;
 	Skill->Execute(this, false);
-	//SkillList[0]->Execute(this, false); Test 용
+	//SkillList[2]->Execute(this, false);
 
 
 }
@@ -107,38 +123,39 @@ void ABossMonster::Dash()
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Dash !"));
 
 	bCanDash = false;
-	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, true);
+	AnimInst->Dash();
+	FLatentActionInfo ActInfo;
+	ActInfo.CallbackTarget = this;
+	FVector TargetLoc = TargetPlayer->GetActorLocation();
+	TargetLoc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetPlayer->GetActorLocation());
+	SetActorRotation(Rot);
+	SetDashEffectVisibility(true);
+	UKismetSystemLibrary::MoveComponentTo(
+		RootComponent,
+		TargetLoc,
+		Rot,
+		true,
+		true,
+		1.5f,
+		true,
+		EMoveComponentAction::Move,
+		ActInfo
+		);
+	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, false);
 	
 	//if(거리 체크, 멀면 대쉬)
 }
 
 void ABossMonster::StartCooldown()
 {
-	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 7.f, true);
+	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 7.f, false);
 }
 
 
 void ABossMonster::AttackTarget()
 {
 	AnimInst->PlayAttackMontage();
-	//RangeCount++;
-	//if (RangeCount == 3)
-	//{
-	//	RangeCount = 0;
-
-		//	return;
-		//}
-		//FActorSpawnParameters SpawnParams;
-		//SpawnParams.Owner = this;
-		//SpawnParams.Instigator = GetInstigator();
-		//
-		//FRotator SpawnRot = GetActorRotation();
-		//FVector SpawnPos = GetActorLocation() * FVector(1.f, 1.f, 0.f);
-		//
-		//ASkillRangeActor* RangeActor = GetWorld()->SpawnActor<ASkillRangeActor>(ASkillRangeActor::StaticClass(), SpawnPos, SpawnRot, SpawnParams);
-		//RangeActor->SetRange(this, 2, 90.f, 0.2f);
-		//
-		//GetWorldTimerManager().SetTimer(RangeToAttackTimer, this, &ABossMonster::AttackTarget, 0.5f, false);
 }
 
 float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
@@ -150,6 +167,7 @@ float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 void ABossMonster::Die(AMyPlayer* Player)
 {
+	
 }
 
 void ABossMonster::DestroyObject()
@@ -158,6 +176,7 @@ void ABossMonster::DestroyObject()
 
 void ABossMonster::SetCanSkillTrue()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Boss can use skills."));
 	auto AIController = Cast<ABossAIController>(GetController());
 	AIController->StopAI();
 	AIController->StartAI();

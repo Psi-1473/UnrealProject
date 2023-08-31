@@ -322,6 +322,7 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
 		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
 		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK) &&
 		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::SKILLCAST))
 		return;
 

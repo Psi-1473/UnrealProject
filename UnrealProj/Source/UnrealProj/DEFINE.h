@@ -55,7 +55,11 @@ enum class AttackType : uint8
 	STRONG, // 강공격 - 경직
 	THRUST, // 밀치기 공격 - 경직 + 밀려남
 	DOWN,
+	PULLED, // 잡아 당기면서 지속적으로 Damaged 줌 -> Montage로 구현
 	HITANDFALL, // 날라가서 넘어짐
+	// STRONG과 PULLED의 애니메이션은 같지만
+	// STRONG은 STATE 구현
+	// PULLED는 Montage 구현
 };
 
 enum ItemType

@@ -144,32 +144,34 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	// -1을 TakeDamage가 리턴하면 종료 (플레이어 죽었다는 뜻)
 
 	// 어택 타입에 따라 경직, 날리기, 노경직 선택 (애니메이션)
-	switch (Type)
+
+	if (Type == AttackType::NORMAL)
 	{
-	case AttackType::NORMAL:
-		// 그냥 이펙트만 띄우고 따로 맞는 모션 없게함
-		break;
-	case AttackType::STRONG:
-		AnimInst->StopAllMontages(1.f);
-		StateMachine->SetState(STATE::IDLE);
-		AnimInst->AnimNotify_AttackEnd();
-		StateMachine->SetState(STATE::DAMAGED);
-		break;
-	case AttackType::THRUST:
-		break;
-	case AttackType::DOWN:
-		AnimInst->StopAllMontages(1.f);
-		StateMachine->SetState(STATE::IDLE);
-		AnimInst->AnimNotify_AttackEnd();
-		StateMachine->SetState(STATE::KNOCKED);
-		break;
-	case AttackType::HITANDFALL:
-		AnimInst->StopAllMontages(1.f);
-		StateMachine->SetState(STATE::IDLE);
-		AnimInst->AnimNotify_AttackEnd();
-		StateMachine->SetState(STATE::HITANDFALL);
-		break;
+
 	}
+	else
+	{
+		AnimInst->StopAllMontages(0.f);
+		AnimInst->SetComboAndStepZero();
+		switch (Type)
+		{
+		case AttackType::STRONG:
+			StateMachine->SetState(STATE::DAMAGED);
+			break;
+		case AttackType::THRUST:
+			break;
+		case AttackType::PULLED:
+			AnimInst->PlayDamagedMontage();
+			break;
+		case AttackType::DOWN:
+			StateMachine->SetState(STATE::KNOCKED);
+			break;
+		case AttackType::HITANDFALL:
+			StateMachine->SetState(STATE::HITANDFALL);
+			break;
+		}
+	}
+	
 
 }
 

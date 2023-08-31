@@ -99,6 +99,15 @@ void UBossAnimInstance::AnimNotify_IndicateRange()
 	Character->GetExecutingSkill()->IndicateRange();
 }
 
+void UBossAnimInstance::AnimNotify_DashEnd()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ABossMonster>(pawn);
+
+	bDash = false;
+	Character->SetDashEffectVisibility(false);
+}
+
 void UBossAnimInstance::PlayDamagedMontage()
 {
 }

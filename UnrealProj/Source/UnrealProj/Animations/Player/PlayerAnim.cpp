@@ -173,8 +173,7 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	auto Character = Cast<AMyPlayer>(pawn);
 	
 	Character->SetState(STATE::IDLE);
-	bCombo = true;
-	AttackStep = 1;
+	SetComboAndStepZero();
 	if (Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
 	
@@ -194,4 +193,10 @@ void UPlayerAnim::AnimNotify_SetRevive()
 	auto Character = Cast<AMyPlayer>(pawn);
 	if (Character)
 		Character->SetState(STATE::REVIVE);
+}
+
+void UPlayerAnim::SetComboAndStepZero()
+{
+	bCombo = true;
+	AttackStep = 1;
 }

@@ -54,7 +54,7 @@ public:
 	void AnimNotify_SetRevive();
 public:
 	void SetBowCast(bool Value) { bBowSkillCast = Value; }
-
+	void SetComboAndStepZero();
 public:
 	WEAPONTYPE WeaponType = WEAPONTYPE::WEAPON_SWORD;
 

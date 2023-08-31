@@ -79,7 +79,7 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
 			PrevTargetPos = GetActorLocation();
-			TargetPlayer->SetState(STATE::IDLE);
+			//TargetPlayer->SetState(STATE::IDLE);
 			Player->SetState(STATE::PULLED);
 			AttackTarget();
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
@@ -132,7 +132,8 @@ void ASevarogFire::AttackTarget()
 	if (TargetPlayer != nullptr)
 	{
 		FDamageEvent DamageEvent;
-		TargetPlayer->OnDamaged(1.f, DamageEvent, Owner->GetInstigatorController(), Owner, AttackType::STRONG);
+		UE_LOG(LogTemp, Warning, TEXT("Target Attack!!"));
+		TargetPlayer->OnDamaged(1.f, DamageEvent, Owner->GetInstigatorController(), Owner, AttackType::PULLED);
 	}
 
 

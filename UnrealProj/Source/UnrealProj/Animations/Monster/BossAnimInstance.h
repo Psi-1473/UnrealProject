@@ -39,10 +39,14 @@ public:
 	UFUNCTION()
 	void AnimNotify_IndicateRange();
 
+	UFUNCTION()
+	void AnimNotify_DashEnd();
+
 public:
 	void PlayDamagedMontage();
 	void PlayAttackMontage();
 	void PlaySkillMontage(int32 Id);
+	void Dash() { bDash = true;}
 
 private:
 	void JumpToSection(UAnimMontage* Montage, int32 Section);
@@ -57,6 +61,8 @@ private:
 		bool bSixthSkill = false;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 		int SkillId;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
+		bool bDash = false;
 
 	UPROPERTY()
 		class UAnimMontage* DamagedMontage;

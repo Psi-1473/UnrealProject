@@ -27,6 +27,7 @@ public:
 	void SetCastSkill(bool Value) { bCastSkill = Value; }
 	void SetSixthSkill(bool Value) { bSixthSkill = Value; }
 	void SetExecutingSkill(class UMonsterSkill* NewSkill) { ExecutingSkill = NewSkill; }
+	void SetDashEffectVisibility(bool Value);
 
 	bool GetCanSkill() { return bCanSkill; }
 	bool GetCanDash() { return bCanDash; }
@@ -89,5 +90,8 @@ private:
 
 	UPROPERTY()
 	int RangeCount = 0;
+
+	UPROPERTY(EditAnywhere)
+	class UParticleSystemComponent* DashParticleComp;
 	
 };
