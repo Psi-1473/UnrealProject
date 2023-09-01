@@ -746,7 +746,11 @@
       "name": "Camel YAML DSL",
       "description": "Schema for Camel YAML DSL",
       "fileMatch": ["*.camel.yaml", "*.camelk.yaml"],
-      "url": "https://raw.githubusercontent.com/apache/camel/main/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camel-yaml-dsl.json"
+      "url": "https://raw.githubusercontent.com/apache/camel/main/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camelYamlDsl.json",
+      "versions": {
+        "3.x": "https://raw.githubusercontent.com/apache/camel/camel-3.x/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camel-yaml-dsl.json",
+        "4.x": "https://raw.githubusercontent.com/apache/camel/main/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camelYamlDsl.json"
+      }
     },
     {
       "name": "Carafe",
@@ -5197,6 +5201,12 @@
       "description": "Lazy Docker settings",
       "url": "https://json.schemastore.org/lazydocker.json",
       "fileMatch": ["**/lazydocker/config.yml"]
+    },
+    {
+      "name": "custom-elements.json",
+      "description": "A file format for describing custom elements",
+      "url": "https://raw.githubusercontent.com/webcomponents/custom-elements-manifest/main/schema.json",
+      "fileMatch": ["custom-elements.json"]
     }
   ],
   "version": 1

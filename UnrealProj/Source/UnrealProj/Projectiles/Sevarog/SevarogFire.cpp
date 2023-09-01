@@ -16,7 +16,7 @@
 
 ASevarogFire::ASevarogFire()
 {
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/BigNiagaraBundle/NiagaraEffectMix3/ExampleContent/SM_MaterialSphere.SM_MaterialSphere'"));
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> MeshAsset(TEXT("/Script/Engine.StaticMesh'/Game/ParagonSevarog/FX/Meshes/Shapes/SM_CleanseBubble.SM_CleanseBubble'"));
 	static ConstructorHelpers::FObjectFinder<UMaterial> MatAsset(TEXT("/Script/Engine.Material'/Game/ParagonSevarog/FX/Materials/Energy/M_SiphonSouls.M_SiphonSouls'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> Explosion(TEXT("/Script/Engine.ParticleSystem'/Game/Realistic_Starter_VFX_Pack_Vol2/Particles/Explosion/P_Explosion_Big_B.P_Explosion_Big_B'"));
 	if (MeshAsset.Succeeded())

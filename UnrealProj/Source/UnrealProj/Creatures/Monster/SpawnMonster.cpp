@@ -40,6 +40,7 @@ void ASpawnMonster::PostInitializeComponents()
 	if (Bar != nullptr)
 		Bar->BindHp(StatComponent);
 
+	if (AnimInst == nullptr) return;
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
 	AnimInst->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
 }
