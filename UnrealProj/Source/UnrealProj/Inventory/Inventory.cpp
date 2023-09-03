@@ -56,6 +56,7 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 
 	NewItem->SetInventory(this);
 	NewItem->SetCount(1);
+	NewItem->SetOwner(Cast<AActor>(OwnerPlayer));
 }
 
 

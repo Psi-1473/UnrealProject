@@ -28,7 +28,7 @@ public:
 	void SetAmount(int Value) { Amount = Value; }
 private:
 	UPROPERTY()
-	int UseType;
+	int UseType; // 0 - 체력, 1 - 마나
 
 	UPROPERTY()
 	int Amount;

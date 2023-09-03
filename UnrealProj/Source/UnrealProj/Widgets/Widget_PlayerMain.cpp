@@ -11,6 +11,7 @@
 #include "../Items/Item.h"
 #include "../Skills/Skill.h"
 #include "../Skills/Player/PlayerSkill.h"
+#include "../Creatures/Player/MyPlayer.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
 #include "../Stat/PlayerStatComponent.h"
 #include "Components/ProgressBar.h"

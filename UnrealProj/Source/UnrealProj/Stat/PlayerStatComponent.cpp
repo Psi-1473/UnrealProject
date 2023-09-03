@@ -70,6 +70,9 @@ void UPlayerStatComponent::SetHp(int32 Value)
 	if (Hp < 0)
 		Hp = 0;
 
+	if (Hp > MaxHp)
+		Hp = MaxHp;
+
 	OnHpChanged.Broadcast();
 }
 
@@ -87,6 +90,16 @@ void UPlayerStatComponent::SetMp(int32 Value)
 		Mp = 0;
 
 	OnMpChanged.Broadcast();
+}
+
+void UPlayerStatComponent::AddHp(int Value)
+{
+	SetHp(Hp + Value);
+}
+
+void UPlayerStatComponent::AddMp(int Value)
+{
+	SetMp(Mp + Value);
 }
 
 void UPlayerStatComponent::OnAttacked(float DamageAmount)

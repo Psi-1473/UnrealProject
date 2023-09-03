@@ -12,6 +12,8 @@
 #include "../../MyGameMode.h"
 #include "../../Widgets/Widget_PlayerMain.h"
 #include "../../Widgets/Popup/Widget_Inventory.h"
+#include "../../Creatures/Player/MyPlayer.h"
+#include "../../Stat/PlayerStatComponent.h"
 
 AUseItem::AUseItem()
 {
@@ -20,9 +22,22 @@ AUseItem::AUseItem()
 void AUseItem::UseItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item Use %d, %d"), UseType, Amount);
-	
+
 
 	SetCount(Count - 1);
+	auto MyPlayer = Cast<AMyPlayer>(Owner);
+	
+	switch (UseType)
+	{
+		case 0:
+			MyPlayer->GetStatComponent()->AddHp(Amount);
+			break;
+		case 1:
+			MyPlayer->GetStatComponent()->AddMp(Amount);
+			break;
+		default:
+			break;
+	}
 }
 
 void AUseItem::SetItemMesh()

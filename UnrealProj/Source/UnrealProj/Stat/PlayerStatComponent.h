@@ -38,6 +38,9 @@ public:
 	void SetHp(int32 Value);
 	void SetExp(int32 Value);
 	void SetMp(int32 Value);
+
+	void AddHp(int Value);
+	void AddMp(int Value);
 public:
 	void OnAttacked(float DamageAmount);
 

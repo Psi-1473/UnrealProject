@@ -23,10 +23,6 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::UseItem()
-{
-}
-
 void AItem::SetItemMesh()
 {
 }

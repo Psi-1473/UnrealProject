@@ -2147,8 +2147,9 @@
       "name": "JReleaser",
       "description": "JSON schema for JReleaser config file",
       "fileMatch": ["jreleaser.yml", "jreleaser.json"],
-      "url": "https://json.schemastore.org/jreleaser-1.7.0.json",
+      "url": "https://json.schemastore.org/jreleaser-1.8.0.json",
       "versions": {
+        "1.8.0": "https://json.schemastore.org/jreleaser-1.8.0.json",
         "1.7.0": "https://json.schemastore.org/jreleaser-1.7.0.json",
         "1.6.0": "https://json.schemastore.org/jreleaser-1.6.0.json"
       }
@@ -2274,6 +2275,12 @@
         "**/.kontinuous/env/*/values.yaml"
       ],
       "url": "https://raw.githubusercontent.com/socialgouv/kontinuous/v1/docs/values.schema.json"
+    },
+    {
+      "name": "kontinuous-config.yaml",
+      "description": "Schema for Kontinuous config.yaml configuration files",
+      "fileMatch": ["**/.kontinuous/config.yaml"],
+      "url": "https://raw.githubusercontent.com/socialgouv/kontinuous/v1/docs/config.schema.json"
     },
     {
       "name": "kustomization.yaml",
@@ -5099,11 +5106,12 @@
       "name": "Pantsbuild",
       "description": "Pantsbuild configuration file",
       "fileMatch": ["pants*.toml"],
-      "url": "https://json.schemastore.org/pantsbuild-2.16.0.json",
+      "url": "https://json.schemastore.org/pantsbuild-2.17.0.json",
       "versions": {
         "2.14.0": "https://json.schemastore.org/pantsbuild-2.14.0.json",
         "2.15.0": "https://json.schemastore.org/pantsbuild-2.15.0.json",
-        "2.16.0": "https://json.schemastore.org/pantsbuild-2.16.0.json"
+        "2.16.0": "https://json.schemastore.org/pantsbuild-2.16.0.json",
+        "2.17.0": "https://json.schemastore.org/pantsbuild-2.17.0.json"
       }
     },
     {

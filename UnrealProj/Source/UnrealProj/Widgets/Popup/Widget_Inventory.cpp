@@ -25,7 +25,7 @@ void UWidget_Inventory::CreateSlot()
 	// 실행이 안된다 블루프린트에서 부모 설정안한듯
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-	
+
 	for (int i = 0; i < SlotBox->GetChildrenCount(); i++)
 	{
 		Slots.Add(Cast<UWidget_InvenSlot>(SlotBox->GetChildAt(i)));
