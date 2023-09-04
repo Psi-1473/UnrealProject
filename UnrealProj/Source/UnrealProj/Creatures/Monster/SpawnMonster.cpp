@@ -41,9 +41,10 @@ void ASpawnMonster::PostInitializeComponents()
 		Bar->BindHp(StatComponent);
 
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
+	if (AnimInst == nullptr) return;
 	AnimInst->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
 
-	if (AnimInst == nullptr) return;
+
 }
 
 void ASpawnMonster::Tick(float DeltaTime)

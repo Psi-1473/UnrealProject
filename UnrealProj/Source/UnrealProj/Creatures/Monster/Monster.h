@@ -36,8 +36,6 @@ public:
 protected:
 	void PopupDamageText(float Damage);
 
-
-
 public:
 	bool bDeath = false;
 protected:
@@ -51,6 +49,9 @@ protected:
 
 	UPROPERTY()
 	FTimerHandle DestroyTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	class UAudioComponent* AudioComponent;
 
 
 };

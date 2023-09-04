@@ -49,4 +49,7 @@ protected:
 	UPROPERTY(EditAnywhere)
 	ASkillEffectActor* EffectActor; // 소환된 이펙트 액터
 
+	UPROPERTY()
+	class USoundWave* HitSound;
+
 };

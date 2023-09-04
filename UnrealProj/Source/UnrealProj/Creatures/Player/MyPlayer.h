@@ -115,8 +115,9 @@ private:
 
 	UPROPERTY()
 	TScriptInterface<class IInteractable> InteractObj;
-	//UPROPERTY()
-	//AActor* InteractObj;
+
+	UPROPERTY(EditAnywhere)
+	class UAudioComponent* AudioComponent;
 
 	
 };

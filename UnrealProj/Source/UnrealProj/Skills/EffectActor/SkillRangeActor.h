@@ -34,4 +34,7 @@ private:
 
 	UPROPERTY()
 	struct FTimerHandle DestroyTimer;
+
+	UPROPERTY(EditAnywhere)
+	class UAudioComponent* AudioComponent;
 };

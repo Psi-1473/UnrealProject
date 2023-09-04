@@ -6,14 +6,15 @@
 #include "../../../Animations/Monster/BossAnimInstance.h"
 #include "../../../Projectiles/Projectile.h"
 
+
 USevarogSkill_Fifth::USevarogSkill_Fifth()
 {
 	Id = 5;
 	CoolTime = 5.f;
 	static ConstructorHelpers::FClassFinder<AProjectile> PROJ(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_SevarogFireball.BP_SevarogFireball_C'"));
 
-	if (PROJ.Succeeded())
-		FireProjectile = PROJ.Class;
+	if (PROJ.Succeeded()) FireProjectile = PROJ.Class;
+	
 }
 
 void USevarogSkill_Fifth::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -24,6 +25,7 @@ void USevarogSkill_Fifth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	auto Boss = Cast<ABossMonster>(OwnerMonster);
 	Boss->GetAnimInst()->PlaySkillMontage(Id);
 	Boss->SetExecutingSkill(this);
+	AttackOrSpawnSkillActor();
 }
 
 void USevarogSkill_Fifth::AttackOrSpawnSkillActor()

@@ -10,6 +10,7 @@
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Inventory/Inventory.h"
 #include "../../AI/MonsterAIController.h"
+#include "Kismet/GameplayStatics.h"
 
 AMonster::AMonster()
 {
@@ -63,11 +64,18 @@ float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AContr
 
 void AMonster::DestroyObject()
 {
-
+	
 }
 
 
 
+
+void AMonster::PlayHitSound(USoundWave* Sound)
+{
+	if (Sound == nullptr)
+		return;
+	UGameplayStatics::PlaySound2D(GetWorld(), Sound);
+}
 
 void AMonster::PopupDamageText(float Damage)
 {

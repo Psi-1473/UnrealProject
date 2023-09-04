@@ -10,6 +10,8 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
 #include "../../EffectActor/SkillRangeActor.h"
+#include "Sound/SoundWave.h"
+
 
 USevarogSkill_Second::USevarogSkill_Second()
 {
@@ -18,9 +20,12 @@ USevarogSkill_Second::USevarogSkill_Second()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_Sub_Cast.P_Sub_Cast'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_SoulStageEmbers.P_SoulStageEmbers'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> FIRE(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_SubjugateSwirls.P_SubjugateSwirls'"));
+	static ConstructorHelpers::FObjectFinder<USoundWave> HSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Sevarog/Sound_Sevarog_Skill5.Sound_Sevarog_Skill5'"));
+
 	if (CAST.Succeeded()) CastEffect = CAST.Object;
 	if (CAST2.Succeeded()) CastEffect2 = CAST2.Object;
 	if (FIRE.Succeeded()) FireEffect = FIRE.Object;
+	if (HSound.Succeeded()) HitSound = HSound.Object;
 }
 
 void USevarogSkill_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
