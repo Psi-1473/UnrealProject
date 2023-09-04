@@ -22,6 +22,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
 #include "../../MyGameMode.h"
+#include "Components/AudioComponent.h"
 
 
 
@@ -57,7 +58,10 @@ AMyPlayer::AMyPlayer()
 
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+
+	AudioComponent->SetupAttachment(RootComponent);
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -81,7 +85,6 @@ void AMyPlayer::BeginPlay()
 	NewWeapon->SetId(0);
 	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
-
 
 	//	TEMP : Skill Sword
 	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();

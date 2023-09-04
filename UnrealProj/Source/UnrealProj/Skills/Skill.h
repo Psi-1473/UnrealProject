@@ -26,7 +26,8 @@ public:
 	FString GetSkillName() { return Name; }
 	bool GetIsRangeAttack() { return bRange; }
 
-
+protected:
+	void PlaySoundAtLocation(UWorld* Wolrd, FVector Location, class USoundBase* Sound);
 protected:
 	UPROPERTY()
 	bool bCanUse = true; // 지금 사용 가능한가

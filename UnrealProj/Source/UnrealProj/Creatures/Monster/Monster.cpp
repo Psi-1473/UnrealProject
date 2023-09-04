@@ -11,11 +11,13 @@
 #include "../../Inventory/Inventory.h"
 #include "../../AI/MonsterAIController.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 AMonster::AMonster()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
 
@@ -26,6 +28,7 @@ AMonster::AMonster()
 	GetMesh()->SetCollisionProfileName("NoCollision");
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
+	AudioComponent->SetupAttachment(RootComponent);
 	// 메쉬 - 속도만 세팅
 }
 
@@ -68,15 +71,6 @@ void AMonster::DestroyObject()
 }
 
 
-
-
-void AMonster::PlayHitSound(USoundWave* Sound)
-{
-	if (Sound == nullptr)
-		return;
-	UGameplayStatics::PlaySound2D(GetWorld(), Sound);
-}
-
 void AMonster::PopupDamageText(float Damage)
 {
 	FActorSpawnParameters SpawnParams;
@@ -89,6 +83,7 @@ void AMonster::PopupDamageText(float Damage)
 		SpawnParams);
 
 	DamageText->SetDamageText(Damage);
+	
 }
 
 

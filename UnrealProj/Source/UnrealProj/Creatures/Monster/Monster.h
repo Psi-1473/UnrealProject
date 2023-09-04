@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "../../Interface/SoundActor.h"
 #include "Monster.generated.h"
 
 
 UCLASS()
-class UNREALPROJ_API AMonster : public ACharacter
+class UNREALPROJ_API AMonster : public ACharacter, public ISoundActor
 {
 	GENERATED_BODY()
 

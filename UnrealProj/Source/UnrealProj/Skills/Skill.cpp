@@ -5,6 +5,7 @@
 #include "EffectActor//SkillEffectActor.h"
 #include "EffectActor//SkillRangeActor.h"
 #include "../State/CharacterState.h"
+#include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
 
 void USkill::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -19,6 +20,13 @@ void USkill::DestroyActor()
 		return;
 
 	EffectActor->Destroy();
+}
+
+void USkill::PlaySoundAtLocation(UWorld* Wolrd, FVector Location, USoundBase* Sound)
+{
+	if (Sound == nullptr)
+		return;
+	UGameplayStatics::PlaySoundAtLocation(Wolrd, Sound, Location);
 }
 
 

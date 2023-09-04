@@ -16,7 +16,6 @@ void IInteractable::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 			Player->SetInteractObj(Cast<AActor>(this->_getUObject()));
 			UE_LOG(LogTemp, Warning, TEXT("Player Enter!"));
 		}
-		
 	}
 }
 

@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../../DEFINE.h"
+#include "../../Interface/SoundActor.h"
 #include "../../MyGameInstance.h"
 #include "MyPlayer.generated.h"
 
 UCLASS()
-class UNREALPROJ_API AMyPlayer : public ACharacter
+class UNREALPROJ_API AMyPlayer : public ACharacter, public ISoundActor
 {
 	GENERATED_BODY()
 
@@ -118,6 +119,4 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UAudioComponent* AudioComponent;
-
-	
 };

@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../../Interface/SoundActor.h"
 #include "SkillEffectActor.generated.h"
 
 UCLASS()
-class UNREALPROJ_API ASkillEffectActor : public AActor
+class UNREALPROJ_API ASkillEffectActor : public AActor, public ISoundActor
 {
 	GENERATED_BODY()
 	
@@ -33,4 +34,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	struct FTimerHandle DestroyTimerHandle;
+
+	UPROPERTY(EditAnywhere)
+	class UAudioComponent* AudioComponent;
 };

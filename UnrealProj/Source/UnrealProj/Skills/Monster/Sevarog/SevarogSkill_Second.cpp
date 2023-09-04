@@ -20,7 +20,7 @@ USevarogSkill_Second::USevarogSkill_Second()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_Sub_Cast.P_Sub_Cast'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> CAST2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_SoulStageEmbers.P_SoulStageEmbers'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> FIRE(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/Subjugate/FX/P_SubjugateSwirls.P_SubjugateSwirls'"));
-	static ConstructorHelpers::FObjectFinder<USoundWave> HSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Sevarog/Sound_Sevarog_Skill5.Sound_Sevarog_Skill5'"));
+	static ConstructorHelpers::FObjectFinder<USoundWave> HSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Sevarog/Sound_Sevarog_Skill2Shot.Sound_Sevarog_Skill2Shot'"));
 
 	if (CAST.Succeeded()) CastEffect = CAST.Object;
 	if (CAST2.Succeeded()) CastEffect2 = CAST2.Object;
@@ -80,6 +80,7 @@ void USevarogSkill_Second::PlayParticle(AActor* OwnerActor)
 
 void USevarogSkill_Second::HitCheck()
 {
+	
 	float AttackX = 100.f;
 	float AttackY = 100.f;
 	float AttackZ = 100.f;
@@ -121,6 +122,6 @@ void USevarogSkill_Second::HitCheck()
 			Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::DOWN); //Temp
 		}
 	}
-
+	PlaySoundAtLocation(OwnerMonster->GetWorld(), TargetPos, HitSound);
 	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
 }
