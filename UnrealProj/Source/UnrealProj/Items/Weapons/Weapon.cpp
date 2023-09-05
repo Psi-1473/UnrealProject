@@ -9,14 +9,17 @@
 #include "../../Projectiles/Projectile.h"
 #include "../../Projectiles/Player/Arrow.h"
 #include "../../Inventory/Inventory.h"
+#include "Sound/SoundWave.h"
 
 AWeapon::AWeapon()
 {
 	static ConstructorHelpers::FClassFinder<AProjectile> ARROW(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_Arrow.BP_Arrow_C'"));
+	static ConstructorHelpers::FObjectFinder<USoundWave> SHitSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Player/Sword/Sound_Player_SwordHit.Sound_Player_SwordHit'"));
 	StaticMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
 
-	if (ARROW.Succeeded())
-		Arrow = ARROW.Class;
+	if (ARROW.Succeeded()) Arrow = ARROW.Class;
+	if (SHitSound.Succeeded()) SwordHitSound = SHitSound.Object;
+
 }
 
 void AWeapon::UseItem()

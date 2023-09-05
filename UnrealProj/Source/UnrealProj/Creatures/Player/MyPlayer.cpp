@@ -259,6 +259,7 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 			if (Enemy == nullptr)
 				return;
 			Enemy->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
+			Enemy->PlaySoundWave(Enemy->GetAudioComponent(), GetWeapon()->GetHitSound());
 		}
 	}
 }

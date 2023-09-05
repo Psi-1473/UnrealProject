@@ -25,6 +25,7 @@ public:
 
 
 	FString GetObjectName();
+	class UAudioComponent* GetAudioComponent() { return AudioComponent; }
 
 public:
 	virtual void AttackTarget() {};

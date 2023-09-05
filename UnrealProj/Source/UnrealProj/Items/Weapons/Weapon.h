@@ -34,6 +34,7 @@ public:
 	virtual void SetCount(int Value);
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
+	class USoundWave* GetHitSound() { return SwordHitSound; }
 private:
 	WEAPONTYPE Type;
 
@@ -48,5 +49,8 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AProjectile> Arrow;
 
+	UPROPERTY(EditAnywhere)
+	class USoundWave* SwordHitSound;
+	// 나중에는 무기를 타입별로 클래스 파서 HitSound 각각 다르게 하기
 	
 };
