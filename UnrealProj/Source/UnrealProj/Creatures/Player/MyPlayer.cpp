@@ -2,6 +2,9 @@
 
 
 #include "MyPlayer.h"
+#include "MyPlayerController.h"
+#include "../../CameraShakes/HitCameraShake.h"
+#include "../../CameraShakes/SkillHitCameraShake.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
@@ -22,6 +25,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
 #include "../../MyGameMode.h"
+#include "LegacyCameraShake.h"
 #include "Components/AudioComponent.h"
 
 
@@ -147,10 +151,10 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	// -1을 TakeDamage가 리턴하면 종료 (플레이어 죽었다는 뜻)
 
 	// 어택 타입에 따라 경직, 날리기, 노경직 선택 (애니메이션)
-
+	
 	if (Type == AttackType::NORMAL)
 	{
-
+		ShakeCamera(SHAKE_BASIC);
 	}
 	else
 	{
@@ -159,11 +163,13 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 		switch (Type)
 		{
 		case AttackType::STRONG:
+			ShakeCamera(SHAKE_SKILL);
 			StateMachine->SetState(STATE::DAMAGED);
 			break;
 		case AttackType::THRUST:
 			break;
 		case AttackType::PULLED:
+			ShakeCamera(SHAKE_BASIC);
 			AnimInst->PlayDamagedMontage();
 			break;
 		case AttackType::DOWN:
@@ -270,6 +276,26 @@ void AMyPlayer::Interact()
 		return;
 
 	InteractObj->Interact(this);
+}
+
+void AMyPlayer::ShakeCamera(CameraShakeType Type)
+{
+	if (Type == SHAKE_BASIC)
+	{
+		GetController<AMyPlayerController>()->ClientPlayCameraShake(UHitCameraShake::StaticClass(),
+			1.f, ECameraAnimPlaySpace::CameraLocal);
+	}
+
+	if (Type == SHAKE_SKILL)
+	{
+		GetController<AMyPlayerController>()->ClientPlayCameraShake(USkillHitCameraShake::StaticClass(),
+			1.f, ECameraAnimPlaySpace::CameraLocal);
+	}
+
+	// ClientPlayCameraShake -> ClientStartCameraShake
+	// ECameraAnimPlaySpace -> ECameraShakePlaySpace
+	// 로 수정하기
+
 }
 
 

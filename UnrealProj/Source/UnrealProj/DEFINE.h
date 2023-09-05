@@ -69,6 +69,11 @@ enum ItemType
 	ITEM_USE
 };
 
+enum CameraShakeType
+{
+	SHAKE_BASIC,
+	SHAKE_SKILL,
+};
 
 
 enum UseItemType

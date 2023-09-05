@@ -55,6 +55,8 @@ public:
 	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 	void Interact();
 
+	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
+
 private:
 	void SetDefaultCamera(); // 생성자에서 카메라 생성
 	void SetWeaponSocket();

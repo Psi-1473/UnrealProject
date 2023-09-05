@@ -98,7 +98,7 @@ void ASpawnMonster::AttackCheck()
 			FDamageEvent DamageEvent;
 			if (Player == nullptr)
 				return;
-			Player->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
+			Player->OnDamaged(10.f, DamageEvent, GetController(), this, AttackType::NORMAL);
 		}
 	}
 }
