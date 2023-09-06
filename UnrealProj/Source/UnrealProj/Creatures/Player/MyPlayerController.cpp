@@ -346,7 +346,9 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 
 void AMyPlayerController::ZoomIn()
 {
-	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK))
+	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
+		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
 		return;
 	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
 	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, 60.f, 0.f));

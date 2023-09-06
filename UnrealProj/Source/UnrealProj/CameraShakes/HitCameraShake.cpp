@@ -12,11 +12,11 @@ UHitCameraShake::UHitCameraShake()
 	// Amplitude ÁøÆø
 	// Frequency ºóµµ
 
-	RotOscillation.Pitch.Amplitude = FMath::RandRange(2.0f, 3.0f);
-	RotOscillation.Pitch.Frequency = FMath::RandRange(5.0f, 10.0f);
+	RotOscillation.Pitch.Amplitude = 0.f;// FMath::RandRange(2.0f, 3.0f);
+	RotOscillation.Pitch.Frequency = 0.f;// FMath::RandRange(1.0f, 2.0f);
 
-	RotOscillation.Yaw.Amplitude = FMath::RandRange(1.0f, 2.0f);
-	RotOscillation.Yaw.Frequency = FMath::RandRange(1.0f, 5.0f);
+	RotOscillation.Yaw.Amplitude = 1.f; //FMath::RandRange(1.0f, 2.0f);
+	RotOscillation.Yaw.Frequency = 1.f;// FMath::RandRange(1.0f, 2.0f);
 
 	// true·Î ÇØÁà¾ß ÇÑ¹ø¾¿¸¸ ¶³¸²
 	bSingleInstance = true;
