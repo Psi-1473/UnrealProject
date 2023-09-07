@@ -53,4 +53,7 @@ protected:
 	UPROPERTY()
 	class USoundWave* HitSound;
 
+	UPROPERTY()
+	class UParticleSystem* HitEffect;
+
 };

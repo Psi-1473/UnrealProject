@@ -17,9 +17,10 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 	WeaponType = WEAPONTYPE::WEAPON_ARROW;
 	bRange = false;
 	Name = TEXT("Bow 2");
-
+	
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PParticle(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_Burst.P_Sparrow_Burst'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow1.Arrow1'"));
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> HIT(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Primary/FX/P_PROTO_Proto_Ballistic_HitWorld.P_PROTO_Proto_Ballistic_HitWorld'"));
 
 
 	if (PParticle.Succeeded())
@@ -27,6 +28,10 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 
 	if (IMG.Succeeded())
 		Txt = IMG.Object;
+
+
+	if (HIT.Succeeded())
+		HitEffect = HIT.Object;
 }
 
 void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -67,8 +72,9 @@ void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 		if (Projectile == nullptr)
 			return;
 		Projectile->SetAttackStrength(true);
-		Projectile->SetParticle(Particle);
+		Projectile->SetHitEffect(HitEffect);
 		Projectile->SetMaxSpeed(6000.f);
+		Projectile->SetParticle(Particle);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
 }

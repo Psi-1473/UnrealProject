@@ -25,6 +25,8 @@ public:
 	void SetParticle(class UParticleSystem* Value);
 	void SetMaxSpeed(float Speed);
 
+	void SetHitEffect(class UParticleSystem* Effect) { HitEffect = Effect; }
+
 protected:
 	UPROPERTY(EditAnywhere)
 	bool bHeavyAttack = false;
@@ -43,5 +45,8 @@ protected:
 
 	UPROPERTY()
 		class AMyPlayer* OwnerPlayer;
+
+	UPROPERTY()
+	class UParticleSystem* HitEffect;
 
 };

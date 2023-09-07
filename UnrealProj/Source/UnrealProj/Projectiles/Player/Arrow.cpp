@@ -68,6 +68,10 @@ void AArrow::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 				return;
 			}
 			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			if (HitEffect != nullptr)
+			{
+				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, Enemy->GetActorLocation());
+			}
 		}
 	}
 }
