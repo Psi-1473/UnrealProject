@@ -76,7 +76,7 @@ void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 
 	FGeometry Geometry = GetCachedGeometry();
 	FVector2D Position = Geometry.GetAbsolutePosition();
-	Position.X += 200.f;
+	Position.X -= 150.f;
 	Position.Y -= 100.f;
 	InfoWidget->SetPosition(Position);
 	InfoWidget->SetInfoBySkill(Skill);

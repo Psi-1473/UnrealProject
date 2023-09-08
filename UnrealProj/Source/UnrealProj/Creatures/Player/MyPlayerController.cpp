@@ -99,11 +99,12 @@ void AMyPlayerController::SetupInputComponent()
 
 void AMyPlayerController::Fire()
 {
-	//if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-	//	MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
-	//	return;
-	
+	FVector ArrowDir = GetViewportToWorld();
+	FireArrow(ArrowDir);
+}
+
+void AMyPlayerController::FireArrow(FVector DestPos)
+{
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = MyPlayer;
 	SpawnParams.Instigator = MyPlayer->GetInstigator();
@@ -113,17 +114,19 @@ void AMyPlayerController::Fire()
 	MyPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 	CameraRotation.Pitch += 5.f;
 	AProjectile* Projectile = GetWorld()->SpawnActor<AArrow>(MyPlayer->GetWeapon()->GetArrow(),
-		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 55.f,
+		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 65.f,
 		CameraRotation,
 		SpawnParams);
 
+	FVector ArrowVector = DestPos - Projectile->GetActorLocation();
+	ArrowVector.Normalize();
 	if (Projectile)
 	{
-		if(bZoom)
+		if (bZoom)
 			Projectile->SetAttackStrength(true);
 		else
 			Projectile->SetAttackStrength(false);
-		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
+		Projectile->FireInDirection(ArrowVector, 2.f);
 	}
 }
 
@@ -337,11 +340,75 @@ void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
 		{
 			if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
 				MyPlayer->SetState(STATE::ATTACK);
-			
+		
 			MyPlayer->GetAnimInst()->PlayAttackMontage();
 		}
 	}
 		
+}
+
+FVector AMyPlayerController::GetViewportToWorld()
+{
+	int ViewportX, ViewportY;
+	FVector WorldPos;
+	FVector WorldDir;
+
+	GetViewportSize(ViewportX, ViewportY);
+	ViewportX = ViewportX / 2;
+	ViewportY = ViewportY / 2;
+	ViewportY -= 10;
+	DeprojectScreenPositionToWorld((float)ViewportX, (float)ViewportY, WorldPos, WorldDir);
+	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldPos.X, WorldPos.Y, WorldPos.Z);
+	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldDir.X, WorldDir.Y, WorldDir.Z);
+
+	FVector ResultDir = GetArrowDir(WorldPos, WorldDir);
+	return ResultDir;
+}
+
+FVector AMyPlayerController::GetArrowDir(FVector Start, FVector Dir)
+{
+	FVector EndPos = Start + (Dir * 5000.f);
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes; // 히트 가능한 오브젝트 유형들.
+	TEnumAsByte<EObjectTypeQuery> WorldStatic = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic);
+	TEnumAsByte<EObjectTypeQuery> WorldDynamic = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldDynamic);
+	TEnumAsByte<EObjectTypeQuery> MonsterCol = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel2);
+	TEnumAsByte<EObjectTypeQuery> PawnCol = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn);
+	ObjectTypes.Add(WorldStatic);
+	ObjectTypes.Add(WorldDynamic);
+	ObjectTypes.Add(MonsterCol);
+	ObjectTypes.Add(PawnCol);
+
+	TArray<AActor*> IgnoreActors; // 무시할 액터들.
+
+	FHitResult HitResult; // 히트 결과 값 받을 변수.
+
+	bool Result = UKismetSystemLibrary::LineTraceSingleForObjects(
+		GetWorld(),
+		Start,
+		EndPos,
+		ObjectTypes,
+		false,
+		IgnoreActors, // 무시할 것이 없다고해도 null을 넣을 수 없다.
+		EDrawDebugTrace::ForDuration,
+		HitResult,
+		true
+		// 여기 밑에 3개는 기본 값으로 제공됨. 바꾸려면 적으면 됨.
+		//, FLinearColor::Red
+		//, FLinearColor::Green
+		//, 5.0f
+	);
+	FVector DestinationPos;
+	if (Result == true)
+	{
+		DestinationPos = HitResult.Location;
+		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit O"));
+	}
+	else
+	{
+		DestinationPos = Dir;
+		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit X"));
+	}
+	return DestinationPos;
 }
 
 void AMyPlayerController::ZoomIn()

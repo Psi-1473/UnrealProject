@@ -26,6 +26,7 @@ public:
 	bool GetIsZoom() { return bZoom; }
 public:
 	void Fire();
+	void FireArrow(FVector DestPos);
 
 private:
 	void IA_Move(const FInputActionValue& Value);
@@ -44,6 +45,9 @@ private:
 	
 
 	void IA_Sword_Attack(const FInputActionValue& Value);
+
+	FVector GetViewportToWorld();
+	FVector GetArrowDir(FVector Start, FVector Dir);
 private:
 	void ZoomIn();
 	void ZoomOut();
