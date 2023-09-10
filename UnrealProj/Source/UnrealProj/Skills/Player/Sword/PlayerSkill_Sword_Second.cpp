@@ -15,10 +15,10 @@
 
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
-	Id = 2;
-	WeaponType = WEAPONTYPE::WEAPON_SWORD;
+	//Id = 2;
+	//WeaponType = WEAPONTYPE::WEAPON_SWORD;
 	bRange = false;
-	Name = TEXT("Sword 2");
+	//Name = TEXT("Sword 2");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_2_Dash.BP_Effect_0_2_Dash_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Spawn.P_Aurora_Decoy_Spawn'"));

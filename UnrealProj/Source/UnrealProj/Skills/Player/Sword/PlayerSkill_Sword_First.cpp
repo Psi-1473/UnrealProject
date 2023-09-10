@@ -11,13 +11,14 @@
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
 #include "../../../Items/Weapons/Weapon.h"
+#include "../../../MyGameInstance.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
-	Id = 1;
-	WeaponType = WEAPONTYPE::WEAPON_SWORD;
+	//Id = 1;
+	//WeaponType = WEAPONTYPE::WEAPON_SWORD;
 	bRange = false;
-	Name = TEXT("Sword 1");
+	//Name = TEXT("Sword 1");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_1.BP_Effect_0_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PARTICLE_Player(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Whrilwind.P_Aurora_Freeze_Whrilwind'"));

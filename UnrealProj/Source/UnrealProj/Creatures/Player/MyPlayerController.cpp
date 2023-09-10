@@ -117,8 +117,11 @@ void AMyPlayerController::FireArrow(FVector DestPos)
 		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 65.f,
 		CameraRotation,
 		SpawnParams);
-
-	FVector ArrowVector = DestPos - Projectile->GetActorLocation();
+	FVector ArrowVector;
+	if (bArrowTarget)
+		ArrowVector = DestPos - Projectile->GetActorLocation();
+	else
+		ArrowVector = DestPos;
 	ArrowVector.Normalize();
 	if (Projectile)
 	{
@@ -401,11 +404,13 @@ FVector AMyPlayerController::GetArrowDir(FVector Start, FVector Dir)
 	if (Result == true)
 	{
 		DestinationPos = HitResult.Location;
+		bArrowTarget = true;
 		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit O"));
 	}
 	else
 	{
 		DestinationPos = Dir;
+		bArrowTarget = false;
 		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit X"));
 	}
 	return DestinationPos;

@@ -32,6 +32,7 @@ void UWidget_Skill::CreateSlot()
 	{
 		Slot = CreateWidget(GetWorld(), BP_Slot);
 		SkillSlot->AddChild(Slot);
+		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
 		UWidget_SkillSlot* WSlot = Cast<UWidget_SkillSlot>(Slot);
 		WSlot->SetSkill(MyPlayer->GetSkillComponent()->GetSkills()[i]);
 		WSlot->SetInfo();

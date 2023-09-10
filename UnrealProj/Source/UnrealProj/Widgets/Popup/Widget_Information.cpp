@@ -61,8 +61,8 @@ void UWidget_Information::SetInfoBySkill(UPlayerSkill* Skill)
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	auto GInstance = MyPlayer->GetInstance();
-	Name = Skill->GetSkillInfo()->Name;
-	Explain = Skill->GetSkillInfo()->Explanation;
+	Name = Skill->GetSkillName();
+	Explain = Skill->GetExplanation();
 
 	Text_Name->SetText(FText::FromString(*Name));
 	Text_Sub->SetText(FText::FromString(*Explain));

@@ -6,6 +6,7 @@
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../EffectActor//SkillRangeActor.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../MyGameInstance.h"
 
 void UPlayerSkill::SetDefaultValue()
 {
@@ -41,11 +42,49 @@ void UPlayerSkill::CancleCast(AActor* OwnerActor)
 	}
 }
 
-
-FSkillData* UPlayerSkill::GetSkillInfo()
+void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 {
-	if (WeaponType == WEAPONTYPE::WEAPON_SWORD)
-		return OwnerPlayer->GetInstance()->GetSwordSkillData(Id);
-	else
-		return OwnerPlayer->GetInstance()->GetBowSkillData(Id);
+	FString ClassName = this->GetClass()->GetName();
+	FString SkipString = TEXT("UPlayerSkill_");
+	int32 StartPos = SkipString.Len() - 1;
+	int32 EndPos = ClassName.Find(TEXT("_"), ESearchCase::IgnoreCase, ESearchDir::FromStart, StartPos);
+	int32 Cnt = EndPos - StartPos;
+	int32 IdCnt = ClassName.Len() - EndPos - 1;
+	
+	FString WTypeStr = ClassName.Mid(StartPos, Cnt);
+	FString NumberStr = ClassName.Mid(EndPos + 1, IdCnt);
+
+	int32 IdFromName = GetIdByName(NumberStr);
+
+	auto GInstance = Player->GetInstance();
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, WTypeStr);
+	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
+
+	SetWeaponType(WTypeStr);
+	Id = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Id;
+	CoolDown = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->CoolDown;
+	Name = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Name;
+	Explanation = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Explanation;
+
+}
+
+
+int32 UPlayerSkill::GetIdByName(FString Str)
+{
+	int32 ReturnId = 0;
+
+	if (Str == TEXT("First")) ReturnId = 1;
+	if (Str == TEXT("Second")) ReturnId = 2;
+	if (Str == TEXT("Third")) ReturnId = 3;
+
+	return ReturnId;
+}
+
+void UPlayerSkill::SetWeaponType(FString Str)
+{
+	if(Str == TEXT("Sword"))
+		WeaponType = WEAPONTYPE::WEAPON_SWORD;
+
+	if (Str == TEXT("Bow"))
+		WeaponType = WEAPONTYPE::WEAPON_ARROW;
 }

@@ -13,10 +13,10 @@ USkillHitCameraShake::USkillHitCameraShake()
 	// Frequency ºóµµ
 
 	RotOscillation.Pitch.Amplitude = FMath::RandRange(5.0f, 10.0f);
-	RotOscillation.Pitch.Frequency = FMath::RandRange(25.0f, 35.0f);
+	RotOscillation.Pitch.Frequency = FMath::RandRange(15.0f, 25.0f);
 
-	RotOscillation.Yaw.Amplitude = FMath::RandRange(5.0f, 10.0f);
-	RotOscillation.Yaw.Frequency = FMath::RandRange(25.0f, 35.0f);
+	RotOscillation.Yaw.Amplitude = FMath::RandRange(1.0f, 2.0f);
+	RotOscillation.Yaw.Frequency = FMath::RandRange(1.0f, 2.0f);
 
 	// true·Î ÇØÁà¾ß ÇÑ¹ø¾¿¸¸ ¶³¸²
 	bSingleInstance = true;

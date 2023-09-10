@@ -24,6 +24,7 @@ public:
 	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }
+	FString GetExplanation() { return Explanation; }
 	bool GetIsRangeAttack() { return bRange; }
 
 protected:
@@ -37,6 +38,9 @@ protected:
 	
 	UPROPERTY()
 	FString Name;
+
+	UPROPERTY()
+	FString Explanation;
 
 	UPROPERTY()
 	UTexture2D* Txt;
@@ -55,5 +59,8 @@ protected:
 
 	UPROPERTY()
 	class UParticleSystem* HitEffect;
+
+	UPROPERTY()
+	float CoolDown;
 
 };

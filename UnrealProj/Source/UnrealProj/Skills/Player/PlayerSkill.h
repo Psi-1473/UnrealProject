@@ -23,14 +23,18 @@ public:
 	virtual void CancleCast(AActor* OwnerActor); // 2단계에 걸쳐서 사용하는 스킬 1단계에서 캔슬
 	virtual void CastToExecute(AActor* OwnerActor) {}; // 2단계에 걸쳐서 사용하는 스킬 1단계 -> 2단계
 	
+	void InitSkillValue(class AMyPlayer* Player);
+
+
+
 public:
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 
 	WEAPONTYPE GetWeaponType() { return WeaponType; }
 	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
-
-
-	struct FSkillData* GetSkillInfo();
+private:
+	int32 GetIdByName(FString Str);
+	void SetWeaponType(FString Str);
 protected:
 	UPROPERTY()
 	WEAPONTYPE WeaponType;

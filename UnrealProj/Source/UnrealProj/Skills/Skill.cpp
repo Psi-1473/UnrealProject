@@ -22,6 +22,8 @@ void USkill::DestroyActor()
 	EffectActor->Destroy();
 }
 
+
+
 void USkill::PlaySoundAtLocation(UWorld* Wolrd, FVector Location, USoundBase* Sound)
 {
 	if (Sound == nullptr)

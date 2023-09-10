@@ -54,6 +54,9 @@ private:
 
 private:
 	bool CameraMoved = false;
+	
+	UPROPERTY()
+	bool bArrowTarget = false;
 
 	UPROPERTY()
 	float MouseSpeed = 2.f;

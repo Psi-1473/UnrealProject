@@ -48,6 +48,7 @@ void UPlayerSkillComponent::AddSkill(UPlayerSkill* Skill)
 {
 	Skill->SetOwnerPlayer(OwnerPlayer);
 	Skills.Add(Skill);
+	Skill->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
 }
 
 

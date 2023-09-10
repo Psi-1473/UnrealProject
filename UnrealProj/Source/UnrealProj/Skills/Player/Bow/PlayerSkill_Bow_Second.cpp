@@ -13,10 +13,10 @@
 
 UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 {
-	Id = 2;
-	WeaponType = WEAPONTYPE::WEAPON_ARROW;
+	//Id = 2;
+	//WeaponType = WEAPONTYPE::WEAPON_ARROW;
 	bRange = false;
-	Name = TEXT("Bow 2");
+	//Name = TEXT("Bow 2");
 	
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PParticle(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_Burst.P_Sparrow_Burst'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow1.Arrow1'"));
