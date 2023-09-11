@@ -15,10 +15,16 @@ void UPlayerSkill::SetDefaultValue()
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 }
 
+
+
 void UPlayerSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	Super::Execute(OwnerActor, bRangeAttack);
 	OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
+
+	UE_LOG(LogTemp, Warning, TEXT("Cooldown %f : %d"), RemainingTime, CoolDown);
+	if (RemainingTime > 0)
+		return;
 
 	if (OwnerPlayer == nullptr)
 		return;
@@ -40,6 +46,11 @@ void UPlayerSkill::CancleCast(AActor* OwnerActor)
 		OwnerPlayer->GetSpawnedRangeActor()->Destroy();
 		OwnerPlayer->SetRangeActor(nullptr);
 	}
+}
+
+void UPlayerSkill::SkillEnd()
+{
+	Super::SkillEnd();
 }
 
 void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
@@ -66,8 +77,23 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	Name = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Name;
 	Explanation = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Explanation;
 
+	UE_LOG(LogTemp, Warning, TEXT("Cooldown Load %d "), CoolDown);
+	//FTimerDelegate TimeCallback;
+	//TimeCallback.BindLambda([this] {
+	//	if (RemainingTime <= 0)
+	//		return;
+	//	RemainingTime -= 1;
+	//	});
+	//OwnerPlayer->GetWorldTimerManager().SetTimer(CooldownTimer, TimeCallback, 1.f, true);
 }
+void UPlayerSkill::DecreaseCoolDown(float DeltaSeconds)
+{
+	if (RemainingTime < 0.f) RemainingTime = 0.f;
+	if (RemainingTime == 0.f) return;
 
+
+	RemainingTime -= DeltaSeconds;
+}
 
 int32 UPlayerSkill::GetIdByName(FString Str)
 {

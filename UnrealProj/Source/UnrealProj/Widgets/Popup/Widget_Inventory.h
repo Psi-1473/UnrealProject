@@ -19,7 +19,7 @@ public:
 	void UpdateSlotInfo();
 	void RefreshSlotByIndex(int SlotIndex);
 	void RefreshGoldText(TWeakObjectPtr<class AMyPlayer> Player);
-
+	void SetEquipWeaponImage(struct FRichImageRow* Image);
 
 private:
 	void CreateSlot();

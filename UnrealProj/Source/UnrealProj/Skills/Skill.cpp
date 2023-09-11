@@ -10,8 +10,16 @@
 
 void USkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	if (RemainingTime > 0.f)
+		return;
+
 	if (!bCanUse)
 		return;
+}
+
+void USkill::SkillEnd()
+{
+	RemainingTime = (float)CoolDown;
 }
 
 void USkill::DestroyActor()
@@ -30,5 +38,7 @@ void USkill::PlaySoundAtLocation(UWorld* Wolrd, FVector Location, USoundBase* So
 		return;
 	UGameplayStatics::PlaySoundAtLocation(Wolrd, Sound, Location);
 }
+
+
 
 

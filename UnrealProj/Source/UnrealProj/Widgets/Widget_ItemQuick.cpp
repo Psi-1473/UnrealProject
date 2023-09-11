@@ -70,6 +70,7 @@ bool UWidget_ItemQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 		if (DragOper->bFromQuickSlot == false)
 		{
 			SetItem(DragOper->SlotItem);
+			MainWidget->CheckRegisteredItem(DragOper->SlotItem, QuickSlotIndex);
 			return true;
 		}
 		else

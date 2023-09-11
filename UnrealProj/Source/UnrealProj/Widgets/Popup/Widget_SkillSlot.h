@@ -20,7 +20,6 @@ public:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
 
-
 	void SetSkill(class UPlayerSkill* Value) { Skill = Value; }
 	void SetInfo();
 

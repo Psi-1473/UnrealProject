@@ -15,9 +15,11 @@ class UNREALPROJ_API UWidget_SkillQuick : public UWidget_QuickSlot
 	GENERATED_BODY()
 	
 public:
+	virtual void NativeConstruct();
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual bool NativeOnDrop(const FGeometry& InGeometry, const FDragDropEvent& InDragDropEvent, UDragDropOperation* InOperation) override;
-	
+	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime);
+
 	void SetSkill(class UPlayerSkill* Skill);
 	virtual void SetImage() override;
 
@@ -25,4 +27,7 @@ public:
 private:
 	UPROPERTY()
 	class UPlayerSkill* QuickSkill;
+
+	UPROPERTY(meta = (BindWidget))
+	class UProgressBar* PB_Cooldown;
 };

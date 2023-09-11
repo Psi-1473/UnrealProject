@@ -40,6 +40,9 @@ FReply UWidget_InvenSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeom
 	if (SlotItem != nullptr)
 	{
 		SlotItem->UseItem();
+		auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+		auto MyPlayer = Cast<AMyPlayer>(Char);
+		InvenWidget->SetEquipWeaponImage(SlotItem->GetItemImage(MyPlayer->GetInstance()));
 		InvenWidget->UpdateSlotInfo();
 	}
 

@@ -8,8 +8,10 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Inventory/Inventory.h"
 #include "../../Items/Item.h"
+#include "../../Items/Weapons/Weapon.h"
 #include "Widget_InvenSlot.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 #include "Components/TextBlock.h"
 
 void UWidget_Inventory::NativeConstruct()
@@ -47,6 +49,7 @@ void UWidget_Inventory::UpdateSlotInfo()
 		Slots[i]->SetCount();
 		Slots[i]->SetSlotIndex(i);
 	}
+	Img_EquipWeapon->SetBrush(MyPlayer->GetWeapon()->GetItemImage(MyPlayer->GetInstance())->Brush);
 	RefreshGoldText(MyPlayer);
 }
 
@@ -59,6 +62,11 @@ void UWidget_Inventory::RefreshGoldText(TWeakObjectPtr<class AMyPlayer> Player)
 {
 	FString GoldText = TEXT("Gold : ") + FString::FromInt(Player->GetInventory()->GetGold());
 	Text_Gold->SetText(FText::FromString(GoldText));
+}
+
+void UWidget_Inventory::SetEquipWeaponImage(FRichImageRow* Image)
+{
+	Img_EquipWeapon->SetBrush(Image->Brush);
 }
 
 

@@ -6,6 +6,8 @@
 #include "../../State/CharacterState.h"
 #include "../../State/StateMachine.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../Skills/Player/PlayerSkill.h"
+#include "../../Skills/Skill.h"
 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -49,6 +51,14 @@ void UPlayerSkillComponent::AddSkill(UPlayerSkill* Skill)
 	Skill->SetOwnerPlayer(OwnerPlayer);
 	Skills.Add(Skill);
 	Skill->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+}
+
+void UPlayerSkillComponent::Update(float DeltaSeconds)
+{
+	for (int i = 0; i < Skills.Num(); i++)
+	{
+		Skills[i]->DecreaseCoolDown(DeltaSeconds);
+	}
 }
 
 

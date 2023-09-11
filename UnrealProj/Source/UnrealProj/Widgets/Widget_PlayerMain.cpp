@@ -58,6 +58,21 @@ void UWidget_PlayerMain::RefreshItemQuickSlot(int Index)
 	ItemQuickSlots[Index]->SetTextCount();
 }
 
+void UWidget_PlayerMain::CheckRegisteredItem(AItem* Item, int QuickIndex)
+{
+	for (int i = 0; i < ItemQuickSlots.Num(); i++)
+	{
+		if (i != QuickIndex)
+		{
+			if (Item == ItemQuickSlots[i]->GetItem())
+			{
+				EmptyItemSlot(i);
+			}
+		}
+
+	}
+}
+
 void UWidget_PlayerMain::BindPlayer(UPlayerStatComponent* StatComp)
 {
 	PlayerStatComp = StatComp;

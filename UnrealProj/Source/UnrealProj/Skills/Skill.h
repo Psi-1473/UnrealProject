@@ -18,20 +18,32 @@ protected:
 	virtual void SetDefaultValue() {};
 public:
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack);
+	virtual void IndicateRange() {}; // 히트 범위 표시
+	virtual void Update() {}; // 스킬 객체 Update 함수
+	virtual void AttackOrSpawnSkillActor() {}; // Hit체크, 스킬 액터 소환
+	virtual void PlaySkillEffect() {}; // AnimNotify를 통해 스킬 이펙트만 실행시킬 때
 	virtual void PlayParticle(AActor* OwnerActor) {}; //Attack Or Fire
 	virtual void DestroyActor();
 	
+public:
+	virtual void SkillEnd(); // 스킬 종료시 실행할 함수
 	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }
 	FString GetExplanation() { return Explanation; }
 	bool GetIsRangeAttack() { return bRange; }
+	float GetCooldownRatio() { return RemainingTime / (float)CoolDown; }
 
 protected:
 	void PlaySoundAtLocation(UWorld* Wolrd, FVector Location, class USoundBase* Sound);
+
 protected:
 	UPROPERTY()
-	bool bCanUse = true; // 지금 사용 가능한가
+	bool bCanUse = true;
+	UPROPERTY()
+	int CoolDown;
+	UPROPERTY()
+	float RemainingTime = 0.f;
 
 	UPROPERTY()
 	int32 Id;// Id
@@ -61,6 +73,7 @@ protected:
 	class UParticleSystem* HitEffect;
 
 	UPROPERTY()
-	float CoolDown;
+	struct FTimerHandle CooldownTimer;
+
 
 };

@@ -122,6 +122,10 @@ void AMyPlayer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (StateMachine != nullptr)
 		StateMachine->OnUpdate();
+
+	if (SkillComponent != nullptr)
+		SkillComponent->Update(DeltaTime);
+
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

@@ -8,8 +8,14 @@
 #include "../Skills/Player/PlayerSkill.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "Components/ProgressBar.h"
 #include "Popup/Widget_InvenSlot.h"
 #include "Widget_PlayerMain.h"
+
+void UWidget_SkillQuick::NativeConstruct()
+{
+	Super::NativeConstruct();
+}
 
 void UWidget_SkillQuick::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
@@ -80,6 +86,18 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging false"));
 		return false;
 	}
+}
+
+void UWidget_SkillQuick::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
+{
+	Super::NativeTick(MyGeometry, InDeltaTime);
+
+	if (QuickSkill == nullptr)
+		return;
+
+	float Ratio = QuickSkill->GetCooldownRatio();
+	PB_Cooldown->SetPercent(Ratio);
+
 }
 
 void UWidget_SkillQuick::SetSkill(UPlayerSkill* Skill)

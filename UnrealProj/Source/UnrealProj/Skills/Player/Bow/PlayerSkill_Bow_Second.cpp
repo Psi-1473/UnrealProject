@@ -22,7 +22,7 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow1.Arrow1'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> HIT(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Primary/FX/P_PROTO_Proto_Ballistic_HitWorld.P_PROTO_Proto_Ballistic_HitWorld'"));
 
-
+	
 	if (PParticle.Succeeded())
 		PlayerParticle = PParticle.Object;
 
@@ -38,6 +38,10 @@ void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	
 	Super::Execute(OwnerActor, bRangeAttack);
+
+	if (RemainingTime > 0.f)
+		return;
+
 	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
 		return;
 

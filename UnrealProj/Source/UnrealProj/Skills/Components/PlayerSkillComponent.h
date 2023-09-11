@@ -24,6 +24,7 @@ public:
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
 	void AddSkill(class UPlayerSkill* Skill);
+	void Update(float DeltaSeconds);
 
 	int GetSkillNumber() { return Skills.Num(); }
 	TArray<class UPlayerSkill*>& GetSkills() { return Skills; }

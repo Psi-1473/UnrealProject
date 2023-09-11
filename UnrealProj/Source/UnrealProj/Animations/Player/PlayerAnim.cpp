@@ -133,6 +133,7 @@ void UPlayerAnim::AnimNotify_SkillEnd()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
+	Character->GetSkill()->SkillEnd();
 	Character->SetState(STATE::IDLE);
 	Character->SetSkill(nullptr);
 	bCombo = true;

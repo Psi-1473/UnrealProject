@@ -17,10 +17,7 @@
 
 UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 {
-	//Id = 1;
-	//WeaponType = WEAPONTYPE::WEAPON_ARROW;
 	bRange = true;
-	//Name = TEXT("Bow 1");
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/1/BP_Effect_1_1.BP_Effect_1_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow2.Arrow2'"));
@@ -33,8 +30,12 @@ UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 
 void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
+	// 부모 함수에서 return 해봤자 Super::Execute만 종료되고 
+	// 그 아래 다른 함수들은 실행되기 때문에 이거 조심
 	Super::Execute(OwnerActor, bRangeAttack);
 
+	if (RemainingTime > 0.f)
+		return;
 	if (OwnerPlayer->GetState() == OwnerPlayer->GetSpecificState(STATE::ATTACK))
 		return;
 
