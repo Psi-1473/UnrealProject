@@ -24,7 +24,7 @@ void UInventory::BeginPlay()
 {
 	Super::BeginPlay();
 	Type = InventoryType::Equip;
-	Gold = 0;
+	Gold = 5000;
 }
 
 TArray<class AItem*>& UInventory::GetInventory()

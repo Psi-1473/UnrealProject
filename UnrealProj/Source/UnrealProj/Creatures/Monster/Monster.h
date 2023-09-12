@@ -26,6 +26,7 @@ public:
 
 	FString GetObjectName();
 	class UAudioComponent* GetAudioComponent() { return AudioComponent; }
+	class UMonsterStatComponent* GetStatComponent() { return StatComponent; }
 
 public:
 	virtual void AttackTarget(class AMyPlayer* Target) {};

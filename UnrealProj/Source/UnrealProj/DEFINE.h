@@ -17,7 +17,7 @@ enum class UIType : uint8
 	Skill,
 	Information,
 	Looting,
-
+	BossHpBar,
 	End,
 };
 

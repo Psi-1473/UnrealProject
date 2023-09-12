@@ -9,6 +9,7 @@
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../Skills/Skill.h"
 #include "../../Stat/PlayerStatComponent.h"
+#include "../../Items/Weapons/Weapon.h"
 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -37,6 +38,9 @@ void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 		return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
+	if (RegisteredSkills[SkillKey]->GetWeaponType() != Player->GetWeapon()->GetType())
+		return;
+	
 	int RequiredMp = RegisteredSkills[SkillKey]->GetMp();
 
 

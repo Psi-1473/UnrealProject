@@ -23,14 +23,13 @@ void UWidget_ShopSlot::NativeConstruct()
 
 void UWidget_ShopSlot::ClickBuyButton()
 {
-	// 돈있나 확인 먼저
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-	//if (MyPlayer->GetInventory()->GetGold() < ItemPrice)
-	//{
-	//	UE_LOG(LogTemp, Warning, TEXT("돈이 부족"));
-	//	return;
-	//}
+	if (MyPlayer->GetInventory()->GetGold() < ItemPrice)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Not Enough Gold"));
+		return;
+	}
 
 	MyPlayer->GetInventory()->GainNewItem(IType, ItemId); // 나머지 세팅은 여기서
 }

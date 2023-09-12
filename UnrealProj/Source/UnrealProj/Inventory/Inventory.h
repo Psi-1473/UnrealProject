@@ -64,6 +64,6 @@ private:
 	TArray<class AItem*> EtcItems;
 
 	UPROPERTY()
-	int Gold;
+	int Gold = 5000;
 
 };

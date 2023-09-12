@@ -19,8 +19,7 @@ void UMonsterSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (Boss == nullptr)
 		return;
 	// AI Àá±ñ ¸ØÃá´Ù.
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(Boss->GetActorLocation(), Boss->GetTarget()->GetActorLocation());
-	Boss->SetActorRotation(Rot);
+
 
 	auto AIController = Cast<ABossAIController>(Boss->GetController());
 	AIController->StopAI();

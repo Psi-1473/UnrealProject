@@ -42,7 +42,9 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	PopupUi = CreateWidget(World, WidgetAsset);
 	PopupUi->AddToViewport();
 	PopupUiArray[(int)Type] = PopupUi;
-	UiNumber++;
+
+	if(Type != UIType::BossHpBar)
+		UiNumber++;
 
 	if (UiNumber == 1)
 	{
@@ -63,7 +65,8 @@ void UIManager::CloseUI(UIType Type)
 	PopupUiArray[(int)Type]->RemoveFromViewport();
 	PopupUiArray[(int)Type] = nullptr;
 
-	UiNumber--;
+	if (Type != UIType::BossHpBar)
+		UiNumber--;
 
 	if (UiNumber <= 0)
 	{

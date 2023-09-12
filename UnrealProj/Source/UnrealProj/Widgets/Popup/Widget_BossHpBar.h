@@ -14,6 +14,12 @@ class UNREALPROJ_API UWidget_BossHpBar : public UUserWidget
 {
 	GENERATED_BODY()
 	
+public:
+	void BindBoss(class ABossMonster* Boss);
+	void SetHpBar();
+
+private:
+	TWeakObjectPtr<class ABossMonster> BindedBoss;
 
 private:
 	UPROPERTY(meta = (BindWidget))

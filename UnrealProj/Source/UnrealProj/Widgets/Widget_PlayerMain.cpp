@@ -8,6 +8,7 @@
 #include "Widget_ItemQuick.h"
 #include "../DEFINE.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
 #include "../Items/Item.h"
 #include "../Skills/Skill.h"
 #include "../Skills/Player/PlayerSkill.h"
@@ -80,6 +81,14 @@ void UWidget_PlayerMain::BindPlayer(UPlayerStatComponent* StatComp)
 	PlayerStatComp->OnHpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateHpBar);
 	PlayerStatComp->OnMpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateMpBar);
 	PlayerStatComp->OnExpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateExpBar);
+}
+
+void UWidget_PlayerMain::SetCrossHair(bool bVisible)
+{
+	if (bVisible)
+		Img_CrossHair->SetVisibility(ESlateVisibility::Visible);
+	else
+		Img_CrossHair->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UWidget_PlayerMain::SetSkillQuick()

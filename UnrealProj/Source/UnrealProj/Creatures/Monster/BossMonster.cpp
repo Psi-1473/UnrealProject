@@ -14,6 +14,7 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Fifth.h"
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Sixth.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
+#include "../../Stat/MonsterStatComponent.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/LatentActionManager.h"
@@ -35,15 +36,17 @@ ABossMonster::ABossMonster()
 void ABossMonster::BeginPlay()
 {
 	Super::BeginPlay();
+	AnimInst->PlayStartMontage();
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
+	SetActorRotation(FRotator(0.f, -150.f, 0.f));
 	TargetPlayer = MyPlayer;
-	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 10.f, false);
-	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 5.f, false);
-
+	GetWorldTimerManager().SetTimer(SkillCoolTimer, this, &ABossMonster::SetCanSkillTrue, 17.f, false);
+	GetWorldTimerManager().SetTimer(DashCoolTimer, this, &ABossMonster::SetCanDashTrue, 12.f, false);
+	
 	auto AIController = Cast<ABossAIController>(GetController());
 	AIController->SetTarget(TargetPlayer);
-
+	AIController->StopAI();
 	SetDashEffectVisibility(false);
 
 	USevarogSkill_First* NewSkill = NewObject<USevarogSkill_First>();
@@ -93,6 +96,10 @@ void ABossMonster::UseSkill()
 		return;
 
 	bCanSkill = false;
+	FVector TargetLoc = TargetPlayer->GetActorLocation();
+	TargetLoc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
+	SetActorRotation(Rot);
 	Skill->Execute(this, false);
 	//SkillList[2]->Execute(this, false);
 
@@ -155,7 +162,9 @@ void ABossMonster::StartCooldown()
 
 void ABossMonster::AttackTarget(AMyPlayer* Target)
 {
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Target->GetActorLocation());
+	FVector TargetLoc = TargetPlayer->GetActorLocation();
+	TargetLoc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
 	SetActorRotation(Rot);
 	AnimInst->PlayAttackMontage();
 }
@@ -163,17 +172,25 @@ void ABossMonster::AttackTarget(AMyPlayer* Target)
 float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	// 부모 상속받을지 결정
+
 	PopupDamageText(Damage);
+	StatComponent->SetHp(StatComponent->GetHp() - Damage);
+
+	if (StatComponent->GetHp() <= 0)
+		Die(TargetPlayer);
+
 	return Damage;
 }
 
 void ABossMonster::Die(AMyPlayer* Player)
 {
-	
+	AnimInst->PlayDieMontage();
 }
 
 void ABossMonster::DestroyObject()
 {
+	SetActorHiddenInGame(true);
+	Destroy();
 }
 
 void ABossMonster::SetCanSkillTrue()

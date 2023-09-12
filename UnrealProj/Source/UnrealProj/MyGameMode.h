@@ -19,7 +19,8 @@ public:
 	UUserWidget* GetCurrentWidget() { return CurrentWidget; }
 
 	void BindPlayer(class AMyPlayer* Player);
-
+	void HideHud();
+	void AppearHud();
 
 private:
 	UPROPERTY(VisibleAnywhere)

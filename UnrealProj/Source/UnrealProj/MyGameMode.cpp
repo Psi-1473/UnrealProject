@@ -28,3 +28,15 @@ void AMyGameMode::BindPlayer(AMyPlayer* Player)
 
 	Widget->BindPlayer(Player->GetStatComponent());
 }
+
+void AMyGameMode::HideHud()
+{
+	auto Widget = Cast<UWidget_PlayerMain>(CurrentWidget);
+	Widget->SetVisibility(ESlateVisibility::Hidden);
+}
+
+void AMyGameMode::AppearHud()
+{
+	auto Widget = Cast<UWidget_PlayerMain>(CurrentWidget);
+	Widget->SetVisibility(ESlateVisibility::Visible);
+}

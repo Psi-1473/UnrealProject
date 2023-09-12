@@ -8,6 +8,10 @@
 
 UBossAnimInstance::UBossAnimInstance()
 {
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> START(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/Sevarog/AM_Sevarog_Start.AM_Sevarog_Start'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> DIE(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/Sevarog/AM_Sevarog_Die.AM_Sevarog_Die'"));
+	if (START.Succeeded()) StartMontage = START.Object;
+	if (DIE.Succeeded()) DieMontage = DIE.Object;
 }
 
 void UBossAnimInstance::NativeBeginPlay()
@@ -16,7 +20,6 @@ void UBossAnimInstance::NativeBeginPlay()
 	//DamagedMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Damaged")), NULL, LOAD_None, NULL);
 	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetBossMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
 	SkillMontage = LoadObject<UAnimMontage>(NULL, *GetBossMontageDir(TEXT("Skill")), NULL, LOAD_None, NULL);
-
 }
 
 void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -62,6 +65,10 @@ void UBossAnimInstance::AnimNotify_DamagedEnd()
 
 void UBossAnimInstance::AnimNotify_DestroyObject()
 {
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<ABossMonster>(pawn);
+
+	Character->DestroyObject();
 }
 
 void UBossAnimInstance::AnimNotify_SkillEnd()
@@ -107,9 +114,26 @@ void UBossAnimInstance::AnimNotify_DashEnd()
 	bDash = false;
 	Character->SetDashEffectVisibility(false);
 }
-
+void UBossAnimInstance::PlayStartMontage()
+{
+	if (!Montage_IsPlaying(StartMontage))
+	{
+		Montage_Play(StartMontage, 1.0f);
+	}
+}
 void UBossAnimInstance::PlayDamagedMontage()
 {
+}
+
+void UBossAnimInstance::PlayDieMontage()
+{
+	if (!Montage_IsPlaying(DieMontage))
+	{
+		StopAllMontages(1.f);
+		Montage_Play(DieMontage, 1.0f);
+	}
+	// 죽는 애니메이션 재생
+	// Notify에 사망 등록
 }
 
 void UBossAnimInstance::PlayAttackMontage()

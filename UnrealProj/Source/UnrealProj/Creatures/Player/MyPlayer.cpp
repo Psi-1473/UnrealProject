@@ -27,6 +27,7 @@
 #include "../../MyGameMode.h"
 #include "LegacyCameraShake.h"
 #include "Components/AudioComponent.h"
+#include "../../Widgets/Widget_PlayerMain.h"
 
 
 
@@ -337,5 +338,14 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 	GetMesh()->SetAnimClass(AnimClasses[(int)Type]);
 	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
 	AnimInst->WeaponType = Type;
+
+	auto MyGamemode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	auto HUD = Cast<UWidget_PlayerMain>(MyGamemode->GetCurrentWidget());
+
+	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_ARROW)
+		HUD->SetCrossHair(true);
+
+	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_SWORD)
+		HUD->SetCrossHair(false);
 }
 

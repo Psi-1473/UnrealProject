@@ -42,8 +42,11 @@ public:
 	UFUNCTION()
 	void AnimNotify_DashEnd();
 
+
 public:
+	void PlayStartMontage();
 	void PlayDamagedMontage();
+	void PlayDieMontage();
 	void PlayAttackMontage();
 	void PlaySkillMontage(int32 Id);
 	void Dash() { bDash = true;}
@@ -70,4 +73,8 @@ private:
 		class UAnimMontage* AttackMontage;
 	UPROPERTY()
 		class UAnimMontage* SkillMontage;
+	UPROPERTY()
+		class UAnimMontage* StartMontage;
+	UPROPERTY()
+		class UAnimMontage* DieMontage;
 };

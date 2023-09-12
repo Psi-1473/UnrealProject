@@ -24,6 +24,7 @@ public:
 	void CheckRegisteredItem(class AItem* Item, int QuickIndex);
 
 	void BindPlayer(class UPlayerStatComponent* StatComp);
+	void SetCrossHair(bool bVisible);
 private:
 	void SetSkillQuick();
 	void SetItemQuick();
@@ -44,6 +45,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* SkillBox;
+
+	UPROPERTY(meta = (BindWidget))
+	class UImage* Img_CrossHair;
 
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* ItemBox;
