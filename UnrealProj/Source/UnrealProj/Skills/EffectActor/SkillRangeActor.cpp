@@ -31,7 +31,7 @@ void ASkillRangeActor::MakeThisToCircle(float Radius)
 	float Size = Radius * 2;
 	FString Directory = TEXT("/Script/Engine.StaticMesh'/Engine/BasicShapes/Cylinder.Cylinder'");
 	UStaticMesh* StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
-	StaticMesh->SetMaterial(0, Material);
+	//StaticMesh->SetMaterial(0, Material);
 }
 
 void ASkillRangeActor::SetRange(AActor* OwnerActor, float Size, float Angle, float TempTime)

@@ -8,6 +8,13 @@
 #include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
 
+USkill::USkill()
+{
+	static ConstructorHelpers::FClassFinder<ASkillRangeActor> RANGE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/RangeActor.RangeActor_C'"));
+
+	if (RANGE.Succeeded()) SkillRangeActor = RANGE.Class;
+}
+
 void USkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
 	if (RemainingTime > 0.f)

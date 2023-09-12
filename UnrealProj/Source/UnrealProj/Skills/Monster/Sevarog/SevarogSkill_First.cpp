@@ -93,7 +93,7 @@ void USevarogSkill_First::IndicateRange()
 	FVector SpawnPos = OwnerMonster->GetActorLocation() - FVector(0.f, 0.f, 300.f);
 
 	ASkillRangeActor* RangeActor = OwnerMonster->GetWorld()->SpawnActor<ASkillRangeActor>(
-		ASkillRangeActor::StaticClass(), 
+		SkillRangeActor,
 		SpawnPos, 
 		SpawnRot, 
 		SpawnParams);

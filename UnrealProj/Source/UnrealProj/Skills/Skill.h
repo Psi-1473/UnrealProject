@@ -14,6 +14,8 @@ UCLASS()
 class UNREALPROJ_API USkill : public UObject
 {
 	GENERATED_BODY()
+public:
+	USkill();
 protected:
 	virtual void SetDefaultValue() {};
 public:
@@ -69,6 +71,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere)
 	ASkillEffectActor* EffectActor; // 소환된 이펙트 액터
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ASkillRangeActor> SkillRangeActor;
 
 	UPROPERTY()
 	class USoundWave* HitSound;
