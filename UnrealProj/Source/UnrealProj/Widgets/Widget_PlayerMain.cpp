@@ -124,6 +124,8 @@ void UWidget_PlayerMain::UpdateMpBar()
 {
 	if (PlayerStatComp.IsValid())
 		PB_Mp->SetPercent(PlayerStatComp->GetMpRatio());
+
+	UE_LOG(LogTemp, Warning, TEXT("Update Mp Bar Ratio: %f"), PlayerStatComp->GetMpRatio());
 }
 
 void UWidget_PlayerMain::UpdateExpBar()

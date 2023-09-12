@@ -11,6 +11,7 @@
 #include "../../Stat/MonsterStatComponent.h"
 #include "../../Widgets/Components/Widget_HpBar.h"
 #include "Components/WidgetComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Engine/DamageEvents.h"
 
 ASpawnMonster::ASpawnMonster()
@@ -53,8 +54,10 @@ void ASpawnMonster::Tick(float DeltaTime)
 	CheckDistance();
 }
 
-void ASpawnMonster::AttackTarget()
+void ASpawnMonster::AttackTarget(AMyPlayer* Target)
 {
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Target->GetActorLocation());
+	SetActorRotation(Rot);
 	AnimInst->PlayAttackMontage();
 }
 

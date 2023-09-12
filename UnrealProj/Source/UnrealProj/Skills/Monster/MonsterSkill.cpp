@@ -3,7 +3,9 @@
 
 #include "MonsterSkill.h"
 #include "../../Creatures/Monster/BossMonster.h"
+#include "../../Creatures/Player/MyPlayer.h"
 #include "../../AI/BossAIController.h"
+#include "Kismet/KismetMathLibrary.h"
 
 void UMonsterSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 {
@@ -17,6 +19,9 @@ void UMonsterSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (Boss == nullptr)
 		return;
 	// AI Àá±ñ ¸ØÃá´Ù.
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(Boss->GetActorLocation(), Boss->GetTarget()->GetActorLocation());
+	Boss->SetActorRotation(Rot);
+
 	auto AIController = Cast<ABossAIController>(Boss->GetController());
 	AIController->StopAI();
 

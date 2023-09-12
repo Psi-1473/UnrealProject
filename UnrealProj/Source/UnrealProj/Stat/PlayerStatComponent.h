@@ -32,6 +32,7 @@ public:
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 	float GetMpRatio() { return Mp / (float)MaxMp; }
 	float GetExpRatio() { return Exp / (float)MaxExp; }
+	int32 GetMp() { return Mp; }
 
 	void SetLevel(int32 NewLevel);
 	void AddExp(int32 Value);

@@ -28,7 +28,7 @@ public:
 	class UAudioComponent* GetAudioComponent() { return AudioComponent; }
 
 public:
-	virtual void AttackTarget() {};
+	virtual void AttackTarget(class AMyPlayer* Target) {};
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 	//virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL);
 	virtual void Die(class AMyPlayer* Player) {};

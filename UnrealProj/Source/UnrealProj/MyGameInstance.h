@@ -142,6 +142,9 @@ struct FSkillData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 CoolDown;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Mp;
 };
 
 UCLASS()

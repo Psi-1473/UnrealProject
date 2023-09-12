@@ -153,8 +153,10 @@ void ABossMonster::StartCooldown()
 }
 
 
-void ABossMonster::AttackTarget()
+void ABossMonster::AttackTarget(AMyPlayer* Target)
 {
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Target->GetActorLocation());
+	SetActorRotation(Rot);
 	AnimInst->PlayAttackMontage();
 }
 

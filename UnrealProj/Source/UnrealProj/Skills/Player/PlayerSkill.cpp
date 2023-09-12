@@ -76,6 +76,7 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	CoolDown = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->CoolDown;
 	Name = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Name;
 	Explanation = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Explanation;
+	Mp = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Mp;
 
 	UE_LOG(LogTemp, Warning, TEXT("Cooldown Load %d "), CoolDown);
 	//FTimerDelegate TimeCallback;

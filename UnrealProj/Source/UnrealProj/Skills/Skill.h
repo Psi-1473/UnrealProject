@@ -32,6 +32,8 @@ public:
 	FString GetSkillName() { return Name; }
 	FString GetExplanation() { return Explanation; }
 	bool GetIsRangeAttack() { return bRange; }
+	float GetMp() { return Mp; }
+	float GetRemainingTime(){ return RemainingTime;}
 	float GetCooldownRatio() { return RemainingTime / (float)CoolDown; }
 
 protected:
@@ -54,6 +56,8 @@ protected:
 	UPROPERTY()
 	FString Explanation;
 
+	UPROPERTY()
+	int32 Mp;
 	UPROPERTY()
 	UTexture2D* Txt;
 

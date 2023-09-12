@@ -8,6 +8,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../Skills/Skill.h"
+#include "../../Stat/PlayerStatComponent.h"
 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -32,7 +33,19 @@ void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 	if (RegisteredSkills[SkillKey] == nullptr)
 		return;
 
+	if (RegisteredSkills[SkillKey]->GetRemainingTime() > 0.f)
+		return;
+
 	auto Player = Cast<AMyPlayer>(GetOwner());
+	int RequiredMp = RegisteredSkills[SkillKey]->GetMp();
+
+
+	if (Player->GetStatComponent()->GetMp() < RequiredMp)
+		return;
+
+	Player->GetStatComponent()->SetMp(Player->GetStatComponent()->GetMp() - RequiredMp);
+	UE_LOG(LogTemp, Warning, TEXT("MP : %d"), Player->GetStatComponent()->GetMp());
+	
 
 	RegisteredSkills[SkillKey]->Execute(Player, RegisteredSkills[SkillKey]->GetIsRangeAttack());
 }

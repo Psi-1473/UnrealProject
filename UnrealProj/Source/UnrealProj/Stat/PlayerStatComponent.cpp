@@ -41,6 +41,8 @@ void UPlayerStatComponent::SetLevel(int32 NewLevel)
 				Level = StatData->Level;
 				MaxHp = StatData->MaxHp;
 				Hp = StatData->MaxHp;
+				MaxMp = StatData->MaxMp;
+				Mp = StatData->MaxMp;
 				MaxExp = StatData->MaxExp;
 				SetExp(0);
 				Attack = StatData->Attack;

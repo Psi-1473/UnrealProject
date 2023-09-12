@@ -12,6 +12,8 @@ ADamageText::ADamageText()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	TextRender = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TEXTRENDER"));
+	TextRender->SetXScale(3.f);
+	TextRender->SetYScale(3.f);
 	InitSettingValue();
 	RootComponent = TextRender;
 	//텍스트 렌더 세팅
@@ -49,7 +51,7 @@ void ADamageText::Tick(float DeltaTime)
 	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Camera->GetComponentLocation());
 	// 2. 바라보게 하기
 	SetActorRotation(Rot);
-	FVector NextPos = GetActorLocation() + FVector(0.f, 1.f, 3.f);
+	FVector NextPos = GetActorLocation() + FVector(0.f, 1.f, 2.f);
 	SetActorLocation(NextPos);
 
 }
