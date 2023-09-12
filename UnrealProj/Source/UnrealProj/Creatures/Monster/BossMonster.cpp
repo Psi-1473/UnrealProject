@@ -184,6 +184,9 @@ float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 
 void ABossMonster::Die(AMyPlayer* Player)
 {
+	if (bDie)
+		return;
+	bDie = true;
 	AnimInst->PlayDieMontage();
 }
 

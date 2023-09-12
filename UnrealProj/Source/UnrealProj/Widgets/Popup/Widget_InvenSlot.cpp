@@ -72,7 +72,7 @@ void UWidget_InvenSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 
 	if (OutOperation == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Start"));
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Start"));
 
 		UDragWidget* DragOper = NewObject<UDragWidget>();
 		OutOperation = DragOper;
@@ -83,7 +83,7 @@ void UWidget_InvenSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 
 		if (DragVisualClass != nullptr)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
 			UWidget_InvenSlot* VisualWidget = CreateWidget<UWidget_InvenSlot>(GetWorld(), DragVisualClass);
 			VisualWidget->SetVisibility(ESlateVisibility::Visible);
 
@@ -106,13 +106,13 @@ bool UWidget_InvenSlot::NativeOnDrop(const FGeometry& InGeometry, const FDragDro
 	Super::NativeOnDrop(InGeometry, InDragDropEvent, InOperation);
 	UDragWidget* DragOper = Cast<UDragWidget>(InOperation);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging End"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging End"));
 
 	if (DragOper != nullptr)
 	{
 		if (DragOper->SlotIndex == this->SlotIndex)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Same Return"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Same Return"));
 			return true;
 		}
 
@@ -141,7 +141,7 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	if (SlotItem == nullptr)
 		return;
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
@@ -174,7 +174,7 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 void UWidget_InvenSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);

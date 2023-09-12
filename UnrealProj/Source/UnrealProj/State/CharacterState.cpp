@@ -25,7 +25,7 @@ void UCharacterState::OnExit()
 #pragma region IDLE
 void UIdleState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : IDLE"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : IDLE"));
 }
 
 void UIdleState::OnUpdate()
@@ -40,7 +40,7 @@ void UIdleState::OnExit()
 #pragma region MOVE
 void UMoveState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : MOVE"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : MOVE"));
 }
 
 void UMoveState::OnUpdate()
@@ -57,7 +57,7 @@ void UMoveState::OnExit()
 #pragma region JUMP
 void UJumpState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : JUMP"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : JUMP"));
 }
 
 void UJumpState::OnUpdate()
@@ -78,7 +78,7 @@ void UJumpState::OnExit()
 
 void UAttackState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : ATTACK"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : ATTACK"));
 }
 
 void UAttackState::OnUpdate()
@@ -107,7 +107,7 @@ void UDamagedState::OnExit()
 #pragma region SKILL
 void USkillState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL"));
 
 }
 
@@ -138,7 +138,7 @@ void USkillState::OnExit()
 #pragma region SKILLCast
 void USkillCastState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL CAST"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : SKILL CAST"));
 }
 
 void USkillCastState::OnUpdate()
@@ -153,7 +153,7 @@ void USkillCastState::OnExit()
 #pragma region PULLED
 void UPulledState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : PULLED"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : PULLED"));
 	
 }
 
@@ -173,7 +173,7 @@ void UPulledState::OnExit()
 #pragma region HITANDFALL
 void UHitAndFallState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : FALL"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : FALL"));
 	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
 }
 
@@ -196,7 +196,7 @@ void UHitAndFallState::OnExit()
 #pragma region KNOCKED
 void UKnockedState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : KNOCKED"));
 }
 
 void UKnockedState::OnUpdate()
@@ -212,7 +212,7 @@ void UKnockedState::OnExit()
 #pragma region REVIVE
 void UReviveState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : REVIVE"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : REVIVE"));
 }
 
 void UReviveState::OnUpdate()
@@ -227,7 +227,7 @@ void UReviveState::OnExit()
 #pragma region LOOT
 void ULootState::OnEnter()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : LOOT"));
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : LOOT"));
 	// 루팅 UI 틀기
 }
 

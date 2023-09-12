@@ -24,7 +24,7 @@ void UWidget_SkillQuick::NativeOnDragDetected(const FGeometry& InGeometry, const
 
 	if (OutOperation == nullptr)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Start"));
+		//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Draging Start"));
 
 		UDragWidget* DragOper = NewObject<UDragWidget>();
 		OutOperation = DragOper;
@@ -35,7 +35,7 @@ void UWidget_SkillQuick::NativeOnDragDetected(const FGeometry& InGeometry, const
 
 		if (DragVisualClass != nullptr)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag : Widget Created"));
 			UWidget_InvenSlot* VisualWidget = CreateWidget<UWidget_InvenSlot>(GetWorld(), DragVisualClass);
 			VisualWidget->SetVisibility(ESlateVisibility::Visible);
 			VisualWidget->SetImage(QuickSkill->GetTexture());
@@ -58,7 +58,7 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 	{
 		if (DragOper->Type != DragType::Skill)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Not Skill"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Not Skill"));
 			return true;
 		}
 

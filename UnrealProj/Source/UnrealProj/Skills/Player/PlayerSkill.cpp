@@ -68,8 +68,8 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	int32 IdFromName = GetIdByName(NumberStr);
 
 	auto GInstance = Player->GetInstance();
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, WTypeStr);
-	GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, WTypeStr);
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
 
 	SetWeaponType(WTypeStr);
 	Id = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Id;

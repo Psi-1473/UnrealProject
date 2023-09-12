@@ -51,7 +51,7 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 			if (Player)
 			{
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), Player);
-				DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Green, false, 0.2f);
+				//DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Green, false, 0.2f);
 				OwnerComp.GetAIOwner()->GetCharacter()->GetCharacterMovement()->StopActiveMovement();
 				
 				return;
@@ -61,7 +61,7 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	else
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
-		DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Red, false, 0.2f);
+		//DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Red, false, 0.2f);
 	}
 	
 

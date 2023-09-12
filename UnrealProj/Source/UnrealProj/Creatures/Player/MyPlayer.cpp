@@ -258,7 +258,7 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 	else
 		DrawColor = FColor::Red;
 
-	DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
+	//DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
 
 	if (bResult && !HitResults.IsEmpty())
 	{

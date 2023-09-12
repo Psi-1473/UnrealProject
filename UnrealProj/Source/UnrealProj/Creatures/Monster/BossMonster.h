@@ -68,6 +68,9 @@ private:
 	bool bSixthSkill = false;
 
 	UPROPERTY()
+	bool bDie = false;
+
+	UPROPERTY()
 	class UMonsterSkill* ExecutingSkill;
 	//용도 - 캐스팅 후 사용하는 스킬이 많을 때, 
 	// bCastSkill를 통해 Cast 애니메이션 실행
