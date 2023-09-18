@@ -30,12 +30,40 @@ void USevarogSkill_Sixth::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::SpawnTornado, 1.f, true);
 }
 
+void USevarogSkill_Sixth::DestroySkillActor()
+{
+	for (int i = 0; i < ActorArray.Num(); i++)
+	{
+		bool a = ActorArray[i]->Destroy();//왜 안되농
+		if (a == true)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("DESTROY! "));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Warning, TEXT("DESTROY FAILED!"));
+		}
+	}
+	UE_LOG(LogTemp, Warning, TEXT("END SKILL SIXTH"));
+	Count = 0;
+	ActorArray.Empty();
+}
+
+void USevarogSkill_Sixth::SkillEnd()
+{
+	Super::SkillEnd();
+	DestroySkillActor();
+	OwnerMonster->GetWorldTimerManager().ClearTimer(SpawnTickTimer);
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	Boss->SetSixthSkill(false);
+}
+
 void USevarogSkill_Sixth::SpawnTornado()
 {
 	if (Count >= 5)
 	{
 		OwnerMonster->GetWorldTimerManager().ClearTimer(SpawnTickTimer);
-		OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::DestroyTornado, 3.f, false);
+		OwnerMonster->GetWorldTimerManager().SetTimer(SpawnTickTimer, this, &USevarogSkill_Sixth::SkillEnd, 3.f, false);
 		UE_LOG(LogTemp, Warning, TEXT("START END SKILL TIMER"));
 	}
 	else
@@ -57,26 +85,4 @@ void USevarogSkill_Sixth::SpawnTornado()
 	}
 }
 
-void USevarogSkill_Sixth::DestroyTornado()
-{
-	// 저장한 변수들 전부 Destroy하기
-	for (int i = 0; i < ActorArray.Num(); i++)
-	{
-		bool a = ActorArray[i]->Destroy();//왜 안되농
-		if (a == true)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("DESTROY! "));
-		}
-		else
-		{
-			UE_LOG(LogTemp, Warning, TEXT("DESTROY FAILED!"));
-		}
-	}
-	UE_LOG(LogTemp, Warning, TEXT("END SKILL SIXTH"));
-	Count = 0;
-	ActorArray.Empty();
-	auto Boss = Cast<ABossMonster>(OwnerMonster);
-	Boss->SetSixthSkill(false);
-	SkillEnd();
-}
 

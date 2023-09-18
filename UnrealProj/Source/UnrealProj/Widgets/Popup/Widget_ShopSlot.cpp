@@ -30,8 +30,8 @@ void UWidget_ShopSlot::ClickBuyButton()
 		UE_LOG(LogTemp, Warning, TEXT("Not Enough Gold"));
 		return;
 	}
-
-	MyPlayer->GetInventory()->GainNewItem(IType, ItemId); // 나머지 세팅은 여기서
+	MyPlayer->GetInventory()->SpendGold(ItemPrice);
+	MyPlayer->GetInventory()->GainNewItem(IType, ItemId);
 }
 
 void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int16 Id)

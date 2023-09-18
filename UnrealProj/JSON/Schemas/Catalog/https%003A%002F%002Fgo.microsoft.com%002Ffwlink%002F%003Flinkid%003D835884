@@ -1729,6 +1729,15 @@
       "url": "https://json.schemastore.org/function.json"
     },
     {
+      "name": "G2P Mapping Configuration",
+      "description": "JSON Schema for defining mappings for Python-based grapheme-to-phoneme engine 'g2p'.",
+      "fileMatch": ["config-g2p.yaml", "config-g2p.json"],
+      "versions": {
+        "2.0": "https://raw.githubusercontent.com/roedoejet/g2p/main/g2p/mappings/.schema/g2p-config-schema-2.0.json"
+      },
+      "url": "https://raw.githubusercontent.com/roedoejet/g2p/main/g2p/mappings/.schema/g2p-config-schema-2.0.json"
+    },
+    {
       "name": "GatewayCore API Gateway",
       "description": "JSON schema for Cloudtoid GatewayCore API Gateway and Reverse Proxy",
       "fileMatch": [
@@ -2249,7 +2258,7 @@
         "krakend.json",
         "krakend.toml"
       ],
-      "url": "https://www.krakend.io/schema/v3.json"
+      "url": "https://www.krakend.io/schema/krakend.json"
     },
     {
       "name": "Datadog Service Definition",
@@ -4387,7 +4396,7 @@
     },
     {
       "name": "docker-compose.yml",
-      "description": "The Compose specification establishes a standard for the definition of multi-container platform-agnostic applications. ",
+      "description": "The Compose specification establishes a standard for the definition of multi-container platform-agnostic applications.",
       "fileMatch": [
         "**/docker-compose.yml",
         "**/docker-compose.yaml",
@@ -4436,7 +4445,7 @@
       "name": "Gradle Enterprise",
       "description": "Gradle Enterprise configuration schema",
       "fileMatch": ["*gradle-enterprise.yml", "*gradle-enterprise.yaml"],
-      "url": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-7.json",
+      "url": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-8.json",
       "versions": {
         "1.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-1.json",
         "2.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-2.json",
@@ -4444,7 +4453,8 @@
         "4.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-4.json",
         "5.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-5.json",
         "6.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-6.json",
-        "7.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-7.json"
+        "7.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-7.json",
+        "8.0": "https://docs.gradle.com/enterprise/admin/schema/gradle-enterprise-config-schema-8.json"
       }
     },
     {
@@ -4470,22 +4480,16 @@
       "url": "https://yarnpkg.com/configuration/yarnrc.json"
     },
     {
-      "name": "beau.yml",
-      "description": "JSON Schema for a Beaujs Requests file.",
-      "fileMatch": ["beau.yml"],
-      "url": "https://beaujs.com/schema.json"
-    },
-    {
       "name": "Better Code Hub",
       "description": "Configuration file for Better Code Hub to override the default configuration.",
       "fileMatch": [".bettercodehub.yml"],
       "url": "https://json.schemastore.org/bettercodehub.json"
     },
     {
-      "name": "comet",
-      "description": "JSON Schema for a Comet Data Pipeline.",
-      "fileMatch": ["*.comet.yaml", "*.comet.yml"],
-      "url": "https://json.schemastore.org/comet.json"
+      "name": "starlake",
+      "description": "JSON Schema for a Starlake Data Pipeline.",
+      "fileMatch": ["*.sl.yml"],
+      "url": "https://json.schemastore.org/starlake.json"
     },
     {
       "name": "swcrc",
@@ -5247,6 +5251,24 @@
       "description": "A file format for describing custom elements",
       "url": "https://raw.githubusercontent.com/webcomponents/custom-elements-manifest/main/schema.json",
       "fileMatch": ["custom-elements.json"]
+    },
+    {
+      "name": "warp-keysets.json",
+      "description": "Warp keyboard shortcut presets",
+      "url": "https://json.schemastore.org/warp-keysets.json",
+      "fileMatch": ["**/.warp/keybindings.yaml"]
+    },
+    {
+      "name": "warp-themes.json",
+      "description": "Warp themes",
+      "url": "https://json.schemastore.org/warp-themes.json",
+      "fileMatch": ["**/.warp/themes/*.yaml"]
+    },
+    {
+      "name": "warp-workflows.json",
+      "description": "Warp workflows",
+      "url": "https://json.schemastore.org/warp-workflows.json",
+      "fileMatch": ["**/.warp/workflows/*.yaml"]
     }
   ],
   "version": 1

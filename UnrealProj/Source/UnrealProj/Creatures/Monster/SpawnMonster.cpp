@@ -61,6 +61,58 @@ void ASpawnMonster::AttackTarget(AMyPlayer* Target)
 	AnimInst->PlayAttackMontage();
 }
 
+void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+{
+	// 1. Damage Type에 따라 처리
+
+	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+}
+
+
+
+
+float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	auto AIController = Cast<AMonsterAIController>(GetController());
+	AIController->StopAI();
+	AnimInst->PlayDamagedMontage();
+	StatComponent->OnAttacked(Damage);
+
+	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
+	Attacker = CauserPlayer;
+	RevealHpBar();
+	PopupDamageText(Damage);
+	GetWorldTimerManager().ClearTimer(AttackerTimer);
+	GetWorldTimerManager().SetTimer(AttackerTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
+	if (StatComponent->GetHp() <= 0)
+		Die(CauserPlayer);
+	return Damage;
+}
+
+void ASpawnMonster::Die(AMyPlayer* Player)
+{
+	auto AIController = Cast<AMonsterAIController>(GetController());
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("NoCollision"));
+	AIController->StopAI();
+	bDeath = true;
+	AnimInst->StopAllMontages(1.f);
+
+	Player->GetStatComponent()->AddExp(StatComponent->GetExp());
+	Player->GetInventory()->AddGold(StatComponent->GetGold());
+}
+
+void ASpawnMonster::DestroyObject()
+{
+	FTimerDelegate TimeCallback;
+	TimeCallback.BindLambda([this] {
+		this->Destroy();
+		GetWorldTimerManager().ClearTimer(DestroyTimerHandle);
+		});
+	GetWorldTimerManager().SetTimer(DestroyTimerHandle, TimeCallback, 5.f, false);
+
+}
+
 void ASpawnMonster::AttackCheck()
 {
 	TArray<FHitResult> HitResults;
@@ -104,48 +156,6 @@ void ASpawnMonster::AttackCheck()
 			Player->OnDamaged(10.f, DamageEvent, GetController(), this, AttackType::NORMAL);
 		}
 	}
-}
-
-float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
-	auto AIController = Cast<AMonsterAIController>(GetController());
-	AIController->StopAI();
-	AnimInst->PlayDamagedMontage();
-	StatComponent->OnAttacked(Damage);
-
-	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
-	Attacker = CauserPlayer;
-	RevealHpBar();
-	PopupDamageText(Damage);
-	GetWorldTimerManager().ClearTimer(AttackerTimer);
-	GetWorldTimerManager().SetTimer(AttackerTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
-	if (StatComponent->GetHp() <= 0)
-		Die(CauserPlayer);
-	return Damage;
-}
-
-void ASpawnMonster::Die(AMyPlayer* Player)
-{
-	auto AIController = Cast<AMonsterAIController>(GetController());
-
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("NoCollision"));
-	AIController->StopAI();
-	bDeath = true;
-	AnimInst->StopAllMontages(1.f);
-
-	Player->GetStatComponent()->AddExp(StatComponent->GetExp());
-	Player->GetInventory()->AddGold(StatComponent->GetGold());
-}
-
-void ASpawnMonster::DestroyObject()
-{
-	FTimerDelegate TimeCallback;
-	TimeCallback.BindLambda([this] {
-		this->Destroy();
-		GetWorldTimerManager().ClearTimer(DestroyTimerHandle);
-		});
-	GetWorldTimerManager().SetTimer(DestroyTimerHandle, TimeCallback, 5.f, false);
-
 }
 
 void ASpawnMonster::SetHpBar()

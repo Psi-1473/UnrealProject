@@ -117,7 +117,10 @@ void USevarogSkill_Second::HitCheck()
 			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
 			AMyPlayer* Player = Cast<AMyPlayer>(HitResult.GetActor());
 			FDamageEvent DamageEvent;
-			if (Player == nullptr)
+			if (Player == nullptr || OwnerMonster == nullptr)
+				return;
+
+			if (OwnerMonster->GetDeath() == true)
 				return;
 			Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::DOWN); //Temp
 		}

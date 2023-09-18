@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "../../Interface/SoundActor.h"
+#include "../../DEFINE.h"
 #include "Monster.generated.h"
 
 
@@ -25,25 +26,27 @@ public:
 
 
 	FString GetObjectName();
+	bool GetDeath() { return bDeath; }
+
 	class UAudioComponent* GetAudioComponent() { return AudioComponent; }
 	class UMonsterStatComponent* GetStatComponent() { return StatComponent; }
 
 public:
 	virtual void AttackTarget(class AMyPlayer* Target) {};
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
-	//virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL);
+	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL) {};
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) {};
-	virtual void DestroyObject();
-
+	virtual void DestroyObject() {};
 	virtual void AttackCheck() {};
+
 protected:
 	void PopupDamageText(float Damage);
 
 public:
-	bool bDeath = false;
+	
 protected:
-
-
+	UPROPERTY()
+	bool bDeath = false;
 	UPROPERTY()
 	class UMonsterStatComponent* StatComponent;
 

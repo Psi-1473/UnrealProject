@@ -26,11 +26,13 @@ public:
 	TWeakObjectPtr<class AMonsterSpawner> GetSpawner() { return Spawner; }
 	void SetSpawner(TWeakObjectPtr<class AMonsterSpawner> Value) { Spawner = Value; }
 
+public:
 	virtual void AttackTarget(class AMyPlayer* Target) override;
-	virtual void AttackCheck() override;
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
+	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL) override;
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) override;
 	virtual void DestroyObject() override;
+	virtual void AttackCheck() override;
 
 private:
 	void SetHpBar();

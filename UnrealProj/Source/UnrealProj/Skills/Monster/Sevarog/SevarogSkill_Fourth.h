@@ -20,6 +20,8 @@ public:
 	virtual void IndicateRange() override;
 	virtual void AttackOrSpawnSkillActor() override;
 	virtual void PlayParticle(AActor* OwnerActor) override; //Attack Or Fire
+
+	virtual void SkillEnd() override;
 private:
 	void Teleport();
 	void ActSkill();

@@ -31,7 +31,7 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		Speed = FMath::Abs(pawn->GetVelocity().X);
 
 		auto Character = Cast<AMonster>(pawn);	
-		bDeath = Character->bDeath;
+		bDeath = Character->GetDeath();
 	}
 }
 

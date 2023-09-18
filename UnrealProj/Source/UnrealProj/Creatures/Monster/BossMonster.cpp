@@ -165,9 +165,19 @@ void ABossMonster::AttackTarget(AMyPlayer* Target)
 	FVector TargetLoc = TargetPlayer->GetActorLocation();
 	TargetLoc.Z = GetActorLocation().Z;
 	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
+
 	SetActorRotation(Rot);
 	AnimInst->PlayAttackMontage();
+	
 }
+
+void ABossMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+{
+	// 1. Damage Type에 따라 처리
+
+	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+}
+
 
 float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
@@ -187,6 +197,14 @@ void ABossMonster::Die(AMyPlayer* Player)
 	if (bDie)
 		return;
 	bDie = true;
+	auto AIController = Cast<ABossAIController>(GetController());
+
+	GetWorldTimerManager().ClearTimer(SkillCoolTimer);
+	GetWorldTimerManager().ClearTimer(DashCoolTimer);
+
+	ExecutingSkill->SkillEnd();
+
+	AIController->StopAI();
 	AnimInst->PlayDieMontage();
 }
 

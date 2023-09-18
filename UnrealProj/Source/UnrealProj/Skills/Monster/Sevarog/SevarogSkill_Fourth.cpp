@@ -130,6 +130,15 @@ void USevarogSkill_Fourth::PlayParticle(AActor* OwnerActor)
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), CastEffect3, Trans);
 }
 
+void USevarogSkill_Fourth::SkillEnd()
+{
+	Super::SkillEnd();
+	auto Boss = Cast<ABossMonster>(OwnerMonster);
+	Boss->SetActorHiddenInGame(false);
+	Boss->GetWorldTimerManager().ClearTimer(BlinkTimer);
+
+}
+
 void USevarogSkill_Fourth::Teleport()
 {
 	auto Boss = Cast<ABossMonster>(OwnerMonster);

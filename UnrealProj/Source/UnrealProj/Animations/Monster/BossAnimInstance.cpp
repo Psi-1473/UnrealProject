@@ -33,7 +33,7 @@ void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 		Speed = FMath::Abs(pawn->GetVelocity().X);
 
 		auto Character = Cast<ABossMonster>(pawn);
-		bDeath = Character->bDeath;
+		bDeath = Character->GetDeath();
 
 		bCast = Character->GetCastSkill();
 		bSixthSkill = Character->GetSixthSkill();

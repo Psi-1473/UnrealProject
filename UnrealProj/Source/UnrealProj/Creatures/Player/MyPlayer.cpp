@@ -28,6 +28,7 @@
 #include "LegacyCameraShake.h"
 #include "Components/AudioComponent.h"
 #include "../../Widgets/Widget_PlayerMain.h"
+#include "../../Helpers/AttackChecker.h"
 
 
 
@@ -231,48 +232,56 @@ void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 
 void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 {
-	TArray<FHitResult> HitResults;
-	FCollisionQueryParams Params(NAME_None, false, this);
-
 	float Start = 100.f;
+	FVector RangeVector(SideRange, UpRange, FrontRange);
+	TArray<FHitResult> HitResults;
 
-	FVector StartVector = GetActorLocation() + GetActorForwardVector() * Start;
-	FVector EndVector = GetActorLocation() + GetActorForwardVector() * (FrontRange + Start);
+	HitResults = UAttackChecker::PlayerCubeCheckMulti(RangeVector, Start, ECC_GameTraceChannel5, this);
+	UAttackChecker::ApplyDamageToActors(this, HitResults);
 
 
-	bool bResult = GetWorld()->SweepMultiByChannel(
-		OUT HitResults,
-		StartVector,
-		EndVector,
-		FQuat::Identity,
-		ECollisionChannel::ECC_GameTraceChannel5,
-		FCollisionShape::MakeBox(FVector(SideRange, UpRange, FrontRange)),//측면, 높이, 정면
-		Params);
-
-	FVector Vec = GetActorForwardVector() * Start;
-	FVector Center = StartVector + (EndVector - StartVector) / 2;
-	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
-	FColor DrawColor;
-	if (bResult)
-		DrawColor = FColor::Green;
-	else
-		DrawColor = FColor::Red;
-
-	//DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
-
-	if (bResult && !HitResults.IsEmpty())
-	{
-		for (FHitResult HitResult : HitResults)
-		{
-			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
-			AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
-			FDamageEvent DamageEvent;
-			if (Enemy == nullptr)
-				return;
-			Enemy->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
-			Enemy->PlaySoundWave(Enemy->GetAudioComponent(), GetWeapon()->GetHitSound());
-		}
-	}
+	//TArray<FHitResult> HitResults;
+	//FCollisionQueryParams Params(NAME_None, false, this);
+	//
+	//
+	//
+	//FVector StartVector = GetActorLocation() + GetActorForwardVector() * Start;
+	//FVector EndVector = GetActorLocation() + GetActorForwardVector() * (FrontRange + Start);
+	//
+	//
+	//bool bResult = GetWorld()->SweepMultiByChannel(
+	//	OUT HitResults,
+	//	StartVector,
+	//	EndVector,
+	//	FQuat::Identity,
+	//	ECollisionChannel::ECC_GameTraceChannel5,
+	//	FCollisionShape::MakeBox(FVector(SideRange, UpRange, FrontRange)),//측면, 높이, 정면
+	//	Params);
+	//
+	//FVector Vec = GetActorForwardVector() * Start;
+	//FVector Center = StartVector + (EndVector - StartVector) / 2;
+	//FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
+	//FColor DrawColor;
+	//if (bResult)
+	//	DrawColor = FColor::Green;
+	//else
+	//	DrawColor = FColor::Red;
+	//
+	////DrawDebugBox(GetWorld(), Center, FVector(SideRange, UpRange, FrontRange), Rotation, DrawColor, false, 2.f);
+	//
+	//if (bResult && !HitResults.IsEmpty())
+	//{
+	//	for (FHitResult HitResult : HitResults)
+	//	{
+	//		UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+	//		AMonster* Enemy = Cast<AMonster>(HitResult.GetActor());
+	//		FDamageEvent DamageEvent;
+	//		if (Enemy == nullptr)
+	//			return;
+	//		Enemy->TakeDamage(10.f, DamageEvent, GetController(), this); //Temp
+	//		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), GetWeapon()->GetHitSound());
+	//	}
+	//}
 }
 
 void AMyPlayer::Interact()

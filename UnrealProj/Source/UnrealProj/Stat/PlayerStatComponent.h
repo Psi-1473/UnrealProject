@@ -74,4 +74,8 @@ public:
 	FOnHpChanged OnHpChanged;
 	FOnMpChanged OnMpChanged;
 	FOnExpChanged OnExpChanged;
+
+private:
+	UPROPERTY()
+	UParticleSystem* LevelUpEffect;
 };

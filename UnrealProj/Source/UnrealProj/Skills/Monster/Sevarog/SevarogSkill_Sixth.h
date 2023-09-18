@@ -17,10 +17,10 @@ public:
 	USevarogSkill_Sixth();
 
 	virtual void Execute(AActor* OwnerActor, bool bRangeAttack) override;
-
+	virtual void DestroySkillActor() override;
+	virtual void SkillEnd() override;
 private:
 	void SpawnTornado();
-	void DestroyTornado();
 private:
 	UPROPERTY()
 	int Count = 0;

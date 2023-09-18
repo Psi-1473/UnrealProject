@@ -6,6 +6,7 @@
 #include "Widgets/Widget_PlayerMain.h"
 #include "Creatures/Player/MyPlayer.h"
 #include "Stat/PlayerStatComponent.h"
+#include "Helpers/AttackChecker.h"
 
 AMyGameMode::AMyGameMode()
 {

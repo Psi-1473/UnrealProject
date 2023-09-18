@@ -189,6 +189,18 @@ void UInventory::AddGold(int Value)
 	}
 }
 
+void UInventory::SpendGold(int Value)
+{
+	Gold -= Value;
+
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
+	if (Widget != nullptr)
+	{
+		Widget->RefreshGoldText(OwnerPlayer);
+	}
+}
+
 
 
 

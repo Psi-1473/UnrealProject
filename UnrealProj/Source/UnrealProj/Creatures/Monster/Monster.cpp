@@ -21,7 +21,6 @@ AMonster::AMonster()
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
 
-	
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
@@ -58,18 +57,10 @@ FString AMonster::GetObjectName()
 	return MyName;
 }
 
-
 float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	return Damage;
 }
-
-
-void AMonster::DestroyObject()
-{
-	
-}
-
 
 void AMonster::PopupDamageText(float Damage)
 {

@@ -4,13 +4,19 @@
 #include "PlayerStatComponent.h"
 #include "../MyGameInstance.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
+#include "Kismet/GameplayStatics.h"
+#include "../Creatures/Player/MyPlayer.h"
 
 UPlayerStatComponent::UPlayerStatComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
 	bWantsInitializeComponent = true;
-
 	Level = 1;
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> LevelEffect(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_UltHitWorld_WaterImpact.P_Sparrow_UltHitWorld_WaterImpact'"));
+	if (LevelEffect.Succeeded())
+		LevelUpEffect = LevelEffect.Object;
+	
 }
 
 
@@ -59,6 +65,11 @@ void UPlayerStatComponent::AddExp(int32 Value)
 	if (Exp >= MaxExp)
 	{
 		ExpToAdd = Exp - MaxExp;
+		//TEMP
+		auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+		auto MyPlayer = Cast<AMyPlayer>(Char);
+		UGameplayStatics::SpawnEmitterAtLocation(MyPlayer->GetWorld(), LevelUpEffect, MyPlayer->GetActorLocation()); //Temp
+
 		SetLevel(Level + 1);
 	}
 	else ExpToAdd = Exp;

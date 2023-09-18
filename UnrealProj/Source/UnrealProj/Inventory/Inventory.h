@@ -36,6 +36,8 @@ public:
 	void EmptySlot(TArray<class AItem*>& ItemArray, int Index);
 	void SwapItem(int DragedIndex, int ArrivedIndex);
 	void AddGold(int Value);
+	void SpendGold(int Value);
+
 private:
 	void GainNewWeapon(class AItem* Item, int SlotIndex = -1);
 	void GainNewUseItem(class AItem* Item, int SlotIndex = -1);

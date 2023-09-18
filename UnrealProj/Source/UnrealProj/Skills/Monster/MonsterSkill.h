@@ -28,7 +28,9 @@ public:
 	virtual void PlaySkillEffect() {}; // AnimNotify를 통해 스킬 이펙트만 실행시킬 때
 	virtual void PlayParticle(AActor* OwnerActor) {}; // Execute등 코드에서 바로 이펙트 실행 시킬 때
 	
+	virtual void DestroySkillActor() {}; // 스킬 액터 강제 파괴
 	virtual void SkillEnd(); // 스킬 종료시 실행할 함수
+
 
 	void EndCoolDown();
 
