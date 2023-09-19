@@ -147,6 +147,56 @@ struct FSkillData : public FTableRowBase
 	int32 Mp;
 };
 
+USTRUCT()
+struct FQuestData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TargetType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TargetId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 TargetNum;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 QuestNpcId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 ClearNpcId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool CanLoad;
+};
+
+USTRUCT()
+struct FScriptData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 NowPage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 LastPage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Line;
+};
+
+
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -169,8 +219,11 @@ public:
 	FSkillData* GetSwordSkillData(int32 Id);
 	FSkillData* GetBowSkillData(int32 Id);
 
+	class UDataTable* GetQuestData(int NpcId);
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
+	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
+	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 
 private:
 	UPROPERTY()
@@ -206,6 +259,18 @@ private:
 	UPROPERTY()
 	class UDataTable* BowSkillData;
 
+public:
+	FString GetQuestScript(int NpcId, int QuestId, int Page);
+	
+private:
+	FString GetQuestScriptDir(int NpcId, int QuestId);
+	FString GetQuestDataDir(int NpcId);
 private:
 	TSharedPtr<UIManager> UIMgr;
+
+	UPROPERTY()
+	class UScriptManager* ScriptMgr;
+
+	UPROPERTY()
+	class UQuestManager* QuestMgr;
 };

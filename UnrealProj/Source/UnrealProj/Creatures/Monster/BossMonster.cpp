@@ -202,7 +202,8 @@ void ABossMonster::Die(AMyPlayer* Player)
 	GetWorldTimerManager().ClearTimer(SkillCoolTimer);
 	GetWorldTimerManager().ClearTimer(DashCoolTimer);
 
-	ExecutingSkill->SkillEnd();
+	if(ExecutingSkill != nullptr)
+		ExecutingSkill->SkillEnd();
 
 	AIController->StopAI();
 	AnimInst->PlayDieMontage();

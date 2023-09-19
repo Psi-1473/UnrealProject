@@ -11,6 +11,7 @@
 #include "Engine/DamageEvents.h"
 #include "../../EffectActor/SkillRangeActor.h"
 #include "Sound/SoundWave.h"
+#include "../../../Helpers/AttackChecker.h"
 
 
 USevarogSkill_Second::USevarogSkill_Second()
@@ -80,51 +81,50 @@ void USevarogSkill_Second::PlayParticle(AActor* OwnerActor)
 
 void USevarogSkill_Second::HitCheck()
 {
-	
-	float AttackX = 100.f;
-	float AttackY = 100.f;
-	float AttackZ = 100.f;
-
 	TArray<FHitResult> HitResults;
-	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
-	FVector BoxVector(AttackX, AttackY, AttackZ);
 	FVector SkillLocation = TargetPos;
-	bool bResult = OwnerMonster->GetWorld()->SweepMultiByChannel(
-		OUT HitResults,
-		SkillLocation,
-		SkillLocation + OwnerMonster->GetActorForwardVector() * AttackX,
-		FQuat::Identity,
-		ECollisionChannel::ECC_GameTraceChannel6,
-		FCollisionShape::MakeBox(BoxVector),
-		Params);
-	// Attack 콜리전 새로 제대로 만들 것
 
-	FVector Vec = OwnerMonster->GetActorForwardVector() * AttackX;
-	FVector Center = SkillLocation + Vec * 0.5f;
-	FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
-	FColor DrawColor;
+	HitResults = UAttackChecker::MonsterCubeCheck(FVector(100.f, 100.f, 100.f), SkillLocation, ECollisionChannel::ECC_GameTraceChannel6, Cast<AActor>(OwnerMonster));
+	UAttackChecker::ApplyHitDamageToActors(10.f, Cast<AActor>(OwnerMonster), HitResults, AttackType::DOWN);
 
-	if (bResult)
-		DrawColor = FColor::Green;
-	else
-		DrawColor = FColor::Red;
-
-	DrawDebugBox(OwnerMonster->GetWorld(), Center, BoxVector, Rotation, DrawColor, false, 2.f);
-	if (bResult)
-	{
-		for (FHitResult HitResult : HitResults)
-		{
-			UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
-			AMyPlayer* Player = Cast<AMyPlayer>(HitResult.GetActor());
-			FDamageEvent DamageEvent;
-			if (Player == nullptr || OwnerMonster == nullptr)
-				return;
-
-			if (OwnerMonster->GetDeath() == true)
-				return;
-			Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::DOWN); //Temp
-		}
-	}
+	//FVector BoxVector(AttackX, AttackY, AttackZ);
+	//
+	//bool bResult = OwnerMonster->GetWorld()->SweepMultiByChannel(
+	//	OUT HitResults,
+	//	SkillLocation,
+	//	SkillLocation + OwnerMonster->GetActorForwardVector() * AttackX,
+	//	FQuat::Identity,
+	//	ECollisionChannel::ECC_GameTraceChannel6,
+	//	FCollisionShape::MakeBox(BoxVector),
+	//	Params);
+	//// Attack 콜리전 새로 제대로 만들 것
+	//
+	//FVector Vec = OwnerMonster->GetActorForwardVector() * AttackX;
+	//FVector Center = SkillLocation + Vec * 0.5f;
+	//FQuat Rotation = FRotationMatrix::MakeFromZ(Vec).ToQuat();
+	//FColor DrawColor;
+	//
+	//if (bResult)
+	//	DrawColor = FColor::Green;
+	//else
+	//	DrawColor = FColor::Red;
+	//
+	//DrawDebugBox(OwnerMonster->GetWorld(), Center, BoxVector, Rotation, DrawColor, false, 2.f);
+	//if (bResult)
+	//{
+	//	for (FHitResult HitResult : HitResults)
+	//	{
+	//		UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitResult.GetActor()->GetName());
+	//		AMyPlayer* Player = Cast<AMyPlayer>(HitResult.GetActor());
+	//		FDamageEvent DamageEvent;
+	//		if (Player == nullptr || OwnerMonster == nullptr)
+	//			return;
+	//
+	//		if (OwnerMonster->GetDeath() == true)
+	//			return;
+	//		Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::DOWN); //Temp
+	//	}
+	//}
 	PlaySoundAtLocation(OwnerMonster->GetWorld(), TargetPos, HitSound);
 	OwnerMonster->GetWorldTimerManager().ClearTimer(HitCheckTimerHandle);
 }

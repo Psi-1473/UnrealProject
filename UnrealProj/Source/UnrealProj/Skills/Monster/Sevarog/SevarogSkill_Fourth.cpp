@@ -13,6 +13,7 @@
 #include "NiagaraFunctionLibrary.h"
 #include <Runtime/Engine/Classes/Kismet/KismetMathLibrary.h>
 #include "Engine/DamageEvents.h"
+#include "../../../Helpers/AttackChecker.h"
 
 USevarogSkill_Fourth::USevarogSkill_Fourth()
 {
@@ -62,46 +63,15 @@ void USevarogSkill_Fourth::AttackOrSpawnSkillActor()
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect, Trans);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerMonster->GetWorld(), AttackEffect2, Trans);
 	CastingEffectComponent->DestroyComponent();
-	// 히트 체크
-	FCollisionQueryParams Params(NAME_None, false, Cast<AActor>(OwnerMonster));
-	float CapsuleRadius = 750.f;
-	float CapsuleHalfHeight = 200.f;
+
 	TArray<FOverlapResult> OutOverlaps;
-	bool bResult = OwnerMonster->GetWorld()->OverlapMultiByChannel(
-		OutOverlaps,
-		OwnerMonster->GetActorLocation(),
-		FQuat::Identity,
+	OutOverlaps = UAttackChecker::MonsterCircleCheck(OwnerMonster->GetActorLocation(),
+		750.f,
+		200.f,
 		ECollisionChannel::ECC_GameTraceChannel6,
-		FCollisionShape::MakeCapsule(CapsuleRadius, CapsuleHalfHeight),
-		Params);
+		Cast<AActor>(OwnerMonster));
 
-	FColor DrawColor;
-	if (bResult)
-		DrawColor = FColor::Green;
-	else
-		DrawColor = FColor::Red;
-
-	DrawDebugCapsule(OwnerMonster->GetWorld(), OwnerMonster->GetActorLocation(),
-		CapsuleHalfHeight,
-		CapsuleRadius,
-		OwnerMonster->GetActorQuat(),
-		DrawColor, false, 2.f);
-
-	if (bResult)
-	{
-		for (const FOverlapResult& Result : OutOverlaps)
-		{
-			if (IsTargetInCircleRange(Cast<AActor>(OwnerMonster), Result.GetActor(), 100.f))
-			{
-				UE_LOG(LogTemp, Warning, TEXT("Target In Range : Skill4 Sevarog"));
-				auto Player = Cast<AMyPlayer>(Result.GetActor());
-				if (Player == nullptr)
-					return;
-				FDamageEvent DamageEvent;
-				Player->OnDamaged(10.f, DamageEvent, OwnerMonster->GetController(), Cast<AActor>(OwnerMonster), AttackType::STRONG); //Temp
-			}
-		}
-	}
+	UAttackChecker::ApplyMonsterDamageToPlayerSectorForm(10.f, Cast<AMonster>(OwnerMonster), OutOverlaps, AttackType::STRONG, 100.f);
 }
 
 void USevarogSkill_Fourth::IndicateRange()

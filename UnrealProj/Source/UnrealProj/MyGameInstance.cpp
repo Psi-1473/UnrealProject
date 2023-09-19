@@ -2,6 +2,8 @@
 
 
 #include "MyGameInstance.h"
+#include "Managers/ScriptManager.h"
+#include "Managers/QuestManager.h"
 
 
 UMyGameInstance::UMyGameInstance()
@@ -31,6 +33,9 @@ UMyGameInstance::UMyGameInstance()
 	if (BowSkill.Succeeded()) BowSkillData = BowSkill.Object;
 
 	UIMgr = MakeShared<UIManager>();
+
+	ScriptMgr = NewObject<UScriptManager>();
+	QuestMgr = NewObject<UQuestManager>();
 }
 
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
@@ -55,6 +60,7 @@ FWeaponData* UMyGameInstance::GetSwordData(int32 Id)
 
 FWeaponData* UMyGameInstance::GetBowData(int32 Id)
 {
+	
 	return BowData->FindRow<FWeaponData>(*FString::FromInt(Id), TEXT(""));
 }
 
@@ -98,5 +104,45 @@ FSkillData* UMyGameInstance::GetSwordSkillData(int32 Id)
 FSkillData* UMyGameInstance::GetBowSkillData(int32 Id)
 {
 	return BowSkillData->FindRow<FSkillData>(*FString::FromInt(Id), TEXT(""));
+}
+
+UDataTable* UMyGameInstance::GetQuestData(int NpcId)
+{
+	UDataTable* DataTable = LoadObject<UDataTable>(NULL, *GetQuestDataDir(NpcId), NULL, LOAD_None, NULL);
+
+	return DataTable;
+}
+
+FString UMyGameInstance::GetQuestScript(int NpcId, int QuestId, int Page)
+{
+	//
+	UDataTable* DataTable = LoadObject<UDataTable>(NULL, *GetQuestScriptDir(NpcId, QuestId), NULL, LOAD_None, NULL);
+	int LastPage = DataTable->FindRow<FScriptData>(*FString::FromInt(1), TEXT(""))->LastPage;
+
+	if (Page > LastPage)
+		return TEXT("SCRIPT END");
+
+	FScriptData* ScriptData = DataTable->FindRow<FScriptData>(*FString::FromInt(Page), TEXT(""));
+	return ScriptData->Line;
+}
+
+FString UMyGameInstance::GetQuestScriptDir(int NpcId, int QuestId)
+{
+	
+	FString NpcStr = FString::FromInt(NpcId);
+	FString QuestStr = FString::FromInt(QuestId);
+	FString Dir = TEXT("/Script/Engine.DataTable'/Game/08_Data/Script/");
+	Dir += NpcId + TEXT("/Quest/") + QuestStr + TEXT(".") + QuestStr + TEXT("'");
+
+	return Dir;
+}
+
+FString UMyGameInstance::GetQuestDataDir(int NpcId)
+{
+	FString NpcStr = FString::FromInt(NpcId);
+	FString Dir = TEXT("/Script/Engine.DataTable'/Game/08_Data/Quest/");
+	Dir += NpcStr + TEXT(".") + NpcStr + TEXT("'");
+
+	return Dir;
 }
 

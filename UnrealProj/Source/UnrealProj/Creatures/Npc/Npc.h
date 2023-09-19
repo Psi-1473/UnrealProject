@@ -28,9 +28,10 @@ public:
 	TArray<int16> GetBowIds() { return BowIds; }
 	TArray<int16> GetUseItemIds() { return UseItemIds; }
 	int16 GetItemSize() { return BowIds.Num() + SwordIds.Num() + UseItemIds.Num(); }
+	class UQuestComponent* GetQuestComponent() { return QuestComponent; }
 public:
 	virtual void Interact(class AMyPlayer* Player) override;
-
+	void LoadPossibleQuestData();
 private:
 	void GetIdFromActor();
 	void SetNpcInfo();
@@ -54,7 +55,12 @@ protected:
 	class UCapsuleComponent* CapsuleComponent;
 
 	UPROPERTY()
+	class UQuestComponent* QuestComponent;
+
+	UPROPERTY()
 	class UBoxComponent* InteractBox;
+
+	
 
 protected:
 	UPROPERTY(EditAnywhere)

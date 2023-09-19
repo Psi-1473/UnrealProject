@@ -7,6 +7,8 @@
 #include "../Player/MyPlayer.h"
 #include "../../MyGameInstance.h"
 #include "../../Widgets/Popup/Widget_Script.h"
+#include "../../ActorComponent/QuestComponent.h"
+#include "../../Managers/QuestManager.h"
 
 ANpc::ANpc()
 {
@@ -15,6 +17,7 @@ ANpc::ANpc()
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	InteractBox = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractBox"));
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
+	QuestComponent = CreateDefaultSubobject<UQuestComponent>(TEXT("QuestComponent"));
 
 	Mesh->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	Mesh->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
@@ -38,7 +41,7 @@ void ANpc::BeginPlay()
 {
 	AActor::BeginPlay();
 	SetNpcInfo();
-	
+	LoadPossibleQuestData();
 }
 
 void ANpc::Interact(AMyPlayer* Player)
@@ -48,6 +51,12 @@ void ANpc::Interact(AMyPlayer* Player)
 	auto Script = Cast<UWidget_Script>(Widget);
 	if (Script != nullptr)
 		Script->SetScript(this);
+}
+
+void ANpc::LoadPossibleQuestData()
+{
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->GetQuestMgr()->LoadNpcQuest(this);
 }
 
 void ANpc::GetIdFromActor()
