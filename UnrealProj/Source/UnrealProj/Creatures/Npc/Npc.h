@@ -32,6 +32,7 @@ public:
 public:
 	virtual void Interact(class AMyPlayer* Player) override;
 	void LoadPossibleQuestData();
+	void UpdateQuestMark();
 private:
 	void GetIdFromActor();
 	void SetNpcInfo();
@@ -60,6 +61,8 @@ protected:
 	UPROPERTY()
 	class UBoxComponent* InteractBox;
 
+	UPROPERTY(EditAnywhere)
+	class UWidgetComponent* NpcInfo;
 	
 
 protected:

@@ -9,6 +9,8 @@
 #include "../../Widgets/Popup/Widget_Script.h"
 #include "../../ActorComponent/QuestComponent.h"
 #include "../../Managers/QuestManager.h"
+#include "Components/WidgetComponent.h"
+#include "../../Widgets/Components/Widget_NpcInfo.h"
 
 ANpc::ANpc()
 {
@@ -18,7 +20,13 @@ ANpc::ANpc()
 	InteractBox = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractBox"));
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
 	QuestComponent = CreateDefaultSubobject<UQuestComponent>(TEXT("QuestComponent"));
+	NpcInfo = CreateDefaultSubobject<UWidgetComponent>(TEXT("NpcInfo")); 
+	static ConstructorHelpers::FClassFinder<UUserWidget> WNpc(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Components/WBP_NpcInfo.WBP_NpcInfo_C'"));
 
+	if (WNpc.Succeeded())
+		NpcInfo->SetWidgetClass(WNpc.Class);
+
+	NpcInfo->SetWidgetSpace(EWidgetSpace::Screen);
 	Mesh->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	Mesh->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
 
@@ -31,6 +39,7 @@ ANpc::ANpc()
 	RootComponent = CapsuleComponent;
 	InteractBox->SetupAttachment(RootComponent);
 	Mesh->SetupAttachment(RootComponent);
+	NpcInfo->SetupAttachment(RootComponent);
 	// 박스 사이즈 조절
 
 	InteractBox->OnComponentBeginOverlap.AddDynamic(this, &IInteractable::OnOverlapBegin);
@@ -40,6 +49,7 @@ ANpc::ANpc()
 void ANpc::BeginPlay()
 {
 	AActor::BeginPlay();
+	NpcInfo->InitWidget();
 	SetNpcInfo();
 	LoadPossibleQuestData();
 }
@@ -57,6 +67,13 @@ void ANpc::LoadPossibleQuestData()
 {
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
 	GInstance->GetQuestMgr()->LoadNpcQuest(this);
+	UpdateQuestMark();
+}
+
+void ANpc::UpdateQuestMark()
+{
+	auto NpcWidget = Cast<UWidget_NpcInfo>(NpcInfo->GetUserWidgetObject());
+	NpcWidget->UpdateQuestMark();
 }
 
 void ANpc::GetIdFromActor()
@@ -89,6 +106,11 @@ void ANpc::SetNpcInfo()
 	if (Data->Type == TEXT("Null"))
 		Type = NONE_SHOP;
 
+	auto NpcWidget = Cast<UWidget_NpcInfo>(NpcInfo->GetUserWidgetObject());
+	//if (NpcWidget)
+	NpcWidget->BindNpc(this);
 	UE_LOG(LogTemp, Warning, TEXT("Npc Id Registered! : %d, %s, %s, %d"), Id, *Name, *DefaultLine, (int)Type);
+
+
 }
 

@@ -30,10 +30,10 @@ void UWidget_Skill::CreateSlot()
 
 	for (int i = 0; i < Number; i++)
 	{
-		Slot = CreateWidget(GetWorld(), BP_Slot);
-		SkillSlot->AddChild(Slot);
-		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
-		UWidget_SkillSlot* WSlot = Cast<UWidget_SkillSlot>(Slot);
+		UUserWidget* NewSlot = CreateWidget(GetWorld(), BP_Slot);
+		SkillSlot->AddChild(NewSlot);
+		NewSlot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
+		UWidget_SkillSlot* WSlot = Cast<UWidget_SkillSlot>(NewSlot);
 		WSlot->SetSkill(MyPlayer->GetSkillComponent()->GetSkills()[i]);
 		WSlot->SetInfo();
 	}

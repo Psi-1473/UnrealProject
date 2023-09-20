@@ -19,11 +19,17 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
+public:
+	int GetPossibleQuestNum() { return PossibleQuests.Num(); }
+	struct FQuestData* GetPossibleQuestData(int PossibleListIndex);
 public:	
 	void LoadPossibleQuest(struct FQuestData* Data);
 	void PossibleToOngoing(struct FQuestData* Data);
 		
 private:
-	TArray<struct FQuestData*> PossibleQuests;
-	TArray<struct FQuestData*> OngoingQuests;
+	// UPROPERTY ..
+	UPROPERTY()
+	TArray<int> PossibleQuests;
+	UPROPERTY()
+	TArray<int> OngoingQuests;
 };

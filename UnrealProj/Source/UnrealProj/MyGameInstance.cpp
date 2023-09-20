@@ -106,6 +106,11 @@ FSkillData* UMyGameInstance::GetBowSkillData(int32 Id)
 	return BowSkillData->FindRow<FSkillData>(*FString::FromInt(Id), TEXT(""));
 }
 
+FQuestData* UMyGameInstance::GetSingleQuestData(int NpcId, int QuestId)
+{
+	return GetQuestData(NpcId)->FindRow<FQuestData>(*FString::FromInt(QuestId), TEXT(""));
+}
+
 UDataTable* UMyGameInstance::GetQuestData(int NpcId)
 {
 	UDataTable* DataTable = LoadObject<UDataTable>(NULL, *GetQuestDataDir(NpcId), NULL, LOAD_None, NULL);

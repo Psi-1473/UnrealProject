@@ -24,9 +24,6 @@ void UQuestManager::LoadNpcQuest(ANpc* Npc)
 		{
 			Npc->GetQuestComponent()->LoadPossibleQuest(QData);
 			UE_LOG(LogTemp, Warning, TEXT("QUEST NAME : %s"), *QData->Name);
-			QData->Name = TEXT("QQQ TTT EEE NNNN");
-			UE_LOG(LogTemp, Warning, TEXT("QUEST NAME : %s"), *QData->Name);
-			UE_LOG(LogTemp, Warning, TEXT("QUEST NAME : %s"), *Table->FindRow<FQuestData>(*FString::FromInt(i + 1), TEXT(""))->Name);
 		}
 	}
 

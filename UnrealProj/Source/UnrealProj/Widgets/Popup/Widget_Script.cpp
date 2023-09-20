@@ -7,12 +7,15 @@
 #include "Components/Button.h"
 #include "../../MyGameInstance.h"
 #include "Widget_Shop.h"
+#include "Widget_NpcQuest.h"
+#include "../../ActorComponent/QuestComponent.h"
 
 
 void UWidget_Script::NativeConstruct()
 {
 	Super::NativeConstruct();
 	Btn_Shop->OnClicked.AddDynamic(this, &UWidget_Script::PopupShopWidget);
+	Btn_Quest->OnClicked.AddDynamic(this, &UWidget_Script::PopupNpcQuestWidget);
 	Btn_Exit->OnClicked.AddDynamic(this, &UWidget_Script::CloseUI);
 }
 
@@ -36,6 +39,17 @@ void UWidget_Script::PopupShopWidget()
 	auto Shop = Cast<UWidget_Shop>(ShopUI);
 	Shop->SetOwnerNpc(OwnerNpc);
 	Shop->CreateSlot(OwnerNpc);
+}
+
+void UWidget_Script::PopupNpcQuestWidget()
+{
+	if (OwnerNpc == nullptr)
+		return;
+
+	auto GInstance = Cast<UMyGameInstance>(OwnerNpc->GetGameInstance());
+	auto QuestUI = GInstance->GetUIMgr()->PopupUI(OwnerNpc->GetWorld(), UIType::NpcQuest);
+	auto Quest = Cast<UWidget_NpcQuest>(QuestUI);
+	Quest->BindAndCreateSlot(OwnerNpc->GetQuestComponent());
 }
 
 void UWidget_Script::CloseUI()

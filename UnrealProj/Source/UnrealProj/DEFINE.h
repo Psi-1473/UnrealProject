@@ -18,6 +18,8 @@ enum class UIType : uint8
 	Information,
 	Looting,
 	BossHpBar,
+	NpcQuest,
+	NpcQuestSlot,
 	End,
 };
 

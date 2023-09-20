@@ -22,6 +22,9 @@ public:
 	UFUNCTION()
 	void PopupShopWidget();
 
+	UFUNCTION()
+	void PopupNpcQuestWidget();
+
 	//UFUNCTION()
 	//void PopupQuestWidget(TWeakObjectPtr<class ANpc>);
 

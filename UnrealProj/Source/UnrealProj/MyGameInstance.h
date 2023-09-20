@@ -219,6 +219,8 @@ public:
 	FSkillData* GetSwordSkillData(int32 Id);
 	FSkillData* GetBowSkillData(int32 Id);
 
+	FQuestData* GetSingleQuestData(int NpcId, int QuestId);
+
 	class UDataTable* GetQuestData(int NpcId);
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }

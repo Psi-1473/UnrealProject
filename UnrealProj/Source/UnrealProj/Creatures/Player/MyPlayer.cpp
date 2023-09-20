@@ -305,8 +305,9 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 	AnimInst->WeaponType = Type;
 
 	auto MyGamemode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (MyGamemode == nullptr) return;
 	auto HUD = Cast<UWidget_PlayerMain>(MyGamemode->GetCurrentWidget());
-
+	if (HUD == nullptr) return;
 	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_ARROW)
 		HUD->SetCrossHair(true);
 

@@ -30,8 +30,9 @@ private:
 	UPROPERTY()
 	TArray<class UWidget_SkillSlot*> Slots;
 	
+	UPROPERTY()
 	TSubclassOf<UUserWidget> BP_Slot;
-	UUserWidget* Slot;
+
 
 
 };
