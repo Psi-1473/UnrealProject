@@ -18,7 +18,7 @@ public:
 
 public:
 	void BindAndCreateSlot(class UQuestComponent* QuestComp);
-	
+	void UpdateInfo(struct FQuestData Data);
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -39,6 +39,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Okay;
 private:
+	UPROPERTY()
+	int32 SelectedQuestId = -1;
 	UPROPERTY()
 	TWeakObjectPtr<class UQuestComponent> QuestComponent;
 

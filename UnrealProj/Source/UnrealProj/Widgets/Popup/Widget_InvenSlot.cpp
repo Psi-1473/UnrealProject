@@ -178,7 +178,7 @@ void UWidget_InvenSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-	MyPlayer->GetInstance()->GetUIMgr()->CloseUI(UIType::Information);
+	MyPlayer->GetInstance()->GetUIMgr()->CloseUI((int)UIType::Information);
 
 }
 

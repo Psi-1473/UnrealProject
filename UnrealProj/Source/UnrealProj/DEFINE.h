@@ -20,6 +20,7 @@ enum class UIType : uint8
 	BossHpBar,
 	NpcQuest,
 	NpcQuestSlot,
+	LineScript,
 	End,
 };
 
@@ -64,6 +65,15 @@ enum class AttackType : uint8
 	// PULLED는 Montage 구현
 };
 
+UENUM(BlueprintType)
+enum class QuestType : uint8
+{
+	NORMAL,// 바로 다른 NPC한테 가서 클리어 하는 퀘스트 (바로 완료가능)
+	ITEM, // 아이템을 구해가야 하는 퀘스트
+	INVESTIGATE, // 조사 퀘스트
+	HUNT, // 사냥
+	ETC, // 기타
+};
 enum ItemType
 {
 	ITEM_SWORD,

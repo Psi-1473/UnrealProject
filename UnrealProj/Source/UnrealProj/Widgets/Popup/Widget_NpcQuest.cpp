@@ -4,6 +4,7 @@
 #include "Widget_NpcQuest.h"
 #include "../../ActorComponent/QuestComponent.h"
 #include "Components/ScrollBox.h"
+#include "Components/TextBlock.h"
 #include "Widget_NpcQuestSlot.h"
 
 UWidget_NpcQuest::UWidget_NpcQuest(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -27,4 +28,12 @@ void UWidget_NpcQuest::BindAndCreateSlot(UQuestComponent* QuestComp)
 		QSlot->Init(this, QuestComponent->GetPossibleQuestData(i));
 	}
 
+}
+
+void UWidget_NpcQuest::UpdateInfo(FQuestData Data)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Update QuestInfo"));
+	SelectedQuestId = Data.Id;
+	Text_QuestTitle->SetText(FText::FromString(Data.Name));
+	Text_QuestInfo->SetText(FText::FromString(Data.Explanation));
 }

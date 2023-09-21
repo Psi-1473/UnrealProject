@@ -222,6 +222,7 @@ public:
 	FQuestData* GetSingleQuestData(int NpcId, int QuestId);
 
 	class UDataTable* GetQuestData(int NpcId);
+	class UDataTable* GetQuestScript(int NpcId, int QuestId);
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
@@ -262,8 +263,7 @@ private:
 	class UDataTable* BowSkillData;
 
 public:
-	FString GetQuestScript(int NpcId, int QuestId, int Page);
-	
+
 private:
 	FString GetQuestScriptDir(int NpcId, int QuestId);
 	FString GetQuestDataDir(int NpcId);

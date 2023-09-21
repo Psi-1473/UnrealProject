@@ -56,5 +56,5 @@ void UWidget_Shop::CreateSlot(TWeakObjectPtr<class ANpc> Npc)
 void UWidget_Shop::CloseUI()
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerNpc->GetGameInstance());
-	GInstance->GetUIMgr()->CloseUI(UIType::Shop);
+	GInstance->GetUIMgr()->CloseUI((int)UIType::Shop);
 }

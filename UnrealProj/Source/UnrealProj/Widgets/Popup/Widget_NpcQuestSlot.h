@@ -16,7 +16,11 @@ class UNREALPROJ_API UWidget_NpcQuestSlot : public UUserWidget
 	GENERATED_BODY()
 
 public:
+	virtual void NativeConstruct() override;
 	void Init(class UWidget_NpcQuest* QWidget, struct FQuestData* QData);
+	void PopupQuestLineScript();
+	UFUNCTION()
+	void UpdateQuestInfo();
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_QuestName;

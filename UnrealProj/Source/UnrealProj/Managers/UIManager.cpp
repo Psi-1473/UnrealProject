@@ -20,8 +20,8 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	if (PopupUiArray[(int)Type] != nullptr)
 	{
 		if (Type == UIType::Inventory || Type == UIType::Skill) 
-			CloseUI(UIType::Information);
-		CloseUI(Type);
+			CloseUI((int)UIType::Information);
+		CloseUI((int)Type);
 		return nullptr;
 	}
 
@@ -56,16 +56,16 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	return PopupUi;
 }
 
-void UIManager::CloseUI(UIType Type)
+void UIManager::CloseUI(int Type)
 {
-	if(PopupUiArray[(int)Type] == nullptr)
+	if(PopupUiArray[Type] == nullptr)
 		return;
 
-	PopupUiArray[(int)Type]->Destruct();
-	PopupUiArray[(int)Type]->RemoveFromViewport();
-	PopupUiArray[(int)Type] = nullptr;
+	PopupUiArray[Type]->Destruct();
+	PopupUiArray[Type]->RemoveFromViewport();
+	PopupUiArray[Type] = nullptr;
 
-	if (Type != UIType::BossHpBar)
+	if (Type != (int)UIType::BossHpBar)
 		UiNumber--;
 
 	if (UiNumber <= 0)
@@ -76,4 +76,12 @@ void UIManager::CloseUI(UIType Type)
 		PC->bShowMouseCursor = false;
 	}
 
+}
+
+void UIManager::CloseAllUI()
+{
+	int Cnt = (int)UIType::End;
+
+	for (int i = 0; i < Cnt; i++)
+		CloseUI(i);
 }

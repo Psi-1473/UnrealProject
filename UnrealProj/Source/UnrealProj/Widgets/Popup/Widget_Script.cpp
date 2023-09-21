@@ -55,5 +55,5 @@ void UWidget_Script::PopupNpcQuestWidget()
 void UWidget_Script::CloseUI()
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerNpc->GetGameInstance());
-	GInstance->GetUIMgr()->CloseUI(UIType::Script);
+	GInstance->GetUIMgr()->CloseUI((int)UIType::Script);
 }

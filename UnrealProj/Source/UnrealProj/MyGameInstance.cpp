@@ -118,17 +118,11 @@ UDataTable* UMyGameInstance::GetQuestData(int NpcId)
 	return DataTable;
 }
 
-FString UMyGameInstance::GetQuestScript(int NpcId, int QuestId, int Page)
+UDataTable* UMyGameInstance::GetQuestScript(int NpcId, int QuestId)
 {
-	//
 	UDataTable* DataTable = LoadObject<UDataTable>(NULL, *GetQuestScriptDir(NpcId, QuestId), NULL, LOAD_None, NULL);
-	int LastPage = DataTable->FindRow<FScriptData>(*FString::FromInt(1), TEXT(""))->LastPage;
 
-	if (Page > LastPage)
-		return TEXT("SCRIPT END");
-
-	FScriptData* ScriptData = DataTable->FindRow<FScriptData>(*FString::FromInt(Page), TEXT(""));
-	return ScriptData->Line;
+	return DataTable;
 }
 
 FString UMyGameInstance::GetQuestScriptDir(int NpcId, int QuestId)

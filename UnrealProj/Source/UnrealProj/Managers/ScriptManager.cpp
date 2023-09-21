@@ -7,6 +7,6 @@
 
 FString UScriptManager::GetQuestScript(int NpcId, int QuestId, int Page)
 {
-	FString Line = GInstance->GetQuestScript(NpcId, QuestId, Page);
+	//FString Line = GInstance->GetQuestScript(NpcId, QuestId, Page);
 	return FString();
 }

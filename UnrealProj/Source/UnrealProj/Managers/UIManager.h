@@ -15,7 +15,8 @@ public:
 	~UIManager();
 	int GetUiNumber() { return UiNumber; }
 	UUserWidget* PopupUI(UWorld* World, UIType Type);
-	void CloseUI(UIType Type);
+	void CloseUI(int Type);
+	void CloseAllUI();
 	void SetController(TWeakObjectPtr<class APlayerController> Controller) { PlayerController = Controller; }
 	UUserWidget* GetUI(UIType Type) { return PopupUiArray[(int)Type]; }
 

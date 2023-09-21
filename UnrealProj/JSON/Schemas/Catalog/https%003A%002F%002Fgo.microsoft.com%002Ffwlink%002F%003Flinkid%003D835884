@@ -302,7 +302,7 @@
     },
     {
       "name": "AsyncAPI",
-      "description": "A JSON Schema for validating AsyncAPI documentation files",
+      "description": "AsyncAPI documentation files",
       "fileMatch": ["*asyncapi*.json", "*asyncapi*.yml", "*asyncapi*.yaml"],
       "url": "https://www.asyncapi.com/schema-store/all.schema-store.json"
     },
@@ -738,7 +738,12 @@
     {
       "name": "Camel YAML DSL",
       "description": "Camel YAML DSL",
-      "fileMatch": ["*.camel.yaml", "*.camelk.yaml"],
+      "fileMatch": [
+        "*.camel.yaml",
+        "*.camelk.yaml",
+        "*.camel.yml",
+        "*.camelk.yml"
+      ],
       "url": "https://raw.githubusercontent.com/apache/camel/main/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camelYamlDsl.json",
       "versions": {
         "3.x": "https://raw.githubusercontent.com/apache/camel/camel-3.x/dsl/camel-yaml-dsl/camel-yaml-dsl/src/generated/resources/schema/camel-yaml-dsl.json",
@@ -5288,6 +5293,12 @@
       "description": "Warp workflows",
       "url": "https://json.schemastore.org/warp-workflows.json",
       "fileMatch": ["**/.warp/workflows/*.yaml"]
+    },
+    {
+      "name": "Goblet",
+      "description": "Goblet serverless framework config",
+      "url": "https://raw.githubusercontent.com/goblet/goblet/main/goblet.schema.json",
+      "fileMatch": ["**/.goblet/config.json"]
     }
   ],
   "version": 1

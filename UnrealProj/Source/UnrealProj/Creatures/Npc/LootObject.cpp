@@ -62,7 +62,7 @@ void ALootObject::Interact(AMyPlayer* Player)
 void ALootObject::LootEnd()
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-	GInstance->GetUIMgr()->CloseUI(UIType::Looting);
+	GInstance->GetUIMgr()->CloseUI((int)UIType::Looting);
 	InteractingPlayer->SetState(STATE::IDLE);
 	InteractingPlayer = nullptr;
 	// 진행 중인 퀘스트가 있으면 진척도 올리기
@@ -70,5 +70,6 @@ void ALootObject::LootEnd()
 
 void ALootObject::LootCancle()
 {
+
 }
 
