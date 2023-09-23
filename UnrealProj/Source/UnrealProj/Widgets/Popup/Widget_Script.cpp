@@ -50,6 +50,7 @@ void UWidget_Script::PopupNpcQuestWidget()
 	auto QuestUI = GInstance->GetUIMgr()->PopupUI(OwnerNpc->GetWorld(), UIType::NpcQuest);
 	auto Quest = Cast<UWidget_NpcQuest>(QuestUI);
 	Quest->BindAndCreateSlot(OwnerNpc->GetQuestComponent());
+	Quest->SetOwnerNpc(OwnerNpc);
 }
 
 void UWidget_Script::CloseUI()

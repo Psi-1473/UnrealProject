@@ -29,6 +29,7 @@
 #include "Components/AudioComponent.h"
 #include "../../Widgets/Widget_PlayerMain.h"
 #include "../../Helpers/AttackChecker.h"
+#include "../../ActorComponent/PlayerQuestComponent.h"
 
 
 
@@ -65,6 +66,7 @@ AMyPlayer::AMyPlayer()
 	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+	QuestComponent = CreateDefaultSubobject<UPlayerQuestComponent>(TEXT("QuestComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 
 	AudioComponent->SetupAttachment(RootComponent);

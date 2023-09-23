@@ -36,6 +36,7 @@ public:
 	class UCameraComponent* GetCamera() { return Camera; }
 	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
+	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UInventory* GetInventory() { return Inventory; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
@@ -102,6 +103,9 @@ private:
 
 	UPROPERTY()
 	class UPlayerStatComponent* StatComponent;
+
+	UPROPERTY()
+	class UPlayerQuestComponent* QuestComponent;
 
 	UPROPERTY()
 	class UPlayerSkillComponent* SkillComponent;

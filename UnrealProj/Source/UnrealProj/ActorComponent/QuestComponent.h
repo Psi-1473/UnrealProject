@@ -21,6 +21,7 @@ protected:
 
 public:
 	int GetPossibleQuestNum() { return PossibleQuests.Num(); }
+	struct FQuestData* GetPossibleQuestDataByQuestIndex(int Index);
 	struct FQuestData* GetPossibleQuestData(int PossibleListIndex);
 public:	
 	void LoadPossibleQuest(struct FQuestData* Data);

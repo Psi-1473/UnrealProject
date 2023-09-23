@@ -22,6 +22,16 @@ void UQuestComponent::BeginPlay()
 	
 }
 
+FQuestData* UQuestComponent::GetPossibleQuestDataByQuestIndex(int Index)
+{
+	int ListIndex = PossibleQuests.Find(Index);
+	if (ListIndex == INDEX_NONE)
+		return nullptr;
+
+	FQuestData* Data = GetPossibleQuestData(ListIndex);
+	return Data;
+}
+
 FQuestData* UQuestComponent::GetPossibleQuestData(int PossibleListIndex)
 {
 	int QuestId = PossibleQuests[PossibleListIndex];
@@ -39,5 +49,13 @@ void UQuestComponent::LoadPossibleQuest(FQuestData* Data)
 
 void UQuestComponent::PossibleToOngoing(FQuestData* Data)
 {
+	int QuestId = Data->Id;
+
+	int ListIndex = PossibleQuests.Find(QuestId);
+	PossibleQuests.RemoveAt(ListIndex);
+
+	OngoingQuests.Add(QuestId);
+
+	// + 퀘스트 마크 업데이트 함수 실행
 }
 
