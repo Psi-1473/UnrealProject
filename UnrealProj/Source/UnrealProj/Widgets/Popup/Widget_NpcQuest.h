@@ -18,32 +18,21 @@ public:
 	
 public:
 	virtual void NativeConstruct() override;
-	UFUNCTION()
-	void TakeQuest();
 
-	void BindAndCreateSlot(class UQuestComponent* QuestComp);
-	void UpdateSlot();
+	void BindAndCreateSlot(TWeakObjectPtr<class ANpc> Npc);
 	void SetOwnerNpc(TWeakObjectPtr<class ANpc> Npc) { OwnerNpc = Npc; }
-	void UpdateInfo(struct FQuestData Data);
 
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UScrollBox* ScrollBox_QuestList;
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* Text_QuestTitle;
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* Text_QuestInfo;
 
-	UPROPERTY(meta = (BindWidget))
-	class UTextBlock* Text_Okay;
+
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Exit;
 
-	UPROPERTY(meta = (BindWidget))
-	class UButton* Btn_Okay;
 private:
 	UPROPERTY()
 	TWeakObjectPtr<class ANpc> OwnerNpc;

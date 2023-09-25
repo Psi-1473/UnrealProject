@@ -21,7 +21,7 @@ void UWidget_Script::NativeConstruct()
 
 void UWidget_Script::SetScript(TWeakObjectPtr<class ANpc> Npc)
 {
-	Text_Name->SetText(FText::FromString(*Npc->GetName()));
+	Text_Name->SetText(FText::FromString(*Npc->GetNpcName()));
 	Text_Script->SetText(FText::FromString(*Npc->GetDefaultLine()));
 	OwnerNpc = Npc;
 
@@ -49,7 +49,7 @@ void UWidget_Script::PopupNpcQuestWidget()
 	auto GInstance = Cast<UMyGameInstance>(OwnerNpc->GetGameInstance());
 	auto QuestUI = GInstance->GetUIMgr()->PopupUI(OwnerNpc->GetWorld(), UIType::NpcQuest);
 	auto Quest = Cast<UWidget_NpcQuest>(QuestUI);
-	Quest->BindAndCreateSlot(OwnerNpc->GetQuestComponent());
+	Quest->BindAndCreateSlot(OwnerNpc);
 	Quest->SetOwnerNpc(OwnerNpc);
 }
 

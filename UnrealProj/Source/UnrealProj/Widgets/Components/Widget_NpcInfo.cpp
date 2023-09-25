@@ -10,7 +10,7 @@
 void UWidget_NpcInfo::BindNpc(ANpc* NpcValue)
 {
 	Npc = NpcValue;
-	Text_Name->SetText(FText::FromString(NpcValue->GetName()));
+	Text_Name->SetText(FText::FromString(NpcValue->GetNpcName()));
 	UE_LOG(LogTemp, Warning, TEXT("Npc Info Bind"));
 }
 

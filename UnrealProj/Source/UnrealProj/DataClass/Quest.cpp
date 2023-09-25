@@ -5,4 +5,5 @@
 
 void UQuest::BindQuest(FQuestData* QuestData)
 {
+	// 바인드 퀘스트
 }

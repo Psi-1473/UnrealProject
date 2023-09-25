@@ -20,6 +20,10 @@ enum class UIType : uint8
 	BossHpBar,
 	NpcQuest,
 	NpcQuestSlot,
+	NpcQuestInfo,
+	Quest,
+	QuestSlot,
+	QuestInfo,
 	LineScript,
 	End,
 };

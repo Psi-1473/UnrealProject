@@ -28,29 +28,13 @@ UWidget_NpcQuest::UWidget_NpcQuest(const FObjectInitializer& ObjectInitializer) 
 void UWidget_NpcQuest::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Btn_Okay->OnClicked.AddDynamic(this, &UWidget_NpcQuest::TakeQuest);
 }
 
-void UWidget_NpcQuest::TakeQuest()
+
+void UWidget_NpcQuest::BindAndCreateSlot(TWeakObjectPtr<class ANpc> Npc)
 {
-	if (SelectedQuestId == -1)
-		return;
-
-	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	auto MyPlayer = Cast<AMyPlayer>(Char);
-
-	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
-	auto Script = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::LineScript);
-	auto ScriptUI = Cast<UWidget_LineScript>(Script);
-	ScriptUI->BindScript(GInstance->GetQuestScript(OwnerNpc->GetId(), SelectedQuestId), OwnerNpc->GetName());
-
-	MyPlayer->GetQuestComponent()->TakeNewQuest(Cast<ANpc>(OwnerNpc), SelectedQuestId);
-	UpdateSlot();
-}
-
-void UWidget_NpcQuest::BindAndCreateSlot(UQuestComponent* QuestComp)
-{
-	QuestComponent = QuestComp;
+	QuestComponent = Npc->GetQuestComponent();
+	OwnerNpc = Npc;
 	int Cnt = QuestComponent->GetPossibleQuestNum();
 	for (int i = 0; i < Cnt; i++)
 	{
@@ -58,30 +42,8 @@ void UWidget_NpcQuest::BindAndCreateSlot(UQuestComponent* QuestComp)
 		ScrollBox_QuestList->AddChild(NewSlot);
 		NewSlot->SetPadding(FMargin(20.f, 10.f, 10.f, 0.f));
 		UWidget_NpcQuestSlot* QSlot = Cast<UWidget_NpcQuestSlot>(NewSlot);
-		if (QSlot == nullptr)
-			return;
-		QSlot->Init(this, QuestComponent->GetPossibleQuestData(i));
-
+		QSlot->Init(Npc, QuestComponent->GetPossibleQuestData(i));
 		Slots.Add(NewSlot);
 	}
-
 }
 
-void UWidget_NpcQuest::UpdateSlot()
-{
-	for (int i = 0; i < Slots.Num(); i++)
-		Slots[i]->RemoveFromViewport();
-
-	Slots.Empty();
-	BindAndCreateSlot(Cast<UQuestComponent>(QuestComponent));
-	Text_QuestTitle->SetText(FText::FromString(TEXT("")));
-	Text_QuestInfo->SetText(FText::FromString(TEXT("")));
-}
-
-void UWidget_NpcQuest::UpdateInfo(FQuestData Data)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Update QuestInfo"));
-	SelectedQuestId = Data.Id;
-	Text_QuestTitle->SetText(FText::FromString(Data.Name));
-	Text_QuestInfo->SetText(FText::FromString(Data.Explanation));
-}

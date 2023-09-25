@@ -85,7 +85,7 @@ void AMyPlayer::BeginPlay()
 	SkillComponent->SetOwnerPlayer(this);
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
-
+	
 
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();

@@ -21,7 +21,7 @@ protected:
 
 public:
 	int16 GetId() { return Id; }
-	FString GetName() { return Name; }
+	FString GetNpcName() { return Name; }
 	FString GetDefaultLine() { return DefaultLine; }
 	NpcType GetNpcType() { return Type; }
 	TArray<int16> GetSwordIds() { return SwordIds; }

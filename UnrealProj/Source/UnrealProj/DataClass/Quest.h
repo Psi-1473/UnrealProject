@@ -16,6 +16,10 @@ class UNREALPROJ_API UQuest : public UObject
 	GENERATED_BODY()
 
 public:
+	FString GetQuestName() { return Name; }
+	FString GetQuestExplanation() { return Explanation; }
+
+public:
 	void BindQuest(struct FQuestData* QuestData);
 private:
 	UPROPERTY()

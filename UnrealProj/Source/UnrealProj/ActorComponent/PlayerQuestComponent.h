@@ -27,6 +27,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	TArray<class UQuest*> GetOnGoingQuests() { return OnGoingQuests; }
+
+public:
 	void TakeNewQuest(class ANpc* Npc, int32 QuestId);
 	
 	//void CheckHuntQuest(); // 사냥 퀘스트 목록을 돌면서 타겟과 일치하는 퀘스트 있나 체크

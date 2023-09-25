@@ -17,19 +17,19 @@ class UNREALPROJ_API UWidget_NpcQuestSlot : public UUserWidget
 
 public:
 	virtual void NativeConstruct() override;
-	void Init(class UWidget_NpcQuest* QWidget, struct FQuestData* QData);
-	void PopupQuestLineScript();
+	void Init(TWeakObjectPtr<class ANpc> Npc, FQuestData* NewQuestData);
+
 	UFUNCTION()
-	void UpdateQuestInfo();
+	void PopupQuestLineScript();
 private:
+	UPROPERTY()
+	TWeakObjectPtr<class ANpc> OwnerNpc;
+
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_QuestName;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_QuestName;
-
-	UPROPERTY()
-	TWeakObjectPtr<class UWidget_NpcQuest> QuestWidget;
 
 	UPROPERTY()
 	FQuestData QuestData;

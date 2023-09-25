@@ -7,6 +7,7 @@
 #include "../../MyGameInstance.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Widget_NpcQuestInfo.h"
 #include "../../DEFINE.h"
 #include "Engine/DataTable.h"
 
@@ -17,13 +18,15 @@ void UWidget_LineScript::NativeConstruct()
 	Btn_Next->OnClicked.AddDynamic(this, &UWidget_LineScript::OpenFollowingLine);
 }
 
-void UWidget_LineScript::BindScript(UDataTable* ScriptData, FString NpcName)
+void UWidget_LineScript::BindQuestScript(UMyGameInstance* GInstance, TWeakObjectPtr<ANpc> Npc, int32 BindQuestId)
 {
-	// 스크립트 연동 후, 첫 스크립트 열기
-	if(ScriptData != nullptr)
-		Script = ScriptData;
-	Text_Name->SetText(FText::FromString(NpcName));
+	OwnerNpc = Npc;
+	QuestId = BindQuestId;
 	NextPage = 1;
+
+	Script = GInstance->GetQuestScript(OwnerNpc->GetId(), QuestId);
+	Text_Name->SetText(FText::FromString(OwnerNpc->GetNpcName()));
+
 	UpdateLine(NextPage);
 }
 
@@ -33,15 +36,11 @@ void UWidget_LineScript::OpenFollowingLine()
 
 	if (NextPage > Cnt)
 	{
-		// 퀘스트 수락할 지 말 지
+		// 퀘스트 수락할 지 말 지, 나중에는 스크립트 타입 변수를 두어 타입에 따라 실행함수 바꾸기
 		auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-		if (GInstance == nullptr)
-		{
-			UE_LOG(LogTemp, Warning, TEXT("GInstance Null"));
-			return;
-		}
-
-		GInstance->GetUIMgr()->CloseUI((int)UIType::LineScript);
+		auto Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::NpcQuestInfo);
+		auto QInfo = Cast<UWidget_NpcQuestInfo>(Widget);
+		QInfo->BindQuest(GInstance, OwnerNpc, QuestId);
 	}
 	else
 	{

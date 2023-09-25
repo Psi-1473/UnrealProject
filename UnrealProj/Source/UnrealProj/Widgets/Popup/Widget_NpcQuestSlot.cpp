@@ -6,22 +6,24 @@
 #include "Components/Button.h"
 #include "Kismet/GameplayStatics.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../Creatures/Npc/Npc.h"
 #include "Widget_NpcQuest.h"
 #include "../../Managers/UIManager.h"
+#include "Widget_NpcQuestInfo.h"
+#include "Widget_LineScript.h"
 
 
 
 void UWidget_NpcQuestSlot::NativeConstruct()
 {
 	Super::NativeConstruct();
-	Btn_QuestName->OnClicked.AddDynamic(this, &UWidget_NpcQuestSlot::UpdateQuestInfo);
+	Btn_QuestName->OnClicked.AddDynamic(this, &UWidget_NpcQuestSlot::PopupQuestLineScript);
 }
 
-void UWidget_NpcQuestSlot::Init(UWidget_NpcQuest* QWidget, FQuestData* QData)
+void UWidget_NpcQuestSlot::Init(TWeakObjectPtr<class ANpc> Npc, FQuestData* NewQuestData)
 {
-	QuestWidget = QWidget;
-	QuestData = *QData;
-
+	OwnerNpc = Npc;
+	QuestData = *NewQuestData;
 	Text_QuestName->SetText(FText::FromString(QuestData.Name));
 }
 
@@ -32,13 +34,9 @@ void UWidget_NpcQuestSlot::PopupQuestLineScript()
 
 	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
 	GInstance->GetUIMgr()->CloseAllUI();
-	GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::LineScript);
+	auto Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::LineScript);
+	auto LineScript = Cast<UWidget_LineScript>(Widget);
+	LineScript->BindQuestScript(GInstance, OwnerNpc, QuestData.Id);
 	//  LineScript 바인딩
 }
 
-void UWidget_NpcQuestSlot::UpdateQuestInfo()
-{
-	// 이거 발동이 안됩니다.....
-	UE_LOG(LogTemp, Warning, TEXT("Update QuestInfo"));
-	QuestWidget->UpdateInfo(QuestData);
-}

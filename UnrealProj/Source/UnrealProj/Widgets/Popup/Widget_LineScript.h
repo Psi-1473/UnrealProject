@@ -17,7 +17,7 @@ class UNREALPROJ_API UWidget_LineScript : public UUserWidget
 public:
 	virtual void NativeConstruct() override;
 
-	void BindScript(class UDataTable* ScriptData, FString NpcName);
+	void BindQuestScript(class UMyGameInstance* GInstance, TWeakObjectPtr<class ANpc> Npc, int32 BindQuestId);
 
 	UFUNCTION()
 	void OpenFollowingLine();
@@ -25,6 +25,13 @@ public:
 private:
 	void UpdateLine(int Page);
 private:
+	// 나중에 Script Type을 추가할 것
+	// Quest Script 인지 다른지에 따라 OpenFollowingLine 종료시 실행할 함수 설정
+	UPROPERTY()
+	TWeakObjectPtr<class ANpc> OwnerNpc;
+
+	UPROPERTY()
+	int32 QuestId;
 	UPROPERTY()
 	int32 NextPage = 1;
 
@@ -40,6 +47,6 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Next;
 
-	UPROPERTY()
-	TWeakObjectPtr<class ANpc> OwnerNpc;
+	//UPROPERTY()
+	//TWeakObjectPtr<class ANpc> OwnerNpc;
 };
