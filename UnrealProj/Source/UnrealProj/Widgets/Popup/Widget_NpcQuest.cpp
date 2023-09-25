@@ -5,6 +5,7 @@
 #include "../../ActorComponent/QuestComponent.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../Creatures/Npc/Npc.h"
+#include "Widget_LineScript.h"
 #include "Components/ScrollBox.h"
 #include "Components/Button.h"
 #include "Components/TextBlock.h"
@@ -12,6 +13,9 @@
 #include "Kismet/GameplayStatics.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Creatures/Npc/Npc.h"
+#include "../../MyGameInstance.h"
+#include "../../Managers/UIManager.h"
+#include "../../DEFINE.h"
 
 UWidget_NpcQuest::UWidget_NpcQuest(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -34,6 +38,12 @@ void UWidget_NpcQuest::TakeQuest()
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
+	auto Script = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::LineScript);
+	auto ScriptUI = Cast<UWidget_LineScript>(Script);
+	ScriptUI->BindScript(GInstance->GetQuestScript(OwnerNpc->GetId(), SelectedQuestId), OwnerNpc->GetName());
+
 	MyPlayer->GetQuestComponent()->TakeNewQuest(Cast<ANpc>(OwnerNpc), SelectedQuestId);
 	UpdateSlot();
 }

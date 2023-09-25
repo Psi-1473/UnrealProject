@@ -131,8 +131,8 @@ FString UMyGameInstance::GetQuestScriptDir(int NpcId, int QuestId)
 	FString NpcStr = FString::FromInt(NpcId);
 	FString QuestStr = FString::FromInt(QuestId);
 	FString Dir = TEXT("/Script/Engine.DataTable'/Game/08_Data/Script/");
-	Dir += NpcId + TEXT("/Quest/") + QuestStr + TEXT(".") + QuestStr + TEXT("'");
-
+	// /Game/08_Data/Script/1/Quest/1.1'
+	Dir += NpcStr + TEXT("/Quest/") + QuestStr + TEXT(".") + QuestStr + TEXT("'");
 	return Dir;
 }
 

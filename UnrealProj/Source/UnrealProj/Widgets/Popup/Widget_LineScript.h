@@ -18,6 +18,8 @@ public:
 	virtual void NativeConstruct() override;
 
 	void BindScript(class UDataTable* ScriptData, FString NpcName);
+
+	UFUNCTION()
 	void OpenFollowingLine();
 	
 private:
