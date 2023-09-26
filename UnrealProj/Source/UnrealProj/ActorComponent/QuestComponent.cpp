@@ -18,8 +18,15 @@ void UQuestComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
+}
 
-	
+FQuestData* UQuestComponent::GetQuestInfoByQuestId(int QuestId)
+{
+	auto Npc = Cast<ANpc>(GetOwner());
+	auto GInstance = Cast<UMyGameInstance>(GetOwner()->GetGameInstance());
+
+	FQuestData* Data = GInstance->GetSingleQuestData(Npc->GetId(), QuestId);
+	return Data;
 }
 
 FQuestData* UQuestComponent::GetPossibleQuestDataByQuestIndex(int Index)
@@ -47,15 +54,4 @@ void UQuestComponent::LoadPossibleQuest(FQuestData* Data)
 	PossibleQuests.Add(Data->Id);
 }
 
-void UQuestComponent::PossibleToOngoing(FQuestData* Data)
-{
-	int QuestId = Data->Id;
-
-	int ListIndex = PossibleQuests.Find(QuestId);
-	PossibleQuests.RemoveAt(ListIndex);
-
-	OngoingQuests.Add(QuestId);
-
-	// + 퀘스트 마크 업데이트 함수 실행
-}
 

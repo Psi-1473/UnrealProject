@@ -5,6 +5,7 @@
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../Player/MyPlayer.h"
+#include "Kismet/GameplayStatics.h"
 #include "../../MyGameInstance.h"
 #include "../../Widgets/Popup/Widget_Script.h"
 #include "../../ActorComponent/QuestComponent.h"
@@ -14,7 +15,7 @@
 
 ANpc::ANpc()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
 	InteractBox = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractBox"));
@@ -52,6 +53,13 @@ void ANpc::BeginPlay()
 	NpcInfo->InitWidget();
 	SetNpcInfo();
 	LoadPossibleQuestData();
+	SetPlayer();
+}
+
+void ANpc::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	SetVisiblityInfoWidget();
 }
 
 void ANpc::Interact(AMyPlayer* Player)
@@ -95,6 +103,7 @@ void ANpc::SetNpcInfo()
 
 	FNpcData* Data = GInstance->GetNpcData(Id);
 	Name = Data->Name;
+	Job = Data->Job;
 	DefaultLine = Data->DefaultLine;
 
 	if (Data->Type == TEXT("Equip"))
@@ -111,6 +120,23 @@ void ANpc::SetNpcInfo()
 	NpcWidget->BindNpc(this);
 	UE_LOG(LogTemp, Warning, TEXT("Npc Id Registered! : %d, %s, %s, %d"), Id, *Name, *DefaultLine, (int)Type);
 
+	GInstance->AddNpc(Id, this);
 
+}
+
+void ANpc::SetPlayer()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	MainPlayer = MyPlayer;
+
+}
+
+void ANpc::SetVisiblityInfoWidget()
+{
+	if (GetDistanceTo(Cast<AActor>(MainPlayer)) <= 1500.f)
+		NpcInfo->SetVisibility(true);
+	else
+		NpcInfo->SetVisibility(false);
 }
 

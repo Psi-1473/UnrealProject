@@ -38,6 +38,14 @@ UMyGameInstance::UMyGameInstance()
 	QuestMgr = NewObject<UQuestManager>();
 }
 
+void UMyGameInstance::Init()
+{
+	Super::Init();
+	int NpcNum = NpcData->GetRowNames().Num() + 1;
+
+	NpcList.Init(nullptr, NpcNum);
+}
+
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
 {
 	return PlayerStats->FindRow<FMyPlayerData>(*FString::FromInt(Level), TEXT(""));

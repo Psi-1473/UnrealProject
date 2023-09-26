@@ -21,16 +21,30 @@ protected:
 
 public:
 	int GetPossibleQuestNum() { return PossibleQuests.Num(); }
+	int GetCompletableQuestNum() { return CompletableQuests.Num(); }
+
+	struct FQuestData* GetQuestInfoByQuestId(int QuestId);
 	struct FQuestData* GetPossibleQuestDataByQuestIndex(int Index);
 	struct FQuestData* GetPossibleQuestData(int PossibleListIndex);
+
+	TArray<class UQuest*> GetCompletableQuests() { return CompletableQuests; }
 public:	
 	void LoadPossibleQuest(struct FQuestData* Data);
-	void PossibleToOngoing(struct FQuestData* Data);
+
+	void RemovePossibleQuest(int QuestIndex) { PossibleQuests.Remove(QuestIndex); }
+	void RemoveOngoingQuest(class UQuest* Quest) { OngoingQuests.Remove(Quest); }
+	void RemoveCompletableQuest(class UQuest* Quest) { CompletableQuests.Remove(Quest); };
+
+	void AddPossibleQuest(int QuestIndex) { PossibleQuests.Add(QuestIndex); }
+	void AddOngoingQuest(class UQuest* Quest) { OngoingQuests.Add(Quest); }
+	void AddCompletableQuest(class UQuest* Quest) { CompletableQuests.Add(Quest); }
 		
 private:
 	// UPROPERTY ..
 	UPROPERTY()
 	TArray<int> PossibleQuests;
 	UPROPERTY()
-	TArray<int> OngoingQuests;
+	TArray<class UQuest*> OngoingQuests;
+	UPROPERTY()
+	TArray<class UQuest*> CompletableQuests;
 };

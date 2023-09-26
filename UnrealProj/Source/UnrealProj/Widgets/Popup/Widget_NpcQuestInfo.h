@@ -34,6 +34,7 @@ private:
 	UPROPERTY()
 	int32 QuestId;
 
+
 private:
 	UPROPERTY(meta = (BindWidget))
 		class UTextBlock* Text_QuestTitle;

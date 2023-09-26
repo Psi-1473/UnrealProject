@@ -16,6 +16,7 @@
 #include "../../MyGameInstance.h"
 #include "../../Managers/UIManager.h"
 #include "../../DEFINE.h"
+#include "../../DataClass/Quest.h"
 
 UWidget_NpcQuest::UWidget_NpcQuest(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -28,6 +29,7 @@ UWidget_NpcQuest::UWidget_NpcQuest(const FObjectInitializer& ObjectInitializer) 
 void UWidget_NpcQuest::NativeConstruct()
 {
 	Super::NativeConstruct();
+	Btn_Exit->OnClicked.AddDynamic(this, &UWidget_NpcQuest::CloseUI);
 }
 
 
@@ -42,8 +44,27 @@ void UWidget_NpcQuest::BindAndCreateSlot(TWeakObjectPtr<class ANpc> Npc)
 		ScrollBox_QuestList->AddChild(NewSlot);
 		NewSlot->SetPadding(FMargin(20.f, 10.f, 10.f, 0.f));
 		UWidget_NpcQuestSlot* QSlot = Cast<UWidget_NpcQuestSlot>(NewSlot);
+		QSlot->SetCompletable(false);
 		QSlot->Init(Npc, QuestComponent->GetPossibleQuestData(i));
 		Slots.Add(NewSlot);
 	}
+
+	Cnt = QuestComponent->GetCompletableQuestNum();
+	for (int i = 0; i < Cnt; i++)
+	{
+		UUserWidget* NewSlot = CreateWidget(GetWorld(), BP_Slot);
+		ScrollBox_QuestList->AddChild(NewSlot);
+		NewSlot->SetPadding(FMargin(20.f, 10.f, 10.f, 0.f));
+		UWidget_NpcQuestSlot* QSlot = Cast<UWidget_NpcQuestSlot>(NewSlot);
+		QSlot->SetCompletable(true);
+		QSlot->Init(Npc, QuestComponent->GetCompletableQuests()[i]);
+		Slots.Add(NewSlot);
+	}
+}
+
+void UWidget_NpcQuest::CloseUI()
+{
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	GInstance->GetUIMgr()->CloseUI((int)UIType::NpcQuest);
 }
 

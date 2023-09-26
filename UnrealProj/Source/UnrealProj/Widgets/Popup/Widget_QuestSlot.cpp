@@ -4,6 +4,7 @@
 #include "Widget_QuestSlot.h"
 #include "Components/TextBlock.h"
 #include "Components/Button.h"
+#include "Components/Image.h"
 #include "../../DataClass/Quest.h"
 #include "../../MyGameInstance.h"
 #include "../../Managers/UIManager.h"
@@ -22,6 +23,9 @@ void UWidget_QuestSlot::SetInfo(TWeakObjectPtr<UWidget_Quest> Widget, UQuest* Qu
 	QuestWidget = Widget;
 	Quest = QuestData;
 	Text_QuestName->SetText(FText::FromString(*QuestData->GetQuestName()));
+
+	if (bCompletable == false)
+		Img_ClearMark->SetVisibility(ESlateVisibility::Hidden);
 }
 
 void UWidget_QuestSlot::PopupQuestInfoUI()

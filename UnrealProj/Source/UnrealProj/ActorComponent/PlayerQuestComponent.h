@@ -28,6 +28,7 @@ protected:
 
 public:
 	TArray<class UQuest*> GetOnGoingQuests() { return OnGoingQuests; }
+	TArray<class UQuest*> GetCompletableQuests() { return CompletableQuests; }
 
 public:
 	void TakeNewQuest(class ANpc* Npc, int32 QuestId);
@@ -40,7 +41,8 @@ public:
 	// 위 4개의 함수는 플레이어가 몬스터를 잡을 때, 아이템을 획득할 때, 조사를 진행할 때 등의 상황에서
 	// 계속 실행되도록 한다. (delegate를 사용해도 좋고 그냥 함수 호출을 해도 좋음)
 
-	//void ClearQuest(class UQuest* Quest); 
+	void ClearQuest(class UQuest* Quest);
+	void OnGoingToCompletable(class UQuest* Quest);
 	// 위 4개의 함수를 통해 퀘스트 타겟 넘버를 갱신하고 완료 조건을 달성해면 이 함수를 실행시켜
 	// 완료가능 퀘스트로 바꿔준다.
 private:

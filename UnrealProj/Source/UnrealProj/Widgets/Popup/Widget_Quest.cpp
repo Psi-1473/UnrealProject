@@ -31,11 +31,21 @@ void UWidget_Quest::NativeConstruct()
 
 void UWidget_Quest::CreateSlot(UPlayerQuestComponent* QuestComponent)
 {
+	for (int i = 0; i < QuestComponent->GetCompletableQuests().Num(); i++)
+	{
+		UUserWidget* NewSlot = CreateWidget(GetWorld(), BP_Slot);
+		ScrollBox_QuestList->AddChild(NewSlot);
+		UWidget_QuestSlot* QSlot = Cast<UWidget_QuestSlot>(NewSlot);
+		QSlot->SetCompletable(true);
+		QSlot->SetInfo(this, QuestComponent->GetCompletableQuests()[i]);
+	}
+
 	for (int i = 0; i < QuestComponent->GetOnGoingQuests().Num(); i++)
 	{
 		UUserWidget* NewSlot = CreateWidget(GetWorld(), BP_Slot);
 		ScrollBox_QuestList->AddChild(NewSlot);
 		UWidget_QuestSlot* QSlot = Cast<UWidget_QuestSlot>(NewSlot);
+		QSlot->SetCompletable(false);
 		QSlot->SetInfo(this, QuestComponent->GetOnGoingQuests()[i]);
 	}
 }

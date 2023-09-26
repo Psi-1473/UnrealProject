@@ -27,7 +27,6 @@ void UWidget_NpcQuestInfo::TakeQuest()
 	MyPlayer->GetQuestComponent()->TakeNewQuest(Cast<ANpc>(OwnerNpc), QuestId);
 
 	ResetUI();
-
 }
 
 void UWidget_NpcQuestInfo::RefuseQuest()

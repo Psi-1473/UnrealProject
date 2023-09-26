@@ -69,6 +69,9 @@ struct FNpcData : public FTableRowBase
 	int32 Id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Job;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -156,6 +159,15 @@ struct FQuestData : public FTableRowBase
 	int32 Id;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 QuestType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 QuestLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString PossibleLevel;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -175,6 +187,12 @@ struct FQuestData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ClearNpcId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 NextQuestNpcId;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 NextQuestId;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanLoad;
@@ -205,6 +223,8 @@ class UNREALPROJ_API UMyGameInstance : public UGameInstance
 public:
 	UMyGameInstance();
 
+	virtual void Init() override;
+
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(FString Name);
 	FNpcData* GetNpcData(int32 Id);
@@ -228,6 +248,10 @@ public:
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 
+public:
+	TArray<class ANpc*> GetNpcList() { return NpcList; }
+
+	void AddNpc(int32 Index, class ANpc* Npc) { NpcList[Index] = Npc; }
 private:
 	UPROPERTY()
 	class UDataTable* PlayerStats;
@@ -275,4 +299,8 @@ private:
 
 	UPROPERTY()
 	class UQuestManager* QuestMgr;
+
+private:
+	UPROPERTY()
+	TArray<class ANpc*> NpcList;
 };

@@ -15,6 +15,7 @@ class UNREALPROJ_API UWidget_QuestSlot : public UUserWidget
 	GENERATED_BODY()
 public:
 	virtual void NativeConstruct() override;
+	void SetCompletable(bool Value) { bCompletable = Value; }
 	void SetInfo(TWeakObjectPtr<class UWidget_Quest> Widget, class UQuest* QuestData);
 
 	UFUNCTION()
@@ -30,6 +31,12 @@ private:
 	UPROPERTY(meta = (BindWidget))
 		class UButton* Btn_QuestName;
 
+	UPROPERTY(meta = (BindWidget))
+		class UImage* Img_ClearMark;
+
 	UPROPERTY()
 	class UQuest* Quest;
+
+	UPROPERTY()
+	bool bCompletable;
 };

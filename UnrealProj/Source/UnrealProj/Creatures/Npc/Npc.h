@@ -18,10 +18,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 public:
 	int16 GetId() { return Id; }
 	FString GetNpcName() { return Name; }
+	FString GetNpcJob() { return Job; }
 	FString GetDefaultLine() { return DefaultLine; }
 	NpcType GetNpcType() { return Type; }
 	TArray<int16> GetSwordIds() { return SwordIds; }
@@ -36,12 +38,17 @@ public:
 private:
 	void GetIdFromActor();
 	void SetNpcInfo();
+	void SetPlayer();
+	void SetVisiblityInfoWidget();
 
 protected:
 	NpcType Type;
 
 	UPROPERTY()
 	int16 Id;
+
+	UPROPERTY()
+	FString Job;
 
 	UPROPERTY()
 	FString Name;
@@ -64,6 +71,8 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UWidgetComponent* NpcInfo;
 	
+	UPROPERTY()
+	TWeakObjectPtr<class AMyPlayer> MainPlayer;
 
 protected:
 	UPROPERTY(EditAnywhere)

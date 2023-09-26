@@ -14,6 +14,8 @@ class UNREALPROJ_API UWidget_NpcInfo : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	UWidget_NpcInfo(const FObjectInitializer& ObjectInitializer);
+
 	void BindNpc(class ANpc* NpcValue);
 	void UpdateQuestMark();
 private:
@@ -28,4 +30,10 @@ private:
 
 	UPROPERTY()
 	TWeakObjectPtr<class ANpc> Npc;
+
+	UPROPERTY()
+	class UTexture2D* PossibleMark;
+
+	UPROPERTY()
+	class UTexture2D* CompletableMark;
 };

@@ -22,13 +22,11 @@ public:
 	void BindAndCreateSlot(TWeakObjectPtr<class ANpc> Npc);
 	void SetOwnerNpc(TWeakObjectPtr<class ANpc> Npc) { OwnerNpc = Npc; }
 
+	UFUNCTION()
+	void CloseUI();
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UScrollBox* ScrollBox_QuestList;
-
-
-
-
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Exit;
