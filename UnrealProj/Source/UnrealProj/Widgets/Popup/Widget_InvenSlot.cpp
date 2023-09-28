@@ -42,8 +42,13 @@ FReply UWidget_InvenSlot::NativeOnMouseButtonDoubleClick(const FGeometry& InGeom
 		SlotItem->UseItem();
 		auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 		auto MyPlayer = Cast<AMyPlayer>(Char);
-		InvenWidget->SetEquipWeaponImage(SlotItem->GetItemImage(MyPlayer->GetInstance()));
-		InvenWidget->UpdateSlotInfo();
+
+		auto Weapon = Cast<AWeapon>(SlotItem);
+		if (Weapon)
+		{
+			InvenWidget->SetEquipWeaponImage(SlotItem->GetItemImage(MyPlayer->GetInstance()));
+			InvenWidget->UpdateSlotInfo();
+		}
 	}
 
 	return Reply.NativeReply;

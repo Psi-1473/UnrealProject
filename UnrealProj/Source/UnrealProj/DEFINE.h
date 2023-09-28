@@ -75,6 +75,7 @@ enum class AttackType : uint8
 UENUM(BlueprintType)
 enum class QuestLevel : uint8
 {
+	NONE,
 	MAIN,
 	SUB,
 };
@@ -89,6 +90,19 @@ enum QuestType
 	QUEST_INVESTIGATE,
 };
 
+enum EctQuestType
+{
+	ETC_EMPTY,
+	ETC_QUICKSLOT,
+
+};
+enum QuestItemType
+{
+	QITEM_NONE,
+	QITEM_EQUIP,
+	QITEM_USE,
+	QITEM_ETC,
+};
 enum ItemType
 {
 	ITEM_SWORD,

@@ -1882,6 +1882,12 @@
       "url": "https://json.schemastore.org/golangci-lint.json"
     },
     {
+      "name": "go-feature-flag Flag Configuration",
+      "description": "go-feature-flag flag configuration file",
+      "fileMatch": ["*.goff.yml", "*.goff.yaml", "*.goff.json", "*.goff.toml"],
+      "url": "https://raw.githubusercontent.com/thomaspoignant/go-feature-flag/main/.schema/flag-schema.json"
+    },
+    {
       "name": "Goreleaser",
       "description": "Goreleaser configuration file",
       "fileMatch": [
@@ -2147,6 +2153,12 @@
       "url": "https://raw.githubusercontent.com/sergxerj/jdownloader2-crawler-rule-json-schema/main/jd2mcr.schema.json"
     },
     {
+      "name": "JFrog Applications Config",
+      "description": "Refines JFrog Advanced Security scans behavior",
+      "fileMatch": ["jfrog-apps-config.yml"],
+      "url": "https://raw.githubusercontent.com/jfrog/jfrog-apps-config/main/schema.json"
+    },
+    {
       "name": "JFrog File Spec",
       "description": "JFrog File Spec",
       "fileMatch": ["**/filespecs/*.json", "*filespec*.json", "*.filespec"],
@@ -2405,7 +2417,7 @@
     },
     {
       "name": "lsdlschema.json",
-      "description": "Linguistic Language files",
+      "description": "Power BI linguistic schema definition",
       "fileMatch": ["*.lsdl.yaml", "*.lsdl.json"],
       "url": "https://json.schemastore.org/lsdlschema.json"
     },
@@ -5299,6 +5311,17 @@
       "description": "Goblet serverless framework config",
       "url": "https://raw.githubusercontent.com/goblet/goblet/main/goblet.schema.json",
       "fileMatch": ["**/.goblet/config.json"]
+    },
+    {
+      "name": "Databricks Asset Bundles",
+      "description": "Databricks Asset Bundles config",
+      "url": "https://json.schemastore.org/databricks-asset-bundles.json",
+      "fileMatch": ["**/.databricks.yml"]
+    },
+    {
+      "name": "JSON Schema Draft 7 (unofficial strict)",
+      "description": "Meta-validation JSON Schema Draft 7 (unofficial strict)",
+      "url": "https://json.schemastore.org/metaschema-draft-07-unofficial-strict.json"
     }
   ],
   "version": 1

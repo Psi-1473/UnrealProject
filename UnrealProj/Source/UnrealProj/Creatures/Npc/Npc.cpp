@@ -52,7 +52,10 @@ void ANpc::BeginPlay()
 	AActor::BeginPlay();
 	NpcInfo->InitWidget();
 	SetNpcInfo();
-	LoadPossibleQuestData();
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+	LoadPossibleQuestData(MyPlayer);
 	SetPlayer();
 }
 
@@ -71,10 +74,10 @@ void ANpc::Interact(AMyPlayer* Player)
 		Script->SetScript(this);
 }
 
-void ANpc::LoadPossibleQuestData()
+void ANpc::LoadPossibleQuestData(AMyPlayer* Player)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
-	GInstance->GetQuestMgr()->LoadNpcQuest(this);
+	GInstance->GetQuestMgr()->LoadNpcQuest(this, Player);
 	UpdateQuestMark();
 }
 

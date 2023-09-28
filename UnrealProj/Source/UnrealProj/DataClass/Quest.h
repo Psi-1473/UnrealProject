@@ -18,6 +18,7 @@ class UNREALPROJ_API UQuest : public UObject
 public:
 	class ANpc* GetStartNpc() { return StartNpc; }
 	class ANpc* GetClearNpc() { return ClearNpc; }
+	class ANpc* GetNextNpc() { return NextNpc; }
 	FString GetQuestName() { return Name; }
 	FString GetQuestExplanation() { return Explanation; }
 
@@ -25,6 +26,12 @@ public:
 	int32 GetNpcId() { return NpcId; }
 	int32 GetNextNpcId() { return NextNpcId; }
 	int32 GetNextQuestId() { return NextQuestId; }
+	int32 GetTargetId() { return TargetId; }
+	int32 GetTargetNowNum() { return TargetNowNum; }
+	int32 GetTargetMaxNum() { return TargetMaxNum; }
+	int32 GetTargetType() { return TargetType; }
+
+	void AddNowNum() { TargetNowNum++; }
 
 public:
 	void BindQuest(class UMyGameInstance* GInstance, struct FQuestData* QuestData);
@@ -51,6 +58,9 @@ private:
 	int32 TargetId;
 
 	UPROPERTY()
+	int32 TargetType;
+
+	UPROPERTY()
 	int32 TargetMaxNum;
 
 	UPROPERTY()
@@ -66,6 +76,9 @@ private:
 
 	UPROPERTY()
 	class ANpc* ClearNpc;
+
+	UPROPERTY()
+	class ANpc* NextNpc;
 
 	
 

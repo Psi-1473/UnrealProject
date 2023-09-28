@@ -23,9 +23,9 @@ void AUseItem::UseItem()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Item Use %d, %d"), UseType, Amount);
 
-
-	SetCount(Count - 1);
 	auto MyPlayer = Cast<AMyPlayer>(Owner);
+	SetCount(Count - 1);
+
 	
 	switch (UseType)
 	{
@@ -70,7 +70,8 @@ void AUseItem::SetCount(int Value)
 	if (Count == 0)
 	{
 		Inventory->EmptySlot(Inventory->GetUseItems(), SlotIndex);
-		Widget->EmptyItemSlot(QuickSlotIndex);
+		if (QuickSlotIndex != -1)
+			Widget->EmptyItemSlot(QuickSlotIndex);
 	}
 
 	if (QuickSlotIndex != -1)

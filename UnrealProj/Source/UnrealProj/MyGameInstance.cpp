@@ -4,6 +4,7 @@
 #include "MyGameInstance.h"
 #include "Managers/ScriptManager.h"
 #include "Managers/QuestManager.h"
+#include "Creatures/Player/MyPlayer.h"
 
 
 UMyGameInstance::UMyGameInstance()
@@ -44,6 +45,7 @@ void UMyGameInstance::Init()
 	int NpcNum = NpcData->GetRowNames().Num() + 1;
 
 	NpcList.Init(nullptr, NpcNum);
+	QuestMgr->InitCompletedList(NpcNum);
 }
 
 FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
@@ -131,6 +133,11 @@ UDataTable* UMyGameInstance::GetQuestScript(int NpcId, int QuestId)
 	UDataTable* DataTable = LoadObject<UDataTable>(NULL, *GetQuestScriptDir(NpcId, QuestId), NULL, LOAD_None, NULL);
 
 	return DataTable;
+}
+
+void UMyGameInstance::CheckQuest(int QuestType, int TargetId, TWeakObjectPtr<AMyPlayer> Player, int TargetType)
+{
+	QuestMgr->CheckQuestTarget(QuestType, TargetId, Player, TargetType);
 }
 
 FString UMyGameInstance::GetQuestScriptDir(int NpcId, int QuestId)

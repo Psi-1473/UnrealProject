@@ -165,7 +165,7 @@ struct FQuestData : public FTableRowBase
 	int32 QuestLevel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString PossibleLevel;
+	int32 PossibleLevel;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name;
@@ -252,6 +252,9 @@ public:
 	TArray<class ANpc*> GetNpcList() { return NpcList; }
 
 	void AddNpc(int32 Index, class ANpc* Npc) { NpcList[Index] = Npc; }
+
+public:
+	void CheckQuest(int QuestType, int TargetId, TWeakObjectPtr<class AMyPlayer> Player, int TargetType = 0);
 private:
 	UPROPERTY()
 	class UDataTable* PlayerStats;

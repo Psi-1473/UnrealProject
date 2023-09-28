@@ -8,6 +8,7 @@
 #include "../Skills/Player/PlayerSkill.h"
 #include "../Skills/Components/PlayerSkillComponent.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "../MyGameInstance.h"
 #include "Components/ProgressBar.h"
 #include "Popup/Widget_InvenSlot.h"
 #include "Widget_PlayerMain.h"
@@ -70,6 +71,9 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill Droped"));
 			SetSkill(DragOper->Skill);
 			// 키에 스킬 등록
+
+			auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+			GInstance->CheckQuest(QUEST_ETC, ETC_QUICKSLOT, DragOper->Skill->GetOwnerPlayer());
 			QuickSkill->GetOwnerPlayer()->GetSkillComponent()->RegisterSkill(QuickSlotIndex, QuickSkill);
 			return true;
 		}
@@ -77,9 +81,10 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		{
 			// 퀵슬롯끼리 스왑
 			MainWidget->SwapSkillQuickSlot(QuickSkill->GetOwnerPlayer()->GetSkillComponent(), DragOper->SlotIndex, QuickSlotIndex);
-
 			return true;
 		}
+
+
 	}
 	else
 	{
@@ -104,6 +109,8 @@ void UWidget_SkillQuick::SetSkill(UPlayerSkill* Skill)
 {
 	QuickSkill = Skill;
 	if (QuickSkill == nullptr) return;
+
+	// 여기서 실행
 	SetImage();
 }
 

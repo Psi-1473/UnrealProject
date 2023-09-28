@@ -39,10 +39,13 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 {
 	UE_LOG(LogTemp, Warning, TEXT("GainNewItem"));
 	AItem* NewItem;
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+
 	if (IType == ItemType::ITEM_USE)
 	{
 		NewItem = CreateUseItem(Id);
 		GainNewUseItem(NewItem, SlotIndex);
+		GInstance->CheckQuest(QUEST_ITEM, Id, OwnerPlayer, (int)QITEM_USE);
 	}
 	else //무기
 	{
@@ -52,11 +55,15 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_ARROW);
 
 		GainNewWeapon(NewItem, SlotIndex);
+		GInstance->CheckQuest(QUEST_ITEM, Id, OwnerPlayer, (int)QITEM_EQUIP);
 	}
-
+	// 기타 아이템도 추가할 것
 	NewItem->SetInventory(this);
 	NewItem->SetCount(1);
 	NewItem->SetOwner(Cast<AActor>(OwnerPlayer));
+
+	
+	
 }
 
 

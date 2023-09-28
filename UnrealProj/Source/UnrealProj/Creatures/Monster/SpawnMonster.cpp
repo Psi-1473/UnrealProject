@@ -14,6 +14,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/DamageEvents.h"
 #include "../../Helpers/AttackChecker.h"
+#include "../../MyGameInstance.h"
 
 ASpawnMonster::ASpawnMonster()
 {
@@ -101,6 +102,9 @@ void ASpawnMonster::Die(AMyPlayer* Player)
 
 	Player->GetStatComponent()->AddExp(StatComponent->GetExp());
 	Player->GetInventory()->AddGold(StatComponent->GetGold());
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->CheckQuest(QUEST_HUNT, StatComponent->GetId(), Player);
+
 }
 
 void ASpawnMonster::DestroyObject()

@@ -7,6 +7,7 @@
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "../Managers/QuestManager.h"
 
 UPlayerStatComponent::UPlayerStatComponent()
 {
@@ -16,7 +17,6 @@ UPlayerStatComponent::UPlayerStatComponent()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> LevelEffect(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_UltHitWorld_WaterImpact.P_Sparrow_UltHitWorld_WaterImpact'"));
 	if (LevelEffect.Succeeded())
 		LevelUpEffect = LevelEffect.Object;
-	
 }
 
 
@@ -66,11 +66,12 @@ void UPlayerStatComponent::AddExp(int32 Value)
 	{
 		ExpToAdd = Exp - MaxExp;
 		//TEMP
+		auto MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 		auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 		auto MyPlayer = Cast<AMyPlayer>(Char);
 		UGameplayStatics::SpawnEmitterAtLocation(MyPlayer->GetWorld(), LevelUpEffect, MyPlayer->GetActorLocation()); //Temp
-
 		SetLevel(Level + 1);
+		MyGameInstance->GetQuestMgr()->LoadNpcQuestByLevelUp(MyPlayer);
 	}
 	else ExpToAdd = Exp;
 

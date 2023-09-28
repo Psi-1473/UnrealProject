@@ -53,5 +53,3 @@ void UQuestComponent::LoadPossibleQuest(FQuestData* Data)
 	UE_LOG(LogTemp, Warning, TEXT("QUEST LOADED!"));
 	PossibleQuests.Add(Data->Id);
 }
-
-

@@ -33,7 +33,7 @@ public:
 	class UQuestComponent* GetQuestComponent() { return QuestComponent; }
 public:
 	virtual void Interact(class AMyPlayer* Player) override;
-	void LoadPossibleQuestData();
+	void LoadPossibleQuestData(class AMyPlayer* Player);
 	void UpdateQuestMark();
 private:
 	void GetIdFromActor();
