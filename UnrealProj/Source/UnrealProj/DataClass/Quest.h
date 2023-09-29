@@ -23,6 +23,7 @@ public:
 	FString GetQuestExplanation() { return Explanation; }
 
 	int32 GetQuestId() { return QuestId; }
+	int32 GetQuestLevel(){ return QuestLevel; }
 	int32 GetNpcId() { return NpcId; }
 	int32 GetNextNpcId() { return NextNpcId; }
 	int32 GetNextQuestId() { return NextQuestId; }

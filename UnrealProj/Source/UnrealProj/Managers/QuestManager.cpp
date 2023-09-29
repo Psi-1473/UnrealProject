@@ -26,6 +26,9 @@ void UQuestManager::LoadNpcQuest(ANpc* Npc, AMyPlayer* Player)
 		FQuestData* QData = Table->FindRow<FQuestData>(*FString::FromInt(i + 1), TEXT(""));
 		if (QData->CanLoad == false) continue; // 플레이어 레벨로 수정
 		if (Player->GetStatComponent()->GetLevel() < QData->PossibleLevel) continue;
+		// if 이미 불러온 퀘스트면 continue;
+
+
 		UE_LOG(LogTemp, Warning, TEXT("Cand Load True : %d"), CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id));
 
 		if (CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id) != INDEX_NONE)

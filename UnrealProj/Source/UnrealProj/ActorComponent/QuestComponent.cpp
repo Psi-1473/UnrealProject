@@ -4,6 +4,8 @@
 #include "QuestComponent.h"
 #include "../MyGameInstance.h"
 #include "../Creatures/Npc/Npc.h"
+#include "../DEFINE.h"
+#include "../DataClass/Quest.h"
 
 UQuestComponent::UQuestComponent()
 {
@@ -17,7 +19,8 @@ UQuestComponent::UQuestComponent()
 void UQuestComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	MainPossibleNumber = 0;
+	MainCompletableNumber = 0;
 }
 
 FQuestData* UQuestComponent::GetQuestInfoByQuestId(int QuestId)
@@ -44,7 +47,6 @@ FQuestData* UQuestComponent::GetPossibleQuestData(int PossibleListIndex)
 	int QuestId = PossibleQuests[PossibleListIndex];
 	auto Npc = Cast<ANpc>(GetOwner());
 	auto GInstance = Cast<UMyGameInstance>(GetOwner()->GetGameInstance());
-	GInstance->GetSingleQuestData(Npc->GetId(), QuestId);
 	return GInstance->GetSingleQuestData(Npc->GetId(), QuestId);
 }
 
@@ -52,4 +54,54 @@ void UQuestComponent::LoadPossibleQuest(FQuestData* Data)
 {
 	UE_LOG(LogTemp, Warning, TEXT("QUEST LOADED!"));
 	PossibleQuests.Add(Data->Id);
+
+	if (Data->QuestLevel == (int)QuestLevel::MAIN)
+		MainPossibleNumber++;
+}
+
+void UQuestComponent::RemovePossibleQuest(int QuestId)
+{
+	PossibleQuests.Remove(QuestId);
+	auto Npc = Cast<ANpc>(GetOwner());
+	auto GInstance = Cast<UMyGameInstance>(GetOwner()->GetGameInstance());
+	FQuestData* Data = GInstance->GetSingleQuestData(Npc->GetId(), QuestId);
+
+	if (Data->QuestLevel == (int)QuestLevel::MAIN)
+		MainPossibleNumber--;
+}
+
+void UQuestComponent::RemoveOngoingQuest(UQuest* Quest)
+{
+	OngoingQuests.Remove(Quest);
+}
+
+void UQuestComponent::RemoveCompletableQuest(UQuest* Quest)
+{
+	CompletableQuests.Remove(Quest);
+	if (Quest->GetQuestLevel() == (int)QuestLevel::MAIN)
+		MainCompletableNumber--;
+}
+
+void UQuestComponent::AddPossibleQuest(int QuestId)
+{
+	PossibleQuests.Add(QuestId);
+	auto Npc = Cast<ANpc>(GetOwner());
+	auto GInstance = Cast<UMyGameInstance>(GetOwner()->GetGameInstance());
+	FQuestData* Data = GInstance->GetSingleQuestData(Npc->GetId(), QuestId);
+
+	if(Data->QuestLevel == (int)QuestLevel::MAIN)
+		MainPossibleNumber++;
+}
+
+void UQuestComponent::AddOngoingQuest(UQuest* Quest)
+{
+	OngoingQuests.Add(Quest);
+}
+
+void UQuestComponent::AddCompletableQuest(UQuest* Quest)
+{
+	CompletableQuests.Add(Quest);
+
+	if (Quest->GetQuestLevel() == (int)QuestLevel::MAIN)
+		MainCompletableNumber++;
 }

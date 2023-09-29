@@ -33,17 +33,23 @@ void UWidget_NpcInfo::UpdateQuestMark()
 		Img_QuestMark->SetVisibility(ESlateVisibility::Visible);
 		// 퀘스트 마크 - 완료가능
 		Img_QuestMark->SetBrushFromTexture(CompletableMark);
+		if (Npc->GetQuestComponent()->GetMainCompletableNumber() > 0)
+			Img_QuestMark->SetBrushTintColor(FSlateColor(FColor::Green));
+		else
+			Img_QuestMark->SetBrushTintColor(FSlateColor(FColor::Yellow));
 	}
 	else if (PossibleQuestNum > 0)
 	{
 		Img_QuestMark->SetVisibility(ESlateVisibility::Visible);
 		// 퀘스트 마크 - 시작 가능
 		Img_QuestMark->SetBrushFromTexture(PossibleMark);
+		if (Npc->GetQuestComponent()->GetMainPossibleNumber() > 0)
+			Img_QuestMark->SetBrushTintColor(FSlateColor(FColor::Green));
+		else
+			Img_QuestMark->SetBrushTintColor(FSlateColor(FColor::Yellow));
 	}
 	else
 	{
 		Img_QuestMark->SetVisibility(ESlateVisibility::Hidden);
-		// 퀘스트 마크 지우기
-
 	}
 }

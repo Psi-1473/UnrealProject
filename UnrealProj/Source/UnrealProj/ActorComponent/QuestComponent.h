@@ -22,6 +22,10 @@ protected:
 public:
 	int GetPossibleQuestNum() { return PossibleQuests.Num(); }
 	int GetCompletableQuestNum() { return CompletableQuests.Num(); }
+	int32 GetMainPossibleNumber() { return MainPossibleNumber; }
+	int32 GetMainCompletableNumber() { return MainCompletableNumber; }
+
+	void DecreaseMainCompletableNumber() { MainCompletableNumber--; }
 
 	struct FQuestData* GetQuestInfoByQuestId(int QuestId);
 	struct FQuestData* GetPossibleQuestDataByQuestIndex(int Index);
@@ -31,16 +35,23 @@ public:
 public:	
 	void LoadPossibleQuest(struct FQuestData* Data);
 
-	void RemovePossibleQuest(int QuestIndex) { PossibleQuests.Remove(QuestIndex); }
-	void RemoveOngoingQuest(class UQuest* Quest) { OngoingQuests.Remove(Quest); }
-	void RemoveCompletableQuest(class UQuest* Quest) { CompletableQuests.Remove(Quest); };
+	void RemovePossibleQuest(int QuestId);
+	void RemoveOngoingQuest(class UQuest* Quest);
+	void RemoveCompletableQuest(class UQuest* Quest);
 
-	void AddPossibleQuest(int QuestIndex) { PossibleQuests.Add(QuestIndex); }
-	void AddOngoingQuest(class UQuest* Quest) { OngoingQuests.Add(Quest); }
-	void AddCompletableQuest(class UQuest* Quest) { CompletableQuests.Add(Quest); }
+	void AddPossibleQuest(int QuestId);
+	void AddOngoingQuest(class UQuest* Quest);
+	void AddCompletableQuest(class UQuest* Quest);
 		
 private:
+
 	// UPROPERTY ..
+	UPROPERTY()
+	int32 MainPossibleNumber;
+
+	UPROPERTY()
+	int32 MainCompletableNumber;
+
 	UPROPERTY()
 	TArray<int> PossibleQuests;
 	UPROPERTY()

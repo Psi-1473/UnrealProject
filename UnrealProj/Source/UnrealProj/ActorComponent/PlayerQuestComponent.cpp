@@ -193,6 +193,7 @@ void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 
 	GInstance->GetQuestMgr()->LoadNpcQuest(Quest->GetNextNpc(), NextQuestId);
 	Quest->GetNextNpc()->UpdateQuestMark();
+	//Quest->GetClearNpc()->GetQuestComponent()->DecreaseMainCompletableNumber();
 	Quest->GetClearNpc()->UpdateQuestMark();
 }
 
