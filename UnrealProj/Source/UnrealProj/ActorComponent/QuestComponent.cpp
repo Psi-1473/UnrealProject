@@ -10,8 +10,6 @@
 UQuestComponent::UQuestComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
-
-	
 }
 
 
@@ -51,7 +49,16 @@ FQuestData* UQuestComponent::GetPossibleQuestData(int PossibleListIndex)
 }
 
 void UQuestComponent::LoadPossibleQuest(FQuestData* Data)
-{
+{	
+	if(PossibleQuests.Find(Data->Id) != INDEX_NONE)
+		return;
+
+	if(IsQuestInOnGoing(Data->Id))
+		return;
+
+	if (IsQuestInCompletable(Data->Id))
+		return;
+
 	UE_LOG(LogTemp, Warning, TEXT("QUEST LOADED!"));
 	PossibleQuests.Add(Data->Id);
 
@@ -104,4 +111,24 @@ void UQuestComponent::AddCompletableQuest(UQuest* Quest)
 
 	if (Quest->GetQuestLevel() == (int)QuestLevel::MAIN)
 		MainCompletableNumber++;
+}
+
+bool UQuestComponent::IsQuestInOnGoing(int Id)
+{
+	for (int i = 0; i < OngoingQuests.Num(); i++)
+	{
+		if(OngoingQuests[i]->GetQuestId() == Id)
+			return true;
+	}
+	return false;
+}
+
+bool UQuestComponent::IsQuestInCompletable(int Id)
+{
+	for (int i = 0; i < CompletableQuests.Num(); i++)
+	{
+		if (CompletableQuests[i]->GetQuestId() == Id)
+			return true;
+	}
+	return false;
 }

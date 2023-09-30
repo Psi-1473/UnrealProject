@@ -21,7 +21,9 @@ public:
 	class ANpc* GetNextNpc() { return NextNpc; }
 	FString GetQuestName() { return Name; }
 	FString GetQuestExplanation() { return Explanation; }
+	FString GetTargetName(int QType, int TargetId, int TargetType = 0);
 
+	int32 GetQuestType() {return Type;}
 	int32 GetQuestId() { return QuestId; }
 	int32 GetQuestLevel(){ return QuestLevel; }
 	int32 GetNpcId() { return NpcId; }
@@ -81,6 +83,8 @@ private:
 	UPROPERTY()
 	class ANpc* NextNpc;
 
+	UPROPERTY()
+	TWeakObjectPtr<class UMyGameInstance> GameInstance;
 	
 
 	

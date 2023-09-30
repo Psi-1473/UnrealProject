@@ -41,7 +41,7 @@ FString UMonsterAnimInstance::GetMontageDir(FString MontageType)
 	if (MyPawn == nullptr)
 		return TEXT("");
 
-	FString MyName = MyPawn->GetObjectName();
+	FString MyName = FString::FromInt(MyPawn->GetObjectId());
 	FString Dir = TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/");
 	FString MontageName = TEXT("AM_") + MyName + TEXT("_") + MontageType;
 	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");

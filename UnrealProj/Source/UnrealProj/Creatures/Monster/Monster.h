@@ -25,7 +25,7 @@ public:
 	virtual void Tick(float DeltaTime);
 
 
-	FString GetObjectName();
+	int GetObjectId();
 	bool GetDeath() { return bDeath; }
 
 	class UAudioComponent* GetAudioComponent() { return AudioComponent; }

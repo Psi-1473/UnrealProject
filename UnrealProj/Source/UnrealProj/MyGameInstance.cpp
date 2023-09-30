@@ -53,9 +53,9 @@ FMyPlayerData* UMyGameInstance::GetPlayerStat(int32 Level)
 	return PlayerStats->FindRow<FMyPlayerData>(*FString::FromInt(Level), TEXT(""));
 }
 
-FMonsterData* UMyGameInstance::GetMonsterStat(FString Name)
+FMonsterData* UMyGameInstance::GetMonsterStat(int32 Id)
 {
-	return MonsterStats->FindRow<FMonsterData>(*Name, TEXT(""));
+	return MonsterStats->FindRow<FMonsterData>(*FString::FromInt(Id), TEXT(""));
 }
 
 FNpcData* UMyGameInstance::GetNpcData(int32 Id)

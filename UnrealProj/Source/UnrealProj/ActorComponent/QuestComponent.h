@@ -42,6 +42,11 @@ public:
 	void AddPossibleQuest(int QuestId);
 	void AddOngoingQuest(class UQuest* Quest);
 	void AddCompletableQuest(class UQuest* Quest);
+
+private:
+	bool IsQuestInOnGoing(int Id);
+	bool IsQuestInCompletable(int Id);
+
 		
 private:
 

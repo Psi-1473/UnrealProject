@@ -40,4 +40,13 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_QuestInfo;
 
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_TargetMaxNum;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_TargetNowNum;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_TargetName;
+
 };

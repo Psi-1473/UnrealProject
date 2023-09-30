@@ -5,11 +5,12 @@
 #include "../../Creatures/Monster/BossMonster.h"
 #include "../../Skills/Monster/MonsterSkill.h"
 #include "../../AI/BossAIController.h"
+#include "../../Stat/MonsterStatComponent.h"
 
 UBossAnimInstance::UBossAnimInstance()
 {
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> START(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/Sevarog/AM_Sevarog_Start.AM_Sevarog_Start'"));
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> DIE(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/Sevarog/AM_Sevarog_Die.AM_Sevarog_Die'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> START(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/5/AM_5_Start.AM_5_Start'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> DIE(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/5/AM_5_Die.AM_5_Die'"));
 	if (START.Succeeded()) StartMontage = START.Object;
 	if (DIE.Succeeded()) DieMontage = DIE.Object;
 }
@@ -51,7 +52,7 @@ FString UBossAnimInstance::GetBossMontageDir(FString MontageType)
 	if (MyPawn == nullptr)
 		return TEXT("");
 
-	FString MyName = MyPawn->GetObjectName();
+	FString MyName = FString::FromInt(MyPawn->GetObjectId());
 	FString Dir = TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/");
 	FString MontageName = TEXT("AM_") + MyName + TEXT("_") + MontageType;
 	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");

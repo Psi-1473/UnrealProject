@@ -48,13 +48,16 @@ void AMonster::Tick(float DeltaTime)
 
 }
 
-FString AMonster::GetObjectName()
+int AMonster::GetObjectId()
 {
 	FString MyName = GetClass()->GetName(); // BP_Zombie_C
-	int StartIndex = 3; // BP_ 이후 첫 글자의 Index가 3
+	int StartIndex = 10; // BP_Monster 이후 첫 글자의 Index가 3
 	int Count = MyName.Len() - StartIndex - 2; // Len - StartIndex = Zombie_C, -2를 더 해주면 Zombie
 	MyName = MyName.Mid(StartIndex, Count); // Zombie
-	return MyName;
+	UE_LOG(LogTemp, Warning, TEXT("Mob Id %s"), *MyName);
+	int Value = FCString::Atof(*MyName);
+	
+	return Value;
 }
 
 float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

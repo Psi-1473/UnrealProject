@@ -21,7 +21,7 @@ protected:
 	virtual void InitializeComponent() override;
 
 public:	
-	FString GetName() { return Name; }
+	FString GetMonsterName() { return Name; }
 	int32 GetId() { return Id; }
 	int32 GetLevel() { return Level; }
 	int32 GetAttack() { return Attack; }
@@ -32,7 +32,7 @@ public:
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
-	void SetInfo(FString NameInfo);
+	void SetInfo(int MonsterId);
 	void SetHp(int32 NewHp);
 	void OnAttacked(float Damage);
 private:

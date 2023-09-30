@@ -3,12 +3,29 @@
 
 #include "Quest.h"
 #include "../MyGameInstance.h"
+#include "../DEFINE.h"
+
+FString UQuest::GetTargetName(int QType, int TId, int TType)
+{
+	FString ReturnName;
+
+	if (QType == (int)QUEST_HUNT)
+	{
+		ReturnName = GameInstance->GetMonsterStat(TargetId)->Name;
+	}
+	else if (QType == (int)QUEST_ITEM)
+	{
+		// TargetType에 따라 분류
+	}
+
+	return ReturnName;
+}
 
 void UQuest::BindQuest(UMyGameInstance* GInstance, FQuestData* QuestData)
 {
 	// 바인드 퀘스트
 	// Type
-
+	GameInstance = GInstance;
 	NpcId = QuestData->QuestNpcId;
 	QuestId = QuestData->Id;
 	Name = QuestData->Name;

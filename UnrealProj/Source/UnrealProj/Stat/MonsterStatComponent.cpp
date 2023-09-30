@@ -26,16 +26,16 @@ void UMonsterStatComponent::InitializeComponent()
 	if (Owner == nullptr)
 		return;
 
-	SetInfo(Owner->GetObjectName());
+	SetInfo(Owner->GetObjectId());
 }
 
-void UMonsterStatComponent::SetInfo(FString NameInfo)
+void UMonsterStatComponent::SetInfo(int MonsterId)
 {
 	auto MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 
 	if (MyGameInstance)
 	{
-		auto StatData = MyGameInstance->GetMonsterStat(NameInfo);
+		auto StatData = MyGameInstance->GetMonsterStat(MonsterId);
 		{
 			if (StatData)
 			{

@@ -226,7 +226,7 @@ public:
 	virtual void Init() override;
 
 	FMyPlayerData* GetPlayerStat(int32 Level);
-	FMonsterData* GetMonsterStat(FString Name);
+	FMonsterData* GetMonsterStat(int32 Id);
 	FNpcData* GetNpcData(int32 Id);
 	FWeaponData* GetSwordData(int32 Id);
 	FWeaponData* GetBowData(int32 Id);
