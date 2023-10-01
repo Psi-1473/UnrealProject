@@ -43,7 +43,7 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	PopupUi->AddToViewport();
 	PopupUiArray[(int)Type] = PopupUi;
 
-	if(Type != UIType::BossHpBar)
+	if(Type != UIType::BossHpBar && Type != UIType::QuestQuickInfo)
 		UiNumber++;
 
 	if (UiNumber == 1)

@@ -19,6 +19,8 @@ public:
 	void SetQuestInfo(TWeakObjectPtr<class UWidget_Quest> Widget, class UQuest* Data);
 	UFUNCTION()
 	void ClickExitBtn();
+	UFUNCTION()
+	void RegisterQuickQuest();
 
 private:
 	UPROPERTY()
@@ -26,7 +28,7 @@ private:
 
 private:
 	UPROPERTY(meta = (BindWidget))
-	class UButton* Btn_QuickSlot; // 기능은 나중에 구현
+	class UButton* Btn_QuickSlot;
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_GetDir; // 기능은 나중에 구현
@@ -48,5 +50,8 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_TargetName;
+
+	UPROPERTY()
+	class UQuest* Quest;
 
 };

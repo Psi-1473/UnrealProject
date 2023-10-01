@@ -31,8 +31,16 @@ public:
 	void InitCompletedList(int NpcNum);
 	void AddToCompletedList(int NpcId, int QuestId);
 
+	void BindQuickWindow(class AMyPlayer* Player, class UQuest* Quest);
+
+	void SetQuestWindow(class UWidget_QuestWindow* Window) {QuestQuickWindow = Window;}
+	class UWidget_QuestWindow* GetQuestWindow() {return QuestQuickWindow;}
 
 private:
-	TArray<FQuestList> CompletedQuestList;
+	UPROPERTY()
+	TArray<FQuestList> CompletedQuestList;// 이거 UPROPERTY 안되나?
+
+	UPROPERTY()
+	class UWidget_QuestWindow* QuestQuickWindow;
 
 };

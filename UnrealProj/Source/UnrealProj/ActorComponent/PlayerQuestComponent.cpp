@@ -209,6 +209,16 @@ void UPlayerQuestComponent::OnGoingToCompletable(UQuest* Quest)
 
 }
 
+// 이미 등록된 퀘스트 = false, 새로 등록 = true 리턴
+bool UPlayerQuestComponent::AdddToBindedQuest(UQuest* Quest)
+{
+	if (BindedQuest.Find(Quest) != INDEX_NONE)
+		return false;
+
+	BindedQuest.Add(Quest);
+	return true;
+}
+
 UQuest* UPlayerQuestComponent::CreateNewQuest(FQuestData* QuestData)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());

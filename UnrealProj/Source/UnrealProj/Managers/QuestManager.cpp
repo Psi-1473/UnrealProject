@@ -9,6 +9,8 @@
 #include "../ActorComponent/PlayerQuestComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Stat/PlayerStatComponent.h"
+#include "../DataClass/Quest.h"
+#include "../Widgets/Scene/Widget_QuestWindow.h"
 
 void UQuestManager::LoadNpcQuest(ANpc* Npc, AMyPlayer* Player)
 {
@@ -77,4 +79,20 @@ void UQuestManager::InitCompletedList(int NpcNum)
 void UQuestManager::AddToCompletedList(int NpcId, int QuestId)
 {
 	CompletedQuestList[NpcId].QuestIds.Add(QuestId);
+}
+
+void UQuestManager::BindQuickWindow(AMyPlayer* Player, UQuest* Quest)
+{
+	if(QuestQuickWindow == nullptr)
+		return;
+
+	// 0. Quest가 이미 등록되어 있는지 확인
+	
+	// 1. 플레이어의 BindQuest 리스트에 퀘스트 추가
+	
+	if (Player->GetQuestComponent()->AdddToBindedQuest(Quest))
+	{
+		// 2. 위젯 추가
+		QuestQuickWindow->AddQuest(Quest);
+	}
 }

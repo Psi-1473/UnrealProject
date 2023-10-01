@@ -46,6 +46,9 @@ public:
 	void OnGoingToCompletable(class UQuest* Quest);
 	// 위 4개의 함수를 통해 퀘스트 타겟 넘버를 갱신하고 완료 조건을 달성해면 이 함수를 실행시켜
 	// 완료가능 퀘스트로 바꿔준다.
+
+	bool AdddToBindedQuest(class UQuest* Quest);
+	void RemoveBindedQuest(class UQuest* Quest) {BindedQuest.Remove(Quest);}
 private:
 	class UQuest* CreateNewQuest(struct FQuestData* QuestData);
 
@@ -70,6 +73,9 @@ private:
 
 	UPROPERTY()
 	TArray<FQuestIndexData> CompletedQuests;
+
+	UPROPERTY()
+	TArray<class UQuest*> BindedQuest;
 
 		
 };

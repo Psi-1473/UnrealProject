@@ -16,8 +16,12 @@ class UNREALPROJ_API UWidget_QuestWindow : public UUserWidget
 	
 public:
 	virtual void NativeConstruct() override;
+
 	UFUNCTION()
 	void MinimizationWindow();
+
+	void AddQuest(class UQuest* Data); // 퀘스트 클래스로 받을지 데이터로 받을지 ㄱㄷ
+	void RemoveQuest(class UQuest* Data);
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -28,4 +32,10 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UScrollBox* ScrollBox_List;
+
+	UPROPERTY()
+	bool ListVisibility = true;
+
+	UPROPERTY()
+	TArray<class UWidget_QuestQuickInfo*> Slots;
 };

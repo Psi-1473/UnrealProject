@@ -3,3 +3,6 @@
 
 #include "Widget_QuestQuickInfo.h"
 
+void UWidget_QuestQuickInfo::BindQuest(UQuest* Data)
+{
+}
