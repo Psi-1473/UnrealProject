@@ -11,6 +11,8 @@
 #include "../../ActorComponent/QuestComponent.h"
 #include "../../Managers/QuestManager.h"
 #include "Components/WidgetComponent.h"
+#include "PaperSpriteComponent.h"
+#include "PaperSprite.h"
 #include "../../Widgets/Components/Widget_NpcInfo.h"
 
 ANpc::ANpc()
@@ -18,6 +20,7 @@ ANpc::ANpc()
 	PrimaryActorTick.bCanEverTick = true;
 
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
+	MinimapIcon = CreateDefaultSubobject<UPaperSpriteComponent>(TEXT("MinimapIcon"));
 	InteractBox = CreateDefaultSubobject<UBoxComponent>(TEXT("InteractBox"));
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("CapsuleComponent"));
 	QuestComponent = CreateDefaultSubobject<UQuestComponent>(TEXT("QuestComponent"));
@@ -30,7 +33,9 @@ ANpc::ANpc()
 	NpcInfo->SetWidgetSpace(EWidgetSpace::Screen);
 	Mesh->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	Mesh->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
-
+	MinimapIcon->SetRelativeLocation(FVector(0.f, 0.f, 1000.f));
+	MinimapIcon->SetRelativeRotation(FRotator(180.f, 90.f, 90.f));
+	MinimapIcon->bOwnerNoSee = true;
 	InteractBox->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
 	InteractBox->SetCollisionProfileName("InteractBox");
 
@@ -41,6 +46,7 @@ ANpc::ANpc()
 	InteractBox->SetupAttachment(RootComponent);
 	Mesh->SetupAttachment(RootComponent);
 	NpcInfo->SetupAttachment(RootComponent);
+	MinimapIcon->SetupAttachment(RootComponent);
 	// 박스 사이즈 조절
 
 	InteractBox->OnComponentBeginOverlap.AddDynamic(this, &IInteractable::OnOverlapBegin);
@@ -57,12 +63,22 @@ void ANpc::BeginPlay()
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	LoadPossibleQuestData(MyPlayer);
 	SetPlayer();
+
 }
 
 void ANpc::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	SetVisiblityInfoWidget();
+}
+
+UPaperSprite* ANpc::GetSprite(FString SpriteName)
+{
+	FString Directory = TEXT("/Script/Paper2D.PaperSprite'/Game/09_Image/UI/MinimapIcons/");
+	//QuestClear_Sprite.QuestClear_Sprite'
+	Directory += SpriteName + TEXT(".") + SpriteName + TEXT("'");
+	UPaperSprite* Sprite = LoadObject<UPaperSprite>(NULL, *Directory, NULL, LOAD_None, NULL);
+	return Sprite;
 }
 
 void ANpc::Interact(AMyPlayer* Player)
@@ -85,6 +101,7 @@ void ANpc::UpdateQuestMark()
 {
 	auto NpcWidget = Cast<UWidget_NpcInfo>(NpcInfo->GetUserWidgetObject());
 	NpcWidget->UpdateQuestMark();
+	SetMinimapIcon();
 }
 
 void ANpc::GetIdFromActor()
@@ -124,6 +141,48 @@ void ANpc::SetNpcInfo()
 	UE_LOG(LogTemp, Warning, TEXT("Npc Id Registered! : %d, %s, %s, %d"), Id, *Name, *DefaultLine, (int)Type);
 
 	GInstance->AddNpc(Id, this);
+
+}
+
+void ANpc::SetMinimapIcon()
+{
+	if (GetQuestComponent()->GetCompletableQuestNum() > 0)
+	{
+		MinimapIcon->SetSprite(GetSprite(TEXT("QuestClear_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
+
+		if(QuestComponent->GetMainCompletableNumber() > 0)
+			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Green));
+		else
+			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Yellow));
+	}
+	else if (GetQuestComponent()->GetPossibleQuestNum() > 0)
+	{
+		MinimapIcon->SetSprite(GetSprite(TEXT("QuestPossible_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
+
+		if (QuestComponent->GetMainPossibleNumber() > 0)
+			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Green));
+		else
+			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Yellow));
+	}
+	else if (Type == EQUIP_SHOP)
+	{
+		MinimapIcon->SetSprite(GetSprite(TEXT("WeaponShop_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(0.3f, 0.3f, 0.3f));
+		MinimapIcon->SetSpriteColor(FLinearColor(FColor::White));
+	}
+	else if (Type == USE_SHOP)
+	{
+		MinimapIcon->SetSprite(GetSprite(TEXT("ItemShop_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
+		MinimapIcon->SetSpriteColor(FLinearColor(FColor::White));
+	}
+	else
+	{
+		MinimapIcon->SetSprite(GetSprite(TEXT("GreenArro_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
+	}
 
 }
 

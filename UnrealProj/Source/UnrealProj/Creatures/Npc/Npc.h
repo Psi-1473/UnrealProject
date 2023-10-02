@@ -31,6 +31,7 @@ public:
 	TArray<int16> GetUseItemIds() { return UseItemIds; }
 	int16 GetItemSize() { return BowIds.Num() + SwordIds.Num() + UseItemIds.Num(); }
 	class UQuestComponent* GetQuestComponent() { return QuestComponent; }
+	class UPaperSprite* GetSprite(FString SpriteName);
 public:
 	virtual void Interact(class AMyPlayer* Player) override;
 	void LoadPossibleQuestData(class AMyPlayer* Player);
@@ -38,6 +39,7 @@ public:
 private:
 	void GetIdFromActor();
 	void SetNpcInfo();
+	void SetMinimapIcon();
 	void SetPlayer();
 	void SetVisiblityInfoWidget();
 
@@ -58,6 +60,10 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 	class USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(EditAnywhere)
+	class UPaperSpriteComponent* MinimapIcon;
+
 
 	UPROPERTY()
 	class UCapsuleComponent* CapsuleComponent;
