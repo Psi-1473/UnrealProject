@@ -32,6 +32,7 @@ private:
 	void UpdateHpBar();
 	void UpdateMpBar();
 	void UpdateExpBar();
+	void UpdateLevel();
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -51,6 +52,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UHorizontalBox* ItemBox;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Level;
 
 	UPROPERTY()
 	TArray<class UWidget_SkillQuick*> SkillQuickSlots;

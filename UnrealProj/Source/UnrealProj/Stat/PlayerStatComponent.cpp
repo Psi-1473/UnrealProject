@@ -37,7 +37,7 @@ void UPlayerStatComponent::InitializeComponent()
 void UPlayerStatComponent::SetLevel(int32 NewLevel)
 {
 	auto MyGameInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-
+	OnLevelChanged.Broadcast();
 	if (MyGameInstance)
 	{
 		auto StatData = MyGameInstance->GetPlayerStat(NewLevel);

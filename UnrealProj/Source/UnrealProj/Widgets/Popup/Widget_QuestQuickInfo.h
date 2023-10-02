@@ -18,6 +18,7 @@ public:
 	class UQuest* GetQuest() { return Quest; }
 public:
 	void BindQuest(class UQuest* Data); // 퀘스트 클래스로 받을지 데이터로 받을지 ㄱㄷ
+	void RefreshNumber();
 private:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_Title;

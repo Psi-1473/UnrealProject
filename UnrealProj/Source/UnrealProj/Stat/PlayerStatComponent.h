@@ -9,6 +9,7 @@
 DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
 DECLARE_MULTICAST_DELEGATE(FOnMpChanged);
 DECLARE_MULTICAST_DELEGATE(FOnExpChanged);
+DECLARE_MULTICAST_DELEGATE(FOnLevelChanged);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALPROJ_API UPlayerStatComponent : public UActorComponent
@@ -74,6 +75,7 @@ public:
 	FOnHpChanged OnHpChanged;
 	FOnMpChanged OnMpChanged;
 	FOnExpChanged OnExpChanged;
+	FOnLevelChanged OnLevelChanged;
 
 private:
 	UPROPERTY()

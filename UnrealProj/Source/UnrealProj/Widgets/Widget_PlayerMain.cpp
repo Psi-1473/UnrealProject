@@ -77,10 +77,12 @@ void UWidget_PlayerMain::CheckRegisteredItem(AItem* Item, int QuickIndex)
 void UWidget_PlayerMain::BindPlayer(UPlayerStatComponent* StatComp)
 {
 	PlayerStatComp = StatComp;
+	Text_Level->SetText(FText::FromString(FString::FromInt(StatComp->GetLevel())));
 
 	PlayerStatComp->OnHpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateHpBar);
 	PlayerStatComp->OnMpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateMpBar);
 	PlayerStatComp->OnExpChanged.AddUObject(this, &UWidget_PlayerMain::UpdateExpBar);
+	PlayerStatComp->OnLevelChanged.AddUObject(this, &UWidget_PlayerMain::UpdateLevel);
 }
 
 void UWidget_PlayerMain::SetCrossHair(bool bVisible)
@@ -141,4 +143,10 @@ void UWidget_PlayerMain::UpdateExpBar()
 {
 	if (PlayerStatComp.IsValid())
 		PB_Exp->SetPercent(PlayerStatComp->GetExpRatio());
+}
+
+void UWidget_PlayerMain::UpdateLevel()
+{
+	if (PlayerStatComp.IsValid())
+		Text_Level->SetText(FText::FromString(FString::FromInt(PlayerStatComp->GetLevel())));
 }

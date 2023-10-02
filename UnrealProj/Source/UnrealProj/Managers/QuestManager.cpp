@@ -96,3 +96,11 @@ void UQuestManager::BindQuickWindow(AMyPlayer* Player, UQuest* Quest)
 		QuestQuickWindow->AddQuest(Quest);
 	}
 }
+
+void UQuestManager::RemoveQuickQuest(UQuest* Quest)
+{
+	if (QuestQuickWindow == nullptr)
+		return;
+
+	QuestQuickWindow->RemoveQuest(Quest);
+}

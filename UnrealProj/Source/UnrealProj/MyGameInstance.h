@@ -195,6 +195,9 @@ struct FQuestData : public FTableRowBase
 	int32 NextQuestId;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Summary;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool CanLoad;
 };
 

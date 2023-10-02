@@ -10,6 +10,8 @@
 /**
  * 
  */
+DECLARE_MULTICAST_DELEGATE(FOnTargetChanged);
+
 UCLASS()
 class UNREALPROJ_API UQuest : public UObject
 {
@@ -21,6 +23,7 @@ public:
 	class ANpc* GetNextNpc() { return NextNpc; }
 	FString GetQuestName() { return Name; }
 	FString GetQuestExplanation() { return Explanation; }
+	FString GetSummary() { return Summary; }
 	FString GetTargetName(int QType, int TargetId, int TargetType = 0);
 
 	int32 GetQuestType() {return Type;}
@@ -34,7 +37,7 @@ public:
 	int32 GetTargetMaxNum() { return TargetMaxNum; }
 	int32 GetTargetType() { return TargetType; }
 
-	void AddNowNum() { TargetNowNum++; }
+	void AddNowNum() { TargetNowNum++; TargetNumChanged.Broadcast(); }
 
 public:
 	void BindQuest(class UMyGameInstance* GInstance, struct FQuestData* QuestData);
@@ -56,6 +59,9 @@ private:
 	
 	UPROPERTY()
 	FString Explanation;
+	
+	UPROPERTY()
+	FString Summary;
 
 	UPROPERTY()
 	int32 TargetId;
@@ -86,6 +92,6 @@ private:
 	UPROPERTY()
 	TWeakObjectPtr<class UMyGameInstance> GameInstance;
 	
-
-	
+	public:
+	FOnTargetChanged TargetNumChanged;
 };

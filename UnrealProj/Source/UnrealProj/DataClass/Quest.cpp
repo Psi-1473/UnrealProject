@@ -38,6 +38,7 @@ void UQuest::BindQuest(UMyGameInstance* GInstance, FQuestData* QuestData)
 	QuestLevel = QuestData->QuestLevel;
 	NextNpcId = QuestData->NextQuestNpcId;
 	NextQuestId = QuestData->NextQuestId;
+	Summary = QuestData->Summary;
 
 	StartNpc = GInstance->GetNpcList()[NpcId];
 	ClearNpc = GInstance->GetNpcList()[QuestData->ClearNpcId];
