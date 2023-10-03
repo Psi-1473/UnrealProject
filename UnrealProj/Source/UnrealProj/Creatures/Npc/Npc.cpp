@@ -33,9 +33,10 @@ ANpc::ANpc()
 	NpcInfo->SetWidgetSpace(EWidgetSpace::Screen);
 	Mesh->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	Mesh->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
-	MinimapIcon->SetRelativeLocation(FVector(0.f, 0.f, 1000.f));
-	MinimapIcon->SetRelativeRotation(FRotator(180.f, 90.f, 90.f));
-	MinimapIcon->bOwnerNoSee = true;
+	//MinimapIcon->SetRelativeLocation(FVector(0.f, 0.f, 1000.f));
+	MinimapIcon->SetWorldRotation(FRotator(0.f, 90.f, -90.f));
+	MinimapIcon->bVisibleInSceneCaptureOnly = true;
+	MinimapIcon->SetCollisionProfileName(TEXT("NoCollision"));
 	InteractBox->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
 	InteractBox->SetCollisionProfileName("InteractBox");
 
@@ -46,7 +47,7 @@ ANpc::ANpc()
 	InteractBox->SetupAttachment(RootComponent);
 	Mesh->SetupAttachment(RootComponent);
 	NpcInfo->SetupAttachment(RootComponent);
-	MinimapIcon->SetupAttachment(RootComponent);
+	//MinimapIcon->SetupAttachment(RootComponent);
 	// 박스 사이즈 조절
 
 	InteractBox->OnComponentBeginOverlap.AddDynamic(this, &IInteractable::OnOverlapBegin);
@@ -63,7 +64,7 @@ void ANpc::BeginPlay()
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	LoadPossibleQuestData(MyPlayer);
 	SetPlayer();
-
+	MinimapIcon->SetWorldLocation(GetActorLocation() + GetActorUpVector() * 1000.f);
 }
 
 void ANpc::Tick(float DeltaSeconds)
@@ -149,7 +150,7 @@ void ANpc::SetMinimapIcon()
 	if (GetQuestComponent()->GetCompletableQuestNum() > 0)
 	{
 		MinimapIcon->SetSprite(GetSprite(TEXT("QuestClear_Sprite")));
-		MinimapIcon->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
+		MinimapIcon->SetRelativeScale3D(FVector(2.f, 2.f, 2.f));
 
 		if(QuestComponent->GetMainCompletableNumber() > 0)
 			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Green));
@@ -159,7 +160,7 @@ void ANpc::SetMinimapIcon()
 	else if (GetQuestComponent()->GetPossibleQuestNum() > 0)
 	{
 		MinimapIcon->SetSprite(GetSprite(TEXT("QuestPossible_Sprite")));
-		MinimapIcon->SetRelativeScale3D(FVector(3.f, 3.f, 3.f));
+		MinimapIcon->SetRelativeScale3D(FVector(2.f, 2.f, 2.f));
 
 		if (QuestComponent->GetMainPossibleNumber() > 0)
 			MinimapIcon->SetSpriteColor(FLinearColor(FColor::Green));
@@ -180,8 +181,8 @@ void ANpc::SetMinimapIcon()
 	}
 	else
 	{
-		MinimapIcon->SetSprite(GetSprite(TEXT("GreenArro_Sprite")));
-		MinimapIcon->SetRelativeScale3D(FVector(1.f, 1.f, 1.f));
+		MinimapIcon->SetSprite(GetSprite(TEXT("Dot_Sprite")));
+		MinimapIcon->SetRelativeScale3D(FVector(0.3f, 0.3f, 0.3f));
 	}
 
 }
