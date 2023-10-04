@@ -11,6 +11,12 @@
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Items/Weapons/Weapon.h"
 
+#pragma region Skill Headers
+#include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
+#include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
+#include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
+#include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
+#pragma endregion 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -21,6 +27,9 @@ UPlayerSkillComponent::UPlayerSkillComponent()
 void UPlayerSkillComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	 //플레이어가 널임
+	BowSkillsInit();
 }
 
 void UPlayerSkillComponent::RegisterSkill(int SkillKey, UPlayerSkill* Skill)
@@ -63,19 +72,48 @@ void UPlayerSkillComponent::CancleCast(int SkillKey)
 	RegisteredSkills[SkillKey]->CancleCast(Player);
 }
 
-void UPlayerSkillComponent::AddSkill(UPlayerSkill* Skill)
-{
-	Skill->SetOwnerPlayer(OwnerPlayer);
-	Skills.Add(Skill);
-	Skill->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
-}
-
 void UPlayerSkillComponent::Update(float DeltaSeconds)
 {
-	for (int i = 0; i < Skills.Num(); i++)
+	for (int i = 0; i < SwordSkills.Num(); i++)
 	{
-		Skills[i]->DecreaseCoolDown(DeltaSeconds);
+		if(SwordSkills[i] == nullptr)
+			continue;
+		SwordSkills[i]->DecreaseCoolDown(DeltaSeconds);
 	}
+
+	for (int i = 0; i < BowSkills.Num(); i++)
+	{
+		if (BowSkills[i] == nullptr)
+			continue;
+		BowSkills[i]->DecreaseCoolDown(DeltaSeconds);
+	}
+}
+
+void UPlayerSkillComponent::SwordSkillsInit()
+{
+	//	TEMP : Skill Sword
+	SwordSkills.Add(nullptr);
+	UPlayerSkill_Sword_First* Sword1 = NewObject<UPlayerSkill_Sword_First>();
+	UPlayerSkill_Sword_Second* Sword2 = NewObject<UPlayerSkill_Sword_Second>();
+
+	Sword1->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+	Sword2->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+
+	SwordSkills.Add(Sword1);
+	SwordSkills.Add(Sword2);
+}
+
+void UPlayerSkillComponent::BowSkillsInit()
+{
+	BowSkills.Add(nullptr);
+	UPlayerSkill_Bow_First* Bow1 = NewObject<UPlayerSkill_Bow_First>();
+	UPlayerSkill_Bow_Second* Bow2 = NewObject<UPlayerSkill_Bow_Second>();
+
+	Bow1->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+	Bow2->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+
+	BowSkills.Add(Bow1);
+	BowSkills.Add(Bow2);
 }
 
 

@@ -67,7 +67,7 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 
 	int32 IdFromName = GetIdByName(NumberStr);
 
-	auto GInstance = Player->GetInstance();
+	auto GInstance = Player->GetInstance(); // 여기가 문제
 	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, WTypeStr);
 	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
 
@@ -79,13 +79,6 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	Mp = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Mp;
 
 	UE_LOG(LogTemp, Warning, TEXT("Cooldown Load %d "), CoolDown);
-	//FTimerDelegate TimeCallback;
-	//TimeCallback.BindLambda([this] {
-	//	if (RemainingTime <= 0)
-	//		return;
-	//	RemainingTime -= 1;
-	//	});
-	//OwnerPlayer->GetWorldTimerManager().SetTimer(CooldownTimer, TimeCallback, 1.f, true);
 }
 void UPlayerSkill::DecreaseCoolDown(float DeltaSeconds)
 {

@@ -12,6 +12,14 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
 #include "Widget_Information.h"
+#include "../../Skills/Components/PlayerSkillComponent.h"
+
+void UWidget_SkillSlot::NativeConstruct()
+{
+	Super::NativeConstruct();
+	SetSkill();
+	SetInfo();
+}
 
 FReply UWidget_SkillSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -91,6 +99,40 @@ void UWidget_SkillSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	MyPlayer->GetInstance()->GetUIMgr()->CloseUI((int)UIType::Information);
+
+}
+
+void UWidget_SkillSlot::SetSkill()
+{
+	const UEnum* sEnum = FindFirstObjectSafe<UEnum>(TEXT("SkillEnum"));
+	if (sEnum == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Enum Pointer NULL"));
+		return;
+	}
+
+	FString SkillName = sEnum->GetNameStringByValue((int64)eSkill);
+	SkillName = SkillName.Mid(6);
+
+	int UnderbarIndex;
+	SkillName.FindLastChar('_', UnderbarIndex);
+	FString WeaponName = SkillName.Mid(0, UnderbarIndex);
+	UE_LOG(LogTemp, Warning, TEXT("Weapon Name %s"), *WeaponName);
+	FString SkillId = SkillName.Mid(UnderbarIndex + 1, SkillName.Len() - (UnderbarIndex + 1));
+	int sId = FCString::Atof(*SkillId);
+	UE_LOG(LogTemp, Warning, TEXT("SkillId %d"), sId);
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	if (WeaponName == TEXT("SWORD"))
+	{
+		Skill = MyPlayer->GetSkillComponent()->GetSwordSkill(sId);
+	}
+	else if (WeaponName == TEXT("BOW"))
+	{
+		Skill = MyPlayer->GetSkillComponent()->GetBowSkill(sId);
+	}
+
 
 }
 

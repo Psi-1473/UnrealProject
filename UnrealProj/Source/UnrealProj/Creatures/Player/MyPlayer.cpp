@@ -17,10 +17,6 @@
 #include "Engine/DamageEvents.h"
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
-#include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
-#include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
-#include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
-#include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
 #include "../../Inventory/Inventory.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
@@ -93,17 +89,6 @@ void AMyPlayer::BeginPlay()
 	NewWeapon->SetId(0);
 	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
-
-	//	TEMP : Skill Sword
-	UPlayerSkill_Sword_First* NewSkill = NewObject<UPlayerSkill_Sword_First>();
-	SkillComponent->AddSkill(NewSkill);
-	UPlayerSkill_Sword_Second* NewSkill2 = NewObject<UPlayerSkill_Sword_Second>();
-	SkillComponent->AddSkill(NewSkill2);
-	//	SKILL: ARROW
-	UPlayerSkill_Bow_First* NewBowSkill = NewObject<UPlayerSkill_Bow_First>();
-	SkillComponent->AddSkill(NewBowSkill);
-	UPlayerSkill_Bow_Second* NewBowSkill2 = NewObject<UPlayerSkill_Bow_Second>();
-	SkillComponent->AddSkill(NewBowSkill2);
 
 
 	if (StateMachine == nullptr)

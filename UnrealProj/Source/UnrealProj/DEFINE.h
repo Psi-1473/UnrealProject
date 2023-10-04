@@ -7,7 +7,6 @@
 
 const int8 MAX_Inventory = 18;
 
-
 UENUM(BlueprintType)
 enum class UIType : uint8
 {
@@ -71,7 +70,14 @@ enum class AttackType : uint8
 	// PULLED´Â Montage ±¸Çö
 };
 
-
+UENUM(BlueprintType)
+enum class SkillEnum : uint8
+{
+	SKILL_SWORD_1,
+	SKILL_SWORD_2,
+	SKILL_BOW_1,
+	SKILL_BOW_2,
+};
 
 UENUM(BlueprintType)
 enum class QuestLevel : uint8

@@ -55,17 +55,17 @@ void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 
 void UWidget_Information::SetInfoBySkill(UPlayerSkill* Skill)
 {
-	FString Name;
-	FString Explain;
-	FString Value;
-	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	auto MyPlayer = Cast<AMyPlayer>(Char);
-	auto GInstance = MyPlayer->GetInstance();
-	Name = Skill->GetSkillName();
-	Explain = Skill->GetExplanation();
-
-	Text_Name->SetText(FText::FromString(*Name));
-	Text_Sub->SetText(FText::FromString(*Explain));
+	//FString Name;
+	//FString Explain;
+	//FString Value;
+	//auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	//auto MyPlayer = Cast<AMyPlayer>(Char);
+	//auto GInstance = MyPlayer->GetInstance();
+	//Name = Skill->GetSkillName();
+	//Explain = Skill->GetExplanation();
+	//
+	//Text_Name->SetText(FText::FromString(*Name));
+	//Text_Sub->SetText(FText::FromString(*Explain));
 }
 
 void UWidget_Information::SetPosition(FVector2D Pos)

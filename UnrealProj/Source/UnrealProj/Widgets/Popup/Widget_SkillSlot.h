@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "../../DEFINE.h"
 #include "Widget_SkillSlot.generated.h"
 
 /**
@@ -15,15 +16,19 @@ class UNREALPROJ_API UWidget_SkillSlot : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	virtual void NativeConstruct() override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
 
-	void SetSkill(class UPlayerSkill* Value) { Skill = Value; }
+	void SetSkill();
 	void SetInfo();
 
 private:
+	UPROPERTY(EditAnywhere)
+	SkillEnum eSkill;
+
 	UPROPERTY()
 	class UPlayerSkill* Skill;
 
@@ -32,6 +37,12 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Text_Name;
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_Level;
+
+	UPROPERTY(meta = (BindWidget))
+	class UButton* Btn_LevelUp;
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

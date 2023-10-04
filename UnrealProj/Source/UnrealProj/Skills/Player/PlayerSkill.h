@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class UNREALPROJ_API UPlayerSkill : public USkill
 {
 	GENERATED_BODY()
@@ -40,4 +40,10 @@ protected:
 
 	UPROPERTY();
 	TWeakObjectPtr<class AMyPlayer> OwnerPlayer; // 사용한 플레이어
+
+	UPROPERTY()
+	int32 SkillLevel;
+
+	UPROPERTY()
+	int32 Damage;
 };

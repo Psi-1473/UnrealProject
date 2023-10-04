@@ -18,20 +18,32 @@ public:
 
 	virtual void NativeConstruct() override;
 	
-	void CreateSlot();
+	UFUNCTION()
+	void SetSwordSkill();
+	UFUNCTION()
+	void SetBowSkill();
 
 private:
 	UPROPERTY(meta = (BindWidget))
 		class UButton* Btn_Exit;
 
 	UPROPERTY(meta = (BindWidget))
-		class UScrollBox* SkillSlot;
+		class UHorizontalBox* WidgetBox;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Btn_Sword;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* Btn_Bow;
+
+	//UPROPERTY()
+	//TArray<class UWidget_SkillSlot*> Slots;
 	
 	UPROPERTY()
-	TArray<class UWidget_SkillSlot*> Slots;
-	
+	TSubclassOf<UUserWidget> BP_SwordSkill;
+
 	UPROPERTY()
-	TSubclassOf<UUserWidget> BP_Slot;
+	TSubclassOf<UUserWidget> BP_BowSkill;
 
 
 

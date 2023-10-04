@@ -9,7 +9,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(BlueprintType)
 class UNREALPROJ_API UPlayerSkill_Bow_First : public UPlayerSkill
 {
 	GENERATED_BODY()

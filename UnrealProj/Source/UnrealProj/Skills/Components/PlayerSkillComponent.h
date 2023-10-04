@@ -19,18 +19,24 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
+	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; SwordSkillsInit(); }
 	void RegisterSkill(int SkillKey, class UPlayerSkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
-	void AddSkill(class UPlayerSkill* Skill);
 	void Update(float DeltaSeconds);
 
-	int GetSkillNumber() { return Skills.Num(); }
-	TArray<class UPlayerSkill*>& GetSkills() { return Skills; }
+	void SwordSkillsInit();
+	void BowSkillsInit();
+
+	class UPlayerSkill* GetSwordSkill(int Idx) { return SwordSkills[Idx]; }
+	class UPlayerSkill* GetBowSkill(int Idx) {return BowSkills[Idx]; };
+
 private:
 	UPROPERTY()
-	TArray<class UPlayerSkill*> Skills;
+	TArray<class UPlayerSkill*> SwordSkills;
+
+	UPROPERTY()
+	TArray<class UPlayerSkill*> BowSkills;
 
 	UPROPERTY()
 	TArray<class UPlayerSkill*> RegisteredSkills;
