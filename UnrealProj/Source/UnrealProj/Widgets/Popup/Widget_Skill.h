@@ -23,6 +23,7 @@ public:
 	UFUNCTION()
 	void SetBowSkill();
 
+	void SetSkillPointText();
 private:
 	UPROPERTY(meta = (BindWidget))
 		class UButton* Btn_Exit;
@@ -35,6 +36,10 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	UButton* Btn_Bow;
+
+
+	UPROPERTY(meta = (BindWidget))
+	class UTextBlock* Text_SkillPoint;
 
 	//UPROPERTY()
 	//TArray<class UWidget_SkillSlot*> Slots;

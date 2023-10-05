@@ -22,6 +22,9 @@ public:
 	virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent);
 	virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent);
 
+	UFUNCTION()
+	void SkillLevelUp();
+
 	void SetSkill();
 	void SetInfo();
 

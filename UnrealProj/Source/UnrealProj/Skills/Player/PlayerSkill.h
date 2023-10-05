@@ -24,11 +24,12 @@ public:
 	virtual void SkillEnd() override; // 스킬 종료시 실행할 함수
 	void InitSkillValue(class AMyPlayer* Player);
 
-
+	void LevelUp();
 	void DecreaseCoolDown(float DeltaSeconds);
 public:
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 
+	int32 GetLevel() { return SkillLevel; }
 	WEAPONTYPE GetWeaponType() { return WeaponType; }
 	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 private:

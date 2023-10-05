@@ -79,9 +79,9 @@ void AMyPlayer::BeginPlay()
 	Super::BeginPlay();
 	Inventory->SetOwnerPlayer(this);
 	SkillComponent->SetOwnerPlayer(this);
+	
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
-	
 
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<AWeapon>();
@@ -103,7 +103,7 @@ void AMyPlayer::BeginPlay()
 	if (GameMode == nullptr) return;
 	GameMode->BindPlayer(this);
 
-
+	SkillComponent->SkillsInit();
 }
 
 void AMyPlayer::Tick(float DeltaTime)

@@ -15,6 +15,8 @@
 #include "Engine/DamageEvents.h"
 #include "../../Helpers/AttackChecker.h"
 #include "../../MyGameInstance.h"
+#include "Particles/ParticleSystem.h"
+#include "Kismet/GameplayStatics.h"
 
 ASpawnMonster::ASpawnMonster()
 {
@@ -58,15 +60,20 @@ void ASpawnMonster::Tick(float DeltaTime)
 
 void ASpawnMonster::AttackTarget(AMyPlayer* Target)
 {
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Target->GetActorLocation());
+	FVector Loc = Target->GetActorLocation();
+	Loc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Loc);
 	SetActorRotation(Rot);
 	AnimInst->PlayAttackMontage();
 }
 
-void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, UParticleSystem* Particle, AttackType Type)
 {
 	// 1. Damage Type에 따라 처리
-
+	if (Particle != nullptr)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation());
+	}
 	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 

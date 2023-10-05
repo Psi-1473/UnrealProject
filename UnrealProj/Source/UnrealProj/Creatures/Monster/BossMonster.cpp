@@ -171,10 +171,13 @@ void ABossMonster::AttackTarget(AMyPlayer* Target)
 	
 }
 
-void ABossMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+void ABossMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, UParticleSystem* Particle, AttackType Type)
 {
 	// 1. Damage Type에 따라 처리
-
+	if (Particle != nullptr)
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation());
+	}
 	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 

@@ -33,7 +33,7 @@ public:
 
 public:
 	virtual void AttackTarget(class AMyPlayer* Target) {};
-	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL) {};
+	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, class UParticleSystem* Particle = nullptr, AttackType Type = AttackType::NORMAL) {};
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) {};
 	virtual void DestroyObject() {};

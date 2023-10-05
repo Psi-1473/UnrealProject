@@ -66,7 +66,6 @@ void UQuestManager::LoadNpcQuestByLevelUp(AMyPlayer* Player)
 
 void UQuestManager::CheckQuestTarget(int QuestType, int TargetId, TWeakObjectPtr<AMyPlayer> Player, int TargetType)
 {
-
 	Player->GetQuestComponent()->CheckQuest(QuestType, TargetId, TargetType);
 }
 

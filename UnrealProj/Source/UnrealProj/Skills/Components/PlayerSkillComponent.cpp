@@ -14,6 +14,7 @@
 #pragma region Skill Headers
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
+#include "../../Skills/Player/Sword/PlayerSkill_Sword_Third.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
 #pragma endregion 
@@ -28,8 +29,7 @@ void UPlayerSkillComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	 //플레이어가 널임
-	BowSkillsInit();
+	
 }
 
 void UPlayerSkillComponent::RegisterSkill(int SkillKey, UPlayerSkill* Skill)
@@ -89,18 +89,27 @@ void UPlayerSkillComponent::Update(float DeltaSeconds)
 	}
 }
 
+void UPlayerSkillComponent::SkillsInit()
+{
+	SwordSkillsInit();
+	BowSkillsInit();
+}
+
 void UPlayerSkillComponent::SwordSkillsInit()
 {
 	//	TEMP : Skill Sword
 	SwordSkills.Add(nullptr);
 	UPlayerSkill_Sword_First* Sword1 = NewObject<UPlayerSkill_Sword_First>();
 	UPlayerSkill_Sword_Second* Sword2 = NewObject<UPlayerSkill_Sword_Second>();
+	UPlayerSkill_Sword_Third* Sword3 = NewObject<UPlayerSkill_Sword_Third>();
 
 	Sword1->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
 	Sword2->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+	Sword3->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
 
 	SwordSkills.Add(Sword1);
 	SwordSkills.Add(Sword2);
+	SwordSkills.Add(Sword3);
 }
 
 void UPlayerSkillComponent::BowSkillsInit()
@@ -114,6 +123,18 @@ void UPlayerSkillComponent::BowSkillsInit()
 
 	BowSkills.Add(Bow1);
 	BowSkills.Add(Bow2);
+}
+
+void UPlayerSkillComponent::DecreaseSkillPoint()
+{
+	SkillPoint--;
+	OnSkillPointChanged.Broadcast();
+}
+
+void UPlayerSkillComponent::GainSkillPoint(int Value)
+{
+	SkillPoint += Value;
+	OnSkillPointChanged.Broadcast();
 }
 
 

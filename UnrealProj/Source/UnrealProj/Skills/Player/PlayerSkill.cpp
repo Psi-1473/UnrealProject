@@ -4,6 +4,7 @@
 #include "PlayerSkill.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Animations/Player/PlayerAnim.h"
+#include "../Components/PlayerSkillComponent.h"
 #include "../EffectActor//SkillRangeActor.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../MyGameInstance.h"
@@ -55,6 +56,7 @@ void UPlayerSkill::SkillEnd()
 
 void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 {
+	OwnerPlayer = Player;
 	FString ClassName = this->GetClass()->GetName();
 	FString SkipString = TEXT("UPlayerSkill_");
 	int32 StartPos = SkipString.Len() - 1;
@@ -64,7 +66,6 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	
 	FString WTypeStr = ClassName.Mid(StartPos, Cnt);
 	FString NumberStr = ClassName.Mid(EndPos + 1, IdCnt);
-
 	int32 IdFromName = GetIdByName(NumberStr);
 
 	auto GInstance = Player->GetInstance(); // 여기가 문제
@@ -72,19 +73,24 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
 
 	SetWeaponType(WTypeStr);
-	Id = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Id;
-	CoolDown = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->CoolDown;
-	Name = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Name;
-	Explanation = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Explanation;
-	Mp = GInstance->GetPlayerSkillDate(WTypeStr, IdFromName)->Mp;
+	Id = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Id;
+	CoolDown = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->CoolDown;
+	Name = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Name;
+	Explanation = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Explanation;
+	Mp = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Mp;
 
 	UE_LOG(LogTemp, Warning, TEXT("Cooldown Load %d "), CoolDown);
+}
+void UPlayerSkill::LevelUp()
+{
+	SkillLevel++;
+	OwnerPlayer->GetSkillComponent()->DecreaseSkillPoint();
+	// 레벨에 맞게 능력치 변경
 }
 void UPlayerSkill::DecreaseCoolDown(float DeltaSeconds)
 {
 	if (RemainingTime < 0.f) RemainingTime = 0.f;
 	if (RemainingTime == 0.f) return;
-
 
 	RemainingTime -= DeltaSeconds;
 }
@@ -96,6 +102,7 @@ int32 UPlayerSkill::GetIdByName(FString Str)
 	if (Str == TEXT("First")) ReturnId = 1;
 	if (Str == TEXT("Second")) ReturnId = 2;
 	if (Str == TEXT("Third")) ReturnId = 3;
+	if (Str == TEXT("Fourth")) ReturnId = 4;
 
 	return ReturnId;
 }

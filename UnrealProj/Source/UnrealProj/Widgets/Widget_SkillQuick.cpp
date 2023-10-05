@@ -57,6 +57,11 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 
 	if (DragOper != nullptr)
 	{
+		if (DragOper->Skill == nullptr)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill NULL"));
+			return false;
+		}
 		if (DragOper->Type != DragType::Skill)
 		{
 			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Not Skill"));

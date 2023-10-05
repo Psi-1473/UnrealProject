@@ -8,6 +8,7 @@
 #include "Engine/DamageEvents.h"
 #include "Components/AudioComponent.h"
 #include "../Items/Weapons/Weapon.h"
+#include "Particles/ParticleSystem.h"
 
 #pragma region CheckRange Functions
 // Range - (X = Side, Y = Up, Z = Front)
@@ -50,6 +51,24 @@ TArray<FHitResult> UAttackChecker::PlayerCubeCheckMulti(FVector Range, float Sta
 		Params);
 
 	return HitResults;
+}
+
+TArray<FOverlapResult> UAttackChecker::PlayerCircleCheck(FVector SkillLocation, float Radius, float HalfHeight, ECollisionChannel TraceChannel, AActor* Attacker)
+{
+	FTransform Trans = Attacker->GetActorTransform();
+	// 히트 체크
+	FCollisionQueryParams Params(NAME_None, false, Attacker);
+	TArray<FOverlapResult> OutOverlaps;
+
+	Attacker->GetWorld()->OverlapMultiByChannel(
+		OutOverlaps,
+		Attacker->GetActorLocation(),
+		FQuat::Identity,
+		TraceChannel,
+		FCollisionShape::MakeCapsule(Radius, HalfHeight),
+		Params);
+
+	return OutOverlaps;
 }
 
 TArray<FHitResult> UAttackChecker::MonsterCubeCheck(FVector Range, float Start, ECollisionChannel TraceChannel, AActor* Attacker)
@@ -151,21 +170,21 @@ void UAttackChecker::ApplyHitDamageToActor(float Damage, AActor* Attacker, FHitR
 	if (Player)
 		ApplyPlayerDamageToMonster(Damage, Player, HitActor);
 }
-void UAttackChecker::ApplyHitDamageToActors(float Damage, AActor* Attacker, TArray<FHitResult> HitActors, AttackType AType)
+void UAttackChecker::ApplyHitDamageToActors(float Damage, AActor* Attacker, TArray<FHitResult> HitActors, AttackType AType, UParticleSystem* Particle)
 {
 	auto Player = Cast<AMyPlayer>(Attacker);
 	auto Monster = Cast<AMonster>(Attacker);
 	if (Player)
-		ApplyPlayerDamageToMonster(Damage, Player, HitActors);
+		ApplyPlayerDamageToMonster(Damage, Player, HitActors, Particle);
 	else if (Monster)
 		ApplyMonsterDamageToPlayer(Damage, Monster, HitActors, AType);
 }
-void UAttackChecker::ApplyOverlapDamageToActors(float Damage, AActor* Attacker, TArray<FOverlapResult> HitActors, AttackType AType)
+void UAttackChecker::ApplyOverlapDamageToActors(float Damage, AActor* Attacker, TArray<FOverlapResult> HitActors, UParticleSystem* Particle, AttackType AType)
 {
 	auto Player = Cast<AMyPlayer>(Attacker);
 	auto Monster = Cast<AMonster>(Attacker);
 	if (Player)
-		ApplyPlayerDamageToMonster(Damage, Player, HitActors);
+		ApplyPlayerDamageToMonster(Damage, Player, HitActors, Particle);
 	else if (Monster)
 		ApplyMonsterDamageToPlayer(Damage, Monster, HitActors, AType);
 }
@@ -186,7 +205,7 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 	Monster->PlaySoundWave(Monster->GetAudioComponent(), Attacker->GetWeapon()->GetHitSound());
 }
 
-void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, TArray<FHitResult> HitActors)
+void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, TArray<FHitResult> HitActors, UParticleSystem* Particle)
 {
 	if (HitActors.IsEmpty())//이거 지워도 되나?
 		return;
@@ -199,7 +218,7 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 		FDamageEvent DamageEvent;
 		if (Enemy == nullptr)
 			return;
-		Enemy->TakeDamage(Damage, DamageEvent, Attacker->GetController(), Attacker); //Temp
+		Enemy->OnDamaged(Damage, DamageEvent, Attacker->GetController(), Attacker, Particle); //Temp
 		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), Attacker->GetWeapon()->GetHitSound());
 	}
 }
@@ -226,7 +245,7 @@ void UAttackChecker::ApplyMonsterDamageToPlayer(float Damage, AMonster* Attacker
 		
 	}
 }
-void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, TArray<FOverlapResult> HitActors)
+void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, TArray<FOverlapResult> HitActors, UParticleSystem* Particle)
 {
 	if (HitActors.IsEmpty())//이거 지워도 되나?
 		return;

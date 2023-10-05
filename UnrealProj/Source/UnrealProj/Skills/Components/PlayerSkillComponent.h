@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "PlayerSkillComponent.generated.h"
 
-
+DECLARE_MULTICAST_DELEGATE(FOnSkillPointChanged);
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class UNREALPROJ_API UPlayerSkillComponent : public UActorComponent
 {
@@ -19,17 +19,22 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; SwordSkillsInit(); }
+	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player;}
 	void RegisterSkill(int SkillKey, class UPlayerSkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);
 	void Update(float DeltaSeconds);
 
+	void SkillsInit();
 	void SwordSkillsInit();
 	void BowSkillsInit();
+	void DecreaseSkillPoint();
+	void GainSkillPoint(int Value = 3);
 
 	class UPlayerSkill* GetSwordSkill(int Idx) { return SwordSkills[Idx]; }
 	class UPlayerSkill* GetBowSkill(int Idx) {return BowSkills[Idx]; };
+
+	int32 GetSkillPoint() {return SkillPoint;}
 
 private:
 	UPROPERTY()
@@ -42,5 +47,11 @@ private:
 	TArray<class UPlayerSkill*> RegisteredSkills;
 
 	UPROPERTY()
+	int32 SkillPoint = 3;
+
+	UPROPERTY()
 	TWeakObjectPtr<class AMyPlayer> OwnerPlayer;
+
+public:
+	FOnSkillPointChanged OnSkillPointChanged;
 };

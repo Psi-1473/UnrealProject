@@ -94,7 +94,7 @@ FRichImageRow* UMyGameInstance::GetUseItemImage(int32 Id)
 	return ItemImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
 }
 
-FSkillData* UMyGameInstance::GetPlayerSkillDate(FString Type, int32 Id)
+FSkillData* UMyGameInstance::GetPlayerSkillData(FString Type, int32 Id)
 {
 	if (Type == TEXT("Sword"))
 		return GetSwordSkillData(Id);

@@ -10,6 +10,7 @@
 #include "Widget_SkillSlot.h"
 #include "Components/HorizontalBox.h"
 #include "Components/Button.h"
+#include "Components/TextBlock.h"
 
 UWidget_Skill::UWidget_Skill(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -24,6 +25,11 @@ void UWidget_Skill::NativeConstruct()
 	SetSwordSkill();
 	Btn_Sword->OnClicked.AddDynamic(this, &UWidget_Skill::SetSwordSkill);
 	Btn_Bow->OnClicked.AddDynamic(this, &UWidget_Skill::SetBowSkill);
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto Player = Cast<AMyPlayer>(Char);
+
+	Player->GetSkillComponent()->OnSkillPointChanged.AddUObject(this, &UWidget_Skill::SetSkillPointText);
+	SetSkillPointText();
 }
 
 void UWidget_Skill::SetSwordSkill()
@@ -40,4 +46,11 @@ void UWidget_Skill::SetBowSkill()
 	UUserWidget* NowSkill = CreateWidget(GetWorld(), BP_BowSkill);
 
 	WidgetBox->AddChild(NowSkill);
+}
+
+void UWidget_Skill::SetSkillPointText()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto Player = Cast<AMyPlayer>(Char);
+	Text_SkillPoint->SetText(FText::FromString(FString::FromInt(Player->GetSkillComponent()->GetSkillPoint())));
 }

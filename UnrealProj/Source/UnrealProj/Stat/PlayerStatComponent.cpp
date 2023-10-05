@@ -8,6 +8,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Creatures/Player/MyPlayer.h"
 #include "../Managers/QuestManager.h"
+#include "../Skills/Components/PlayerSkillComponent.h"
 
 UPlayerStatComponent::UPlayerStatComponent()
 {
@@ -23,14 +24,14 @@ UPlayerStatComponent::UPlayerStatComponent()
 void UPlayerStatComponent::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Level = 1;
 }
 
 void UPlayerStatComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
 
-	SetLevel(Level);
+	SetLevel(1);
 }
 
 
@@ -53,6 +54,7 @@ void UPlayerStatComponent::SetLevel(int32 NewLevel)
 				SetExp(0);
 				Attack = StatData->Attack;
 				UE_LOG(LogTemp, Warning, TEXT("Level Set : %d"), Level);
+				OnLevelChanged.Broadcast();
 			}
 		}
 	}
@@ -72,6 +74,7 @@ void UPlayerStatComponent::AddExp(int32 Value)
 		UGameplayStatics::SpawnEmitterAtLocation(MyPlayer->GetWorld(), LevelUpEffect, MyPlayer->GetActorLocation()); //Temp
 		SetLevel(Level + 1);
 		MyGameInstance->GetQuestMgr()->LoadNpcQuestByLevelUp(MyPlayer);
+		MyPlayer->GetSkillComponent()->GainSkillPoint();
 	}
 	else ExpToAdd = Exp;
 

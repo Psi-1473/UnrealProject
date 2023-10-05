@@ -12,11 +12,13 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
 #include "Widget_Information.h"
+#include "Components/Button.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
 
 void UWidget_SkillSlot::NativeConstruct()
 {
 	Super::NativeConstruct();
+	Btn_LevelUp->OnClicked.AddDynamic(this, &UWidget_SkillSlot::SkillLevelUp);
 	SetSkill();
 	SetInfo();
 }
@@ -38,6 +40,9 @@ FReply UWidget_SkillSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, c
 void UWidget_SkillSlot::NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation)
 {
 	Super::NativeOnDragDetected(InGeometry, InMouseEvent, OutOperation);
+
+	if(Skill->GetLevel() == 0)
+		return;
 
 	if (OutOperation == nullptr)
 	{
@@ -99,7 +104,18 @@ void UWidget_SkillSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	MyPlayer->GetInstance()->GetUIMgr()->CloseUI((int)UIType::Information);
+}
 
+void UWidget_SkillSlot::SkillLevelUp()
+{
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	if(MyPlayer->GetSkillComponent()->GetSkillPoint() == 0)
+		return;
+
+	Skill->LevelUp();
+	SetInfo();
 }
 
 void UWidget_SkillSlot::SetSkill()
@@ -140,4 +156,17 @@ void UWidget_SkillSlot::SetInfo()
 {
 	Img_Skill->SetBrushFromTexture(Skill->GetTexture());
 	Text_Name->SetText(FText::FromString(*(Skill->GetSkillName())));
+	Text_Level->SetText(FText::FromString(TEXT("Lv. ") + FString::FromInt(Skill->GetLevel())));
+
+	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	auto MyPlayer = Cast<AMyPlayer>(Char);
+
+	if (Skill->GetLevel() == 0)
+	{
+		Img_Skill->SetBrushTintColor(FSlateColor(FColor(255.f, 255.f, 255.f, 120.f)));
+	}
+	else
+	{
+		Img_Skill->SetBrushTintColor(FSlateColor(FColor(255.f, 255.f, 255.f, 255.f)));
+	}
 }

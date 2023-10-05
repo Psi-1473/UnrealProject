@@ -238,7 +238,7 @@ public:
 	FRichImageRow* GetBowImage(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
 
-	FSkillData* GetPlayerSkillDate(FString Type, int32 Id);
+	FSkillData* GetPlayerSkillData(FString Type, int32 Id);
 	FSkillData* GetSwordSkillData(int32 Id);
 	FSkillData* GetBowSkillData(int32 Id);
 

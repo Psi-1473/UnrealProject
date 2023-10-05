@@ -149,4 +149,6 @@ void UWidget_PlayerMain::UpdateLevel()
 {
 	if (PlayerStatComp.IsValid())
 		Text_Level->SetText(FText::FromString(FString::FromInt(PlayerStatComp->GetLevel())));
+
+	UE_LOG(LogTemp, Warning, TEXT("Update Level: %d"), PlayerStatComp->GetLevel());
 }

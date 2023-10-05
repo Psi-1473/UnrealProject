@@ -42,8 +42,9 @@ void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 		return;
 	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
 		return;
+
 	MoveDir = OwnerActor->GetActorForwardVector();
-	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying); // ¼öÁ¤
+	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 	OwnerPlayer->bUseControllerRotationYaw = false;
 	SetDefaultValue();
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());

@@ -25,7 +25,7 @@ public:
 	// 2. Attacker attacks directly in front / a specific location
 	static FHitResult PlayerCubeCheckSingle(FVector Range, float Start, ECollisionChannel TraceChannel, class AActor* Attacker);
 	static TArray<FHitResult> PlayerCubeCheckMulti(FVector Range, float Start, ECollisionChannel TraceChannel, class AActor* Attacker);
-
+	static TArray<FOverlapResult> PlayerCircleCheck(FVector SkillLocation, float Radius, float HalfHeight, ECollisionChannel TraceChannel, class AActor* Attacker);
 	//Monster
 	static TArray<FHitResult> MonsterCubeCheck(FVector Range, float Start, ECollisionChannel TraceChannel, class AActor* Attacker); // Attacker 정면
 	static TArray<FHitResult> MonsterCubeCheck(FVector Range, FVector SkillLocation, ECollisionChannel TraceChannel, class AActor* Attacker); // 특정 위치에서 체크
@@ -40,18 +40,18 @@ public:
 
 	// Apply Damage : If you use a "Check Range Functions" and have been returned FHitResult value, you can apply damage to Actor with these functions.
 	static void ApplyHitDamageToActor(float Damage, class AActor* Attacker, FHitResult HitActor, AttackType AType = AttackType::NONE);
-	static void ApplyHitDamageToActors(float Damage, class AActor* Attacker, TArray<FHitResult> HitActor, AttackType AType = AttackType::NONE);
-	static void ApplyOverlapDamageToActors(float Damage, class AActor* Attacker, TArray<FOverlapResult> HitActor, AttackType AType = AttackType::NONE);
+	static void ApplyHitDamageToActors(float Damage, class AActor* Attacker, TArray<FHitResult> HitActor, AttackType AType = AttackType::NONE, class UParticleSystem* Particle = nullptr);
+	static void ApplyOverlapDamageToActors(float Damage, class AActor* Attacker, TArray<FOverlapResult> HitActor, class UParticleSystem* Particle = nullptr, AttackType AType = AttackType::NONE);
 
 private:
 	// FHitResult Ver
 	static void ApplyPlayerDamageToMonster(float Damage, class AMyPlayer* Attacker, FHitResult HitActor); // 1명 공격
 
-	static void ApplyPlayerDamageToMonster(float Damage, class AMyPlayer* Attacker, TArray<FHitResult> HitActor); // 다수 공격
+	static void ApplyPlayerDamageToMonster(float Damage, class AMyPlayer* Attacker, TArray<FHitResult> HitActor, class UParticleSystem* Particle); // 다수 공격
 	static void ApplyMonsterDamageToPlayer(float Damage, class AMonster* Attacker, TArray<FHitResult> HitActor, AttackType AType); // 다수 공격
 
 	// FOverlapResult Ver
-	static void ApplyPlayerDamageToMonster(float Damage, class AMyPlayer* Attacker, TArray<FOverlapResult> HitActor); // 다수 공격
+	static void ApplyPlayerDamageToMonster(float Damage, class AMyPlayer* Attacker, TArray<FOverlapResult> HitActor, class UParticleSystem* Particle); // 다수 공격
 	static void ApplyMonsterDamageToPlayer(float Damage, class AMonster* Attacker, TArray<FOverlapResult> HitActor, AttackType AType); // 다수
 
 public:
