@@ -17,6 +17,7 @@
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_Third.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_First.h"
 #include "../../Skills/Player/Bow/PlayerSkill_Bow_Second.h"
+#include "../../Skills/Player/Bow/PlayerSkill_Bow_Third.h"
 #pragma endregion 
 UPlayerSkillComponent::UPlayerSkillComponent()
 {
@@ -117,12 +118,15 @@ void UPlayerSkillComponent::BowSkillsInit()
 	BowSkills.Add(nullptr);
 	UPlayerSkill_Bow_First* Bow1 = NewObject<UPlayerSkill_Bow_First>();
 	UPlayerSkill_Bow_Second* Bow2 = NewObject<UPlayerSkill_Bow_Second>();
+	UPlayerSkill_Bow_Third* Bow3 = NewObject<UPlayerSkill_Bow_Third>();
 
 	Bow1->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
 	Bow2->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
+	Bow3->InitSkillValue(Cast<AMyPlayer>(OwnerPlayer));
 
 	BowSkills.Add(Bow1);
 	BowSkills.Add(Bow2);
+	BowSkills.Add(Bow3);
 }
 
 void UPlayerSkillComponent::DecreaseSkillPoint()

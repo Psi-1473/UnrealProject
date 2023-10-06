@@ -26,6 +26,9 @@ public:
 	void LootCancle();
 private:
 	UPROPERTY(EditAnywhere)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere)
 	float Time = 7.f;
 
 	UPROPERTY()

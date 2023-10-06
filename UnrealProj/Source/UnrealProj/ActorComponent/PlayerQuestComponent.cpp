@@ -148,9 +148,25 @@ void UPlayerQuestComponent::CheckItemQuest(int TargetType, int TargetId)
 
 void UPlayerQuestComponent::CheckInvestigateQuest(int TargetId)
 {
+	TArray<UQuest*> QuestsToRemove;
 	for (int i = 0; i < InvestigateQuests.Num(); i++)
 	{
+		UQuest* Quest = InvestigateQuests[i];
+		if (Quest->GetTargetId() == TargetId)
+		{
+			Quest->AddNowNum();
+			if (Quest->GetTargetNowNum() < Quest->GetTargetMaxNum())
+				continue;
 
+			QuestsToRemove.Add(Quest);
+			OnGoingToCompletable(Quest);
+		}
+	}
+
+	for (int i = 0; i < QuestsToRemove.Num(); i++)
+	{
+		UQuest* Quest = QuestsToRemove[i];
+		InvestigateQuests.RemoveSingle(Quest);
 	}
 }
 

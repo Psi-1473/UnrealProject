@@ -187,6 +187,8 @@ void UAttackChecker::ApplyOverlapDamageToActors(float Damage, AActor* Attacker, 
 		ApplyPlayerDamageToMonster(Damage, Player, HitActors, Particle);
 	else if (Monster)
 		ApplyMonsterDamageToPlayer(Damage, Monster, HitActors, AType);
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Owner Null"));
 }
 
 void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, FHitResult HitActor)

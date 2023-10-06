@@ -78,6 +78,7 @@ enum class SkillEnum : uint8
 	SKILL_SWORD_3,
 	SKILL_BOW_1,
 	SKILL_BOW_2,
+	SKILL_BOW_3,
 };
 
 UENUM(BlueprintType)

@@ -5,6 +5,7 @@
 #include "../../MyGameInstance.h"
 #include "../../DEFINE.h"
 #include "../../Managers/UIManager.h"
+#include "../../Managers/QuestManager.h"
 #include "../../Widgets/Popup/Widget_Looting.h"
 #include "../Player/MyPlayer.h"
 
@@ -63,8 +64,11 @@ void ALootObject::LootEnd()
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 	GInstance->GetUIMgr()->CloseUI((int)UIType::Looting);
+	GInstance->GetQuestMgr()->CheckQuestTarget(QUEST_INVESTIGATE, Id, InteractingPlayer);
 	InteractingPlayer->SetState(STATE::IDLE);
 	InteractingPlayer = nullptr;
+
+	Destroy();
 	// 진행 중인 퀘스트가 있으면 진척도 올리기
 }
 
