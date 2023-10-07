@@ -7,8 +7,15 @@
 #include "Components/ScrollBox.h"
 #include "../../MyGameInstance.h"
 #include "../../Managers/QuestManager.h"
+#include "../../DataClass/Quest.h"
 #include "../../Managers/UIManager.h"
 #include "../Popup/Widget_QuestQuickInfo.h"
+
+UWidget_QuestWindow::UWidget_QuestWindow(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	static ConstructorHelpers::FClassFinder<UUserWidget> SA(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Popup/WBP_QuestQuickInfo.WBP_QuestQuickInfo_C'"));
+	if (SA.Succeeded()) BP_Slot = SA.Class;
+}
 
 void UWidget_QuestWindow::NativeConstruct()
 {
@@ -21,8 +28,6 @@ void UWidget_QuestWindow::NativeConstruct()
 
 void UWidget_QuestWindow::MinimizationWindow()
 {
-	UE_LOG(LogTemp, Warning, TEXT("BTN CLICKED!"));
-
 	if (ListVisibility)
 	{
 		ListVisibility = false;
@@ -40,13 +45,14 @@ void UWidget_QuestWindow::MinimizationWindow()
 void UWidget_QuestWindow::AddQuest(UQuest* Data)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-	auto Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::QuestQuickInfo);
+	auto Widget = CreateWidget(GetWorld(), BP_Slot);
 	auto Quick = Cast<UWidget_QuestQuickInfo>(Widget);
 
 	ScrollBox_List->AddChild(Widget);
 	// 화면에 띄우는 함수도 추가
 	Quick->BindQuest(Data);
 	Slots.Add(Quick);
+	UE_LOG(LogTemp, Warning, TEXT("ADD Quest! %d"), Slots.Num());
 }
 
 void UWidget_QuestWindow::RemoveQuest(UQuest* Data)
@@ -54,8 +60,16 @@ void UWidget_QuestWindow::RemoveQuest(UQuest* Data)
 	for (int i = 0; i < Slots.Num(); i++)
 	{
 		UWidget_QuestQuickInfo* InfoWidget = Slots[i];
-		if (InfoWidget->GetQuest() == Data)
+
+		UE_LOG(LogTemp, Warning, TEXT("Widget : %d, %d . Data : %d, %d"), InfoWidget->GetQuest()->GetNpcId(),
+			InfoWidget->GetQuest()->GetQuestId(),
+			Data->GetNpcId(),
+			Data->GetQuestId());
+		if (InfoWidget->GetQuest()->GetNpcId() == Data->GetNpcId() &&
+			InfoWidget->GetQuest()->GetQuestId() == Data->GetQuestId())
 		{
+			UE_LOG(LogTemp, Warning, TEXT("RemoveQuest"));
+			InfoWidget->RemoveFromParent();
 			Slots.Remove(InfoWidget);
 			return;
 		}

@@ -85,7 +85,9 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 		else
 		{
 			// Äü½½·Ô³¢¸® ½º¿Ò
-			MainWidget->SwapSkillQuickSlot(QuickSkill->GetOwnerPlayer()->GetSkillComponent(), DragOper->SlotIndex, QuickSlotIndex);
+			if(MainWidget == nullptr)
+				return false;
+			MainWidget->SwapSkillQuickSlot(DragOper->Skill->GetOwnerPlayer()->GetSkillComponent(), DragOper->SlotIndex, QuickSlotIndex);
 			return true;
 		}
 
@@ -113,7 +115,6 @@ void UWidget_SkillQuick::NativeTick(const FGeometry& MyGeometry, float InDeltaTi
 void UWidget_SkillQuick::SetSkill(UPlayerSkill* Skill)
 {
 	QuickSkill = Skill;
-	if (QuickSkill == nullptr) return;
 
 	// ¿©±â¼­ ½ÇÇà
 	SetImage();
@@ -125,6 +126,7 @@ void UWidget_SkillQuick::SetImage()
 	if (QuickSkill == nullptr)
 	{
 		Img_Object->SetVisibility(ESlateVisibility::Hidden);
+		PB_Cooldown->SetPercent(0.f);
 		return;
 	}
 	Img_Object->SetVisibility(ESlateVisibility::Visible);

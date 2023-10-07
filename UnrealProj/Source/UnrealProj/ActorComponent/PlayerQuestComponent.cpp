@@ -204,12 +204,12 @@ void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 	int NextNpcId = Quest->GetNextNpcId();
 	int NextQuestId = Quest->GetNextQuestId();
 
-	if (NextNpcId == 0 || NextQuestId == 0)
-		return;
-
-	GInstance->GetQuestMgr()->LoadNpcQuest(Quest->GetNextNpc(), NextQuestId);
 	GInstance->GetQuestMgr()->RemoveQuickQuest(Quest);
 	BindedQuest.Remove(Quest);
+
+	if (NextNpcId == 0 || NextQuestId == 0)
+		return;
+	GInstance->GetQuestMgr()->LoadNpcQuest(Quest->GetNextNpc(), NextQuestId);
 	Quest->GetNextNpc()->UpdateQuestMark();
 	//Quest->GetClearNpc()->GetQuestComponent()->DecreaseMainCompletableNumber();
 	Quest->GetClearNpc()->UpdateQuestMark();

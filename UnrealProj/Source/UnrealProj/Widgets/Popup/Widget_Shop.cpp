@@ -26,28 +26,28 @@ void UWidget_Shop::CreateSlot(TWeakObjectPtr<class ANpc> Npc)
 	auto GInstance = Cast<UMyGameInstance>(Npc->GetGameInstance());
 	for (int i = 0; i < ItemNumber; i++)
 	{
-		Slot = CreateWidget(GetWorld(), BP_Slot);
-		SlotBox->AddChild(Slot);
-		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
-		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
+		WSlot = CreateWidget(GetWorld(), BP_Slot);
+		SlotBox->AddChild(WSlot);
+		WSlot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
+		auto ShopSlot = Cast<UWidget_ShopSlot>(WSlot);
 		ShopSlot->SetSlot(GInstance, ITEM_SWORD, Npc->GetSwordIds()[i]);
 	}
 	ItemNumber = Npc->GetBowIds().Num();
 	for (int i = 0; i < ItemNumber; i++)
 	{
-		Slot = CreateWidget(GetWorld(), BP_Slot);
-		SlotBox->AddChild(Slot);
-		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
-		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
+		WSlot = CreateWidget(GetWorld(), BP_Slot);
+		SlotBox->AddChild(WSlot);
+		WSlot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
+		auto ShopSlot = Cast<UWidget_ShopSlot>(WSlot);
 		ShopSlot->SetSlot(GInstance, ITEM_BOW, Npc->GetBowIds()[i]);
 	}
 	ItemNumber = Npc->GetUseItemIds().Num();
 	for (int i = 0; i < ItemNumber; i++)
 	{
-		Slot = CreateWidget(GetWorld(), BP_Slot);
-		SlotBox->AddChild(Slot);
-		Slot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
-		auto ShopSlot = Cast<UWidget_ShopSlot>(Slot);
+		WSlot = CreateWidget(GetWorld(), BP_Slot);
+		SlotBox->AddChild(WSlot);
+		WSlot->SetPadding(FMargin(20.f, 20.f, 20.f, 0.f));
+		auto ShopSlot = Cast<UWidget_ShopSlot>(WSlot);
 		ShopSlot->SetSlot(GInstance, ITEM_USE, Npc->GetUseItemIds()[i]);
 	}
 	

@@ -35,6 +35,9 @@ private:
 	UPROPERTY()
 	TWeakObjectPtr<class ANpc> OwnerNpc;
 
+	UPROPERTY()
 	TSubclassOf<UUserWidget> BP_Slot;
-	UUserWidget* Slot;
+
+	UPROPERTY()
+	UUserWidget* WSlot;
 };

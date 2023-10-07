@@ -28,7 +28,6 @@ void UQuestManager::LoadNpcQuest(ANpc* Npc, AMyPlayer* Player)
 		FQuestData* QData = Table->FindRow<FQuestData>(*FString::FromInt(i + 1), TEXT(""));
 		if (QData->CanLoad == false) continue; // 플레이어 레벨로 수정
 		if (Player->GetStatComponent()->GetLevel() < QData->PossibleLevel) continue;
-		// if 이미 불러온 퀘스트면 continue;
 
 
 		UE_LOG(LogTemp, Warning, TEXT("Cand Load True : %d"), CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id));
@@ -36,6 +35,12 @@ void UQuestManager::LoadNpcQuest(ANpc* Npc, AMyPlayer* Player)
 		if (CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id) != INDEX_NONE)
 			continue;
 
+		if(Npc->GetQuestComponent()->IsQuestInOnGoing(QData->Id))
+			continue;
+
+		if(GInstance->GetNpcList()[QData->ClearNpcId]->GetQuestComponent()->IsQuestInCompletable(QData->Id))
+			continue;
+		
 			Npc->GetQuestComponent()->LoadPossibleQuest(QData);
 			UE_LOG(LogTemp, Warning, TEXT("QUEST NAME : %s"), *QData->Name);
 	}
@@ -99,7 +104,11 @@ void UQuestManager::BindQuickWindow(AMyPlayer* Player, UQuest* Quest)
 void UQuestManager::RemoveQuickQuest(UQuest* Quest)
 {
 	if (QuestQuickWindow == nullptr)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("QuestWindow Null"));
 		return;
+	}
 
+		
 	QuestQuickWindow->RemoveQuest(Quest);
 }

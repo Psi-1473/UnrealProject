@@ -43,7 +43,7 @@ public:
 	void AddOngoingQuest(class UQuest* Quest);
 	void AddCompletableQuest(class UQuest* Quest);
 
-private:
+public:
 	bool IsQuestInOnGoing(int Id);
 	bool IsQuestInCompletable(int Id);
 

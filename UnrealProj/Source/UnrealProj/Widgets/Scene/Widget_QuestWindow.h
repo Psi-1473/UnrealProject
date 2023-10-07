@@ -15,6 +15,8 @@ class UNREALPROJ_API UWidget_QuestWindow : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UWidget_QuestWindow(const FObjectInitializer& ObjectInitializer);
+
 	virtual void NativeConstruct() override;
 
 	UFUNCTION()
@@ -35,6 +37,9 @@ private:
 
 	UPROPERTY()
 	bool ListVisibility = true;
+
+	UPROPERTY()
+	TSubclassOf<UUserWidget> BP_Slot;
 
 	UPROPERTY()
 	TArray<class UWidget_QuestQuickInfo*> Slots;
