@@ -24,6 +24,13 @@ public:
 	virtual void Interact(class AMyPlayer* Player) override;
 	void LootEnd();
 	void LootCancle();
+
+public:
+	int32 GetId() {return Id;}
+
+private:
+	void RegisterToManager();
+
 private:
 	UPROPERTY(EditAnywhere)
 	int32 Id;

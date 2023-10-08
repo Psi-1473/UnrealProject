@@ -250,6 +250,7 @@ public:
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
+	class UInteractObjManager* GetInterObjMgr() { return InterObjMgr; }
 
 public:
 	TArray<class ANpc*> GetNpcList() { return NpcList; }
@@ -306,6 +307,8 @@ private:
 	UPROPERTY()
 	class UQuestManager* QuestMgr;
 
+	UPROPERTY()
+	class UInteractObjManager* InterObjMgr;
 private:
 	UPROPERTY()
 	TArray<class ANpc*> NpcList;

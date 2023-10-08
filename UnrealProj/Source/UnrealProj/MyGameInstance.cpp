@@ -4,6 +4,7 @@
 #include "MyGameInstance.h"
 #include "Managers/ScriptManager.h"
 #include "Managers/QuestManager.h"
+#include "Managers/InteractObjManager.h"
 #include "Creatures/Player/MyPlayer.h"
 
 
@@ -37,6 +38,7 @@ UMyGameInstance::UMyGameInstance()
 
 	ScriptMgr = NewObject<UScriptManager>();
 	QuestMgr = NewObject<UQuestManager>();
+	InterObjMgr = NewObject<UInteractObjManager>();
 }
 
 void UMyGameInstance::Init()

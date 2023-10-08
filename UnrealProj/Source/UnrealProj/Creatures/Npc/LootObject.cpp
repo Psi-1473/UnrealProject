@@ -6,6 +6,7 @@
 #include "../../DEFINE.h"
 #include "../../Managers/UIManager.h"
 #include "../../Managers/QuestManager.h"
+#include "../../Managers/InteractObjManager.h"
 #include "../../Widgets/Popup/Widget_Looting.h"
 #include "../Player/MyPlayer.h"
 
@@ -40,6 +41,7 @@ void ALootObject::BeginPlay()
 {
 	AActor::BeginPlay();
 	
+	RegisterToManager();
 }
 
 
@@ -75,5 +77,12 @@ void ALootObject::LootEnd()
 void ALootObject::LootCancle()
 {
 
+}
+
+void ALootObject::RegisterToManager()
+{
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	//GInstance->GetInterObjMgr()->AddObject(this);
+	SetActorHiddenInGame(true);
 }
 
