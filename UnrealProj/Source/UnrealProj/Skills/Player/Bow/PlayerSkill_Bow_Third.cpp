@@ -6,6 +6,7 @@
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../../Items/Weapons/Weapon.h"
 #include "../../../Projectiles/Projectile.h"
+#include "../../../CameraShakes/SkillHitCameraShake.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -18,6 +19,7 @@ UPlayerSkill_Bow_Third::UPlayerSkill_Bow_Third()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> Particle2(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_SparrowBuff.P_SparrowBuff'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> Particle3(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_UltHit.P_Sparrow_UltHit'"));
 	static ConstructorHelpers::FClassFinder<AProjectile> ARROW(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/BP_Arrow_R.BP_Arrow_R_C'"));
+	static ConstructorHelpers::FClassFinder<USkillHitCameraShake> SHAKE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/CameraShakes/Player/Skill/Bow/BP_Shake_Bow3.BP_Shake_Bow3_C'"));
 
 	if (IMG.Succeeded()) Txt = IMG.Object;
 	if (HIT.Succeeded()) HitEffect = HIT.Object;
@@ -25,6 +27,7 @@ UPlayerSkill_Bow_Third::UPlayerSkill_Bow_Third()
 	if (Particle2.Succeeded()) BowParticle = Particle2.Object;
 	if (Particle3.Succeeded()) AttackParticle = Particle3.Object;
 	if (ARROW.Succeeded()) Arrow = ARROW.Class;
+	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
 }
 
 void UPlayerSkill_Bow_Third::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -82,6 +85,7 @@ void UPlayerSkill_Bow_Third::PlayParticle(AActor* OwnerActor)
 	Projectile->SetMaxSpeed(8000.f);
 	Projectile->SetParticle(Particle);
 	Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
+	OwnerPlayer->ShakeCamera(CameraShake);
 }
 
 void UPlayerSkill_Bow_Third::ParticlePlay()

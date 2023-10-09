@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 
-
 const int8 MAX_Inventory = 18;
 
 UENUM(BlueprintType)

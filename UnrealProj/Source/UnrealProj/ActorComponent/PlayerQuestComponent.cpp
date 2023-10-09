@@ -6,6 +6,7 @@
 #include "QuestComponent.h"
 #include "../MyGameInstance.h"
 #include "../Managers/QuestManager.h"
+#include "../Managers/InteractObjManager.h"
 #include "../DataClass/Quest.h"
 #include "../DEFINE.h"
 
@@ -62,6 +63,7 @@ void UPlayerQuestComponent::TakeNewQuest(ANpc* Npc, int32 QuestId)
 			break;
 		case QUEST_INVESTIGATE:
 			InvestigateQuests.Add(NewQuest);
+			MakeLootObjInvisible(NewQuest);
 			break;
 		default:
 			break;
@@ -193,11 +195,15 @@ void UPlayerQuestComponent::CheckETCQuest(int EtcType)
 void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Quest Clear"));
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	if (Quest->GetQuestType() == QUEST_INVESTIGATE)
+		GInstance->GetInterObjMgr()->MakeObjVisible(Quest->GetTargetId());
+
 	Quest->GetClearNpc()->GetQuestComponent()->RemoveCompletableQuest(Quest);
 	Quest->GetClearNpc()->UpdateQuestMark();
 	CompletableQuests.Remove(Quest);
 
-	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	
 
 	GInstance->GetQuestMgr()->AddToCompletedList(Quest->GetNpcId(), Quest->GetQuestId());
 
@@ -213,6 +219,8 @@ void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 	Quest->GetNextNpc()->UpdateQuestMark();
 	//Quest->GetClearNpc()->GetQuestComponent()->DecreaseMainCompletableNumber();
 	Quest->GetClearNpc()->UpdateQuestMark();
+
+
 }
 
 void UPlayerQuestComponent::OnGoingToCompletable(UQuest* Quest)
@@ -244,6 +252,13 @@ UQuest* UPlayerQuestComponent::CreateNewQuest(FQuestData* QuestData)
 	Quest->BindQuest(GInstance, QuestData);
 
 	return Quest;
+}
+
+void UPlayerQuestComponent::MakeLootObjInvisible(UQuest* Quest)
+{
+	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
+	auto InterMgr = GInstance->GetInterObjMgr();
+	InterMgr->MakeObjInvisible(Quest->GetTargetId());
 }
 
 

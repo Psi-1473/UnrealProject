@@ -255,6 +255,12 @@ void AMyPlayer::ShakeCamera(CameraShakeType Type)
 
 }
 
+void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
+{
+	GetController<AMyPlayerController>()->ClientPlayCameraShake(Type,
+		1.f, ECameraAnimPlaySpace::CameraLocal);
+}
+
 
 void AMyPlayer::SetDefaultCamera()
 {

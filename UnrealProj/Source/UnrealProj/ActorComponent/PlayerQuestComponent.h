@@ -51,6 +51,7 @@ public:
 	void RemoveBindedQuest(class UQuest* Quest) {BindedQuest.Remove(Quest);}
 private:
 	class UQuest* CreateNewQuest(struct FQuestData* QuestData);
+	void MakeLootObjInvisible(class UQuest* Quest);
 
 private:
 	UPROPERTY()

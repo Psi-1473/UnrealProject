@@ -29,6 +29,9 @@ public:
 	void SetInfo();
 
 private:
+	UPROPERTY()
+	bool bInformation = false;
+
 	UPROPERTY(EditAnywhere)
 	SkillEnum eSkill;
 

@@ -12,6 +12,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
+#include "../../../CameraShakes/SkillHitCameraShake.h"
 
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
@@ -21,17 +22,14 @@ UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Spawn.P_Aurora_Decoy_Spawn'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> DP(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Leap/FX/P_Aurora_Decoy_Explode_Fragments.P_Aurora_Decoy_Explode_Fragments'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Sword2.Sword2'"));
+	static ConstructorHelpers::FClassFinder<USkillHitCameraShake> SHAKE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/CameraShakes/Player/Skill/Sword/BP_Shake_Sword2.BP_Shake_Sword2_C'"));
 
 
-	if (EFFECT.Succeeded())
-		Effect = EFFECT.Class;
-	if (PP.Succeeded())
-		PlayerParticle = PP.Object;
-	if (DP.Succeeded())
-		DestroyParticle = DP.Object;
-	if (IMG.Succeeded())
-		Txt = IMG.Object;
-
+	if (EFFECT.Succeeded()) Effect = EFFECT.Class;
+	if (PP.Succeeded()) PlayerParticle = PP.Object;
+	if (DP.Succeeded()) DestroyParticle = DP.Object;
+	if (IMG.Succeeded()) Txt = IMG.Object;
+	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
 }
 
 void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -47,6 +45,7 @@ void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 	OwnerPlayer->bUseControllerRotationYaw = false;
 	SetDefaultValue();
+	OwnerPlayer->ShakeCamera(CameraShake);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 }
 

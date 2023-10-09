@@ -70,7 +70,7 @@ void ALootObject::LootEnd()
 	InteractingPlayer->SetState(STATE::IDLE);
 	InteractingPlayer = nullptr;
 
-	Destroy();
+	SetActorHiddenInGame(true);
 	// 진행 중인 퀘스트가 있으면 진척도 올리기
 }
 
@@ -79,10 +79,23 @@ void ALootObject::LootCancle()
 
 }
 
+void ALootObject::SetOff()
+{
+	SetActorHiddenInGame(true);
+	CapsuleComponent->SetActive(false);
+}
+
+void ALootObject::SetOn()
+{
+	SetActorHiddenInGame(false);
+	CapsuleComponent->SetActive(true);
+}
+
 void ALootObject::RegisterToManager()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Add Loot Obj : %d "), Id);
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
-	//GInstance->GetInterObjMgr()->AddObject(this);
+	GInstance->GetInterObjMgr()->AddLootObject(this);
 	SetActorHiddenInGame(true);
 }
 

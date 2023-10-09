@@ -210,6 +210,8 @@ void ABossMonster::Die(AMyPlayer* Player)
 
 	AIController->StopAI();
 	AnimInst->PlayDieMontage();
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->CheckQuest(QUEST_HUNT, StatComponent->GetId(), Player);
 }
 
 void ABossMonster::DestroyObject()

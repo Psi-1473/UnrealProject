@@ -47,4 +47,7 @@ protected:
 
 	UPROPERTY()
 	int32 Damage;
+
+	UPROPERTY()
+	TSubclassOf<class USkillHitCameraShake> CameraShake;
 };

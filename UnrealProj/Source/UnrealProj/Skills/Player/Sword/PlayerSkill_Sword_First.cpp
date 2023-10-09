@@ -12,6 +12,7 @@
 #include "Engine/Texture2D.h"
 #include "../../../Items/Weapons/Weapon.h"
 #include "../../../MyGameInstance.h"
+#include "../../../CameraShakes/SkillHitCameraShake.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
@@ -23,16 +24,14 @@ UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/0/BP_Effect_0_1.BP_Effect_0_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PARTICLE_Player(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonAurora/FX/Particles/Abilities/Freeze/FX/P_Aurora_Freeze_Whrilwind.P_Aurora_Freeze_Whrilwind'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Swrod1.Swrod1'"));
+	static ConstructorHelpers::FClassFinder<USkillHitCameraShake> SHAKE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/CameraShakes/Player/Skill/Sword/BP_Shake_Sword1.BP_Shake_Sword1_C'"));
 
 	
-	if (EFFECT.Succeeded())
-		Effect = EFFECT.Class;
-
-	if (PARTICLE_Player.Succeeded())
-		PlayerParticle = PARTICLE_Player.Object;
-
-	if (IMG.Succeeded())
-		Txt = IMG.Object;
+	if (EFFECT.Succeeded()) Effect = EFFECT.Class;
+	if (PARTICLE_Player.Succeeded()) PlayerParticle = PARTICLE_Player.Object;
+	if (IMG.Succeeded()) Txt = IMG.Object;
+	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
+	
 }
 
 void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -55,7 +54,7 @@ void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)
 		return;
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetParticleTimer();
-	
+	OwnerPlayer->ShakeCamera(CameraShake);
 }
 
 void UPlayerSkill_Sword_First::SetParticleTimer()

@@ -169,6 +169,10 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 {
 	if (MyPlayer == nullptr)
 		return;
+
+	if(MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
+		return;
+
 	FVector2D LookVector = Value.Get<FVector2D>();
 
 	if (MyPlayer->GetSpawnedRangeActor() != nullptr)
@@ -371,9 +375,9 @@ FVector AMyPlayerController::GetViewportToWorld()
 	FVector WorldDir;
 
 	GetViewportSize(ViewportX, ViewportY);
-	ViewportX = ViewportX / 2;
+	ViewportX = ViewportX / 2; 
 	ViewportY = ViewportY / 2;
-	ViewportY -= 10;
+	ViewportY -= 80;
 	DeprojectScreenPositionToWorld((float)ViewportX, (float)ViewportY, WorldPos, WorldDir);
 	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldPos.X, WorldPos.Y, WorldPos.Z);
 	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldDir.X, WorldDir.Y, WorldDir.Z);
@@ -410,9 +414,9 @@ FVector AMyPlayerController::GetArrowDir(FVector Start, FVector Dir)
 		HitResult,
 		true
 		// 여기 밑에 3개는 기본 값으로 제공됨. 바꾸려면 적으면 됨.
-		//, FLinearColor::Red
-		//, FLinearColor::Green
-		//, 5.0f
+		, FLinearColor::Green
+		, FLinearColor::Green
+		, 0.0f
 	);
 	FVector DestinationPos;
 	if (Result == true)

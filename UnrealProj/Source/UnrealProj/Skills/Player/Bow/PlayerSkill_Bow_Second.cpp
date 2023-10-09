@@ -6,6 +6,7 @@
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../../Items/Weapons/Weapon.h"
 #include "../../../Projectiles/Projectile.h"
+#include "../../../CameraShakes/SkillHitCameraShake.h"
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
@@ -21,17 +22,13 @@ UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> PParticle(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Ultimate/FX/P_Sparrow_Burst.P_Sparrow_Burst'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow1.Arrow1'"));
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> HIT(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Primary/FX/P_PROTO_Proto_Ballistic_HitWorld.P_PROTO_Proto_Ballistic_HitWorld'"));
+	static ConstructorHelpers::FClassFinder<USkillHitCameraShake> SHAKE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/CameraShakes/Player/Skill/Bow/BP_Shake_Bow2.BP_Shake_Bow2_C'"));
 
 	
-	if (PParticle.Succeeded())
-		PlayerParticle = PParticle.Object;
-
-	if (IMG.Succeeded())
-		Txt = IMG.Object;
-
-
-	if (HIT.Succeeded())
-		HitEffect = HIT.Object;
+	if (PParticle.Succeeded()) PlayerParticle = PParticle.Object;
+	if (IMG.Succeeded()) Txt = IMG.Object;
+	if (HIT.Succeeded()) HitEffect = HIT.Object;
+	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
 }
 
 void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -81,4 +78,5 @@ void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 		Projectile->SetParticle(Particle);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
+	OwnerPlayer->ShakeCamera(CameraShake);
 }

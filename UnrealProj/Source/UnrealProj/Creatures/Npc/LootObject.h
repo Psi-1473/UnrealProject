@@ -25,6 +25,9 @@ public:
 	void LootEnd();
 	void LootCancle();
 
+	void SetOff();
+	void SetOn();
+
 public:
 	int32 GetId() {return Id;}
 

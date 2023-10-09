@@ -7,6 +7,7 @@
 #include "../../../DEFINE.h"
 #include "../../../State/CharacterState.h"
 #include "../../EffectActor/SkillRangeActor.h"
+#include "../../../CameraShakes/SkillHitCameraShake.h"
 #include "Components/CapsuleComponent.h"
 #include "../../EffectActor/SkillEffectActor.h"
 #include "../../../Items/Weapons/Weapon.h"
@@ -15,17 +16,18 @@
 #include "../../../MyGameInstance.h"
 
 
+
 UPlayerSkill_Bow_First::UPlayerSkill_Bow_First()
 {
 	bRange = true;
 
 	static ConstructorHelpers::FClassFinder<ASkillEffectActor> EFFECT(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/SkillEffectActor/Player/1/BP_Effect_1_1.BP_Effect_1_1_C'"));
 	static ConstructorHelpers::FObjectFinder<UTexture2D> IMG(TEXT("/Script/Engine.Texture2D'/Game/09_Image/Skill/Arrow2.Arrow2'"));
+	static ConstructorHelpers::FClassFinder<USkillHitCameraShake> SHAKE(TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/CameraShakes/Player/Skill/Bow/BP_Shake_Bow1.BP_Shake_Bow1_C'"));
 
 	if (EFFECT.Succeeded()) Effect = EFFECT.Class;
-
-	if (IMG.Succeeded())
-		Txt = IMG.Object;
+	if (IMG.Succeeded())Txt = IMG.Object;
+	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
 }
 
 void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
@@ -83,4 +85,5 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	OwnerPlayer->SetRangeActor(nullptr);
 	EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);
 	EffectActor->SetOwner(Cast<AActor>(OwnerPlayer));
+	OwnerPlayer->ShakeCamera(CameraShake);
 }

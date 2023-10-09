@@ -4,6 +4,7 @@
 #include "Widget_SkillSlot.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Components/HorizontalBox.h"
 #include "../../Skills/Skill.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include <Blueprint/WidgetBlueprintLibrary.h>
@@ -14,6 +15,8 @@
 #include "Widget_Information.h"
 #include "Components/Button.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
+#include "../../MyGameMode.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 void UWidget_SkillSlot::NativeConstruct()
 {
@@ -22,6 +25,7 @@ void UWidget_SkillSlot::NativeConstruct()
 	SetSkill();
 	SetInfo();
 }
+
 
 FReply UWidget_SkillSlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
 {
@@ -43,6 +47,7 @@ void UWidget_SkillSlot::NativeOnDragDetected(const FGeometry& InGeometry, const 
 
 	if(Skill->GetLevel() == 0)
 		return;
+
 
 	if (OutOperation == nullptr)
 	{
@@ -75,8 +80,7 @@ void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 
-
-	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
@@ -86,20 +90,19 @@ void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	UWidget_Information* InfoWidget = Cast<UWidget_Information>(Widget);
 	if (InfoWidget == nullptr) return;
 
-	FGeometry Geometry = GetCachedGeometry();
-	FVector2D Position = Geometry.GetAbsolutePosition();
-	Position.X += 200.f;
-	Position.Y -= 100.f;
-	//InfoWidget->SetPositionInViewport(Position);
-	InfoWidget->SetRenderTranslation(Position);
-	InfoWidget->SetInfoBySkill(Skill);
 
+	InfoWidget->SetInfoBySkill(Skill);
+	FGeometry ViewportGeometry = UWidgetLayoutLibrary::GetViewportWidgetGeometry(GetWorld());
+	FVector2D Position = (GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(1.f, 1.f))  
+	+ FVector2D(480.f, 20.f)) * UWidgetLayoutLibrary::GetViewportScale(MyPlayer->GetInstance()->GetGameViewportClient());
+	
+	Widget->SetPositionInViewport(Position);
 }
 
 void UWidget_SkillSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
+	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
