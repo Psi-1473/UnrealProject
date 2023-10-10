@@ -4,9 +4,19 @@
 #include "UIManager.h"
 #include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerController.h"
+#include "Sound/SoundWave.h"
+#include "Kismet/GameplayStatics.h"
 
 UIManager::UIManager()
 {
+	static ConstructorHelpers::FObjectFinder<USoundWave> PopupSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/UI/Sound_UI_Popup.Sound_UI_Popup'"));
+	static ConstructorHelpers::FObjectFinder<USoundWave> CloseSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/UI/Sound_UI_Close.Sound_UI_Close'"));
+	static ConstructorHelpers::FObjectFinder<USoundWave> ButtonSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/UI/Sound_UI_Button.Sound_UI_Button'"));
+
+	if(PopupSound.Succeeded()) Sound_Popup = PopupSound.Object;
+	if(CloseSound.Succeeded()) Sound_Close = CloseSound.Object;
+	if(ButtonSound.Succeeded()) Sound_Button = ButtonSound.Object;
+
 	PopupUiArray.Init(nullptr, (int)UIType::End);
 }
 
@@ -43,8 +53,11 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 	PopupUi->AddToViewport();
 	PopupUiArray[(int)Type] = PopupUi;
 
-	if(Type != UIType::BossHpBar && Type != UIType::QuestQuickInfo)
+	if(Type != UIType::BossHpBar && Type != UIType::QuestQuickInfo && Type != UIType::Information)
+	{
 		UiNumber++;
+		UGameplayStatics::PlaySound2D(PlayerController->GetWorld(), Sound_Popup);
+	}
 
 	if (UiNumber == 1)
 	{
@@ -64,9 +77,12 @@ void UIManager::CloseUI(int Type)
 	PopupUiArray[Type]->Destruct();
 	PopupUiArray[Type]->RemoveFromViewport();
 	PopupUiArray[Type] = nullptr;
-
-	if (Type != (int)UIType::BossHpBar)
+	
+	if (Type != (int)UIType::BossHpBar && Type != (int)UIType::QuestQuickInfo && Type != (int)UIType::Information)
+	{
+		UGameplayStatics::PlaySound2D(PlayerController->GetWorld(), Sound_Close);
 		UiNumber--;
+	}
 
 	if (UiNumber <= 0)
 	{
@@ -84,4 +100,9 @@ void UIManager::CloseAllUI()
 
 	for (int i = 0; i < Cnt; i++)
 		CloseUI(i);
+}
+
+void UIManager::PlayButtonSound()
+{
+	UGameplayStatics::PlaySound2D(PlayerController->GetWorld(), Sound_Button);
 }

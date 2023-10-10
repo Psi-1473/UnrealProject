@@ -15,6 +15,8 @@ class UNREALPROJ_API UWidget_LineScript : public UUserWidget
 {
 	GENERATED_BODY()
 public:
+	UWidget_LineScript(const FObjectInitializer& ObjectInitializer);
+
 	virtual void NativeConstruct() override;
 
 	void BindQuestScript(class UMyGameInstance* GInstance, TWeakObjectPtr<class ANpc> Npc, int32 BindQuestId);
@@ -46,6 +48,9 @@ private:
 
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_Next;
+
+	UPROPERTY()
+	class USoundWave* Sound_Next;
 
 	//UPROPERTY()
 	//TWeakObjectPtr<class ANpc> OwnerNpc;

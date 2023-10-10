@@ -15,6 +15,7 @@
 #include "../../Skills/Monster/Sevarog/SevarogSkill_Sixth.h"
 #include "../../Skills/EffectActor/SkillRangeActor.h"
 #include "../../Stat/MonsterStatComponent.h"
+#include "../../Managers/UIManager.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/LatentActionManager.h"
@@ -211,6 +212,7 @@ void ABossMonster::Die(AMyPlayer* Player)
 	AIController->StopAI();
 	AnimInst->PlayDieMontage();
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->GetUIMgr()->CloseUI((int)UIType::BossHpBar);
 	GInstance->CheckQuest(QUEST_HUNT, StatComponent->GetId(), Player);
 }
 

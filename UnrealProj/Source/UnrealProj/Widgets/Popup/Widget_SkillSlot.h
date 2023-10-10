@@ -16,6 +16,8 @@ class UNREALPROJ_API UWidget_SkillSlot : public UUserWidget
 	GENERATED_BODY()
 	
 public:
+	UWidget_SkillSlot(const FObjectInitializer& ObjectInitializer);
+
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	virtual void NativeOnDragDetected(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent, UDragDropOperation*& OutOperation) override;
@@ -50,6 +52,8 @@ private:
 	UPROPERTY(meta = (BindWidget))
 	class UButton* Btn_LevelUp;
 
+	UPROPERTY()
+	class USoundWave* Sound_Up;
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	TSubclassOf<class UWidget_InvenSlot> DragVisualClass;

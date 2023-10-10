@@ -9,6 +9,7 @@
 #include "../../Inventory/Inventory.h"
 #include "../../Items/Item.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../Managers/UIManager.h"
 #include "Widget_InvenSlot.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
@@ -74,7 +75,8 @@ void UWidget_Inventory::SetInventoryTypeEquip()
 {
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-
+	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
+	GInstance->GetUIMgr()->PlayButtonSound();
 	MyPlayer->GetInventory()->SetType(InventoryType::Equip);
 	UpdateSlotInfo();
 }
@@ -83,7 +85,8 @@ void UWidget_Inventory::SetInventoryTypeUse()
 {
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-
+	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
+	GInstance->GetUIMgr()->PlayButtonSound();
 	MyPlayer->GetInventory()->SetType(InventoryType::Use);
 	UpdateSlotInfo();
 }
@@ -92,7 +95,8 @@ void UWidget_Inventory::SetInventoryTypeEtc()
 {
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
-
+	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
+	GInstance->GetUIMgr()->PlayButtonSound();
 	MyPlayer->GetInventory()->SetType(InventoryType::Etc);
 	UpdateSlotInfo();
 }

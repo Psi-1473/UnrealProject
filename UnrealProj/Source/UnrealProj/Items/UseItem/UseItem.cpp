@@ -14,9 +14,14 @@
 #include "../../Widgets/Popup/Widget_Inventory.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Stat/PlayerStatComponent.h"
+#include "Sound/SoundWave.h"
+
 
 AUseItem::AUseItem()
 {
+	static ConstructorHelpers::FObjectFinder<USoundWave> UseSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Sound_UI_PotionUse.Sound_UI_PotionUse'"));
+
+	if (UseSound.Succeeded()) Sound_Use = UseSound.Object;
 }
 
 void AUseItem::UseItem()
@@ -26,6 +31,7 @@ void AUseItem::UseItem()
 	auto MyPlayer = Cast<AMyPlayer>(Owner);
 	SetCount(Count - 1);
 
+	UGameplayStatics::PlaySound2D(MyPlayer->GetWorld(), Sound_Use);
 	
 	switch (UseType)
 	{

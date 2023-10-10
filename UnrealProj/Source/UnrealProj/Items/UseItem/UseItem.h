@@ -32,4 +32,7 @@ private:
 
 	UPROPERTY()
 	int Amount;
+
+	UPROPERTY()
+	class USoundWave* Sound_Use;
 };

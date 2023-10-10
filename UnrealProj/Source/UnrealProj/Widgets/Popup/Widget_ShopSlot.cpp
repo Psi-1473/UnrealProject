@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Inventory/Inventory.h"
+#include "../../Managers/UIManager.h"
 #include "Components/Button.h"
 
 
@@ -25,6 +26,8 @@ void UWidget_ShopSlot::ClickBuyButton()
 {
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
+	auto GInstance = Cast<UMyGameInstance>(MyPlayer->GetGameInstance());
+	GInstance->GetUIMgr()->PlayButtonSound();
 	if (MyPlayer->GetInventory()->GetGold() < ItemPrice)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Not Enough Gold"));

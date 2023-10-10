@@ -10,7 +10,15 @@
 #include "Widget_NpcQuestInfo.h"
 #include "../../DEFINE.h"
 #include "Engine/DataTable.h"
+#include "Sound/SoundWave.h"
+#include "Kismet/GameplayStatics.h"
 
+UWidget_LineScript::UWidget_LineScript(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	static ConstructorHelpers::FObjectFinder<USoundWave> NextSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/UI/Sound_UI_Next.Sound_UI_Next'"));
+
+	if (NextSound.Succeeded()) Sound_Next = NextSound.Object;
+}
 
 void UWidget_LineScript::NativeConstruct()
 {
@@ -45,6 +53,7 @@ void UWidget_LineScript::OpenFollowingLine()
 	else
 	{
 		UpdateLine(NextPage);
+		UGameplayStatics::PlaySound2D(GetWorld(), Sound_Next);
 	}
 }
 

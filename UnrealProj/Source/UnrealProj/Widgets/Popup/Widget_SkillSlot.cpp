@@ -17,6 +17,15 @@
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../MyGameMode.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
+#include "Sound/SoundWave.h"
+#include "Kismet/GameplayStatics.h"
+
+UWidget_SkillSlot::UWidget_SkillSlot(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
+{
+	static ConstructorHelpers::FObjectFinder<USoundWave> UpSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/UI/Sound_UI_SkillUp.Sound_UI_SkillUp'"));
+
+	if (UpSound.Succeeded()) Sound_Up = UpSound.Object;
+}
 
 void UWidget_SkillSlot::NativeConstruct()
 {
@@ -116,7 +125,7 @@ void UWidget_SkillSlot::SkillLevelUp()
 
 	if(MyPlayer->GetSkillComponent()->GetSkillPoint() == 0)
 		return;
-
+	UGameplayStatics::PlaySound2D(MyPlayer->GetWorld(), Sound_Up);
 	Skill->LevelUp();
 	SetInfo();
 }

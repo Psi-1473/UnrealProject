@@ -17,6 +17,7 @@ public:
 	UUserWidget* PopupUI(UWorld* World, UIType Type);
 	void CloseUI(int Type);
 	void CloseAllUI();
+	void PlayButtonSound();
 	void SetController(TWeakObjectPtr<class APlayerController> Controller) { PlayerController = Controller; }
 	UUserWidget* GetUI(UIType Type) { return PopupUiArray[(int)Type]; }
 
@@ -24,6 +25,7 @@ public:
 	UPROPERTY()
 	int UiNumber = 0;
 
+	UPROPERTY()
 	TSubclassOf<UUserWidget> WidgetAsset;
 
 	UPROPERTY()
@@ -31,4 +33,13 @@ public:
 
 	UPROPERTY()
 	TArray<UUserWidget*> PopupUiArray;
+
+	UPROPERTY()
+	class USoundWave* Sound_Close;
+
+	UPROPERTY()
+	class USoundWave* Sound_Popup;
+
+	UPROPERTY()
+	class USoundWave* Sound_Button;
 };
