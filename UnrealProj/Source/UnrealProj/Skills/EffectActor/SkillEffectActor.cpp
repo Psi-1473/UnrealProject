@@ -23,6 +23,9 @@ ASkillEffectActor::ASkillEffectActor()
 	ParticleComponent->SetupAttachment(RootComponent);
 	LegacyParticleComponent->SetupAttachment(RootComponent);
 	AudioComponent->SetupAttachment(RootComponent);
+
+	ParticleComponent->SetCollisionProfileName(TEXT("NoCollision"));
+	LegacyParticleComponent->SetCollisionProfileName(TEXT("NoCollision"));
 }
 
 void ASkillEffectActor::BeginPlay()

@@ -10,6 +10,7 @@
 UQuestComponent::UQuestComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
+
 }
 
 

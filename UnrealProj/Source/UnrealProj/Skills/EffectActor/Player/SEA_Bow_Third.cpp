@@ -3,9 +3,13 @@
 
 #include "SEA_Bow_Third.h"
 #include "../../../Helpers/AttackChecker.h"
+#include "Sound/SoundWave.h"
+#include "Components/AudioComponent.h"
 
 ASEA_Bow_Third::ASEA_Bow_Third()
 {
+	static ConstructorHelpers::FObjectFinder<USoundWave> AttackSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Player/Arrow/Sound_Player_Bow3Thunder.Sound_Player_Bow3Thunder'"));
+	if (AttackSound.Succeeded()) Sound_Attack = AttackSound.Object;
 }
 
 void ASEA_Bow_Third::BeginPlay()
@@ -27,6 +31,8 @@ void ASEA_Bow_Third::BeginPlay()
 void ASEA_Bow_Third::AttackCheck()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Attack Check"));
+	AudioComponent->SetSound(Sound_Attack);
+	AudioComponent->Play();
 	TArray<FOverlapResult> Mobs;
 	Mobs = UAttackChecker::PlayerCircleCheck(GetActorLocation(), 500.f, 500.f, ECC_GameTraceChannel5, this);
 	UAttackChecker::ApplyOverlapDamageToActors(20.f, GetOwner(), Mobs);

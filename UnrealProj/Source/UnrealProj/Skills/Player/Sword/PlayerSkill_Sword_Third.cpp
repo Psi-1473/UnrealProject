@@ -27,6 +27,8 @@ UPlayerSkill_Sword_Third::UPlayerSkill_Sword_Third()
 	if(IMG.Succeeded()) Txt = IMG.Object;
 	if (SHAKE.Succeeded()) CameraShake = SHAKE.Class;
 
+	
+
 }
 
 void UPlayerSkill_Sword_Third::Execute(AActor* OwnerActor, bool bRangeAttack)

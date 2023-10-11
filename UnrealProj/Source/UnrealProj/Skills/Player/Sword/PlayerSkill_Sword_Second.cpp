@@ -42,7 +42,6 @@ void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 		return;
 
 	MoveDir = OwnerActor->GetActorForwardVector();
-	OwnerPlayer->GetCharacterMovement()->SetMovementMode(MOVE_Flying);
 	OwnerPlayer->bUseControllerRotationYaw = false;
 	SetDefaultValue();
 	MoveDir = OwnerActor->GetActorForwardVector();

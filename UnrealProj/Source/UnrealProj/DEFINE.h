@@ -25,6 +25,7 @@ enum class UIType : uint8
 	QuestInfo,
 	QuestQuickInfo,
 	LineScript,
+	AreaTitle,
 	End,
 };
 

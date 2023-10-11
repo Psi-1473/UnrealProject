@@ -17,6 +17,7 @@
 #include "Widget_Inventory.h"
 #include "Widget_Information.h"
 #include "../../DEFINE.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 
 
 UWidget_InvenSlot::UWidget_InvenSlot(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
@@ -157,11 +158,11 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 	if (InfoWidget == nullptr) return;
 
 
-	FGeometry Geometry = GetCachedGeometry();
-	FVector2D Position = Geometry.GetAbsolutePosition();
-	Position.X += 200.f;
-	Position.Y -= 100.f;
-	InfoWidget->SetPosition(Position);
+	FGeometry ViewportGeometry = UWidgetLayoutLibrary::GetViewportWidgetGeometry(GetWorld());
+	FVector2D Position = (GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(1.f, 1.f))
+		+ FVector2D(700.f, 20.f)) * UWidgetLayoutLibrary::GetViewportScale(MyPlayer->GetInstance()->GetGameViewportClient());
+
+	Widget->SetPositionInViewport(Position);
 
 	auto Weapon = Cast<AWeapon>(SlotItem);
 	auto UseItem = Cast<AUseItem>(SlotItem);
@@ -170,7 +171,8 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 		InfoWidget->SetInfoByItem(InformationType::INFO_WEAPON, SlotItem);
 	else if(UseItem != nullptr)
 		InfoWidget->SetInfoByItem(InformationType::INFO_USEITEM, SlotItem);
-
+	
+	
 	
 	
 	//Information

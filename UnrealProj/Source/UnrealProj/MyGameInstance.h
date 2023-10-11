@@ -251,6 +251,7 @@ public:
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 	class UInteractObjManager* GetInterObjMgr() { return InterObjMgr; }
+	class USoundManager* GetSoundMgr() { return SoundMgr; }
 
 public:
 	TArray<class ANpc*> GetNpcList() { return NpcList; }
@@ -295,6 +296,8 @@ private:
 
 public:
 
+	void AddNpcNumber();
+	void InitNpcQuest();
 private:
 	FString GetQuestScriptDir(int NpcId, int QuestId);
 	FString GetQuestDataDir(int NpcId);
@@ -309,7 +312,14 @@ private:
 
 	UPROPERTY()
 	class UInteractObjManager* InterObjMgr;
+
+	UPROPERTY()
+		class USoundManager* SoundMgr;
+
 private:
 	UPROPERTY()
 	TArray<class ANpc*> NpcList;
+	
+	UPROPERTY()
+	int32 NpcNumber = 0;
 };

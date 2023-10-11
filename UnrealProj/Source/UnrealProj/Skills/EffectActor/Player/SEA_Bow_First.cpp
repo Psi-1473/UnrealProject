@@ -54,7 +54,7 @@ void ASEA_Bow_First::AttackCheck()
 		else
 			DrawColor = FColor::Red;
 
-		DrawDebugSphere(GetWorld(), Center, Radius, 32, DrawColor, false, 1.f);
+		//DrawDebugSphere(GetWorld(), Center, Radius, 32, DrawColor, false, 1.f);
 
 		if (bResult && !HitResults.IsEmpty())
 		{

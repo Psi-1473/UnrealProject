@@ -6,10 +6,13 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
 #include "../../../Creatures/Player/MyPlayer.h"
+#include "../../../Creatures/Monster/Monster.h"
 #include "Kismet/GameplayStatics.h"
 #include "NiagaraFunctionLibrary.h"
 #include "NiagaraComponent.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Engine/DamageEvents.h"
+
 
 ASEA_Sword_SecondDash::ASEA_Sword_SecondDash()
 {
@@ -50,4 +53,19 @@ void ASEA_Sword_SecondDash::Tick(float DeltaTime)
 
 void ASEA_Sword_SecondDash::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+	if (OtherActor && (OtherActor != this))
+	{
+		auto Enemy = Cast<AMonster>(OtherActor);
+		auto OwnerPlayer = Cast<AMyPlayer>(Owner);
+		if (Enemy)
+		{
+			FDamageEvent DamageEvent;
+			if (OwnerPlayer == nullptr)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
+				return;
+			}
+			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+		}
+	}
 }

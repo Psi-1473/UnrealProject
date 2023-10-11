@@ -25,4 +25,7 @@ private:
 
 	UPROPERTY()
 	FTimerHandle AttackDelayTimerHandle;
+
+	UPROPERTY()
+	class USoundWave* Sound_Attack;
 };

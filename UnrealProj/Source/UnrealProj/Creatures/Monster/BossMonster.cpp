@@ -16,10 +16,13 @@
 #include "../../Skills/EffectActor/SkillRangeActor.h"
 #include "../../Stat/MonsterStatComponent.h"
 #include "../../Managers/UIManager.h"
+#include "../../Managers/SoundManager.h"
+#include "../../MyGameInstance.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/LatentActionManager.h"
 #include "Particles/ParticleSystemComponent.h"
+#include "Sound/SoundWave.h"
 
 ABossMonster::ABossMonster()
 {
@@ -30,8 +33,9 @@ ABossMonster::ABossMonster()
 	DashParticleComp = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("DashEffect"));
 	DashParticleComp->SetupAttachment(RootComponent);
 	static ConstructorHelpers::FObjectFinder<UParticleSystem> DASH(TEXT("/Script/Engine.ParticleSystem'/Game/ParagonSevarog/FX/Particles/Abilities/SoulStackPassive/FX/P_ShadowTrailsCharSelect.P_ShadowTrailsCharSelect'"));
-	if (DASH.Succeeded())
-		DashParticleComp->SetTemplate(DASH.Object);
+	static ConstructorHelpers::FObjectFinder<USoundWave> BGM(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/BGM/BGM_Boss.BGM_Boss'"));
+	if (DASH.Succeeded()) DashParticleComp->SetTemplate(DASH.Object);
+	if (BGM.Succeeded()) BossBgm = BGM.Object;
 }
 
 void ABossMonster::BeginPlay()
@@ -70,6 +74,10 @@ void ABossMonster::BeginPlay()
 	SkillList.Add(NewSkill6);
 
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Skill Size : %d"), SkillList.Num());
+
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	GInstance->GetSoundMgr()->SetBGM(BossBgm);
+	
 }
 
 void ABossMonster::PostInitializeComponents()
@@ -214,6 +222,7 @@ void ABossMonster::Die(AMyPlayer* Player)
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
 	GInstance->GetUIMgr()->CloseUI((int)UIType::BossHpBar);
 	GInstance->CheckQuest(QUEST_HUNT, StatComponent->GetId(), Player);
+	GInstance->GetSoundMgr()->PlayAreaBgm();
 }
 
 void ABossMonster::DestroyObject()

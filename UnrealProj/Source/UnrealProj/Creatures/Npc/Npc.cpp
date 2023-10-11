@@ -54,17 +54,21 @@ ANpc::ANpc()
 	InteractBox->OnComponentEndOverlap.AddDynamic(this, &IInteractable::OnOverlapEnd);
 }
 
+void ANpc::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+
+}
+
 void ANpc::BeginPlay()
 {
 	AActor::BeginPlay();
-	NpcInfo->InitWidget();
 	SetNpcInfo();
-
-	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	auto MyPlayer = Cast<AMyPlayer>(Char);
-	LoadPossibleQuestData(MyPlayer);
 	SetPlayer();
+
 	MinimapIcon->SetWorldLocation(GetActorLocation() + GetActorUpVector() * 1000.f);
+	LoadPossibleQuestData(Cast<AMyPlayer>(MainPlayer));
+	NpcInfo->InitWidget();
 }
 
 void ANpc::Tick(float DeltaSeconds)

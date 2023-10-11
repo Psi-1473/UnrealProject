@@ -10,6 +10,7 @@
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../Managers/SoundManager.h"
 #include "../../Projectiles/Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -21,12 +22,13 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
 #include "../../MyGameMode.h"
+#include "../../MyGameInstance.h"
 #include "LegacyCameraShake.h"
 #include "Components/AudioComponent.h"
 #include "../../Widgets/Widget_PlayerMain.h"
 #include "../../Helpers/AttackChecker.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
-
+#include "../../Triggers/AreaBox.h"
 
 
 
@@ -102,7 +104,7 @@ void AMyPlayer::BeginPlay()
 
 	if (GameMode == nullptr) return;
 	GameMode->BindPlayer(this);
-
+	GInstance->GetSoundMgr()->Init(GetWorld());
 	SkillComponent->SkillsInit();
 }
 

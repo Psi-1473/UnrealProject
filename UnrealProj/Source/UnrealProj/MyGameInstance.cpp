@@ -5,7 +5,9 @@
 #include "Managers/ScriptManager.h"
 #include "Managers/QuestManager.h"
 #include "Managers/InteractObjManager.h"
+#include "Managers/SoundManager.h"
 #include "Creatures/Player/MyPlayer.h"
+#include "Kismet/GameplayStatics.h"
 
 
 UMyGameInstance::UMyGameInstance()
@@ -21,7 +23,7 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/BowImageTable.BowImageTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> SwordSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/SwordSkillData.SwordSkillData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/BowSkillData.BowSkillData'"));
-	
+
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
 	if (UseImage.Succeeded()) ItemImages = UseImage.Object;
@@ -39,6 +41,8 @@ UMyGameInstance::UMyGameInstance()
 	ScriptMgr = NewObject<UScriptManager>();
 	QuestMgr = NewObject<UQuestManager>();
 	InterObjMgr = NewObject<UInteractObjManager>();
+	SoundMgr = NewObject<USoundManager>();
+
 }
 
 void UMyGameInstance::Init()
@@ -140,6 +144,24 @@ UDataTable* UMyGameInstance::GetQuestScript(int NpcId, int QuestId)
 void UMyGameInstance::CheckQuest(int QuestType, int TargetId, TWeakObjectPtr<AMyPlayer> Player, int TargetType)
 {
 	QuestMgr->CheckQuestTarget(QuestType, TargetId, Player, TargetType);
+}
+
+void UMyGameInstance::AddNpcNumber()
+{
+	//NpcNumber++;
+	//
+	//if(NpcList.Num() <= NpcNumber)
+	//	InitNpcQuest();
+}
+
+void UMyGameInstance::InitNpcQuest()
+{
+	//auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	//auto MyPlayer = Cast<AMyPlayer>(Char);
+	//for (int i = 0; i < NpcList.Num(); i++)
+	//{
+	//	GetQuestMgr()->LoadNpcQuest(NpcList[i], MyPlayer);
+	//}
 }
 
 FString UMyGameInstance::GetQuestScriptDir(int NpcId, int QuestId)

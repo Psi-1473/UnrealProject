@@ -77,6 +77,7 @@ private:
 
 	UPROPERTY()
 	TArray<class UQuest*> BindedQuest;
-
+	UPROPERTY()
+	class USoundWave* Sound_QuestClear;
 		
 };

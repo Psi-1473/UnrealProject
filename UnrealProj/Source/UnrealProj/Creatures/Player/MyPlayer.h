@@ -55,7 +55,6 @@ public:
 	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
 	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 	void Interact();
-
 	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
 	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type); 
 
@@ -126,6 +125,5 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UAudioComponent* AudioComponent;
-
 
 };

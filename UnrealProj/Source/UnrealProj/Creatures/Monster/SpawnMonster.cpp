@@ -85,12 +85,14 @@ float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, A
 	auto AIController = Cast<AMonsterAIController>(GetController());
 	AIController->StopAI();
 	AnimInst->PlayDamagedMontage();
-	StatComponent->OnAttacked(Damage);
+	int DamageValue = FMath::RandRange(Damage / 2, Damage);
+	StatComponent->OnAttacked(DamageValue);
+	
 
 	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
 	Attacker = CauserPlayer;
 	RevealHpBar();
-	PopupDamageText(Damage);
+	PopupDamageText(DamageValue);
 	GetWorldTimerManager().ClearTimer(AttackerTimer);
 	GetWorldTimerManager().SetTimer(AttackerTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
 	if (StatComponent->GetHp() <= 0)

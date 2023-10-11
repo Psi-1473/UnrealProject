@@ -97,5 +97,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class UParticleSystemComponent* DashParticleComp;
+
+	UPROPERTY()
+	class USoundWave* BossBgm;
 	
 };

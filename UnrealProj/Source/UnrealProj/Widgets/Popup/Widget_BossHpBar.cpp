@@ -10,7 +10,7 @@
 void UWidget_BossHpBar::BindBoss(ABossMonster* Boss)
 {
 	BindedBoss = Boss;
-	Text_Name->SetText(FText::FromString(Boss->GetStatComponent()->GetName()));
+	Text_Name->SetText(FText::FromString(Boss->GetStatComponent()->GetMonsterName()));
 
 	Boss->GetStatComponent()->OnHpChanged.AddUObject(this, &UWidget_BossHpBar::SetHpBar);
 }

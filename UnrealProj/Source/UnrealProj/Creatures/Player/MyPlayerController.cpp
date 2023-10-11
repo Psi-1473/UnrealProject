@@ -410,12 +410,12 @@ FVector AMyPlayerController::GetArrowDir(FVector Start, FVector Dir)
 		ObjectTypes,
 		false,
 		IgnoreActors, // 무시할 것이 없다고해도 null을 넣을 수 없다.
-		EDrawDebugTrace::ForDuration,
+		EDrawDebugTrace::None,
 		HitResult,
 		true
 		// 여기 밑에 3개는 기본 값으로 제공됨. 바꾸려면 적으면 됨.
-		, FLinearColor::Green
-		, FLinearColor::Green
+		, FLinearColor::Transparent
+		, FLinearColor::Transparent
 		, 0.0f
 	);
 	FVector DestinationPos;

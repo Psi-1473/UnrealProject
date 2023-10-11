@@ -27,10 +27,10 @@ ASEA_Sword_First::ASEA_Sword_First()
 	CapsuleComponent->SetRelativeScale3D(FVector(2.f, 2.f, 2.f));
 	CapsuleComponent->SetCapsuleHalfHeight(80.f, false);
 	CapsuleComponent->SetCapsuleRadius(50.f, false);
-	CapsuleComponent->SetCollisionProfileName("Arrow");
+	CapsuleComponent->SetCollisionProfileName(TEXT("Arrow"));
 	CapsuleComponent->OnComponentBeginOverlap.AddDynamic(this, &ASEA_Sword_First::OnOverlapBegin);
 	ParticleComponent->SetRelativeScale3D(FVector(1.5f, 2.5f, 4.5f));
-	ParticleComponent->SetCollisionProfileName("NoCollision");
+	ParticleComponent->SetCollisionProfileName(TEXT("NoCollision"));
 	CapsuleComponent->SetupAttachment(RootComponent);
 	ParticleComponent->SetupAttachment(RootComponent);
 	CapsuleComponent->SetRelativeRotation(FRotator(0.f, 0.f, 90.f));

@@ -8,14 +8,17 @@
 #include "../Managers/QuestManager.h"
 #include "../Managers/InteractObjManager.h"
 #include "../DataClass/Quest.h"
+#include "../Managers/SoundManager.h"
+#include "Sound/SoundWave.h"
 #include "../DEFINE.h"
 
 
 UPlayerQuestComponent::UPlayerQuestComponent()
 {
-
 	PrimaryComponentTick.bCanEverTick = false;
+	static ConstructorHelpers::FObjectFinder<USoundWave> ClearSound(TEXT("/Script/Engine.SoundWave'/Game/10_Sound/Sound/Sound_QuestClear.Sound_QuestClear'"));
 
+	if (ClearSound.Succeeded()) Sound_QuestClear = ClearSound.Object;
 }
 
 
@@ -199,6 +202,7 @@ void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 	if (Quest->GetQuestType() == QUEST_INVESTIGATE)
 		GInstance->GetInterObjMgr()->MakeObjVisible(Quest->GetTargetId());
 
+	USoundManager::PlaySound(GetWorld(), Sound_QuestClear);
 	Quest->GetClearNpc()->GetQuestComponent()->RemoveCompletableQuest(Quest);
 	Quest->GetClearNpc()->UpdateQuestMark();
 	CompletableQuests.Remove(Quest);
