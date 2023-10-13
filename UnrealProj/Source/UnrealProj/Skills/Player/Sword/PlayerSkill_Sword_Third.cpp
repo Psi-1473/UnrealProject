@@ -53,7 +53,7 @@ void UPlayerSkill_Sword_Third::PlayParticle(AActor* OwnerActor)
 
 	TArray<FOverlapResult> Mobs;
 	Mobs = UAttackChecker::PlayerCircleCheck(OwnerPlayer->GetActorLocation(), 800.f, 800.f, ECC_GameTraceChannel5, OwnerActor);
-	UAttackChecker::ApplyOverlapDamageToActors(10.f, OwnerActor, Mobs, HitEffect);
+	UAttackChecker::ApplyOverlapDamageToActors(40.f, OwnerActor, Mobs, HitEffect);
 	
 	OwnerPlayer->ShakeCamera(CameraShake);
 

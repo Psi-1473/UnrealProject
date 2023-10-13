@@ -123,7 +123,6 @@ void USkillState::OnUpdate()
 			auto Skill = Cast<UPlayerSkill_Sword_Second>(Machine->GetOwner()->GetSkill());
 			if (Skill == nullptr)
 				return;
-			GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Dash"));
 			Machine->GetOwner()->SetActorLocation(Machine->GetOwner()->GetActorLocation() + Machine->GetOwner()->GetActorForwardVector() * 50.f);
 			//Machine->GetOwner()->AddMovementInput(Machine->GetOwner()->GetActorForwardVector(), 1.f);
 		}

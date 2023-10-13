@@ -59,7 +59,7 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 	{
 		if (DragOper->Skill == nullptr)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill NULL"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill NULL"));
 			return false;
 		}
 		if (DragOper->Type != DragType::Skill)
@@ -73,7 +73,7 @@ bool UWidget_SkillQuick::NativeOnDrop(const FGeometry& InGeometry, const FDragDr
 
 		if (DragOper->bFromQuickSlot == false)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill Droped"));
+			//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Drag Quick : Skill Droped"));
 			SetSkill(DragOper->Skill);
 			// 키에 스킬 등록
 

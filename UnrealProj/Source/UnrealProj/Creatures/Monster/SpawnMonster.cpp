@@ -29,6 +29,8 @@ ASpawnMonster::ASpawnMonster()
 		HpBar->SetWidgetClass(WIDGETHP.Class);
 		HpBar->SetDrawSize(FVector2d(150.f, 50.f));
 	}
+
+	GetMesh()->LDMaxDrawDistance = 20000.f;
 }
 
 void ASpawnMonster::BeginPlay()

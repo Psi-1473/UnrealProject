@@ -89,7 +89,7 @@ void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 {
 	Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
 
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Enter"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
@@ -111,7 +111,7 @@ void UWidget_SkillSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 void UWidget_SkillSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
 {
 	Super::NativeOnMouseLeave(InMouseEvent);
-	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
+	//GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Green, TEXT("Mouse Leave"));
 
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);

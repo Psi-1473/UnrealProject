@@ -160,7 +160,7 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 
 	FGeometry ViewportGeometry = UWidgetLayoutLibrary::GetViewportWidgetGeometry(GetWorld());
 	FVector2D Position = (GetCachedGeometry().GetLocalPositionAtCoordinates(FVector2D(1.f, 1.f))
-		+ FVector2D(700.f, 20.f)) * UWidgetLayoutLibrary::GetViewportScale(MyPlayer->GetInstance()->GetGameViewportClient());
+		+ FVector2D(950.f, 20.f)) * UWidgetLayoutLibrary::GetViewportScale(MyPlayer->GetInstance()->GetGameViewportClient());
 
 	Widget->SetPositionInViewport(Position);
 

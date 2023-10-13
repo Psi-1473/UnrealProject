@@ -35,5 +35,5 @@ void ASEA_Bow_Third::AttackCheck()
 	AudioComponent->Play();
 	TArray<FOverlapResult> Mobs;
 	Mobs = UAttackChecker::PlayerCircleCheck(GetActorLocation(), 500.f, 500.f, ECC_GameTraceChannel5, this);
-	UAttackChecker::ApplyOverlapDamageToActors(20.f, GetOwner(), Mobs);
+	UAttackChecker::ApplyOverlapDamageToActors(30.f, GetOwner(), Mobs);
 }
