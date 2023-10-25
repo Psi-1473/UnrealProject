@@ -412,6 +412,24 @@
       }
     },
     {
+      "name": "buf.yaml",
+      "description": "buf.yaml is used to define a module. It's the primary configuration file, and is responsible for the module's name, dependencies, and lint and breaking configuration",
+      "fileMatch": ["buf.yaml"],
+      "url": "https://json.schemastore.org/buf.json"
+    },
+    {
+      "name": "buf.gen.yaml",
+      "description": "buf.gen.yaml is a configuration file used by the buf generate command to generate integration code for the languages of your choice",
+      "fileMatch": ["buf.gen.yaml"],
+      "url": "https://json.schemastore.org/buf.gen.json"
+    },
+    {
+      "name": "buf.work.yaml",
+      "description": "buf.work.yaml is used to define a workspace, which is an advanced local development feature. Workspaces make it possible to consolidate one or more modules into a single buildable unit. They also allow users to run buf operations across multiple modules with a single execution (such as buf lint)",
+      "fileMatch": ["buf.work.yaml"],
+      "url": "https://json.schemastore.org/buf.work.json"
+    },
+    {
       "name": "CodeCV",
       "description": "CV format specification",
       "fileMatch": [
@@ -3011,6 +3029,12 @@
       "url": "https://json.schemastore.org/pocketmine-plugin.json"
     },
     {
+      "name": "Poetry",
+      "description": "Poetry, a Python packaging tool",
+      "fileMatch": [],
+      "url": "https://json.schemastore.org/poetry.json"
+    },
+    {
       "name": "plagiarize.yaml",
       "description": "Yaml Plagiarize",
       "fileMatch": ["plagiarize.yaml", "plagiarize.json"],
@@ -3822,9 +3846,13 @@
       "url": "https://json.schemastore.org/tldr.json"
     },
     {
-      "name": "tmLanguage",
-      "description": "Language grammar description files in Textmate and compatible editors",
-      "fileMatch": ["*.tmLanguage.json"],
+      "name": "TextMate Grammar",
+      "description": "Language grammar description files for TextMate and compatible editors",
+      "fileMatch": [
+        "*.tmLanguage.json",
+        "*.tmLanguage.yaml",
+        "*.tmLanguage.yml"
+      ],
       "url": "https://json.schemastore.org/tmlanguage.json"
     },
     {
@@ -4818,6 +4846,12 @@
         "0.1": "https://json.schemastore.org/mboats-config-0.1.json",
         "0.2": "https://json.schemastore.org/mboats-config-0.2.json"
       }
+    },
+    {
+      "name": "scikit-build",
+      "description": "Pyproject configuration for scikit-build-core",
+      "fileMatch": [],
+      "url": "https://json.schemastore.org/scikit-build.json"
     },
     {
       "name": "StackHawk Scanner Configuration",

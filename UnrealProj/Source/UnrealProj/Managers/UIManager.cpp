@@ -28,6 +28,7 @@ UIManager::~UIManager()
 
 UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 {
+	// 1. 이미 UI가 열려있는 경우엔 닫는다.
 	if (PopupUiArray[(int)Type] != nullptr)
 	{
 		if (Type == UIType::Inventory || Type == UIType::Skill) 
@@ -36,6 +37,7 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 		return nullptr;
 	}
 
+	
 	const UEnum* UIEnum = FindFirstObjectSafe<UEnum>(TEXT("UIType"));
 	if (UIEnum == nullptr)
 	{
@@ -53,6 +55,9 @@ UUserWidget* UIManager::PopupUI(UWorld* World, UIType Type)
 		USoundManager::PlaySound(PlayerController->GetWorld(), Sound_Popup);
 	}
 
+	// 2. 각종 예외처리를 거친 후 Enum 값을 String으로 변환
+	// 3. UI블루프린트가 모여있는 디렉토리에 접근해 String으로 변환한 Enum과 일치하는 위젯을 메모리로 가져온다
+	// 4. 메모리에 올린 UI 데이터를 화면에 띄운다.
 	FString UIName = UIEnum->GetNameStringByValue((int64)Type);
 	FString BPName = TEXT("WBP_") + UIName;
 	FString Dir = TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Popup/");

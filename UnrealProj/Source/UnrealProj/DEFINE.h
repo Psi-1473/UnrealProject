@@ -39,9 +39,9 @@ enum class STATE : uint8
 	DAMAGED,
 	SKILL,
 	SKILLCAST,
-	PULLED, // 끌려가는 상태
-	HITANDFALL, // 공격맞고 날아가는 중
-	KNOCKED, // 공격맞고 다운
+	PULLED,
+	HITANDFALL,
+	KNOCKED,
 	REVIVE,
 	LOOT,
 };

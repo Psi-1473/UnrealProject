@@ -50,7 +50,7 @@ private:
 	UPROPERTY()
 	class UMonsterAnimInstance* AnimInst;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere)
 	class UWidgetComponent* HpBar;
 
 	UPROPERTY()

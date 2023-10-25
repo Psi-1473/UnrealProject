@@ -61,6 +61,7 @@ void UWidget_LineScript::UpdateLine(int Page)
 {
 	if(Script == nullptr)
 		UE_LOG(LogTemp, Warning, TEXT("Update Line : Script NULL"), Page);
+
 	UE_LOG(LogTemp, Warning, TEXT("Update Line : %d"), Page);
 	FString Line = Script->FindRow<FScriptData>(*FString::FromInt(Page), TEXT(""))->Line;
 	Text_Script->SetText(FText::FromString(Line));

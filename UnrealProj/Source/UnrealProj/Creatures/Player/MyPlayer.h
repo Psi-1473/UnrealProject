@@ -111,10 +111,11 @@ private:
 	class UPlayerSkillComponent* SkillComponent;
 
 	UPROPERTY()
-	class ASkillRangeActor* SpawnedRangeActor;
+	class UInventory* Inventory;
 
 	UPROPERTY()
-	class UInventory* Inventory;
+	class ASkillRangeActor* SpawnedRangeActor;
+
 
 private:
 	UPROPERTY()

@@ -29,6 +29,7 @@ public:
 	
 public:
 	virtual void SkillEnd(); // 스킬 종료시 실행할 함수
+
 	UTexture2D* GetTexture() { return Txt; }
 	int32 GetId() { return Id; }
 	FString GetSkillName() { return Name; }

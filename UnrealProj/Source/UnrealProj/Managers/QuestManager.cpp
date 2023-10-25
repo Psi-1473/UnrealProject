@@ -22,31 +22,18 @@ void UQuestManager::LoadNpcQuest(ANpc* Npc, AMyPlayer* Player)
 		return;
 
 	int TableCount = Table->GetRowNames().Num();
-	UE_LOG(LogTemp, Warning, TEXT("LoadNpcQuest "));
 	for (int i = 0; i < TableCount; i++)
 	{
 		FQuestData* QData = Table->FindRow<FQuestData>(*FString::FromInt(i + 1), TEXT(""));
-		if (QData->CanLoad == false) continue; // 플레이어 레벨로 수정
-		if (Player->GetStatComponent()->GetLevel() < QData->PossibleLevel) continue;
 
-
-		UE_LOG(LogTemp, Warning, TEXT("Cand Load True : %d"), CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id));
-
-		if (CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id) != INDEX_NONE)
-			continue;
-
-		if(Npc->GetQuestComponent()->IsQuestInOnGoing(QData->Id))
-			continue;
-
-		if(GInstance->GetNpcList()[QData->ClearNpcId]->GetQuestComponent()->IsQuestInCompletable(QData->Id))
-			continue;
+		if(QData->CanLoad == false) continue;
+		if(Player->GetStatComponent()->GetLevel() < QData->PossibleLevel) continue;
+		if(CompletedQuestList[Npc->GetId()].QuestIds.Find(QData->Id) != INDEX_NONE) continue;
+		if(Npc->GetQuestComponent()->IsQuestInOnGoing(QData->Id)) continue;
+		if(GInstance->GetNpcList()[QData->ClearNpcId]->GetQuestComponent()->IsQuestInCompletable(QData->Id)) continue;
 		
-			Npc->GetQuestComponent()->LoadPossibleQuest(QData);
-			UE_LOG(LogTemp, Warning, TEXT("QUEST NAME : %s"), *QData->Name);
+		Npc->GetQuestComponent()->LoadPossibleQuest(QData);
 	}
-
-
-
 }
 
 void UQuestManager::LoadNpcQuest(ANpc* Npc, int QuestId)

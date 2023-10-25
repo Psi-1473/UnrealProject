@@ -41,26 +41,16 @@ void UPlayerSkillComponent::RegisterSkill(int SkillKey, UPlayerSkill* Skill)
 void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 {
 	
-	if (RegisteredSkills[SkillKey] == nullptr)
-		return;
-
-	if (RegisteredSkills[SkillKey]->GetRemainingTime() > 0.f)
-		return;
+	if (RegisteredSkills[SkillKey] == nullptr) return;
+	if (RegisteredSkills[SkillKey]->GetRemainingTime() > 0.f) return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
-	if (RegisteredSkills[SkillKey]->GetWeaponType() != Player->GetWeapon()->GetType())
-		return;
+	if (RegisteredSkills[SkillKey]->GetWeaponType() != Player->GetWeapon()->GetType()) return;
 	
 	int RequiredMp = RegisteredSkills[SkillKey]->GetMp();
-
-
-	if (Player->GetStatComponent()->GetMp() < RequiredMp)
-		return;
+	if (Player->GetStatComponent()->GetMp() < RequiredMp) return;
 
 	Player->GetStatComponent()->SetMp(Player->GetStatComponent()->GetMp() - RequiredMp);
-	UE_LOG(LogTemp, Warning, TEXT("MP : %d"), Player->GetStatComponent()->GetMp());
-	
-
 	RegisteredSkills[SkillKey]->Execute(Player, RegisteredSkills[SkillKey]->GetIsRangeAttack());
 }
 
