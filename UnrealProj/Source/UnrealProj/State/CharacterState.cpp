@@ -57,6 +57,7 @@ void UMoveState::OnExit()
 #pragma region JUMP
 void UJumpState::OnEnter()
 {
+
 	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : JUMP"));
 }
 
@@ -241,3 +242,4 @@ void ULootState::OnExit()
 {
 }
 #pragma endregion
+

@@ -1082,6 +1082,18 @@
       "url": "https://json.schemastore.org/codeship-steps.json"
     },
     {
+      "name": "vcpkg manifest file",
+      "description": "vcpkg manifest file",
+      "fileMatch": ["vcpkg.json"],
+      "url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json"
+    },
+    {
+      "name": "vcpkg configuration file",
+      "description": "vcpkg configuration file",
+      "fileMatch": ["vcpkg-configuration.json"],
+      "url": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg-configuration.schema.json"
+    },
+    {
       "name": "Vercel",
       "description": "Vercel configuration file",
       "fileMatch": ["vercel.json"],
@@ -1245,7 +1257,7 @@
       "name": "composer.json",
       "description": "PHP Composer configuration file",
       "fileMatch": ["composer.json"],
-      "url": "https://raw.githubusercontent.com/composer/composer/main/res/composer-schema.json"
+      "url": "https://getcomposer.org/schema.json"
     },
     {
       "name": "component.json",
@@ -1723,6 +1735,12 @@
       "description": "firebase",
       "fileMatch": ["firebase.json"],
       "url": "https://raw.githubusercontent.com/firebase/firebase-tools/master/schema/firebase-config.json"
+    },
+    {
+      "name": "Google Chrome Related Website Sets",
+      "description": "Google Chrome Related Website Sets (formerly First Party Sets)",
+      "url": "https://raw.githubusercontent.com/GoogleChrome/related-website-sets/main/SCHEMA.json",
+      "fileMatch": ["**/.well-known/first-party-set.json"]
     },
     {
       "name": "first-timers-bot",
@@ -2869,6 +2887,12 @@
       "url": "https://meta.open-rpc.org/"
     },
     {
+      "name": "OpenUtau character yaml",
+      "description": "OpenUtau voicebank configuration file, character.yaml",
+      "fileMatch": ["character.yaml"],
+      "url": "https://json.schemastore.org/openutau-character.json"
+    },
+    {
       "name": "ops.yaml",
       "description": "Ops configuration file (ops.yaml)",
       "fileMatch": ["ops.yml", "ops.yaml"],
@@ -3399,6 +3423,21 @@
       "url": "https://docs.renovatebot.com/renovate-schema.json"
     },
     {
+      "description": "RenderCV input file",
+      "fileMatch": [
+        "*_CV.yml",
+        "*_CV.yaml",
+        "*_CV.json",
+        "*_CV.json5",
+        "*_cv.yml",
+        "*_cv.yaml",
+        "*_cv.json",
+        "*_cv.json5"
+      ],
+      "name": "RenderCV",
+      "url": "https://raw.githubusercontent.com/sinaatalay/rendercv/main/schema.json"
+    },
+    {
       "name": "RoadRunner",
       "description": "Spiral Roadrunner config file",
       "url": "https://cdn.jsdelivr.net/gh/roadrunner-server/roadrunner@latest/schemas/config/3.0.schema.json",
@@ -3586,6 +3625,12 @@
       "url": "https://raw.githubusercontent.com/qualisys/qualisys-schemas/master/paf-module.schema.json"
     },
     {
+      "name": "Setuptools",
+      "description": "Setuptools, the classic Python buildsystem",
+      "fileMatch": [],
+      "url": "https://json.schemastore.org/setuptools.json"
+    },
+    {
       "name": "sfdx-hardis configuration",
       "description": "Configuration file for sfdx-hardis Salesforce DX plugin",
       "fileMatch": [
@@ -3714,6 +3759,12 @@
       "url": "https://json.schemastore.org/swa-cli.config.json"
     },
     {
+      "name": "StackBlitz",
+      "description": "WebContainer project configuration",
+      "fileMatch": [".stackblitzrc", "**/.stackblitz/config.json"],
+      "url": "https://json.schemastore.org/stackblitzrc.json"
+    },
+    {
       "name": "Stale",
       "description": "Configuration file for Stale for closing abandoned issues and pull requests. See https://probot.github.io/apps/stale/",
       "fileMatch": ["**/.github/stale.yml"],
@@ -3786,6 +3837,12 @@
       "description": "VSCode Task file",
       "fileMatch": ["task.json", "tasks.json"],
       "url": "https://json.schemastore.org/task.json"
+    },
+    {
+      "name": "Talhelper",
+      "description": "A helper tool to help creating Talos Kubernetes cluster",
+      "fileMatch": ["talconfig.yaml", "talconfig.yml"],
+      "url": "https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json"
     },
     {
       "name": "Talisman configuration",
@@ -3931,6 +3988,12 @@
       "description": "TSON (Tuning-Spectrum Object Notation) data",
       "fileMatch": ["*.tson", "*.tson.yaml", "*.tson.yml", "*.tson.json"],
       "url": "https://raw.githubusercontent.com/spectral-discord/TSON/main/schema/tson.json"
+    },
+    {
+      "name": "tsup",
+      "description": "Configuration options for tsup",
+      "fileMatch": ["tsup.config.json"],
+      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json"
     },
     {
       "name": "typewiz.json",
@@ -4434,6 +4497,12 @@
         "hadolint.yml"
       ],
       "url": "https://raw.githubusercontent.com/hadolint/hadolint/master/contrib/hadolint.json"
+    },
+    {
+      "name": "Hatch",
+      "description": "Python package build tool",
+      "fileMatch": ["hatch.toml"],
+      "url": "https://json.schemastore.org/hatch.json"
     },
     {
       "name": "helmfile",
@@ -4964,15 +5033,28 @@
       "url": "https://raw.githubusercontent.com/Relativ-IT/Butane-Schemas/Release/Butane-Schema.json"
     },
     {
-      "name": "Updatecli",
-      "description": "Updatecli manifest",
+      "name": "Updatecli Compose",
+      "description": "Updatecli Compose file",
+      "fileMatch": ["update-compose.yaml"],
+      "url": "https://www.updatecli.io/schema/latest/compose/config.json"
+    },
+    {
+      "name": "Updatecli Policy Manifest",
+      "description": "Updatecli Policy Manifest",
       "fileMatch": [
         "**/updatecli.d/**/*.yaml",
         "**/updatecli.d/**/*.yml",
+        "**/updatecli.d/**/*.json",
         "updatecli.yml",
         "updatecli.yaml"
       ],
-      "url": "https://www.updatecli.io/schema/latest/config.json"
+      "url": "https://www.updatecli.io/schema/latest/policy/manifest/config.json"
+    },
+    {
+      "name": "Updatecli Policy Metadata",
+      "description": "Updatecli Policy Metadata",
+      "fileMatch": ["**/updatecli/**/Policy.yaml"],
+      "url": "https://www.updatecli.io/schema/latest/policy/metadata/config.json"
     },
     {
       "name": "GeoJSON.json latest",
@@ -5208,6 +5290,12 @@
       }
     },
     {
+      "description": "Sublime Text/Merge syntax highlighting definition",
+      "fileMatch": ["*.sublime-syntax"],
+      "name": "Sublime Syntax",
+      "url": "https://json.schemastore.org/sublime-syntax.json"
+    },
+    {
       "name": "Keycloak REST API",
       "description": "REST API Keycloak Admin",
       "url": "https://raw.githubusercontent.com/dahag-ag/keycloak-openapi/main/OpenApiDefinitions/keycloak-19.0.0.json",
@@ -5428,6 +5516,12 @@
       "description": "Endurica Input File",
       "fileMatch": ["*.ki.json"],
       "url": "https://enduricastorage.blob.core.windows.net/public/endurica-cl-schema.json"
+    },
+    {
+      "name": "TunnelHub",
+      "description": "TunnelHub Automation Configuration File",
+      "fileMatch": ["tunnelhub.yml", "tunnelhub.yaml"],
+      "url": "https://json.schemastore.org/tunnelhub.json"
     }
   ],
   "version": 1
