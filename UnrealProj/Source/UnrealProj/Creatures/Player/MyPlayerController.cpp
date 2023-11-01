@@ -26,6 +26,7 @@
 #include "../../Widgets/Popup/Widget_Quest.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 
+#include "../../State/BuffComponent.h"
 
 AMyPlayerController::AMyPlayerController()
 {
@@ -234,6 +235,9 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 	if (!Value.Get<bool>())
 		return;
 
+	MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Burning);
+
+
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
 
@@ -247,6 +251,8 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
+
+	MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Burning);
 
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
@@ -300,6 +306,7 @@ void AMyPlayerController::IA_Quick1(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Poison);
 		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (MyGameMode == nullptr) return;
 
@@ -314,6 +321,7 @@ void AMyPlayerController::IA_Quick2(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Poison);
 		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (MyGameMode == nullptr) return;
 

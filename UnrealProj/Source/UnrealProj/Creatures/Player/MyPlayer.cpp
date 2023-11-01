@@ -9,6 +9,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "../../State/StateMachine.h"
+#include "../../State/BuffComponent.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Managers/SoundManager.h"
 #include "../../Projectiles/Projectile.h"
@@ -65,6 +66,7 @@ AMyPlayer::AMyPlayer()
 	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	QuestComponent = CreateDefaultSubobject<UPlayerQuestComponent>(TEXT("QuestComponent"));
+	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 
 	AudioComponent->SetupAttachment(RootComponent);
@@ -81,7 +83,8 @@ void AMyPlayer::BeginPlay()
 	Super::BeginPlay();
 	Inventory->SetOwnerPlayer(this);
 	SkillComponent->SetOwnerPlayer(this);
-	
+	BuffComponent->Init();
+
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
 
@@ -116,6 +119,9 @@ void AMyPlayer::Tick(float DeltaTime)
 
 	if (SkillComponent != nullptr)
 		SkillComponent->Update(DeltaTime);
+
+	if (BuffComponent != nullptr)
+		BuffComponent->UpdateDebuff();
 
 }
 

@@ -6,6 +6,7 @@
 
 const int8 MAX_Inventory = 18;
 
+
 UENUM(BlueprintType)
 enum class UIType : uint8
 {
@@ -89,6 +90,20 @@ enum class QuestLevel : uint8
 	SUB,
 };
 
+UENUM(BlueprintType, meta = (Bitflags, UseEnumValuesAsMaskValuesInEditor = "true"))
+enum class EDebuff : uint8
+{
+	None = 0 UMETA(Hidden),
+	Burning = 1 << 0,
+	Poison = 1 << 1,
+	Freeze = 1 << 2,
+	NoHeal = 1 << 3,
+	Silence = 1 << 4,
+	NoJump = 1 << 5,
+	DecreaseAttack = 1 << 6,
+	DecreaseDefense = 1 << 7,
+};
+
 enum QuestType
 {
 	QUEST_EMPTY,
@@ -169,10 +184,3 @@ enum NpcType
 	USE_SHOP,
 };
 
-
-class UNREALPROJ_API DEFINE
-{
-public:
-	DEFINE();
-	~DEFINE();
-};
