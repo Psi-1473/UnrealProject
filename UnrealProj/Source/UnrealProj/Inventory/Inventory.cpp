@@ -5,6 +5,8 @@
 #include "../Items/Item.h"
 #include "../Items/UseItem/UseItem.h"
 #include "../Items/Weapons/Weapon.h"
+#include "../Items/Weapons/Sword.h"
+#include "../Items/Weapons/Bow.h"
 #include "../Widgets/Popup/Widget_Inventory.h"
 #include "../Managers/UIManager.h"
 #include "../MyGameInstance.h"
@@ -121,8 +123,12 @@ void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 AWeapon* UInventory::CreateWeapon(int Id, WEAPONTYPE WType)
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance()); // 나중에 Weapon Data 끌고오기 위함
+	AWeapon* Weapon;
+	if(WType == WEAPONTYPE::WEAPON_SWORD)
+		Weapon = NewObject<ASword>();
+	else
+		Weapon = NewObject<ABow>();
 
-	AWeapon* Weapon = NewObject<AWeapon>();
 	Weapon->SetId(Id);
 	Weapon->SetWeaponType(WType);
 	// 나중에 공격력 이런 정보들 다 여기서 세팅

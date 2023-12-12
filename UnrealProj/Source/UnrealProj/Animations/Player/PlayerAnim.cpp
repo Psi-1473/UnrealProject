@@ -11,6 +11,8 @@
 #include "../../Skills/Skill.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../State/CharacterState.h"
+#include "../../State/WeaponState.h"
+#include "../../Items/Weapons/Bow.h"
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -38,12 +40,16 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 	if (IsValid(pawn))
 	{
 		JumpSpeed = pawn->GetVelocity().Z;
-		auto Character = Cast<AMyPlayer>(pawn);
 
+		auto Character = Cast<AMyPlayer>(pawn);
 		if (Character)
 		{
 			if(Character->GetState() != nullptr)
 				CharacterState = Character->GetState()->GetState();
+
+
+			auto Arrow = Cast<UBowState>(Character->GetWeaponState());
+			if(Arrow) bZoom = Arrow->GetZoom();
 
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
@@ -58,7 +64,6 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 				Vertical = 0.5f;
 			}
 
-			bZoom = PC->GetIsZoom();
 		}
 	}
 }

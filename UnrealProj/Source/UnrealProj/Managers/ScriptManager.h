@@ -16,7 +16,7 @@ class UNREALPROJ_API UScriptManager : public UObject
 	GENERATED_BODY()
 	
 public:
-	void SetGInstance(class UMyGameInstance* Instance) { GInstance = Instance; }
+	void SetGInstance(TWeakObjectPtr<class UMyGameInstance> Instance) { GInstance = Instance; }
 private:
 	FString GetQuestScript(int NpcId, int QuestId, int Page);
 

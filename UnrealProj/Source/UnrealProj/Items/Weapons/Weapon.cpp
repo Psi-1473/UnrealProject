@@ -5,10 +5,13 @@
 #include "Components/StaticMeshComponent.h"
 #include "../../MyGameInstance.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../Animations/Player/PlayerAnim.h"
 #include "../../MyGameInstance.h"
 #include "../../Projectiles/Projectile.h"
 #include "../../Projectiles/Player/Arrow.h"
 #include "../../Inventory/Inventory.h"
+#include "../../Skills/Player/PlayerSkill.h"
+#include "../../State/CharacterState.h"
 #include "Sound/SoundWave.h"
 
 AWeapon::AWeapon()
@@ -27,7 +30,6 @@ void AWeapon::UseItem()
 	// 아이템 장착 구현
 	UE_LOG(LogTemp, Warning, TEXT("Weapon Equip"));
 	auto Player = Inventory->GetPlayer();
-
 	auto EquipedWeapon = Player->GetWeapon();
 	Player->EquipWeapon(this);
 	Inventory->EmptySlot(Inventory->GetWeaponItems(), SlotIndex);
@@ -60,6 +62,34 @@ void AWeapon::SetItemMesh()
 
 void AWeapon::SetCount(int Value)
 {
+}
+
+void AWeapon::OnLeftMouseClicked(AMyPlayer* Player)
+{
+	if (Player->GetState() != Player->GetSpecificState(STATE::IDLE) &&
+		Player->GetState() != Player->GetSpecificState(STATE::MOVE) &&
+		Player->GetState() != Player->GetSpecificState(STATE::JUMP) &&
+		Player->GetState() != Player->GetSpecificState(STATE::ATTACK) &&
+		Player->GetState() != Player->GetSpecificState(STATE::SKILLCAST))
+		return;
+
+	if (Player->GetState() == Player->GetSpecificState(STATE::SKILL))
+		return;
+
+	if (Player->GetState() == Player->GetSpecificState(STATE::SKILLCAST))
+		Player->GetSkill()->CastToExecute(Player);
+	else
+	{
+		if (Player->GetState() != Player->GetSpecificState(STATE::ATTACK))
+			Player->SetState(STATE::ATTACK);
+
+		Player->GetAnimInst()->PlayAttackMontage();
+	}
+}
+
+void AWeapon::OnRightMouseClicked(AMyPlayer* Player)
+{
+	
 }
 
 FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)

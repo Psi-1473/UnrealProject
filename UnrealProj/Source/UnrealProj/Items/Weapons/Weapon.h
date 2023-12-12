@@ -33,6 +33,11 @@ public:
 	virtual void SetItemMesh() override;
 	virtual void SetCount(int Value);
 
+public:
+	virtual void OnLeftMouseClicked(class AMyPlayer* Player);
+	virtual void OnRightMouseClicked(class AMyPlayer* Player);
+	virtual void OnRightMouseReleased(class AMyPlayer* Player) {};
+
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
 	class USoundWave* GetHitSound() { return SwordHitSound; }
 private:
@@ -40,8 +45,6 @@ private:
 
 	UPROPERTY()
 	bool bRight = true;
-
-
 
 	UPROPERTY(EditAnywhere)
 	FVector MuzzleOffset;
@@ -51,6 +54,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	class USoundWave* SwordHitSound;
-	// 나중에는 무기를 타입별로 클래스 파서 HitSound 각각 다르게 하기
+	
 	
 };

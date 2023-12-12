@@ -32,12 +32,17 @@ public:
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
 	class UCharacterState* GetState();
 	class UCharacterState* GetSpecificState(STATE Value);
+	class UWeaponState* GetWeaponState();
+
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
+
 	class UCameraComponent* GetCamera() { return Camera; }
+
 	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UBuffComponent* GetBuffComponent() { return BuffComponent; }
+
 	class UInventory* GetInventory() { return Inventory; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
@@ -96,8 +101,6 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TArray<TSubclassOf<class UAnimInstance>> AnimClasses;
-	// 지금은 애니메이션들을 TArray로 가지고 있지만 나중에
-	// 무기처럼 상황에 맞는 ABP 가져와서 실행하기
 
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;

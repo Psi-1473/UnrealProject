@@ -9,6 +9,7 @@
 #include "MyPlayer.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../State/CharacterState.h"
+#include "../../State/WeaponState.h"
 #include "../../Animations/Player/PlayerAnim.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -87,8 +88,8 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Look);
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Jump);
-		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Sword_Attack);
-		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Zoom);
+		EnhancedInputComponent->BindAction(Action_AttackSword, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_ClickLeftMouse);
+		EnhancedInputComponent->BindAction(ZoomAction, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_ClickRightMouse);
 		EnhancedInputComponent->BindAction(Push_Q, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_Q);
 		EnhancedInputComponent->BindAction(Push_E, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_E);
 		EnhancedInputComponent->BindAction(Push_R, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Push_R);
@@ -210,24 +211,38 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 	}
 }
 
-void AMyPlayerController::IA_Zoom(const FInputActionValue& Value)
+void AMyPlayerController::IA_ClickRightMouse(const FInputActionValue& Value)
+{
+	
+	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
+		return;
+
+	if(Value.Get<bool>())
+		MyPlayer->GetWeaponState()->OnRightMouseClicked(MyPlayer);
+	else
+		MyPlayer->GetWeaponState()->OnRightMouseReleased(MyPlayer);
+	
+	//if (MyPlayer->GetWeapon()->GetType() != WEAPONTYPE::WEAPON_ARROW)
+	//{
+	//	FString Str = FString::FromInt((int)MyPlayer->GetWeapon()->GetType());
+	//	UE_LOG(LogTemp, Warning, TEXT("WEAPON IS NOT A BOW : %s"), *Str);
+	//	return;
+	//}
+	//if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK) && CameraMoved == false)
+	//	return;
+	//bZoom = Value.Get<bool>();
+	//if (bZoom)
+	//	ZoomIn();
+	//else
+	//	ZoomOut();
+}
+
+void AMyPlayerController::IA_ClickLeftMouse(const FInputActionValue& Value)
 {
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
 
-	if (MyPlayer->GetWeapon()->GetType() != WEAPONTYPE::WEAPON_ARROW)
-	{
-		FString Str = FString::FromInt((int)MyPlayer->GetWeapon()->GetType());
-		UE_LOG(LogTemp, Warning, TEXT("WEAPON IS NOT A BOW : %s"), *Str);
-		return;
-	}
-	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK) && CameraMoved == false)
-		return;
-	bZoom = Value.Get<bool>();
-	if (bZoom)
-		ZoomIn();
-	else
-		ZoomOut();
+	MyPlayer->GetWeaponState()->OnLeftMouseClicked(MyPlayer);
 }
 
 void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
@@ -346,35 +361,7 @@ void AMyPlayerController::IA_Quick3(const FInputActionValue& Value)
 	}
 }
 
-void AMyPlayerController::IA_Sword_Attack(const FInputActionValue& Value)
-{
-	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
-		return;
 
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::SKILLCAST))
-		return;
-
-	if (Value.Get<bool>())
-	{
-		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
-			return;
-
-		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILLCAST))
-			MyPlayer->GetSkill()->CastToExecute(MyPlayer);
-		else
-		{
-			if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::ATTACK))
-				MyPlayer->SetState(STATE::ATTACK);
-		
-			MyPlayer->GetAnimInst()->PlayAttackMontage();
-		}
-	}
-		
-}
 
 FVector AMyPlayerController::GetViewportToWorld()
 {

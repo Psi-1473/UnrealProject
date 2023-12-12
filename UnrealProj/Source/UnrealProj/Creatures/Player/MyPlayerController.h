@@ -32,7 +32,8 @@ private:
 	void IA_Move(const FInputActionValue& Value);
 	void IA_Look(const FInputActionValue& Value);
 	void IA_Jump(const FInputActionValue& Value);
-	void IA_Zoom(const FInputActionValue& Value);
+	void IA_ClickRightMouse(const FInputActionValue& Value);
+	void IA_ClickLeftMouse(const FInputActionValue& Value);
 	void IA_Push_Q(const FInputActionValue& Value);
 	void IA_Push_E(const FInputActionValue& Value);
 	void IA_Push_R(const FInputActionValue& Value);
@@ -45,7 +46,7 @@ private:
 	void IA_Quick3(const FInputActionValue& Value);
 	
 
-	void IA_Sword_Attack(const FInputActionValue& Value);
+
 
 	FVector GetViewportToWorld();
 	FVector GetArrowDir(FVector Start, FVector Dir);

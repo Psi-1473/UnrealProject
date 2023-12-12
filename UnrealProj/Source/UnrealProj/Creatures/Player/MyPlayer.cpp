@@ -31,7 +31,7 @@
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../Triggers/AreaBox.h"
 
-
+#include "../../Items/Weapons/Bow.h"
 
 AMyPlayer::AMyPlayer()
 {
@@ -88,19 +88,18 @@ void AMyPlayer::BeginPlay()
 	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
 	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
 
-	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
-	AWeapon* NewWeapon = NewObject<AWeapon>();
-	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_ARROW);
-	NewWeapon->SetId(0);
-	NewWeapon->SetItemMesh();
-	EquipWeapon(NewWeapon);
-
 
 	if (StateMachine == nullptr)
 	{
 		StateMachine = NewObject<UStateMachine>();
 		StateMachine->SetOwner(this);
 	}
+	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
+	AWeapon* NewWeapon = NewObject<ABow>();
+	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_ARROW);
+	NewWeapon->SetId(0);
+	NewWeapon->SetItemMesh();
+	EquipWeapon(NewWeapon);
 
 	auto GMode = UGameplayStatics::GetGameMode(GetWorld());
 	auto GameMode = Cast<AMyGameMode>(GMode);
@@ -202,6 +201,14 @@ UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
 	return StateMachine->GetState(Value);
 }
 
+UWeaponState* AMyPlayer::GetWeaponState()
+{
+	if (StateMachine == nullptr)
+		return nullptr;
+
+	return StateMachine->GetWeaponState();
+}
+
 void AMyPlayer::SetState(STATE Value)
 {
 	StateMachine->SetState(Value);
@@ -210,7 +217,7 @@ void AMyPlayer::SetState(STATE Value)
 void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 {
 	EquipedWeapon = _Weapon;
-
+	StateMachine->SetWeaponState(_Weapon->GetType());
 	if (_Weapon->GetIsRight())
 	{
 		LWeapon->SetStaticMesh(nullptr);

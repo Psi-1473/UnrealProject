@@ -29,8 +29,6 @@ public:
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance);
 	
 public:
-
-
 	void SetId(int Value) { Id = Value; }
 	void SetInventory(TWeakObjectPtr<class UInventory> Inven) { Inventory = Inven; }
 	void SetSlotIndex(int Value) { SlotIndex = Value; }

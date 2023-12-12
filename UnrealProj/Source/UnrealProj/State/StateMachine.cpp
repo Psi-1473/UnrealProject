@@ -5,6 +5,18 @@
 
 UStateMachine::UStateMachine()
 {
+	InitCharacterState();
+	InitWeaponState();
+}
+
+void UStateMachine::OnUpdate()
+{
+	if (State != nullptr) State->OnUpdate();
+	if (WeaponState != nullptr) WeaponState->OnUpdate();
+}
+
+void UStateMachine::InitCharacterState()
+{
 	UIdleState* IdleState = NewObject<UIdleState>();
 	UMoveState* MoveState = NewObject<UMoveState>();
 	UJumpState* JumpState = NewObject<UJumpState>();
@@ -47,12 +59,16 @@ UStateMachine::UStateMachine()
 	State = States[STATE::IDLE];
 }
 
-void UStateMachine::OnUpdate()
+void UStateMachine::InitWeaponState()
 {
-	if (State == nullptr)
-		return;
+	USwordState* SwordState = NewObject<USwordState>();
+	UBowState* BowState = NewObject<UBowState>();
 
-	State->OnUpdate();
+	SwordState->SetMachine(this);
+	BowState->SetMachine(this);
+
+	WeaponStates.Add(WEAPONTYPE::WEAPON_SWORD, SwordState);
+	WeaponStates.Add(WEAPONTYPE::WEAPON_ARROW, BowState);
 }
 
 void UStateMachine::AddState(STATE StateValue, UCharacterState* StatePtr)
