@@ -71,6 +71,7 @@ TArray<FOverlapResult> UAttackChecker::PlayerCircleCheck(FVector SkillLocation, 
 	return OutOverlaps;
 }
 
+
 TArray<FHitResult> UAttackChecker::MonsterCubeCheck(FVector Range, float Start, ECollisionChannel TraceChannel, AActor* Attacker)
 {
 	TArray<FHitResult> HitResults;
@@ -133,7 +134,6 @@ bool UAttackChecker::IsTargetInSectorForm(AActor* Attacker, AActor* TargetActor,
 
 	float SizeMul = FirstVector.Size() * SecondVector.Size();
 	float DegreeBetween = FMath::RadiansToDegrees(FMath::Acos(FVector::DotProduct(FirstVector, SecondVector) / SizeMul));
-	UE_LOG(LogTemp, Warning, TEXT("Skill Angle : %f, Target To Hiter Angle : %f"), Angle, DegreeBetween);
 	if (DegreeBetween <= Angle / 2.0f)
 		return true;
 

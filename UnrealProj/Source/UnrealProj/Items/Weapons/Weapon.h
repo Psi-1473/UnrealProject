@@ -33,11 +33,6 @@ public:
 	virtual void SetItemMesh() override;
 	virtual void SetCount(int Value);
 
-public:
-	virtual void OnLeftMouseClicked(class AMyPlayer* Player);
-	virtual void OnRightMouseClicked(class AMyPlayer* Player);
-	virtual void OnRightMouseReleased(class AMyPlayer* Player) {};
-
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) override;
 	class USoundWave* GetHitSound() { return SwordHitSound; }
 private:

@@ -121,7 +121,9 @@ void UPlayerAnim::AnimNotify_FireArrow()
 	auto pawn = TryGetPawnOwner();
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 
-	Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
+	//Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
+	auto BowState = Cast<UBowState>(MyPlayer->GetWeaponState());
+	if(BowState) BowState->Fire();
 }
 
 void UPlayerAnim::AnimNotify_SkillEffect()

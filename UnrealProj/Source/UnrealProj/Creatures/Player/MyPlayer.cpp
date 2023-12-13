@@ -289,7 +289,6 @@ void AMyPlayer::SetDefaultCamera()
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 }
-
 void AMyPlayer::SetWeaponSocket()
 {
 	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
@@ -304,7 +303,6 @@ void AMyPlayer::SetWeaponSocket()
 	if (GetMesh()->DoesSocketExist(LWeaponSocket))
 		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
 }
-
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 {
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);

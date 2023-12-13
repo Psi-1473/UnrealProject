@@ -48,17 +48,31 @@ public:
 	virtual void OnRightMouseClicked(class AMyPlayer* Player) override;
 	virtual void OnRightMouseReleased(class AMyPlayer* Player) override;
 	virtual void OnUpdate() override;
+	void Fire();
 
 	bool GetZoom() { return bZoom; };
+	
 private:
 	void ZoomIn(class AMyPlayer* Player);
 	void ZoomOut(class AMyPlayer* Player);
+	void FindTarget();
+	
+	void FireArrow(FVector DestPos);
+	FVector GetViewportToWorld(class APlayerController* Controller);
+	FVector GetArrowDir(FVector Start, FVector Dir);
 
 private:
+	UPROPERTY()
+	bool bArrowTarget = false;
+
 	UPROPERTY()
 	bool CameraMoved = false;
 
 	UPROPERTY()
 	bool bZoom = false;
+
+
+	UPROPERTY()
+	class AActor* Target;
 };
 

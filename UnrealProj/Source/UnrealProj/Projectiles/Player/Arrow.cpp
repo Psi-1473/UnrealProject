@@ -35,11 +35,11 @@ AArrow::AArrow()
 	ParticleComponent->SetupAttachment(MeshComp);
 
 	ProjectileMovementComponent->SetUpdatedComponent(BoxCollider);
-	ProjectileMovementComponent->InitialSpeed = 6000.f;
+	ProjectileMovementComponent->InitialSpeed = 10000.f;
 	ProjectileMovementComponent->MaxSpeed = 0.f;
 	ProjectileMovementComponent->bRotationFollowsVelocity = true;
 	ProjectileMovementComponent->bShouldBounce = false;
-	InitialLifeSpan = 0.5f;
+	InitialLifeSpan = 0.08f;
 }
 void AArrow::BeginPlay()
 {
@@ -68,6 +68,7 @@ void AArrow::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 				return;
 			}
 			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			//UE_LOG(LogTemp, Warning, TEXT("%s"), Enemy->GetName());
 			if (HitEffect != nullptr)
 			{
 				UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect, Enemy->GetActorLocation());

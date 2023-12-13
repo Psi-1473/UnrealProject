@@ -14,7 +14,4 @@ class UNREALPROJ_API ASword : public AWeapon
 {
 	GENERATED_BODY()
 	
-public:
-	virtual void OnLeftMouseClicked(class AMyPlayer* Player) override;
-	virtual void OnRightMouseClicked(class AMyPlayer* Player) override;
 };

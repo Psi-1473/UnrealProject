@@ -104,42 +104,6 @@ void AMyPlayerController::SetupInputComponent()
 
 }
 
-void AMyPlayerController::Fire()
-{
-	FVector ArrowDir = GetViewportToWorld();
-	FireArrow(ArrowDir);
-}
-
-void AMyPlayerController::FireArrow(FVector DestPos)
-{
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = MyPlayer;
-	SpawnParams.Instigator = MyPlayer->GetInstigator();
-
-	FVector CameraLocation;
-	FRotator CameraRotation;
-	MyPlayer->GetActorEyesViewPoint(CameraLocation, CameraRotation);
-	CameraRotation.Pitch += 5.f;
-	AProjectile* Projectile = GetWorld()->SpawnActor<AArrow>(MyPlayer->GetWeapon()->GetArrow(),
-		MyPlayer->GetActorLocation() + MyPlayer->GetActorRightVector() * 15.f + MyPlayer->GetActorUpVector() * 65.f,
-		CameraRotation,
-		SpawnParams);
-	FVector ArrowVector;
-	if (bArrowTarget)
-		ArrowVector = DestPos - Projectile->GetActorLocation();
-	else
-		ArrowVector = DestPos;
-	ArrowVector.Normalize();
-	if (Projectile)
-	{
-		if (bZoom)
-			Projectile->SetAttackStrength(true);
-		else
-			Projectile->SetAttackStrength(false);
-		Projectile->FireInDirection(ArrowVector, 2.f);
-	}
-}
-
 void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 {
 	if (MyPlayer == nullptr)
@@ -221,20 +185,6 @@ void AMyPlayerController::IA_ClickRightMouse(const FInputActionValue& Value)
 		MyPlayer->GetWeaponState()->OnRightMouseClicked(MyPlayer);
 	else
 		MyPlayer->GetWeaponState()->OnRightMouseReleased(MyPlayer);
-	
-	//if (MyPlayer->GetWeapon()->GetType() != WEAPONTYPE::WEAPON_ARROW)
-	//{
-	//	FString Str = FString::FromInt((int)MyPlayer->GetWeapon()->GetType());
-	//	UE_LOG(LogTemp, Warning, TEXT("WEAPON IS NOT A BOW : %s"), *Str);
-	//	return;
-	//}
-	//if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::ATTACK) && CameraMoved == false)
-	//	return;
-	//bZoom = Value.Get<bool>();
-	//if (bZoom)
-	//	ZoomIn();
-	//else
-	//	ZoomOut();
 }
 
 void AMyPlayerController::IA_ClickLeftMouse(const FInputActionValue& Value)
@@ -359,95 +309,4 @@ void AMyPlayerController::IA_Quick3(const FInputActionValue& Value)
 
 		MainWidget->PressQuickSlot(2);
 	}
-}
-
-
-
-FVector AMyPlayerController::GetViewportToWorld()
-{
-	int ViewportX, ViewportY;
-	FVector WorldPos;
-	FVector WorldDir;
-
-	GetViewportSize(ViewportX, ViewportY);
-	ViewportX = ViewportX / 2; 
-	ViewportY = ViewportY / 2;
-	ViewportY -= 80;
-	DeprojectScreenPositionToWorld((float)ViewportX, (float)ViewportY, WorldPos, WorldDir);
-	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldPos.X, WorldPos.Y, WorldPos.Z);
-	UE_LOG(LogTemp, Warning, TEXT("%f, %f, %f"), WorldDir.X, WorldDir.Y, WorldDir.Z);
-
-	FVector ResultDir = GetArrowDir(WorldPos, WorldDir);
-	return ResultDir;
-}
-
-FVector AMyPlayerController::GetArrowDir(FVector Start, FVector Dir)
-{
-	FVector EndPos = Start + (Dir * 5000.f);
-	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes; // 히트 가능한 오브젝트 유형들.
-	TEnumAsByte<EObjectTypeQuery> WorldStatic = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic);
-	TEnumAsByte<EObjectTypeQuery> WorldDynamic = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldDynamic);
-	TEnumAsByte<EObjectTypeQuery> MonsterCol = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel2);
-	TEnumAsByte<EObjectTypeQuery> PawnCol = UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_Pawn);
-	ObjectTypes.Add(WorldStatic);
-	ObjectTypes.Add(WorldDynamic);
-	ObjectTypes.Add(MonsterCol);
-	ObjectTypes.Add(PawnCol);
-
-	TArray<AActor*> IgnoreActors; // 무시할 액터들.
-
-	FHitResult HitResult; // 히트 결과 값 받을 변수.
-
-	bool Result = UKismetSystemLibrary::LineTraceSingleForObjects(
-		GetWorld(),
-		Start,
-		EndPos,
-		ObjectTypes,
-		false,
-		IgnoreActors, // 무시할 것이 없다고해도 null을 넣을 수 없다.
-		EDrawDebugTrace::None,
-		HitResult,
-		true
-		// 여기 밑에 3개는 기본 값으로 제공됨. 바꾸려면 적으면 됨.
-		, FLinearColor::Transparent
-		, FLinearColor::Transparent
-		, 0.0f
-	);
-	FVector DestinationPos;
-	if (Result == true)
-	{
-		DestinationPos = HitResult.Location;
-		bArrowTarget = true;
-		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit O"));
-	}
-	else
-	{
-		DestinationPos = Dir;
-		bArrowTarget = false;
-		UE_LOG(LogTemp, Warning, TEXT("Arrow Hit X"));
-	}
-	return DestinationPos;
-}
-
-void AMyPlayerController::ZoomIn()
-{
-	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
-		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
-		return;
-	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
-	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, 60.f, 0.f));
-	MyPlayer->GetCamera()->FieldOfView = 75.f;
-	Movement->MaxWalkSpeed = 350.f;
-	CameraMoved = true;
-}
-
-void AMyPlayerController::ZoomOut()
-{
-	if (CameraMoved == false) return;
-	auto Movement = Cast<UCharacterMovementComponent>(MyPlayer->GetMovementComponent());
-	MyPlayer->GetCamera()->SetRelativeLocation(MyPlayer->GetCamera()->GetRelativeLocation() + FVector(0.f, -60.f, 0.f));
-	MyPlayer->GetCamera()->FieldOfView = 90.f;
-	Movement->MaxWalkSpeed = 600.f;
-	CameraMoved = false;
 }

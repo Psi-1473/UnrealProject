@@ -23,10 +23,6 @@ public:
 
 	float GetHorizontal() { return Horizontal; }
 	float GetVertical() { return Vertical; }
-	bool GetIsZoom() { return bZoom; }
-public:
-	void Fire();
-	void FireArrow(FVector DestPos);
 
 private:
 	void IA_Move(const FInputActionValue& Value);
@@ -46,19 +42,8 @@ private:
 	void IA_Quick3(const FInputActionValue& Value);
 	
 
-
-
-	FVector GetViewportToWorld();
-	FVector GetArrowDir(FVector Start, FVector Dir);
-private:
-	void ZoomIn();
-	void ZoomOut();
-
 private:
 	bool CameraMoved = false;
-	
-	UPROPERTY()
-	bool bArrowTarget = false;
 
 	UPROPERTY()
 	float MouseSpeed = 2.f;
@@ -71,9 +56,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	int bCombo = 1;
-
-	UPROPERTY(VisibleAnywhere)
-	bool bZoom = false;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)

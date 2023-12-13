@@ -64,33 +64,6 @@ void AWeapon::SetCount(int Value)
 {
 }
 
-void AWeapon::OnLeftMouseClicked(AMyPlayer* Player)
-{
-	if (Player->GetState() != Player->GetSpecificState(STATE::IDLE) &&
-		Player->GetState() != Player->GetSpecificState(STATE::MOVE) &&
-		Player->GetState() != Player->GetSpecificState(STATE::JUMP) &&
-		Player->GetState() != Player->GetSpecificState(STATE::ATTACK) &&
-		Player->GetState() != Player->GetSpecificState(STATE::SKILLCAST))
-		return;
-
-	if (Player->GetState() == Player->GetSpecificState(STATE::SKILL))
-		return;
-
-	if (Player->GetState() == Player->GetSpecificState(STATE::SKILLCAST))
-		Player->GetSkill()->CastToExecute(Player);
-	else
-	{
-		if (Player->GetState() != Player->GetSpecificState(STATE::ATTACK))
-			Player->SetState(STATE::ATTACK);
-
-		Player->GetAnimInst()->PlayAttackMontage();
-	}
-}
-
-void AWeapon::OnRightMouseClicked(AMyPlayer* Player)
-{
-	
-}
 
 FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 {
