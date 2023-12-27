@@ -35,19 +35,6 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	}
 }
 
-FString UMonsterAnimInstance::GetMontageDir(FString MontageType)
-{
-	auto MyPawn = Cast<AMonster>(TryGetPawnOwner());
-	if (MyPawn == nullptr)
-		return TEXT("");
-
-	FString MyName = FString::FromInt(MyPawn->GetObjectId());
-	FString Dir = TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/");
-	FString MontageName = TEXT("AM_") + MyName + TEXT("_") + MontageType;
-	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");
-
-	return Dir;
-}
 
 void UMonsterAnimInstance::AnimNotify_HitCheck()
 {
@@ -70,18 +57,3 @@ void UMonsterAnimInstance::AnimNotify_DestroyObject()
 	OnDied.Broadcast();
 }
 
-void UMonsterAnimInstance::PlayDamagedMontage()
-{
-	if (DamagedMontage == nullptr)
-		return;
-	StopAllMontages(1.f);
-	Montage_Play(DamagedMontage, 1.0f);
-}
-
-void UMonsterAnimInstance::PlayAttackMontage()
-{
-	if (!Montage_IsPlaying(AttackMontage))
-	{
-		Montage_Play(AttackMontage, 1.0f);
-	}
-}

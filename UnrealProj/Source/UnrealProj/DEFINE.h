@@ -104,6 +104,14 @@ enum class EDebuff : uint8
 	DecreaseDefense = 1 << 7,
 };
 
+UENUM(BlueprintType)
+enum class ENEMY_ATTACKT_TYPE : uint8
+{
+	MELEE,
+	BOW,
+	MAGIC,
+};
+
 enum QuestType
 {
 	QUEST_EMPTY,

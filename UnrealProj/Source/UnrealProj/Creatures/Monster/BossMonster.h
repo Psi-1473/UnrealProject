@@ -35,10 +35,8 @@ public:
 	bool GetSixthSkill() { return bSixthSkill; }
 	class UMonsterSkill* GetExecutingSkill() { return ExecutingSkill; }
 	class AMyPlayer* GetTarget() { return TargetPlayer; }
-	class UBossAnimInstance* GetAnimInst() { return AnimInst; }
+	class UBossAnimInstance* GetAnimInst();
 
-
-	virtual void AttackTarget(class AMyPlayer* Target) override;
 	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, class UParticleSystem* Particle, AttackType Type = AttackType::NORMAL) override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) override;
@@ -53,9 +51,6 @@ private:
 	void SetCanDashTrue();
 
 private:
-	UPROPERTY()
-	class UBossAnimInstance* AnimInst;
-
 	UPROPERTY()
 	bool bCanSkill = false;
 

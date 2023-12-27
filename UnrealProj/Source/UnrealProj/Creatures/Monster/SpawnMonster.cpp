@@ -5,6 +5,7 @@
 #include "../../AI/MonsterAIController.h"
 #include "../Player/MyPlayer.h"
 #include "../../Animations/Monster/MonsterAnimInstance.h"
+#include "../../Animations/Monster/EnemyAnimInstance.h"
 #include "../../Stat/PlayerStatComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../../Inventory/Inventory.h"
@@ -49,7 +50,7 @@ void ASpawnMonster::PostInitializeComponents()
 
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
 	if (AnimInst == nullptr) return;
-	AnimInst->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
+	Cast<UMonsterAnimInstance>(AnimInst)->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
 
 
 }
@@ -60,14 +61,6 @@ void ASpawnMonster::Tick(float DeltaTime)
 	CheckDistance();
 }
 
-void ASpawnMonster::AttackTarget(AMyPlayer* Target)
-{
-	FVector Loc = Target->GetActorLocation();
-	Loc.Z = GetActorLocation().Z;
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), Loc);
-	SetActorRotation(Rot);
-	AnimInst->PlayAttackMontage();
-}
 
 void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, UParticleSystem* Particle, AttackType Type)
 {

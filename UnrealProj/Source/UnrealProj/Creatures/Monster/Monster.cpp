@@ -2,7 +2,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../../Stat/MonsterStatComponent.h"
-#include "../../Animations/Monster/MonsterAnimInstance.h"
+#include "../../Animations/Monster/EnemyAnimInstance.h"
 #include "Components/SceneComponent.h"
 #include "../../TextRender/DamageText.h"
 #include "../../MyGameInstance.h"
@@ -12,9 +12,19 @@
 #include "../../AI/MonsterAIController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
+#include "Components/WidgetComponent.h"
+#include "Kismet/KismetMathLibrary.h"
 
 AMonster::AMonster()
 {
+	InitTargetUI();
+	static ConstructorHelpers::FClassFinder<UUserWidget> TARGET(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Components/WBP_TargetUI.WBP_TargetUI_C'"));
+	if (TARGET.Succeeded())
+	{
+		TargetUI->SetWidgetClass(TARGET.Class);
+		TargetUI->SetDrawSize(FVector2d(150.f, 150.f));
+	}
+	SetWeaponSocket();
 	PrimaryActorTick.bCanEverTick = true;
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
@@ -28,7 +38,7 @@ AMonster::AMonster()
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
 	AudioComponent->SetupAttachment(RootComponent);
-	// 메쉬 - 속도만 세팅
+	TargetUI->SetVisibility(false);
 }
 
 void AMonster::BeginPlay()
@@ -60,6 +70,22 @@ int AMonster::GetObjectId()
 	return Value;
 }
 
+void AMonster::AttackTarget(AMyPlayer* Target)
+{
+	switch (StatComponent->GetAttackType())
+	{
+		case ENEMY_ATTACKT_TYPE::MELEE:
+			AttackMelee(Target);
+			break;
+		case ENEMY_ATTACKT_TYPE::BOW:
+			AttackBow(Target);
+			break;
+		case ENEMY_ATTACKT_TYPE::MAGIC:
+			AttackMagic(Target);
+			break;
+	}
+}
+
 float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
 	return Damage;
@@ -78,6 +104,56 @@ void AMonster::PopupDamageText(float Damage)
 
 	DamageText->SetDamageText(Damage);
 	
+}
+
+
+void AMonster::SetTargetUI(bool Value)
+{
+	if(TargetUI == nullptr)
+		return;
+	TargetUI->SetVisibility(Value);
+}
+
+void AMonster::InitTargetUI()
+{
+	TargetUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("TARGETUI"));
+	TargetUI->SetupAttachment(GetMesh());
+	TargetUI->SetRelativeLocation(FVector(0.f, 0.f, 60.f));
+	TargetUI->SetWidgetSpace(EWidgetSpace::Screen);
+	
+}
+
+void AMonster::SetWeaponSocket()
+{
+	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
+	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
+
+	FName RWeaponSocket(TEXT("Weapon_R"));
+	FName LWeaponSocket(TEXT("Weapon_L"));
+
+	if (GetMesh()->DoesSocketExist(RWeaponSocket))
+		RWeapon->SetupAttachment(GetMesh(), RWeaponSocket);
+
+	if (GetMesh()->DoesSocketExist(LWeaponSocket))
+		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
+}
+
+void AMonster::AttackMelee(AMyPlayer* Target)
+{
+	FVector TargetLoc = Target->GetActorLocation();
+	TargetLoc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
+
+	SetActorRotation(Rot);
+	AnimInst->PlayAttackMontage();
+}
+
+void AMonster::AttackBow(AMyPlayer* Target)
+{
+}
+
+void AMonster::AttackMagic(AMyPlayer* Target)
+{
 }
 
 

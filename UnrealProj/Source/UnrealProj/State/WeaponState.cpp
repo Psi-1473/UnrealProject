@@ -5,6 +5,7 @@
 #include "StateMachine.h"
 #include "CharacterState.h"
 #include "../Creatures/Player/MyPlayer.h"
+#include "../Creatures/Monster/Monster.h"
 #include "../Skills/Player/PlayerSkill.h"
 #include "../Animations/Player/PlayerAnim.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -132,8 +133,11 @@ void UBowState::FindTarget()
 				TempTarget = OutOverlaps[i].GetActor();
 		}
 	}
-
+	if(Cast<AMonster>(Target))
+		Cast<AMonster>(Target)->SetTargetUI(false);
 	Target = TempTarget;
+	if (Cast<AMonster>(Target))
+		Cast<AMonster>(Target)->SetTargetUI(true);
 }
 void UBowState::Fire()
 {

@@ -4,13 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "EnemyAnimInstance.h"
 #include "BossAnimInstance.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UNREALPROJ_API UBossAnimInstance : public UAnimInstance
+class UNREALPROJ_API UBossAnimInstance : public UEnemyAnimInstance
 {
 	GENERATED_BODY()
 public:
@@ -18,8 +19,6 @@ public:
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 
-
-	FString GetBossMontageDir(FString MontageType);
 public:
 	UFUNCTION()
 		void AnimNotify_DamagedEnd();
@@ -45,9 +44,8 @@ public:
 
 public:
 	void PlayStartMontage();
-	void PlayDamagedMontage();
 	void PlayDieMontage();
-	void PlayAttackMontage();
+	
 	void PlaySkillMontage(int32 Id);
 	void Dash() { bDash = true;}
 
@@ -67,10 +65,6 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 		bool bDash = false;
 
-	UPROPERTY()
-		class UAnimMontage* DamagedMontage;
-	UPROPERTY()
-		class UAnimMontage* AttackMontage;
 	UPROPERTY()
 		class UAnimMontage* SkillMontage;
 	UPROPERTY()

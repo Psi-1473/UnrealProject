@@ -41,7 +41,7 @@ ABossMonster::ABossMonster()
 void ABossMonster::BeginPlay()
 {
 	Super::BeginPlay();
-	AnimInst->PlayStartMontage();
+	GetAnimInst()->PlayStartMontage();
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	SetActorRotation(FRotator(0.f, -150.f, 0.f));
@@ -139,7 +139,7 @@ void ABossMonster::Dash()
 	UE_LOG(LogTemp, Warning, TEXT("Boss : Dash !"));
 
 	bCanDash = false;
-	AnimInst->Dash();
+	GetAnimInst()->Dash();
 	FLatentActionInfo ActInfo;
 	ActInfo.CallbackTarget = this;
 	FVector TargetLoc = TargetPlayer->GetActorLocation();
@@ -169,15 +169,9 @@ void ABossMonster::StartCooldown()
 }
 
 
-void ABossMonster::AttackTarget(AMyPlayer* Target)
+UBossAnimInstance* ABossMonster::GetAnimInst()
 {
-	FVector TargetLoc = TargetPlayer->GetActorLocation();
-	TargetLoc.Z = GetActorLocation().Z;
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
-
-	SetActorRotation(Rot);
-	AnimInst->PlayAttackMontage();
-	
+	return Cast<UBossAnimInstance>(AnimInst);
 }
 
 void ABossMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, UParticleSystem* Particle, AttackType Type)
@@ -218,7 +212,7 @@ void ABossMonster::Die(AMyPlayer* Player)
 		ExecutingSkill->SkillEnd();
 
 	AIController->StopAI();
-	AnimInst->PlayDieMontage();
+	GetAnimInst()->PlayDieMontage();
 	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
 	GInstance->GetUIMgr()->CloseUI((int)UIType::BossHpBar);
 	GInstance->CheckQuest(QUEST_HUNT, StatComponent->GetId(), Player);

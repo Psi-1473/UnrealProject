@@ -6,6 +6,7 @@
 #include "../Creatures/Monster/Monster.h"
 #include "Kismet/GameplayStatics.h"
 
+
 UMonsterStatComponent::UMonsterStatComponent()
 {
 	PrimaryComponentTick.bCanEverTick = false;
@@ -46,6 +47,7 @@ void UMonsterStatComponent::SetInfo(int MonsterId)
 				Exp = StatData->Exp;
 				MaxGold = StatData->MaxGold;
 				MinGold = StatData->MinGold;
+				AttackType = (ENEMY_ATTACKT_TYPE)StatData->AttackType;
 				//Gold = MinGold¿Í MaxGold »çÀÌ ·£´ý
 				SetHp(MaxHp);
 				Attack = StatData->Attack;

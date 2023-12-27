@@ -59,6 +59,9 @@ struct FMonsterData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 MaxGold;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 AttackType;
 };
 USTRUCT()
 struct FNpcData : public FTableRowBase

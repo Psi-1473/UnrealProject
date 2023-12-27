@@ -32,7 +32,7 @@ public:
 	class UMonsterStatComponent* GetStatComponent() { return StatComponent; }
 
 public:
-	virtual void AttackTarget(class AMyPlayer* Target) {};
+	virtual void AttackTarget(class AMyPlayer* Target);
 	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, class UParticleSystem* Particle = nullptr, AttackType Type = AttackType::NORMAL) {};
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) {};
@@ -43,8 +43,19 @@ protected:
 	void PopupDamageText(float Damage);
 
 public:
-	
+	void SetTargetUI(bool Value);
+
+private:
+	void InitTargetUI();
+	void SetWeaponSocket();
+
+	void AttackMelee(class AMyPlayer* Target);
+	void AttackBow(class AMyPlayer* Target);
+	void AttackMagic(class AMyPlayer* Target);
+
 protected:
+	UPROPERTY()
+	class UEnemyAnimInstance* AnimInst;
 	UPROPERTY()
 	bool bDeath = false;
 	UPROPERTY()
@@ -59,5 +70,12 @@ protected:
 	UPROPERTY(EditAnywhere)
 	class UAudioComponent* AudioComponent;
 
+	UPROPERTY(EditAnywhere)
+	class UWidgetComponent* TargetUI;
 
+	UPROPERTY(EditAnywhere)
+		class UStaticMeshComponent* LWeapon;
+
+	UPROPERTY(EditAnywhere)
+		class UStaticMeshComponent* RWeapon;
 };

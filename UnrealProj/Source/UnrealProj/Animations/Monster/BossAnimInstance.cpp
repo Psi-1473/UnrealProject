@@ -19,8 +19,8 @@ void UBossAnimInstance::NativeBeginPlay()
 {
 	Super::NativeBeginPlay();
 	//DamagedMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Damaged")), NULL, LOAD_None, NULL);
-	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetBossMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
-	SkillMontage = LoadObject<UAnimMontage>(NULL, *GetBossMontageDir(TEXT("Skill")), NULL, LOAD_None, NULL);
+	AttackMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Attack")), NULL, LOAD_None, NULL);
+	SkillMontage = LoadObject<UAnimMontage>(NULL, *GetMontageDir(TEXT("Skill")), NULL, LOAD_None, NULL);
 }
 
 void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
@@ -45,20 +45,7 @@ void UBossAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 			SkillId = 0;
 	}
 }
-	
-FString UBossAnimInstance::GetBossMontageDir(FString MontageType)
-{
-	auto MyPawn = Cast<AMonster>(TryGetPawnOwner());
-	if (MyPawn == nullptr)
-		return TEXT("");
 
-	FString MyName = FString::FromInt(MyPawn->GetObjectId());
-	FString Dir = TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Monster/Montages/");
-	FString MontageName = TEXT("AM_") + MyName + TEXT("_") + MontageType;
-	Dir += MyName + TEXT("/") + MontageName + TEXT(".") + MontageName + TEXT("'");
-
-	return Dir;
-}
 
 void UBossAnimInstance::AnimNotify_DamagedEnd()
 {
@@ -122,9 +109,6 @@ void UBossAnimInstance::PlayStartMontage()
 		Montage_Play(StartMontage, 1.0f);
 	}
 }
-void UBossAnimInstance::PlayDamagedMontage()
-{
-}
 
 void UBossAnimInstance::PlayDieMontage()
 {
@@ -135,14 +119,6 @@ void UBossAnimInstance::PlayDieMontage()
 	}
 	// 죽는 애니메이션 재생
 	// Notify에 사망 등록
-}
-
-void UBossAnimInstance::PlayAttackMontage()
-{
-	if (!Montage_IsPlaying(AttackMontage))
-	{
-		Montage_Play(AttackMontage, 1.0f);
-	}
 }
 
 void UBossAnimInstance::PlaySkillMontage(int32 Id)

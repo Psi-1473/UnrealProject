@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "../DEFINE.h"
 #include "MonsterStatComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnHpChanged);
@@ -29,6 +30,7 @@ public:
 	int32 GetHp() { return Hp; }
 	int32 GetExp() { return Exp; }
 	int32 GetGold() { return FMath::RandRange(MinGold, MaxGold);}
+	ENEMY_ATTACKT_TYPE GetAttackType() { return AttackType; }
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
@@ -62,6 +64,9 @@ private:
 
 	UPROPERTY()
 	int32 MinGold;
+
+	UPROPERTY()
+	ENEMY_ATTACKT_TYPE AttackType;
 
 public:
 	FOnHpChanged OnHpChanged;

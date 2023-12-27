@@ -27,7 +27,6 @@ public:
 	void SetSpawner(TWeakObjectPtr<class AMonsterSpawner> Value) { Spawner = Value; }
 
 public:
-	virtual void AttackTarget(class AMyPlayer* Target) override;
 	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, class UParticleSystem* Particle, AttackType Type = AttackType::NORMAL) override;
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 	virtual void Die(class AMyPlayer* Player) override;
@@ -40,15 +39,13 @@ private:
 	void HideHpBar();
 	void CheckDistance();
 
+	
 private:
 	UPROPERTY()
 	TWeakObjectPtr<class AMonsterSpawner> Spawner;
 
 	UPROPERTY()
 	TWeakObjectPtr<class AMyPlayer> Attacker;
-
-	UPROPERTY()
-	class UMonsterAnimInstance* AnimInst;
 
 	UPROPERTY(EditAnywhere)
 	class UWidgetComponent* HpBar;

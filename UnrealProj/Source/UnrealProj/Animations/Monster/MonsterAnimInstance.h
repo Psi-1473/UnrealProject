@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "EnemyAnimInstance.h"
 #include "MonsterAnimInstance.generated.h"
 
 /**
@@ -13,7 +14,7 @@
 DECLARE_MULTICAST_DELEGATE(FOnDied);
 
 UCLASS()
-class UNREALPROJ_API UMonsterAnimInstance : public UAnimInstance
+class UNREALPROJ_API UMonsterAnimInstance : public UEnemyAnimInstance
 {
 	GENERATED_BODY()
 
@@ -22,8 +23,6 @@ public:
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 	
-
-	FString GetMontageDir(FString MontageType);
 public:
 	UFUNCTION()
 	void AnimNotify_HitCheck();
@@ -35,8 +34,7 @@ public:
 	void AnimNotify_DestroyObject();
 
 public:
-	void PlayDamagedMontage();
-	void PlayAttackMontage();
+
 
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
@@ -44,10 +42,8 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	bool bDeath = false;
 
-	UPROPERTY()
-	class UAnimMontage* DamagedMontage;
-	UPROPERTY()
-	class UAnimMontage* AttackMontage;
+
+
 public:
 	FOnDied OnDied;
 

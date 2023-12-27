@@ -73,6 +73,6 @@ private:
 
 
 	UPROPERTY()
-	class AActor* Target;
+	class AActor* Target = nullptr;
 };
 
