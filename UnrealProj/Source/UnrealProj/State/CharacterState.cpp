@@ -243,3 +243,14 @@ void ULootState::OnExit()
 }
 #pragma endregion
 
+void UDeadState::OnEnter()
+{
+}
+
+void UDeadState::OnUpdate()
+{
+}
+
+void UDeadState::OnExit()
+{
+}

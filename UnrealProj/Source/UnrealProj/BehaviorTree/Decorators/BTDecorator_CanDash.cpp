@@ -6,6 +6,7 @@
 #include "../../Creatures/Monster/BossMonster.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "../../State/CharacterState.h"
 
 UBTDecorator_CanDash::UBTDecorator_CanDash()
 {
@@ -30,6 +31,9 @@ bool UBTDecorator_CanDash::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 	auto Target = Boss->GetTarget();
 
 	if (Target == nullptr)
+		return false;
+
+	if (Target->GetState() == Target->GetSpecificState(STATE::DEAD))
 		return false;
 	
 

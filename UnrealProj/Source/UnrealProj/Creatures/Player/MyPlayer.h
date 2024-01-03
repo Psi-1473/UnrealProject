@@ -65,8 +65,14 @@ public:
 	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type); 
 
 private:
-	void SetDefaultCamera(); // 생성자에서 카메라 생성
-	void SetWeaponSocket();
+	void InitDefaultCamera(); // 생성자에서 카메라 생성
+	void InitWeaponSocket();
+	void InitAssets();
+	void CreateComponents();
+	void InitializeComponents();
+	void SetEngineVariables();
+
+
 	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 	
 
@@ -80,6 +86,7 @@ private:
 
 	UPROPERTY()
 	bool bDash = false;
+
 	// Components
 private:
 	UPROPERTY(EditAnywhere)

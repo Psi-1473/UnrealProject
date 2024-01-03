@@ -5,6 +5,8 @@
 #include "../../AI/BossAIController.h"
 #include "../../Creatures/Monster/BossMonster.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "../../Creatures/Player/MyPlayer.h"
+#include "../../State/CharacterState.h"
 
 UBTDecorator_CanUseSkill::UBTDecorator_CanUseSkill()
 {
@@ -22,6 +24,7 @@ bool UBTDecorator_CanUseSkill::CalculateRawConditionValue(UBehaviorTreeComponent
 	auto Boss = Cast<ABossMonster>(CurrrentPawn);
 	if (Boss == nullptr)
 		return false;
-
+	if (Boss->GetTarget()->GetState() == Boss->GetTarget()->GetSpecificState(STATE::DEAD))
+		return false;
 	return bResult && Boss->GetCanSkill();
 }

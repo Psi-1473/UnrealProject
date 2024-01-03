@@ -2,6 +2,8 @@
 
 
 #include "StateMachine.h"
+#include "../Creatures/Player/MyPlayer.h"
+#include "../DEFINE.h"
 
 UStateMachine::UStateMachine()
 {
@@ -29,6 +31,7 @@ void UStateMachine::InitCharacterState()
 	UHitAndFallState* HitAndFallState = NewObject<UHitAndFallState>();
 	UReviveState* ReviveState = NewObject<UReviveState>();
 	ULootState* LootState = NewObject<ULootState>();
+	UDeadState* DeadState = NewObject<UDeadState>();
 
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
@@ -42,6 +45,7 @@ void UStateMachine::InitCharacterState()
 	HitAndFallState->SetMachine(this);
 	ReviveState->SetMachine(this);
 	LootState->SetMachine(this);
+	DeadState->SetMachine(this);
 
 	AddState(STATE::IDLE, IdleState);
 	AddState(STATE::MOVE, MoveState);
@@ -55,6 +59,7 @@ void UStateMachine::InitCharacterState()
 	AddState(STATE::HITANDFALL, HitAndFallState);
 	AddState(STATE::REVIVE, ReviveState);
 	AddState(STATE::LOOT, LootState);
+	AddState(STATE::DEAD, DeadState);
 
 	State = States[STATE::IDLE];
 }

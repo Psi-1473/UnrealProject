@@ -47,7 +47,6 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 			if(Character->GetState() != nullptr)
 				CharacterState = Character->GetState()->GetState();
 
-
 			auto Arrow = Cast<UBowState>(Character->GetWeaponState());
 			if(Arrow) bZoom = Arrow->GetZoom();
 
@@ -63,7 +62,6 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 				Horizontal = 0.5f;
 				Vertical = 0.5f;
 			}
-
 		}
 	}
 }
@@ -91,6 +89,7 @@ void UPlayerAnim::PlayDamagedMontage()
 {
 	Montage_Play(DamagedMontage);
 }
+
 void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
 {
 	if (!Montage_IsPlaying(SkillMontages[(int)WeaponType]))

@@ -21,6 +21,7 @@ public:
 
 	void PlayAttackMontage();
 	void PlayDamagedMontage();
+	void PlayDieMontage();
 	// 경직 Motage
 	// 밀림 Montage;
 	// 다운 Montage;

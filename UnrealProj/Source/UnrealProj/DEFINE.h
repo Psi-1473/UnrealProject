@@ -38,6 +38,7 @@ enum class STATE : uint8
 	JUMP,
 	ATTACK,
 	DAMAGED,
+	DEAD,
 	SKILL,
 	SKILLCAST,
 	PULLED,
@@ -53,8 +54,9 @@ enum class WEAPONTYPE : uint8
 	WEAPON_SWORD,
 	WEAPON_ARROW,
 
+	WEAPON_NONE,
 	WEAPON_END,
-}; //여기도 좀 깔끔하게 정리할 필요가..
+};
 
 UENUM(BlueprintType)
 enum class AttackType : uint8

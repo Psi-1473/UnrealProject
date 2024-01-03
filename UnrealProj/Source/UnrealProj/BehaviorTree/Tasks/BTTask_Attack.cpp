@@ -6,6 +6,7 @@
 #include "../../Creatures/Monster/BossMonster.h"
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../AI/MonsterAIController.h"
+#include "../../State/CharacterState.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UBTTask_Attack::UBTTask_Attack()
@@ -23,7 +24,9 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 
 	auto CurrentMonster = Cast<AMonster>(CurrentPawn);
 	auto TargetPlayer = Cast<AMyPlayer>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Target"))));
-	CurrentMonster->AttackTarget(TargetPlayer);
+
+	if(TargetPlayer->GetState() != TargetPlayer->GetSpecificState(STATE::DEAD))
+		CurrentMonster->AttackTarget(TargetPlayer);
 
 	return Result;
 }

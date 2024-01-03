@@ -6,6 +6,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "../../Creatures/Monster/BossMonster.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "../../State/CharacterState.h"
 
 UBTDecorator_CanAttack::UBTDecorator_CanAttack()
 {
@@ -22,6 +23,9 @@ bool UBTDecorator_CanAttack::CalculateRawConditionValue(UBehaviorTreeComponent& 
 
 	auto Target = Cast<AMyPlayer>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Target"))));
 	if (Target == nullptr)
+		return false;
+
+	if (Target->GetState() == Target->GetSpecificState(STATE::DEAD))
 		return false;
 
 	auto Boss = Cast<ABossMonster>(CurrrentPawn);

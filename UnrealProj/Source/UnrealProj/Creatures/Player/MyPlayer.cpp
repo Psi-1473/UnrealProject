@@ -30,46 +30,16 @@
 #include "../../Helpers/AttackChecker.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../Triggers/AreaBox.h"
-
 #include "../../Items/Weapons/Bow.h"
 
 AMyPlayer::AMyPlayer()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
-	AnimClasses.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
-	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
-	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
-
-	if (MeshAsset.Succeeded())
-	{
-		GetMesh()->SetSkeletalMesh(MeshAsset.Object);
-		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
-		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
-		GetMesh()->SetCollisionProfileName("NoCollision");
-	}
-
-	if (AnimAsset.Succeeded())
-		AnimClasses[(int)WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
-	if (AnimAsset2.Succeeded())
-		AnimClasses[(int)WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
-
-
-	SetDefaultCamera();
-	SetWeaponSocket();
-
-	StateMachine = NewObject<UStateMachine>();
-	StateMachine->SetOwner(this);
-
-	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
-	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
-	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
-	QuestComponent = CreateDefaultSubobject<UPlayerQuestComponent>(TEXT("QuestComponent"));
-	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
-	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
-
-	AudioComponent->SetupAttachment(RootComponent);
+	InitAssets();
+	InitDefaultCamera();
+	InitWeaponSocket();
+	CreateComponents();
 }
 
 void AMyPlayer::PostInitializeComponents()
@@ -77,23 +47,12 @@ void AMyPlayer::PostInitializeComponents()
 	Super::PostInitializeComponents();
 	SetAnimByWeapon(WEAPONTYPE::WEAPON_ARROW);
 }
-
 void AMyPlayer::BeginPlay()
 {
 	Super::BeginPlay();
-	Inventory->SetOwnerPlayer(this);
-	SkillComponent->SetOwnerPlayer(this);
-	BuffComponent->Init();
+	InitializeComponents();
+	SetEngineVariables();
 
-	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
-	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
-
-
-	if (StateMachine == nullptr)
-	{
-		StateMachine = NewObject<UStateMachine>();
-		StateMachine->SetOwner(this);
-	}
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<ABow>();
 	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_ARROW);
@@ -101,15 +60,9 @@ void AMyPlayer::BeginPlay()
 	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
 
-	auto GMode = UGameplayStatics::GetGameMode(GetWorld());
-	auto GameMode = Cast<AMyGameMode>(GMode);
 
-	if (GameMode == nullptr) return;
-	GameMode->BindPlayer(this);
-	GInstance->GetSoundMgr()->Init(GetWorld());
 	SkillComponent->SkillsInit();
 }
-
 void AMyPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -133,25 +86,24 @@ float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 {
 
 	StatComponent->OnAttacked(Damage);
-	//auto CauserPlayer = Cast<AMyPlayer>(DamageCauser); Causer를 몬스터로 하고
+	auto CauserMonster = Cast<AMonster>(DamageCauser);
 	//PopupDamageText(Damage); 데미지 팝업 띄우기
 
-	//if (StatComponent->GetHp() <= 0)
-	//	Die(CauserPlayer);
-	// return -1;
-
+	if (StatComponent->GetHp() <= 0)
+	{
+		Die();
+		return -1;
+	}
 
 	return Damage;
 }
 
 void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
 {
-	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	// HP UI 업데이트
-	// -1을 TakeDamage가 리턴하면 종료 (플레이어 죽었다는 뜻)
+	float RealDamage = TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+	if(RealDamage == -1)
+		return;
 
-	// 어택 타입에 따라 경직, 날리기, 노경직 선택 (애니메이션)
-	
 	if (Type == AttackType::NORMAL)
 	{
 		ShakeCamera(SHAKE_BASIC);
@@ -186,6 +138,11 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 
 void AMyPlayer::Die()
 {
+	// 1. 상태를 Die로
+	StateMachine->SetState(STATE::DEAD);
+	// 2. 죽는 애니메이션 실행
+	// 3. 몬스터 어그로 풀고
+	// 4. 잠시 후 부활 UI 띄우기
 }
 
 UCharacterState* AMyPlayer::GetState()
@@ -264,10 +221,6 @@ void AMyPlayer::ShakeCamera(CameraShakeType Type)
 			1.f, ECameraAnimPlaySpace::CameraLocal);
 	}
 
-	// ClientPlayCameraShake -> ClientStartCameraShake
-	// ECameraAnimPlaySpace -> ECameraShakePlaySpace
-	// 로 수정하기
-
 }
 
 void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
@@ -277,7 +230,7 @@ void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
 }
 
 
-void AMyPlayer::SetDefaultCamera()
+void AMyPlayer::InitDefaultCamera()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
@@ -289,7 +242,12 @@ void AMyPlayer::SetDefaultCamera()
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 }
-void AMyPlayer::SetWeaponSocket()
+
+
+/*
+	Initialize Functions
+*/
+void AMyPlayer::InitWeaponSocket()
 {
 	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
 	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
@@ -302,6 +260,62 @@ void AMyPlayer::SetWeaponSocket()
 
 	if (GetMesh()->DoesSocketExist(LWeaponSocket))
 		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
+}
+void AMyPlayer::InitAssets()
+{
+	AnimClasses.Init(nullptr, (int)WEAPONTYPE::WEAPON_END);
+	static ConstructorHelpers::FObjectFinder<USkeletalMesh> MeshAsset(TEXT("/Script/Engine.SkeletalMesh'/Game/ParagonAurora/Characters/Heroes/Aurora/Meshes/Aurora.Aurora'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player.ABP_Player_C'"));
+	static ConstructorHelpers::FClassFinder<UAnimInstance> AnimAsset2(TEXT("/Script/Engine.AnimBlueprint'/Game/02_Blueprints/Animations/Player/ABP_Player_Arrow.ABP_Player_Arrow_C'"));
+
+	if (MeshAsset.Succeeded())
+	{
+		GetMesh()->SetSkeletalMesh(MeshAsset.Object);
+		GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
+		GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, -0.f));
+		GetMesh()->SetCollisionProfileName("NoCollision");
+	}
+	if (AnimAsset.Succeeded())
+		AnimClasses[(int)WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
+	if (AnimAsset2.Succeeded())
+		AnimClasses[(int)WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
+}
+void AMyPlayer::CreateComponents()
+{
+	StateMachine = NewObject<UStateMachine>();
+	StateMachine->SetOwner(this);
+
+	StatComponent = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("StatComponent"));
+	SkillComponent = CreateDefaultSubobject<UPlayerSkillComponent>(TEXT("SkillComponent"));
+	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
+	QuestComponent = CreateDefaultSubobject<UPlayerQuestComponent>(TEXT("QuestComponent"));
+	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
+	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+	AudioComponent->SetupAttachment(RootComponent);
+}
+void AMyPlayer::InitializeComponents()
+{
+	Inventory->SetOwnerPlayer(this);
+	SkillComponent->SetOwnerPlayer(this);
+	BuffComponent->Init();
+	if (StateMachine == nullptr)
+	{
+		StateMachine = NewObject<UStateMachine>();
+		StateMachine->SetOwner(this);
+		StateMachine->SetState(STATE::IDLE);
+	}
+
+}
+void AMyPlayer::SetEngineVariables()
+{
+	GInstance = Cast<UMyGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	GInstance->GetUIMgr()->SetController(Cast<APlayerController>(GetController()));
+	auto GMode = UGameplayStatics::GetGameMode(GetWorld());
+	auto GameMode = Cast<AMyGameMode>(GMode);
+
+	if (GameMode == nullptr) return;
+	GameMode->BindPlayer(this);
+	GInstance->GetSoundMgr()->Init(GetWorld());
 }
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 {

@@ -108,7 +108,8 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 {
 	if (MyPlayer == nullptr)
 		return;
-
+	if(MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+		return;
 	if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
 		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE) &&
 		MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::JUMP))
@@ -167,6 +168,9 @@ void AMyPlayerController::IA_Jump(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+			return;
+
 		if (MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::IDLE) &&
 			MyPlayer->GetState() != MyPlayer->GetSpecificState(STATE::MOVE))
 			return;
@@ -180,7 +184,8 @@ void AMyPlayerController::IA_ClickRightMouse(const FInputActionValue& Value)
 	
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
-
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+		return;
 	if(Value.Get<bool>())
 		MyPlayer->GetWeaponState()->OnRightMouseClicked(MyPlayer);
 	else
@@ -191,7 +196,8 @@ void AMyPlayerController::IA_ClickLeftMouse(const FInputActionValue& Value)
 {
 	if (MyPlayer->GetInstance()->GetUIMgr()->GetUiNumber() > 0)
 		return;
-
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+		return;
 	MyPlayer->GetWeaponState()->OnLeftMouseClicked(MyPlayer);
 }
 
@@ -199,8 +205,9 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
-
-	MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Burning);
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+		return;
+	//MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Burning);
 
 
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
@@ -216,8 +223,9 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
 		return;
-
-	MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Burning);
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+		return;
+	//MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Burning);
 
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
@@ -231,6 +239,8 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
+		return;
+	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
 		return;
 	if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::SKILL))
 		return;
@@ -271,7 +281,9 @@ void AMyPlayerController::IA_Quick1(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
-		MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Poison);
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+			return;
+		//MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Poison);
 		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (MyGameMode == nullptr) return;
 
@@ -286,7 +298,9 @@ void AMyPlayerController::IA_Quick2(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
-		MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Poison);
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+			return;
+		//MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Poison);
 		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (MyGameMode == nullptr) return;
 
@@ -301,6 +315,8 @@ void AMyPlayerController::IA_Quick3(const FInputActionValue& Value)
 {
 	if (Value.Get<bool>())
 	{
+		if (MyPlayer->GetState() == MyPlayer->GetSpecificState(STATE::DEAD))
+			return;
 		auto MyGameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		if (MyGameMode == nullptr) return;
 
