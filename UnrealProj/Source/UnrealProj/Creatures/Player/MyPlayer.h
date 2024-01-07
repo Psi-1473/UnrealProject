@@ -35,9 +35,12 @@ public:
 	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
 	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type);
 
+	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 public:
-	class UCharacterState* GetState();
-	class UWeaponState* GetWeaponState();
+	class UStateMachine* GetStateMachine() { return StateMachine; }
+
+	//class UCharacterState* GetState();
+	//class UWeaponState* GetWeaponState();
 	class UCharacterState* GetSpecificState(STATE Value);
 
 
@@ -59,6 +62,8 @@ public:
 	/*
 		Get Misc.
 	*/
+	class UStaticMeshComponent* GetLeftWeaponMesh() { return LWeapon; }
+	class UStaticMeshComponent* GetRightWeaponMesh() { return RWeapon; }
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
@@ -67,7 +72,7 @@ public:
 
 	void SetInteractObj(TScriptInterface<class IInteractable> Obj) { InteractObj = Obj; }
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
-	void SetState(STATE Value);
+	//void SetState(STATE Value);
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
 
@@ -85,7 +90,7 @@ private:
 	void InitializeComponents();
 	void SetEngineVariables();
 
-	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
+	
 	
 
 	// Common variables

@@ -9,6 +9,7 @@
 #include "../../Managers/InteractObjManager.h"
 #include "../../Widgets/Popup/Widget_Looting.h"
 #include "../Player/MyPlayer.h"
+#include "../../State/StateMachine.h"
 
 // Sets default values
 ALootObject::ALootObject()
@@ -59,7 +60,7 @@ void ALootObject::Interact(AMyPlayer* Player)
 	if(LootUI != nullptr)
 		LootUI->SetTime(Time, this);
 	InteractingPlayer = Player;
-	InteractingPlayer->SetState(STATE::LOOT);
+	InteractingPlayer->GetStateMachine()->SetState(STATE::LOOT);
 }
 
 void ALootObject::LootEnd()
@@ -67,7 +68,7 @@ void ALootObject::LootEnd()
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 	GInstance->GetUIMgr()->CloseUI((int)UIType::Looting);
 	GInstance->GetQuestMgr()->CheckQuestTarget(QUEST_INVESTIGATE, Id, InteractingPlayer);
-	InteractingPlayer->SetState(STATE::IDLE);
+	InteractingPlayer->GetStateMachine()->SetState(STATE::IDLE);
 	InteractingPlayer = nullptr;
 
 	SetActorHiddenInGame(true);

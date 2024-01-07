@@ -8,10 +8,11 @@
 #include "../EffectActor//SkillRangeActor.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../MyGameInstance.h"
+#include "../../State/StateMachine.h"
 
 void UPlayerSkill::SetDefaultValue()
 {
-	OwnerPlayer->SetState(STATE::SKILL);
+	OwnerPlayer->GetStateMachine()->SetState(STATE::SKILL);
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->PlaySkillMontage(Id);
 }
@@ -34,14 +35,14 @@ void UPlayerSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 		return;
 
 	if (!bRangeAttack)
-		OwnerPlayer->SetState(STATE::SKILLCAST);
+		OwnerPlayer->GetStateMachine()->SetState(STATE::SKILLCAST);
 }
 
 void UPlayerSkill::CancleCast(AActor* OwnerActor)
 {
 	OwnerPlayer = Cast<AMyPlayer>(OwnerActor);
 	OwnerPlayer->GetAnimInst()->SetBowCast(false);
-	OwnerPlayer->SetState(STATE::IDLE);
+	OwnerPlayer->GetStateMachine()->SetState(STATE::IDLE);
 	if (OwnerPlayer->GetSpawnedRangeActor())
 	{
 		OwnerPlayer->GetSpawnedRangeActor()->Destroy();
@@ -69,8 +70,6 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	int32 IdFromName = GetIdByName(NumberStr);
 
 	auto GInstance = Player->GetInstance(); // 여기가 문제
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, WTypeStr);
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, NumberStr);
 
 	SetWeaponType(WTypeStr);
 	Id = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Id;

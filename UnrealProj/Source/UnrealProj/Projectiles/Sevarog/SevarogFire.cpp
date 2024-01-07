@@ -12,6 +12,7 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/DamageEvents.h"
 #include "../../DEFINE.h"
+#include "../../State/StateMachine.h"
 #include "Kismet/GameplayStatics.h"
 
 ASevarogFire::ASevarogFire()
@@ -79,8 +80,7 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 			UE_LOG(LogTemp, Warning, TEXT("Sevarog Projectile Hit Player"));
 			FDamageEvent DamageEvent;
 			PrevTargetPos = GetActorLocation();
-			//TargetPlayer->SetState(STATE::IDLE);
-			Player->SetState(STATE::PULLED);
+			Player->GetStateMachine()->SetState(STATE::PULLED);
 			AttackTarget();
 			//Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
@@ -89,15 +89,6 @@ void ASevarogFire::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* O
 
 void ASevarogFire::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	//if (OtherActor && (OtherActor != this))
-	//{
-	//	auto Player = Cast<AMyPlayer>(OtherActor);
-	//	if (Player && Player == TargetPlayer)
-	//	{
-	//		TargetPlayer->SetState(STATE::IDLE);
-	//		TargetPlayer = nullptr;
-	//	}
-	//}
 
 }
 

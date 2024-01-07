@@ -32,8 +32,8 @@ void UWeaponState::OnLeftMouseClicked(AMyPlayer* Player)
 		Player->GetSkill()->CastToExecute(Player);
 	else
 	{
-		if (Player->GetState() != Player->GetSpecificState(STATE::ATTACK))
-			Player->SetState(STATE::ATTACK);
+		if (Machine->GetState()->GetState() != STATE::ATTACK)
+			Machine->SetState(STATE::ATTACK);
 
 		Player->GetAnimInst()->PlayAttackMontage();
 	}

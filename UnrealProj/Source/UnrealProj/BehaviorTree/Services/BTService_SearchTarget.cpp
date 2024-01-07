@@ -8,6 +8,7 @@
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../../State/CharacterState.h"
+#include "../../State/StateMachine.h"
 
 UBTService_SearchTarget::UBTService_SearchTarget()
 {
@@ -47,17 +48,15 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	{
 		for (auto& OverlapResult : OverlapResults)
 		{
-			//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("Hit")); 
 			AMyPlayer* Player = Cast<AMyPlayer>(OverlapResult.GetActor());
 			if (Player)
 			{
-				if (Player->GetState() == Player->GetSpecificState(STATE::DEAD))
+				if (Player->GetStateMachine()->GetState()->GetState() == STATE::DEAD)
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
 					continue;
 				}
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), Player);
-				//DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Green, false, 0.2f);
 				OwnerComp.GetAIOwner()->GetCharacter()->GetCharacterMovement()->StopActiveMovement();
 				
 				return;

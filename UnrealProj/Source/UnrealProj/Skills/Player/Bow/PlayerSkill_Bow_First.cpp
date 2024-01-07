@@ -6,6 +6,7 @@
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../../DEFINE.h"
 #include "../../../State/CharacterState.h"
+#include "../../../State/StateMachine.h"
 #include "../../EffectActor/SkillRangeActor.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
 #include "Components/CapsuleComponent.h"
@@ -35,10 +36,10 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	// 부모 함수에서 return 해봤자 Super::Execute만 종료되고 
 	// 그 아래 다른 함수들은 실행되기 때문에 이거 조심
 	Super::Execute(OwnerActor, bRangeAttack);
-
+	STATE MyState = OwnerPlayer->GetStateMachine()->GetState()->GetState();
 	if (RemainingTime > 0.f)
 		return;
-	if (OwnerPlayer->GetState() == OwnerPlayer->GetSpecificState(STATE::ATTACK))
+	if (MyState == STATE::ATTACK)
 		return;
 
 	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
@@ -46,7 +47,7 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->SetBowCast(true);
-	OwnerPlayer->SetState(STATE::SKILLCAST);
+	OwnerPlayer->GetStateMachine()->SetState(STATE::SKILLCAST);
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = Cast<AActor>(OwnerPlayer);

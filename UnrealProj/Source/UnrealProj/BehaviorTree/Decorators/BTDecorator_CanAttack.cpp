@@ -7,6 +7,7 @@
 #include "../../Creatures/Monster/BossMonster.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "../../State/CharacterState.h"
+#include "../../State/StateMachine.h"
 
 UBTDecorator_CanAttack::UBTDecorator_CanAttack()
 {
@@ -25,7 +26,7 @@ bool UBTDecorator_CanAttack::CalculateRawConditionValue(UBehaviorTreeComponent& 
 	if (Target == nullptr)
 		return false;
 
-	if (Target->GetState() == Target->GetSpecificState(STATE::DEAD))
+	if (Target->GetStateMachine()->GetState()->GetState() == STATE::DEAD)
 		return false;
 
 	auto Boss = Cast<ABossMonster>(CurrrentPawn);

@@ -7,6 +7,7 @@
 #include "../../Creatures/Player/MyPlayer.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "../../State/CharacterState.h"
+#include "../../State/StateMachine.h"
 
 UBTDecorator_CanDash::UBTDecorator_CanDash()
 {
@@ -33,7 +34,7 @@ bool UBTDecorator_CanDash::CalculateRawConditionValue(UBehaviorTreeComponent& Ow
 	if (Target == nullptr)
 		return false;
 
-	if (Target->GetState() == Target->GetSpecificState(STATE::DEAD))
+	if (Target->GetStateMachine()->GetState()->GetState() == STATE::DEAD)
 		return false;
 	
 

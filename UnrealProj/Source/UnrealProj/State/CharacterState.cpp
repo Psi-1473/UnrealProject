@@ -46,7 +46,7 @@ void UMoveState::OnEnter()
 void UMoveState::OnUpdate()
 {
 	if (Machine->GetOwner()->GetVelocity().Size() <= 0)
-		Machine->GetOwner()->SetState(STATE::IDLE);
+		Machine->SetState(STATE::IDLE);
 }
 
 void UMoveState::OnExit()
@@ -66,7 +66,7 @@ void UJumpState::OnUpdate()
 	if (Machine->GetOwner()->GetVelocity().Z == 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Z : %f"), Machine->GetOwner()->GetVelocity().Z);
-		Machine->GetOwner()->SetState(STATE::IDLE);
+		Machine->SetState(STATE::IDLE);
 	}
 }
 
@@ -185,7 +185,7 @@ void UHitAndFallState::OnUpdate()
 	if (Machine->GetOwner()->GetVelocity().Z == 0 && PrevVelocity < 0)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("KNOCKED OUT! Prev, Now : %f, %f"), PrevVelocity, Machine->GetOwner()->GetVelocity().Z);
-		Machine->GetOwner()->SetState(STATE::KNOCKED);
+		Machine->SetState(STATE::KNOCKED);
 	}
 	PrevVelocity = Machine->GetOwner()->GetVelocity().Z;
 }

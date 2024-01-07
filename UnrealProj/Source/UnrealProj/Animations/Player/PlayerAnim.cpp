@@ -11,6 +11,7 @@
 #include "../../Skills/Skill.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../State/CharacterState.h"
+#include "../../State/StateMachine.h"
 #include "../../State/WeaponState.h"
 #include "../../Items/Weapons/Bow.h"
 
@@ -44,12 +45,15 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		auto Character = Cast<AMyPlayer>(pawn);
 		if (Character)
 		{
-			if(Character->GetState() != nullptr)
-				CharacterState = Character->GetState()->GetState();
-
-			auto Arrow = Cast<UBowState>(Character->GetWeaponState());
-			if(Arrow) bZoom = Arrow->GetZoom();
-
+			if(Character->GetStateMachine() != nullptr)
+			{
+				UCharacterState* PlayerState = Character->GetStateMachine()->GetState();
+				if(PlayerState != nullptr)
+					CharacterState = PlayerState->GetState();
+		
+				auto Arrow = Cast<UBowState>(Character->GetStateMachine()->GetWeaponState());
+				if(Arrow) bZoom = Arrow->GetZoom();
+			}
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
 				return;
@@ -105,7 +109,6 @@ FName UPlayerAnim::GetAttackMontageName(int32 SectionIndex)
 
 void UPlayerAnim::JumpToSection(UAnimMontage* Montage, int32 SectionIndex)
 {
-	//FName Name = GetAttackMontageName(SectionIndex);
 	FName Name = FName(*FString::FromInt(SectionIndex));
 	Montage_JumpToSection(Name, Montage);
 }
@@ -120,8 +123,7 @@ void UPlayerAnim::AnimNotify_FireArrow()
 	auto pawn = TryGetPawnOwner();
 	AMyPlayer* MyPlayer = Cast<AMyPlayer>(pawn);
 
-	//Cast<AMyPlayerController>(MyPlayer->GetController())->Fire();
-	auto BowState = Cast<UBowState>(MyPlayer->GetWeaponState());
+	auto BowState = Cast<UBowState>(MyPlayer->GetStateMachine()->GetWeaponState());
 	if(BowState) BowState->Fire();
 }
 
@@ -140,7 +142,7 @@ void UPlayerAnim::AnimNotify_SkillEnd()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
 	Character->GetSkill()->SkillEnd();
-	Character->SetState(STATE::IDLE);
+	Character->GetStateMachine()->SetState(STATE::IDLE);
 	Character->SetSkill(nullptr);
 	bCombo = true;
 	AttackStep = 1;
@@ -179,7 +181,7 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
 	
-	Character->SetState(STATE::IDLE);
+	Character->GetStateMachine()->SetState(STATE::IDLE);
 	SetComboAndStepZero();
 	if (Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
@@ -191,7 +193,7 @@ void UPlayerAnim::AnimNotify_SetIdle()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
 	if (Character)
-		Character->SetState(STATE::IDLE);
+		Character->GetStateMachine()->SetState(STATE::IDLE);
 }
 
 void UPlayerAnim::AnimNotify_SetRevive()
@@ -199,7 +201,7 @@ void UPlayerAnim::AnimNotify_SetRevive()
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
 	if (Character)
-		Character->SetState(STATE::REVIVE);
+		Character->GetStateMachine()->SetState(STATE::REVIVE);
 }
 
 void UPlayerAnim::SetComboAndStepZero()

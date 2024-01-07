@@ -124,7 +124,7 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 
 void AMyPlayer::Die()
 {
-	if(GetState() == GetSpecificState(STATE::DEAD))
+	if(GetStateMachine()->GetState()->GetState() == STATE::DEAD)
 		return;
 
 	StateMachine->SetState(STATE::DEAD);
@@ -137,7 +137,7 @@ void AMyPlayer::Revive()
 {
 	FVector SpawnLocation(7170.f, -6250.f, 192.f);
 	SetActorLocation(SpawnLocation);
-	SetState(STATE::RESPAWN);
+	GetStateMachine()->SetState(STATE::RESPAWN);
 	StatComponent->SetHp(StatComponent->GetMaxHp());
 	StatComponent->SetMp(StatComponent->GetMaxMp());
 }
@@ -198,20 +198,38 @@ void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
 		1.f, ECameraAnimPlaySpace::CameraLocal);
 }
 
-UCharacterState* AMyPlayer::GetState()
+void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 {
-	if (StateMachine == nullptr)
-		return nullptr;
+	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+	GetMesh()->SetAnimClass(AnimClasses[(int)Type]);
+	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
+	AnimInst->WeaponType = Type;
 
-	return StateMachine->GetState();
-}
-UWeaponState* AMyPlayer::GetWeaponState()
-{
-	if (StateMachine == nullptr)
-		return nullptr;
+	auto MyGamemode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	if (MyGamemode == nullptr) return;
+	auto HUD = Cast<UWidget_PlayerMain>(MyGamemode->GetCurrentWidget());
+	if (HUD == nullptr) return;
+	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_ARROW)
+		HUD->SetCrossHair(true);
 
-	return StateMachine->GetWeaponState();
+	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_SWORD)
+		HUD->SetCrossHair(false);
 }
+
+//UCharacterState* AMyPlayer::GetState()
+//{
+//	if (StateMachine == nullptr)
+//		return nullptr;
+//
+//	return StateMachine->GetState();
+//}
+//UWeaponState* AMyPlayer::GetWeaponState()
+//{
+//	if (StateMachine == nullptr)
+//		return nullptr;
+//
+//	return StateMachine->GetWeaponState();
+//}
 UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
 {
 	return StateMachine->GetState(Value);
@@ -219,10 +237,10 @@ UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
 
 
 
-void AMyPlayer::SetState(STATE Value)
-{
-	StateMachine->SetState(Value);
-}
+//void AMyPlayer::SetState(STATE Value)
+//{
+//	StateMachine->SetState(Value);
+//}
 
 /*
 	Initialize or Setting Functions
@@ -309,21 +327,5 @@ void AMyPlayer::SetEngineVariables()
 	GameMode->BindPlayer(this);
 	GInstance->GetSoundMgr()->Init(GetWorld());
 }
-void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
-{
-	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	GetMesh()->SetAnimClass(AnimClasses[(int)Type]);
-	AnimInst = Cast<UPlayerAnim>(GetMesh()->GetAnimInstance());
-	AnimInst->WeaponType = Type;
 
-	auto MyGamemode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	if (MyGamemode == nullptr) return;
-	auto HUD = Cast<UWidget_PlayerMain>(MyGamemode->GetCurrentWidget());
-	if (HUD == nullptr) return;
-	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_ARROW)
-		HUD->SetCrossHair(true);
-
-	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_SWORD)
-		HUD->SetCrossHair(false);
-}
 
