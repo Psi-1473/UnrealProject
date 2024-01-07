@@ -29,6 +29,7 @@ public:
 	int32 GetLevel() { return Level; }
 	int32 GetAttack() { return Attack; }
 	int32 GetMaxHp() { return MaxHp; }
+	int32 GetMaxMp() { return MaxMp; }
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 	float GetMpRatio() { return Mp / (float)MaxMp; }

@@ -27,6 +27,7 @@ enum class UIType : uint8
 	QuestQuickInfo,
 	LineScript,
 	AreaTitle,
+	Revive,
 	End,
 };
 
@@ -45,6 +46,7 @@ enum class STATE : uint8
 	HITANDFALL,
 	KNOCKED,
 	REVIVE,
+	RESPAWN,
 	LOOT,
 };
 

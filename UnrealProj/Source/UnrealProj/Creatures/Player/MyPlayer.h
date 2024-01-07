@@ -24,30 +24,44 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser);
 
 	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type = AttackType::NORMAL);
 	void Die();
+	void Revive();
+
+	void EquipWeapon(class AWeapon* _Weapon); // 무기 장착 함수
+	void AttackCheck(float UpRange, float FrontRange, float SideRange);
+	void Interact();
+	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
+	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type);
+
 public:
-	class UPlayerAnim* GetAnimInst() { return AnimInst; }
 	class UCharacterState* GetState();
-	class UCharacterState* GetSpecificState(STATE Value);
 	class UWeaponState* GetWeaponState();
+	class UCharacterState* GetSpecificState(STATE Value);
 
+
+	class UPlayerAnim* GetAnimInst() { return AnimInst; }
 	class AWeapon* GetWeapon() { return EquipedWeapon; }
-
 	class UCameraComponent* GetCamera() { return Camera; }
-
+	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
+	
+	/*
+		Get Components
+	*/
 	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UBuffComponent* GetBuffComponent() { return BuffComponent; }
-
 	class UInventory* GetInventory() { return Inventory; }
+
+
+	/*
+		Get Misc.
+	*/
 	class ASkillRangeActor* GetSpawnedRangeActor() { return SpawnedRangeActor; }
 	class UMyGameInstance* GetInstance() { return GInstance; }
 	FVector GetArrowMuzzle() { return MuzzleOffset; }
-	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	bool GetDash() { return bDash; }
 
 
@@ -58,20 +72,18 @@ public:
 	void SetDash(bool Value) { bDash = Value; }
 
 public:
-	void EquipWeapon(AWeapon* _Weapon); // 무기 장착 함수
-	void AttackCheck(float UpRange, float FrontRange, float SideRange);
-	void Interact();
-	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
-	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type); 
+
 
 private:
-	void InitDefaultCamera(); // 생성자에서 카메라 생성
+	/*
+	Initialize or Setting Functions
+	*/
+	void InitDefaultCamera();
 	void InitWeaponSocket();
 	void InitAssets();
 	void CreateComponents();
 	void InitializeComponents();
 	void SetEngineVariables();
-
 
 	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 	

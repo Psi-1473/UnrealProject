@@ -214,11 +214,12 @@ void UKnockedState::OnExit()
 #pragma region REVIVE
 void UReviveState::OnEnter()
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, TEXT("STATE : REVIVE"));
+	
 }
 
 void UReviveState::OnUpdate()
 {
+	
 }
 
 void UReviveState::OnExit()
@@ -252,5 +253,25 @@ void UDeadState::OnUpdate()
 }
 
 void UDeadState::OnExit()
+{
+}
+
+void URespawnState::OnEnter()
+{
+	PrevTime = Machine->GetOwner()->GetWorld()->GetTimeSeconds();
+}
+
+void URespawnState::OnUpdate()
+{
+	float NowTime = (Machine->GetOwner()->GetWorld()->GetTimeSeconds() - PrevTime);
+
+	UE_LOG(LogTemp, Warning, TEXT("Time  : %f, %f"), NowTime, PrevTime);
+	if (NowTime >= SpawnTime)
+	{
+		Machine->SetState(STATE::IDLE);
+	}
+}
+
+void URespawnState::OnExit()
 {
 }

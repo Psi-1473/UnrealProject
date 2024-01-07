@@ -39,7 +39,6 @@ TArray<class AItem*>& UInventory::GetInventory()
 
 void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 {
-	UE_LOG(LogTemp, Warning, TEXT("GainNewItem"));
 	AItem* NewItem;
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 
@@ -63,9 +62,6 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 	NewItem->SetInventory(this);
 	NewItem->SetCount(1);
 	NewItem->SetOwner(Cast<AActor>(OwnerPlayer));
-
-	
-	
 }
 
 
@@ -73,11 +69,6 @@ void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 {
 	auto Weapon = Cast<AWeapon>(Item);
 	if (Weapon == nullptr) return;
-
-	if(Weapon->GetType() == WEAPONTYPE::WEAPON_SWORD)
-		UE_LOG(LogTemp, Warning, TEXT("Sword Gain!"));
-	if (Weapon->GetType() == WEAPONTYPE::WEAPON_ARROW)
-		UE_LOG(LogTemp, Warning, TEXT("Bow Gain!"));
 
 	int Index;
 	if (SlotIndex == -1)
@@ -158,7 +149,6 @@ int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 
 	return -1;
 }
-
 int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 {
 	for (int i = 0; i < MAX_Inventory; i++)
@@ -169,13 +159,10 @@ int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 	}
 	return -1;
 }
-
-
 void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
 {
 	ItemArray[Index] = nullptr;
 }
-
 void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
 {
 	AItem* ItemTemp = GetInventory()[ArrivedIndex];
@@ -201,7 +188,6 @@ void UInventory::AddGold(int Value)
 		Widget->RefreshGoldText(OwnerPlayer);
 	}
 }
-
 void UInventory::SpendGold(int Value)
 {
 	Gold -= Value;

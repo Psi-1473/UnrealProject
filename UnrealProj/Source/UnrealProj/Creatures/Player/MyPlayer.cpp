@@ -31,6 +31,7 @@
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../Triggers/AreaBox.h"
 #include "../../Items/Weapons/Bow.h"
+#include "../../Widgets/Popup/Widget_Revive.h"
 
 AMyPlayer::AMyPlayer()
 {
@@ -60,7 +61,6 @@ void AMyPlayer::BeginPlay()
 	NewWeapon->SetItemMesh();
 	EquipWeapon(NewWeapon);
 
-
 	SkillComponent->SkillsInit();
 }
 void AMyPlayer::Tick(float DeltaTime)
@@ -74,7 +74,6 @@ void AMyPlayer::Tick(float DeltaTime)
 
 	if (BuffComponent != nullptr)
 		BuffComponent->UpdateDebuff();
-
 }
 
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -82,9 +81,9 @@ void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
 
+void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
+{
 	StatComponent->OnAttacked(Damage);
 	auto CauserMonster = Cast<AMonster>(DamageCauser);
 	//PopupDamageText(Damage); 데미지 팝업 띄우기
@@ -92,22 +91,11 @@ float AMyPlayer::TakeDamage(float Damage, FDamageEvent const& DamageEvent, ACont
 	if (StatComponent->GetHp() <= 0)
 	{
 		Die();
-		return -1;
-	}
-
-	return Damage;
-}
-
-void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
-{
-	float RealDamage = TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-	if(RealDamage == -1)
 		return;
+	}
 
 	if (Type == AttackType::NORMAL)
-	{
 		ShakeCamera(SHAKE_BASIC);
-	}
 	else
 	{
 		AnimInst->StopAllMontages(0.f);
@@ -132,49 +120,34 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 			break;
 		}
 	}
-	
-
 }
 
 void AMyPlayer::Die()
 {
-	// 1. 상태를 Die로
+	if(GetState() == GetSpecificState(STATE::DEAD))
+		return;
+
 	StateMachine->SetState(STATE::DEAD);
-	// 2. 죽는 애니메이션 실행
-	// 3. 몬스터 어그로 풀고
-	// 4. 잠시 후 부활 UI 띄우기
+	auto Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Revive);
+	auto ReviveWidget = Cast<UWidget_Revive>(Widget);
+	ReviveWidget->SetPlayer(this);
 }
 
-UCharacterState* AMyPlayer::GetState()
+void AMyPlayer::Revive()
 {
-	if (StateMachine == nullptr)
-		return nullptr;
-
-	return StateMachine->GetState();
+	FVector SpawnLocation(7170.f, -6250.f, 192.f);
+	SetActorLocation(SpawnLocation);
+	SetState(STATE::RESPAWN);
+	StatComponent->SetHp(StatComponent->GetMaxHp());
+	StatComponent->SetMp(StatComponent->GetMaxMp());
 }
 
-UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
-{
-	return StateMachine->GetState(Value);
-}
-
-UWeaponState* AMyPlayer::GetWeaponState()
-{
-	if (StateMachine == nullptr)
-		return nullptr;
-
-	return StateMachine->GetWeaponState();
-}
-
-void AMyPlayer::SetState(STATE Value)
-{
-	StateMachine->SetState(Value);
-}
 
 void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 {
 	EquipedWeapon = _Weapon;
 	StateMachine->SetWeaponState(_Weapon->GetType());
+
 	if (_Weapon->GetIsRight())
 	{
 		LWeapon->SetStaticMesh(nullptr);
@@ -188,7 +161,6 @@ void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
 
 	SetAnimByWeapon(_Weapon->GetType());
 }
-
 void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 {
 	float Start = 100.f;
@@ -198,7 +170,6 @@ void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 	HitResults = UAttackChecker::PlayerCubeCheckMulti(RangeVector, Start, ECC_GameTraceChannel5, this);
 	UAttackChecker::ApplyHitDamageToActors(10.f, this, HitResults);
 }
-
 void AMyPlayer::Interact()
 {
 	if (InteractObj == nullptr)
@@ -214,13 +185,11 @@ void AMyPlayer::ShakeCamera(CameraShakeType Type)
 		GetController<AMyPlayerController>()->ClientPlayCameraShake(UHitCameraShake::StaticClass(),
 			1.f, ECameraAnimPlaySpace::CameraLocal);
 	}
-
 	if (Type == SHAKE_SKILL)
 	{
 		GetController<AMyPlayerController>()->ClientPlayCameraShake(USkillHitCameraShake::StaticClass(),
 			1.f, ECameraAnimPlaySpace::CameraLocal);
 	}
-
 }
 
 void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
@@ -229,7 +198,35 @@ void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
 		1.f, ECameraAnimPlaySpace::CameraLocal);
 }
 
+UCharacterState* AMyPlayer::GetState()
+{
+	if (StateMachine == nullptr)
+		return nullptr;
 
+	return StateMachine->GetState();
+}
+UWeaponState* AMyPlayer::GetWeaponState()
+{
+	if (StateMachine == nullptr)
+		return nullptr;
+
+	return StateMachine->GetWeaponState();
+}
+UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
+{
+	return StateMachine->GetState(Value);
+}
+
+
+
+void AMyPlayer::SetState(STATE Value)
+{
+	StateMachine->SetState(Value);
+}
+
+/*
+	Initialize or Setting Functions
+*/
 void AMyPlayer::InitDefaultCamera()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -242,11 +239,6 @@ void AMyPlayer::InitDefaultCamera()
 
 	Camera->SetupAttachment(SpringArm, USpringArmComponent::SocketName);
 }
-
-
-/*
-	Initialize Functions
-*/
 void AMyPlayer::InitWeaponSocket()
 {
 	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));

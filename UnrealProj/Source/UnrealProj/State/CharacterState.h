@@ -167,5 +167,20 @@ public:
 	virtual void OnExit() override;
 };
 
+UCLASS()
+class UNREALPROJ_API URespawnState : public UCharacterState
+{
+	GENERATED_BODY()
+public:
+	virtual void OnEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnExit() override;
+
+private:
+	UPROPERTY()
+		float SpawnTime = 3.f;
+	UPROPERTY()
+		float PrevTime;
+};
 
 
