@@ -5,12 +5,14 @@
 #include "../../../Creatures/Player/MyPlayer.h"
 #include "../../../Animations/Player/PlayerAnim.h"
 #include "../../../Items/Weapons/Weapon.h"
+#include "../../../Inventory/EquipItemComponent.h"
 #include "../../../Projectiles/Projectile.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
+
 
 UPlayerSkill_Bow_Second::UPlayerSkill_Bow_Second()
 {
@@ -39,9 +41,6 @@ void UPlayerSkill_Bow_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (RemainingTime > 0.f)
 		return;
 
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
-		return;
-
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetDefaultValue();
 }
@@ -64,9 +63,10 @@ void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 
 	float RotYaw[5] = { -8, -4, 0, 4, 8 };
 
+	AWeapon* Weapon = OwnerPlayer->GetEquipComponent()->GetWeapon();
 	for (int i = 0; i < 5; i++)
 	{
-		AProjectile* Projectile = OwnerPlayer->GetWorld()->SpawnActor<AProjectile>(OwnerPlayer->GetWeapon()->GetArrow(),
+		AProjectile* Projectile = OwnerPlayer->GetWorld()->SpawnActor<AProjectile>(Weapon->GetArrow(),
 			OwnerPlayer->GetActorLocation() + OwnerPlayer->GetActorUpVector() * 55,
 			Rot + FRotator(0.f, RotYaw[i], 0.f),
 			SpawnParams);

@@ -42,9 +42,6 @@ void UPlayerSkill_Bow_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (MyState == STATE::ATTACK)
 		return;
 
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
-		return;
-
 	OwnerPlayer->SetSkill(this);
 	OwnerPlayer->GetAnimInst()->SetBowCast(true);
 	OwnerPlayer->GetStateMachine()->SetState(STATE::SKILLCAST);

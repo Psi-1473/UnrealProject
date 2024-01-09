@@ -37,7 +37,7 @@ void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 			Explain = GInstance->GetSwordData(Item->GetId())->Explanation;
 			Value = FString::FromInt(GInstance->GetSwordData(Item->GetId())->Damage);
 			break;
-		case WEAPONTYPE::WEAPON_ARROW:
+		case WEAPONTYPE::WEAPON_BOW:
 			Name = GInstance->GetBowData(Item->GetId())->Name;
 			Explain = GInstance->GetBowData(Item->GetId())->Explanation;
 			Value = FString::FromInt(GInstance->GetBowData(Item->GetId())->Damage);

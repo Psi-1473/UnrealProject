@@ -9,6 +9,7 @@
 #include "../Skills/Skill.h"
 #include "../Items/Weapons/Weapon.h"
 #include "../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
+#include "../Inventory/EquipItemComponent.h"
 
 void UCharacterState::OnEnter()
 {
@@ -114,7 +115,7 @@ void USkillState::OnEnter()
 
 void USkillState::OnUpdate()
 {
-	WEAPONTYPE WeaponType = Machine->GetOwner()->GetWeapon()->GetType();
+	WEAPONTYPE WeaponType = Machine->GetOwner()->GetEquipComponent()->GetWeapon()->GetType();
 	int SkillId = Machine->GetOwner()->GetSkill()->GetId();
 
 	if (WeaponType == WEAPONTYPE::WEAPON_SWORD)

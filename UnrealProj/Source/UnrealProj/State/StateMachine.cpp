@@ -76,7 +76,7 @@ void UStateMachine::InitWeaponState()
 	BowState->SetMachine(this);
 
 	WeaponStates.Add(WEAPONTYPE::WEAPON_SWORD, SwordState);
-	WeaponStates.Add(WEAPONTYPE::WEAPON_ARROW, BowState);
+	WeaponStates.Add(WEAPONTYPE::WEAPON_BOW, BowState);
 }
 
 void UStateMachine::AddState(STATE StateValue, UCharacterState* StatePtr)

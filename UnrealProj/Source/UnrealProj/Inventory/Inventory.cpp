@@ -10,6 +10,7 @@
 #include "../Widgets/Popup/Widget_Inventory.h"
 #include "../Managers/UIManager.h"
 #include "../MyGameInstance.h"
+#include "../DEFINE.h"
 #include "../Creatures/Player/MyPlayer.h"
 
 
@@ -39,7 +40,7 @@ TArray<class AItem*>& UInventory::GetInventory()
 
 void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 {
-	AItem* NewItem;
+	AItem* NewItem = nullptr;
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
 
 	if (IType == ItemType::ITEM_USE)
@@ -52,18 +53,53 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 	{
 		if (IType == ItemType::ITEM_SWORD)
 			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_SWORD);
-		else// if (IType == ItemType::ITEM_BOW)
-			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_ARROW);
+		else if (IType == ItemType::ITEM_BOW)
+			NewItem = CreateWeapon(Id, WEAPONTYPE::WEAPON_BOW);
 
 		GainNewWeapon(NewItem, SlotIndex);
 		GInstance->CheckQuest(QUEST_ITEM, Id, OwnerPlayer, (int)QITEM_EQUIP);
 	}
-	// ±âÅ¸ ¾ÆÀÌÅÛµµ Ãß°¡ÇÒ °Í
+	
 	NewItem->SetInventory(this);
 	NewItem->SetCount(1);
 	NewItem->SetOwner(Cast<AActor>(OwnerPlayer));
 }
+void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
+{
+	ItemArray[Index] = nullptr;
+}
+void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
+{
+	AItem* ItemTemp = GetInventory()[ArrivedIndex];
+	GetInventory()[ArrivedIndex] = GetInventory()[DragedIndex];
+	GetInventory()[DragedIndex] = ItemTemp;
 
+	if (GetInventory()[ArrivedIndex] != nullptr)
+		GetInventory()[ArrivedIndex]->SetSlotIndex(ArrivedIndex);
+
+	if (GetInventory()[DragedIndex] != nullptr)
+		GetInventory()[DragedIndex]->SetSlotIndex(DragedIndex);
+
+}
+
+void UInventory::AddGold(int Value)
+{
+	Gold += Value;
+
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
+	if (Widget != nullptr)
+		Widget->RefreshGoldText(OwnerPlayer);
+}
+void UInventory::UseGold(int Value)
+{
+	Gold -= Value;
+
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
+	if (Widget != nullptr)
+		Widget->RefreshGoldText(OwnerPlayer);
+}
 
 void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 {
@@ -71,13 +107,14 @@ void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 	if (Weapon == nullptr) return;
 
 	int Index;
-	if (SlotIndex == -1)
+	if (SlotIndex == SLOTINDEX_NOT_SPECIFIED)
 		Index = FindEmptySlotIndex(EquipItems);
 	else
 		Index = SlotIndex;
 
-	if (Index == -1)
-		return;//ºóÄ­ ¾øÀ½
+	if (Index == FIND_FAILED)
+		return;
+
 	Item->SetItemMesh();
 	Item->SetSlotIndex(Index);
 	EquipItems[Index] = Item;
@@ -89,24 +126,23 @@ void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 	auto UseItem = Cast<AUseItem>(Item);
 	if (UseItem == nullptr) return;
 
-	UE_LOG(LogTemp, Warning, TEXT("UseItem Gain!"));
 	int Index;
 	int HavingIndex;
 
 	HavingIndex = FindItem(UseItems, Item->GetId());
-	if (HavingIndex != -1)
+	if (HavingIndex != FIND_FAILED)
 	{
 		UseItems[HavingIndex]->SetCount(UseItems[HavingIndex]->GetCount() + 1);
 		return;
 	}
 
-	if (SlotIndex == -1)
+	if (SlotIndex == SLOTINDEX_NOT_SPECIFIED)
 		Index = FindEmptySlotIndex(UseItems);
 	else
 		Index = SlotIndex;
 
-	if (Index == -1)
-		return;//ºóÄ­ ¾øÀ½
+	if (Index == FIND_FAILED)
+		return;
 	Item->SetSlotIndex(Index);
 	UseItems[Index] = Item;
 }
@@ -143,11 +179,9 @@ AUseItem* UInventory::CreateUseItem(int Id)
 int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)
 {
 	for (int i = 0; i < MAX_Inventory; i++)
-	{
 		if (ItemArray[i] == nullptr) return i;
-	}
 
-	return -1;
+	return FIND_FAILED;
 }
 int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 {
@@ -157,48 +191,9 @@ int UInventory::FindItem(TArray<AItem*>& ItemArray, int Id)
 		if (ItemArray[i]->GetId() == Id && ItemArray[i]->GetCount() < 10)
 			return i;
 	}
-	return -1;
-}
-void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
-{
-	ItemArray[Index] = nullptr;
-}
-void UInventory::SwapItem(int DragedIndex, int ArrivedIndex)
-{
-	AItem* ItemTemp = GetInventory()[ArrivedIndex];
-	GetInventory()[ArrivedIndex] = GetInventory()[DragedIndex];
-	GetInventory()[DragedIndex] = ItemTemp;
-
-	if(GetInventory()[ArrivedIndex] != nullptr)
-		GetInventory()[ArrivedIndex]->SetSlotIndex(ArrivedIndex);
-
-	if (GetInventory()[DragedIndex] != nullptr)
-		GetInventory()[DragedIndex]->SetSlotIndex(DragedIndex);
-	
+	return FIND_FAILED;
 }
 
-void UInventory::AddGold(int Value)
-{
-	Gold += Value;
-
-	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
-	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
-	if (Widget != nullptr)
-	{
-		Widget->RefreshGoldText(OwnerPlayer);
-	}
-}
-void UInventory::SpendGold(int Value)
-{
-	Gold -= Value;
-
-	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
-	auto Widget = Cast<UWidget_Inventory>(GInstance->GetUIMgr()->GetUI(UIType::Inventory));
-	if (Widget != nullptr)
-	{
-		Widget->RefreshGoldText(OwnerPlayer);
-	}
-}
 
 
 

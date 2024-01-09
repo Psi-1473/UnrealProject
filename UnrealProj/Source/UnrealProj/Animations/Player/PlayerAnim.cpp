@@ -26,9 +26,9 @@ UPlayerAnim::UPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> DM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Damaged.AM_Damaged'"));
 
 	if(AM.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_SWORD] = AM.Object;
-	if(AM2.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_ARROW] = AM2.Object;
+	if(AM2.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_BOW] = AM2.Object;
 	if(SM.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_SWORD] = SM.Object;
-	if(SM2.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_ARROW] = SM2.Object;
+	if(SM2.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_BOW] = SM2.Object;
 	if(DM.Succeeded()) DamagedMontage = DM.Object;
 }
 
@@ -78,7 +78,7 @@ void UPlayerAnim::PlayAttackMontage()
 	{
 		bCombo = false;
 		Montage_Play(AttackMontages[(int)WeaponType], 1.f);
-		if (WeaponType == WEAPONTYPE::WEAPON_ARROW)
+		if (WeaponType == WEAPONTYPE::WEAPON_BOW)
 		{
 			FName Name;
 			Name = (bZoom) ? FName(*FString::Printf(TEXT("HeavyAttack"))) : FName(*FString::Printf(TEXT("Attack")));

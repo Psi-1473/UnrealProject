@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 
+#define SLOTINDEX_NOT_SPECIFIED -1
+#define FIND_FAILED -1
 const int8 MAX_Inventory = 18;
 
 
@@ -50,15 +52,7 @@ enum class STATE : uint8
 	LOOT,
 };
 
-UENUM(BlueprintType)
-enum class WEAPONTYPE : uint8
-{
-	WEAPON_SWORD,
-	WEAPON_ARROW,
 
-	WEAPON_NONE,
-	WEAPON_END,
-};
 
 UENUM(BlueprintType)
 enum class AttackType : uint8
@@ -116,6 +110,29 @@ enum class ENEMY_ATTACKT_TYPE : uint8
 	MAGIC,
 };
 
+UENUM(BlueprintType)
+enum class WEAPONTYPE : uint8
+{
+	/*
+		스킬, 공격 등에서 무기에 따라 뭔갈 나눌 때 사용
+	*/
+	WEAPON_SWORD,
+	WEAPON_BOW,
+
+	WEAPON_NONE,
+	WEAPON_END,
+};
+
+enum ItemType
+{
+	/*
+		Item Data를 불러올 때, 어떤 데이터에 접근할 지를 결정할 때 사용
+	*/
+	ITEM_SWORD,
+	ITEM_BOW,
+	ITEM_USE
+};
+
 enum QuestType
 {
 	QUEST_EMPTY,
@@ -138,12 +155,6 @@ enum QuestItemType
 	QITEM_EQUIP,
 	QITEM_USE,
 	QITEM_ETC,
-};
-enum ItemType
-{
-	ITEM_SWORD,
-	ITEM_BOW,
-	ITEM_USE
 };
 
 enum CameraShakeType

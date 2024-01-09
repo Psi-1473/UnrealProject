@@ -106,6 +106,9 @@ struct FWeaponData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Explanation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 WeaponType;
 };
 
 USTRUCT()

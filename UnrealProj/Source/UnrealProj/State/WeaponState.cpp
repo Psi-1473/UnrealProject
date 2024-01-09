@@ -15,6 +15,7 @@
 #include "../Items/Weapons/Weapon.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Helpers/AttackChecker.h"
+#include "../Inventory/EquipItemComponent.h"
 
 void UWeaponState::OnLeftMouseClicked(AMyPlayer* Player)
 {
@@ -155,7 +156,8 @@ void UBowState::FireArrow(FVector DestPos)
 	FRotator CameraRotation;
 	Player->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 	//CameraRotation.Pitch += 5.f;
-	AProjectile* Projectile = Player->GetWorld()->SpawnActor<AArrow>(Player->GetWeapon()->GetArrow(),
+	AWeapon* Weapon = Player->GetEquipComponent()->GetWeapon();
+	AProjectile* Projectile = Player->GetWorld()->SpawnActor<AArrow>(Weapon->GetArrow(),
 		Player->GetActorLocation() + Player->GetActorRightVector() * 15.f + Player->GetActorUpVector() * 65.f,
 		CameraRotation,
 		SpawnParams);

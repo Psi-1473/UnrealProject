@@ -8,6 +8,7 @@
 #include "Engine/DamageEvents.h"
 #include "Components/AudioComponent.h"
 #include "../Items/Weapons/Weapon.h"
+#include "../Inventory/EquipItemComponent.h"
 #include "Particles/ParticleSystem.h"
 
 #pragma region CheckRange Functions
@@ -203,8 +204,9 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 
 	UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitActor.GetActor()->GetName());
 	FDamageEvent DamageEvent;;
+	AWeapon* AttackerWeapon = Attacker->GetEquipComponent()->GetWeapon();
 	Monster->TakeDamage(10.f, DamageEvent, Attacker->GetController(), Attacker); //Temp
-	Monster->PlaySoundWave(Monster->GetAudioComponent(), Attacker->GetWeapon()->GetHitSound());
+	Monster->PlaySoundWave(Monster->GetAudioComponent(), AttackerWeapon->GetHitSound());
 }
 
 void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacker, TArray<FHitResult> HitActors, UParticleSystem* Particle)
@@ -220,8 +222,9 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 		FDamageEvent DamageEvent;
 		if (Enemy == nullptr)
 			return;
+		AWeapon* AttackerWeapon = Attacker->GetEquipComponent()->GetWeapon();
 		Enemy->OnDamaged(Damage, DamageEvent, Attacker->GetController(), Attacker, Particle); //Temp
-		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), Attacker->GetWeapon()->GetHitSound());
+		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), AttackerWeapon->GetHitSound());
 	}
 }
 void UAttackChecker::ApplyMonsterDamageToPlayer(float Damage, AMonster* Attacker, TArray<FHitResult> HitActor, AttackType AType)
@@ -261,7 +264,7 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 		if (Enemy == nullptr)
 			return;
 		Enemy->TakeDamage(Damage, DamageEvent, Attacker->GetController(), Attacker); //Temp
-		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), Attacker->GetWeapon()->GetHitSound());
+		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), Attacker->GetEquipComponent()->GetWeapon()->GetHitSound());
 	}
 }
 void UAttackChecker::ApplyMonsterDamageToPlayer(float Damage, class AMonster* Attacker, TArray<FOverlapResult> HitActor, AttackType AType)

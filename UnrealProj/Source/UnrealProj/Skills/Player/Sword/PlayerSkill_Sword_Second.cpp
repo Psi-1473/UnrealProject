@@ -38,8 +38,6 @@ void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 
 	if (RemainingTime > 0.f)
 		return;
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
-		return;
 
 	MoveDir = OwnerActor->GetActorForwardVector();
 	OwnerPlayer->bUseControllerRotationYaw = false;

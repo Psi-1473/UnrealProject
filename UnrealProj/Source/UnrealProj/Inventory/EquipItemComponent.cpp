@@ -15,10 +15,10 @@ void UEquipItemComponent::EquipWeapon(AWeapon* _Weapon)
 	EquipedWeapon = _Weapon;
 	OwnerPlayer->GetStateMachine()->SetWeaponState(_Weapon->GetType());
 
-	ChangeWeaponMesh();
+	ChangePlayerWeaponMesh();
 }
 
-void UEquipItemComponent::ChangeWeaponMesh()
+void UEquipItemComponent::ChangePlayerWeaponMesh()
 {
 	if (EquipedWeapon->GetIsRight())
 	{

@@ -37,9 +37,6 @@ void UPlayerSkill_Bow_Third::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (RemainingTime > 0.f)
 		return;
 
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
-		return;
-
 	FRotator Rot = OwnerPlayer->GetActorRotation();
 	SetDefaultValue();
 	BowParticleComp = UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), BowParticle,

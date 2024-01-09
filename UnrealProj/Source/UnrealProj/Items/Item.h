@@ -22,11 +22,11 @@ protected:
 public:	
 	virtual void Tick(float DeltaTime) override;
 
-	virtual void UseItem() {};
-	virtual void SetItemMesh();
-	virtual void SetCount(int Value);
+	virtual void UseItem() {}
+	virtual void SetItemMesh() {}
+	virtual void SetCount(int Value) {}
 
-	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance);
+	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) { return nullptr; }
 	
 public:
 	void SetId(int Value) { Id = Value; }

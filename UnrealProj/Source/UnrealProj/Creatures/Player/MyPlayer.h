@@ -29,7 +29,6 @@ public:
 	void Die();
 	void Revive();
 
-	void EquipWeapon(class AWeapon* _Weapon); // 무기 장착 함수
 	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 	void Interact();
 	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
@@ -39,13 +38,7 @@ public:
 public:
 	class UStateMachine* GetStateMachine() { return StateMachine; }
 
-	//class UCharacterState* GetState();
-	//class UWeaponState* GetWeaponState();
-	class UCharacterState* GetSpecificState(STATE Value);
-
-
 	class UPlayerAnim* GetAnimInst() { return AnimInst; }
-	class AWeapon* GetWeapon() { return EquipedWeapon; }
 	class UCameraComponent* GetCamera() { return Camera; }
 	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	
@@ -53,6 +46,7 @@ public:
 		Get Components
 	*/
 	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
+	class UEquipItemComponent* GetEquipComponent() { return EquipComponent; }
 	class UPlayerSkillComponent* GetSkillComponent() { return SkillComponent; }
 	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UBuffComponent* GetBuffComponent() { return BuffComponent; }
@@ -72,7 +66,6 @@ public:
 
 	void SetInteractObj(TScriptInterface<class IInteractable> Obj) { InteractObj = Obj; }
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
-	//void SetState(STATE Value);
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
 
@@ -95,9 +88,6 @@ private:
 
 	// Common variables
 private:
-	UPROPERTY(EditAnywhere)
-	class AWeapon* EquipedWeapon;
-
 	UPROPERTY()
 	class UPlayerSkill* ExecuteSkill;
 
@@ -137,6 +127,9 @@ private:
 
 	UPROPERTY()
 	class UPlayerSkillComponent* SkillComponent;
+
+	UPROPERTY()
+	class UEquipItemComponent* EquipComponent;
 
 	UPROPERTY()
 	class UBuffComponent* BuffComponent;

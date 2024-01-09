@@ -23,19 +23,5 @@ void AItem::Tick(float DeltaTime)
 
 }
 
-void AItem::SetItemMesh()
-{
-}
-
-FRichImageRow* AItem::GetItemImage(UMyGameInstance* GInstance)
-{
-	return nullptr;
-}
-
-void AItem::SetCount(int Value)
-{
-	Count = Value;
-}
-
 
 

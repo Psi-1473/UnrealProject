@@ -20,6 +20,7 @@
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Skills/Components/PlayerSkillComponent.h"
 #include "../../Inventory/Inventory.h"
+#include "../../Inventory/EquipItemComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Npc/Npc.h"
 #include "../../MyGameMode.h"
@@ -46,7 +47,7 @@ AMyPlayer::AMyPlayer()
 void AMyPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	SetAnimByWeapon(WEAPONTYPE::WEAPON_ARROW);
+	SetAnimByWeapon(WEAPONTYPE::WEAPON_BOW);
 }
 void AMyPlayer::BeginPlay()
 {
@@ -56,10 +57,11 @@ void AMyPlayer::BeginPlay()
 
 	// TEMP : 무기 장착 : 무기 데이터 받기 전까지 임시로 하드코딩
 	AWeapon* NewWeapon = NewObject<ABow>();
-	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_ARROW);
+	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_BOW);
 	NewWeapon->SetId(0);
 	NewWeapon->SetItemMesh();
-	EquipWeapon(NewWeapon);
+	EquipComponent->EquipWeapon(NewWeapon);
+	//
 
 	SkillComponent->SkillsInit();
 }
@@ -143,24 +145,6 @@ void AMyPlayer::Revive()
 }
 
 
-void AMyPlayer::EquipWeapon(AWeapon* _Weapon)
-{
-	EquipedWeapon = _Weapon;
-	StateMachine->SetWeaponState(_Weapon->GetType());
-
-	if (_Weapon->GetIsRight())
-	{
-		LWeapon->SetStaticMesh(nullptr);
-		RWeapon->SetStaticMesh(_Weapon->GetStaticMesh());
-	}
-	else
-	{
-		RWeapon->SetStaticMesh(nullptr);
-		LWeapon->SetStaticMesh(_Weapon->GetStaticMesh());
-	}
-
-	SetAnimByWeapon(_Weapon->GetType());
-}
 void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
 {
 	float Start = 100.f;
@@ -207,44 +191,17 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 
 	auto MyGamemode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	if (MyGamemode == nullptr) return;
+
 	auto HUD = Cast<UWidget_PlayerMain>(MyGamemode->GetCurrentWidget());
 	if (HUD == nullptr) return;
-	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_ARROW)
+
+	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_BOW)
 		HUD->SetCrossHair(true);
 
 	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_SWORD)
 		HUD->SetCrossHair(false);
 }
 
-//UCharacterState* AMyPlayer::GetState()
-//{
-//	if (StateMachine == nullptr)
-//		return nullptr;
-//
-//	return StateMachine->GetState();
-//}
-//UWeaponState* AMyPlayer::GetWeaponState()
-//{
-//	if (StateMachine == nullptr)
-//		return nullptr;
-//
-//	return StateMachine->GetWeaponState();
-//}
-UCharacterState* AMyPlayer::GetSpecificState(STATE Value)
-{
-	return StateMachine->GetState(Value);
-}
-
-
-
-//void AMyPlayer::SetState(STATE Value)
-//{
-//	StateMachine->SetState(Value);
-//}
-
-/*
-	Initialize or Setting Functions
-*/
 void AMyPlayer::InitDefaultCamera()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -288,7 +245,7 @@ void AMyPlayer::InitAssets()
 	if (AnimAsset.Succeeded())
 		AnimClasses[(int)WEAPONTYPE::WEAPON_SWORD] = AnimAsset.Class;
 	if (AnimAsset2.Succeeded())
-		AnimClasses[(int)WEAPONTYPE::WEAPON_ARROW] = AnimAsset2.Class;
+		AnimClasses[(int)WEAPONTYPE::WEAPON_BOW] = AnimAsset2.Class;
 }
 void AMyPlayer::CreateComponents()
 {
@@ -300,6 +257,7 @@ void AMyPlayer::CreateComponents()
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	QuestComponent = CreateDefaultSubobject<UPlayerQuestComponent>(TEXT("QuestComponent"));
 	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
+	EquipComponent = CreateDefaultSubobject<UEquipItemComponent>(TEXT("EquipComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
 	AudioComponent->SetupAttachment(RootComponent);
 }
@@ -308,6 +266,7 @@ void AMyPlayer::InitializeComponents()
 	Inventory->SetOwnerPlayer(this);
 	SkillComponent->SetOwnerPlayer(this);
 	BuffComponent->Init();
+	EquipComponent->SetInfo(this);
 	if (StateMachine == nullptr)
 	{
 		StateMachine = NewObject<UStateMachine>();
@@ -328,4 +287,4 @@ void AMyPlayer::SetEngineVariables()
 	GInstance->GetSoundMgr()->Init(GetWorld());
 }
 
-
+ 

@@ -33,7 +33,7 @@ void UWidget_ShopSlot::ClickBuyButton()
 		UE_LOG(LogTemp, Warning, TEXT("Not Enough Gold"));
 		return;
 	}
-	MyPlayer->GetInventory()->SpendGold(ItemPrice);
+	MyPlayer->GetInventory()->UseGold(ItemPrice);
 	MyPlayer->GetInventory()->GainNewItem(IType, ItemId);
 }
 
@@ -57,7 +57,7 @@ void UWidget_ShopSlot::SetSlot(UMyGameInstance* GInstance, ItemType TemType, int
 		Name = GInstance->GetBowData(Id)->Name;
 		ItemPrice = GInstance->GetBowData(Id)->Price;
 		Img_Item->SetBrush(GInstance->GetBowImage(Id)->Brush);
-		WType = WEAPONTYPE::WEAPON_ARROW;
+		WType = WEAPONTYPE::WEAPON_BOW;
 	}
 	else if (TemType == ITEM_USE)
 	{

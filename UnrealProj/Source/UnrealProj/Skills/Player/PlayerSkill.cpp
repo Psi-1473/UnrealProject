@@ -7,6 +7,7 @@
 #include "../Components/PlayerSkillComponent.h"
 #include "../EffectActor//SkillRangeActor.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../Inventory/EquipItemComponent.h"
 #include "../../MyGameInstance.h"
 #include "../../State/StateMachine.h"
 
@@ -31,7 +32,7 @@ void UPlayerSkill::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (OwnerPlayer == nullptr)
 		return;
 
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
+	if (WeaponType != OwnerPlayer->GetEquipComponent()->GetWeapon()->GetType())
 		return;
 
 	if (!bRangeAttack)
@@ -112,5 +113,5 @@ void UPlayerSkill::SetWeaponType(FString Str)
 		WeaponType = WEAPONTYPE::WEAPON_SWORD;
 
 	if (Str == TEXT("Bow"))
-		WeaponType = WEAPONTYPE::WEAPON_ARROW;
+		WeaponType = WEAPONTYPE::WEAPON_BOW;
 }

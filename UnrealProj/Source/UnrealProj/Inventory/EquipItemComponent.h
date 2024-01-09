@@ -19,8 +19,10 @@ public:
 	void SetInfo(TWeakObjectPtr<class AMyPlayer>  Player) { OwnerPlayer = Player; }
 
 	void EquipWeapon(class AWeapon* _Weapon);
-	void ChangeWeaponMesh();
+	void ChangePlayerWeaponMesh();
 
+public:
+	class AWeapon* GetWeapon() { return EquipedWeapon; }
 protected:
 	virtual void BeginPlay() override;
 

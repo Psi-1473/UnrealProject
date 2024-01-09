@@ -12,6 +12,7 @@
 #include "../../Managers/UIManager.h"
 #include "Widget_InvenSlot.h"
 #include "Components/Button.h"
+#include "../../Inventory/EquipItemComponent.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 
@@ -25,7 +26,6 @@ void UWidget_Inventory::NativeConstruct()
 
 void UWidget_Inventory::CreateSlot()
 {
-	// 실행이 안된다 블루프린트에서 부모 설정안한듯
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 
@@ -50,7 +50,7 @@ void UWidget_Inventory::UpdateSlotInfo()
 		Slots[i]->SetCount();
 		Slots[i]->SetSlotIndex(i);
 	}
-	Img_EquipWeapon->SetBrush(MyPlayer->GetWeapon()->GetItemImage(MyPlayer->GetInstance())->Brush);
+	Img_EquipWeapon->SetBrush(MyPlayer->GetEquipComponent()->GetWeapon()->GetItemImage(MyPlayer->GetInstance())->Brush);
 	RefreshGoldText(MyPlayer);
 }
 

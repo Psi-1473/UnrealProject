@@ -10,6 +10,7 @@
 #include "../../Skills/Skill.h"
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Items/Weapons/Weapon.h"
+#include "../../Inventory/EquipItemComponent.h"
 
 #pragma region Skill Headers
 #include "../../Skills/Player/Sword/PlayerSkill_Sword_First.h"
@@ -45,7 +46,7 @@ void UPlayerSkillComponent::ExecuteSkill(int SkillKey)
 	if (RegisteredSkills[SkillKey]->GetRemainingTime() > 0.f) return;
 
 	auto Player = Cast<AMyPlayer>(GetOwner());
-	if (RegisteredSkills[SkillKey]->GetWeaponType() != Player->GetWeapon()->GetType()) return;
+	if (RegisteredSkills[SkillKey]->GetWeaponType() != Player->GetEquipComponent()->GetWeapon()->GetType()) return;
 	
 	int RequiredMp = RegisteredSkills[SkillKey]->GetMp();
 	if (Player->GetStatComponent()->GetMp() < RequiredMp) return;

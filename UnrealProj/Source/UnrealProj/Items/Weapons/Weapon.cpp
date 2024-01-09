@@ -10,6 +10,7 @@
 #include "../../Projectiles/Projectile.h"
 #include "../../Projectiles/Player/Arrow.h"
 #include "../../Inventory/Inventory.h"
+#include "../../Inventory/EquipItemComponent.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../State/CharacterState.h"
 #include "Sound/SoundWave.h"
@@ -30,25 +31,25 @@ void AWeapon::UseItem()
 	// 아이템 장착 구현
 	UE_LOG(LogTemp, Warning, TEXT("Weapon Equip"));
 	auto Player = Inventory->GetPlayer();
-	auto EquipedWeapon = Player->GetWeapon();
-	Player->EquipWeapon(this);
+	auto EquipedWeapon = Player->GetEquipComponent()->GetWeapon();
+	Player->GetEquipComponent()->EquipWeapon(this);
 	Inventory->EmptySlot(Inventory->GetWeaponItems(), SlotIndex);
 	// 변경해야함 여기
 	ItemType IType;
 	if (EquipedWeapon->GetType() == WEAPONTYPE::WEAPON_SWORD) IType = ITEM_SWORD;
-	else if (EquipedWeapon->GetType() == WEAPONTYPE::WEAPON_ARROW) IType = ITEM_BOW;
+	else if (EquipedWeapon->GetType() == WEAPONTYPE::WEAPON_BOW) IType = ITEM_BOW;
 	Inventory->GainNewItem(IType, EquipedWeapon->GetId(), SlotIndex);
 	// 여기까지
-	if (Player->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_SWORD)
+	if (Player->GetEquipComponent()->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_SWORD)
 		UE_LOG(LogTemp, Warning, TEXT("Sword EQUIP!"));
-	if (Player->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_ARROW)
+	if (Player->GetEquipComponent()->GetWeapon()->GetType() == WEAPONTYPE::WEAPON_BOW)
 		UE_LOG(LogTemp, Warning, TEXT("Bow EQUIP!"));
 }
 
 void AWeapon::SetItemMesh()
 {
 	Super::SetItemMesh();
-	if (Type == WEAPONTYPE::WEAPON_ARROW)
+	if (Type == WEAPONTYPE::WEAPON_BOW)
 		bRight = false;
 
 	FString TypeString = FString::FromInt((int)Type);
@@ -62,6 +63,7 @@ void AWeapon::SetItemMesh()
 
 void AWeapon::SetCount(int Value)
 {
+	Count = Value;
 }
 
 
@@ -73,7 +75,7 @@ FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 		UE_LOG(LogTemp, Warning, TEXT("SWORD IMAGE LOAD"));
 		return GInstance->GetSwordImage(Id);
 		break;
-	case WEAPONTYPE::WEAPON_ARROW:
+	case WEAPONTYPE::WEAPON_BOW:
 		UE_LOG(LogTemp, Warning, TEXT("BOW IMAGE LOAD"));
 		return GInstance->GetBowImage(Id);
 		break;

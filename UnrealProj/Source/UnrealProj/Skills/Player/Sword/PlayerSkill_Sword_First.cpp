@@ -41,8 +41,6 @@ void UPlayerSkill_Sword_First::Execute(AActor* OwnerActor, bool bRangeAttack)
 	if (RemainingTime > 0.f)
 		return;
 
-	if (WeaponType != OwnerPlayer->GetWeapon()->GetType())
-		return;
 	SetDefaultValue();
 }
 
