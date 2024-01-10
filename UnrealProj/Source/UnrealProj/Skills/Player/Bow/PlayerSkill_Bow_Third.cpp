@@ -7,6 +7,7 @@
 #include "../../../Items/Weapons/Weapon.h"
 #include "../../../Projectiles/Projectile.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 #include "Particles/ParticleSystem.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -82,7 +83,7 @@ void UPlayerSkill_Bow_Third::PlayParticle(AActor* OwnerActor)
 	Projectile->SetMaxSpeed(8000.f);
 	Projectile->SetParticle(Particle);
 	Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 }
 
 void UPlayerSkill_Bow_Third::ParticlePlay()

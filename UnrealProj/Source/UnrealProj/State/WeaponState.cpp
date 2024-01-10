@@ -16,6 +16,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "../Helpers/AttackChecker.h"
 #include "../Inventory/EquipItemComponent.h"
+#include "../Helpers/AttackChecker.h"
 
 void UWeaponState::OnLeftMouseClicked(AMyPlayer* Player)
 {
@@ -42,6 +43,12 @@ void UWeaponState::OnLeftMouseClicked(AMyPlayer* Player)
 
 
 #pragma region SwordState
+USwordState::USwordState()
+{
+	UpRange = 100.f;
+	FrontRange = 150.f;
+	SideRange = 150.f;
+}
 void USwordState::OnLeftMouseClicked(AMyPlayer* Player)
 {
 	UWeaponState::OnLeftMouseClicked(Player);
@@ -57,6 +64,16 @@ void USwordState::OnRightMouseReleased(AMyPlayer* Player)
 
 void USwordState::OnUpdate()
 {
+}
+
+void USwordState::AttackCheck()
+{
+	float Start = 100.f;
+	FVector RangeVector(SideRange, UpRange, FrontRange);
+	TArray<FHitResult> HitResults;
+
+	HitResults = UAttackChecker::PlayerCubeCheckMulti(RangeVector, Start, ECC_GameTraceChannel5, Machine->GetOwner());
+	UAttackChecker::ApplyHitDamageToActors(10.f, Machine->GetOwner(), HitResults);
 }
 
 #pragma endregion

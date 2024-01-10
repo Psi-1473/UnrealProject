@@ -25,6 +25,7 @@ public:
 	virtual void UseItem() {}
 	virtual void SetItemMesh() {}
 	virtual void SetCount(int Value) {}
+	virtual void LoadItemData(class UMyGameInstance* GInstance) {};
 
 	virtual FRichImageRow* GetItemImage(class UMyGameInstance* GInstance) { return nullptr; }
 	

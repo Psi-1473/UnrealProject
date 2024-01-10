@@ -9,6 +9,7 @@
 #include "../../../State/StateMachine.h"
 #include "../../EffectActor/SkillRangeActor.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "../../EffectActor/SkillEffectActor.h"
 #include "../../../Items/Weapons/Weapon.h"
@@ -83,5 +84,5 @@ void UPlayerSkill_Bow_First::CastToExecute(AActor* OwnerActor)
 	OwnerPlayer->SetRangeActor(nullptr);
 	EffectActor = OwnerPlayer->GetWorld()->SpawnActor<ASkillEffectActor>(Effect, SpawnPos, SpawnRot, SpawnParams);
 	EffectActor->SetOwner(Cast<AActor>(OwnerPlayer));
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 }

@@ -29,10 +29,7 @@ public:
 	void Die();
 	void Revive();
 
-	void AttackCheck(float UpRange, float FrontRange, float SideRange);
 	void Interact();
-	void ShakeCamera(CameraShakeType Type); //class ULegacyCameraShake CameraShake 매개변수 추가해서 변경하기
-	void ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type);
 
 	void SetAnimByWeapon(WEAPONTYPE Type); // 무기에 따라 애니메이션 변경
 public:
@@ -51,6 +48,7 @@ public:
 	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UBuffComponent* GetBuffComponent() { return BuffComponent; }
 	class UInventory* GetInventory() { return Inventory; }
+	class UCameraEffectComponent* GetCameraEffectComponent() { return CameraEffectComponent; }
 
 
 	/*
@@ -136,6 +134,9 @@ private:
 
 	UPROPERTY()
 	class UInventory* Inventory;
+
+	UPROPERTY()
+	class UCameraEffectComponent* CameraEffectComponent;
 
 	UPROPERTY()
 	class ASkillRangeActor* SpawnedRangeActor;

@@ -3,8 +3,6 @@
 
 #include "MyPlayer.h"
 #include "MyPlayerController.h"
-#include "../../CameraShakes/HitCameraShake.h"
-#include "../../CameraShakes/SkillHitCameraShake.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "../../Animations/Player/PlayerAnim.h"
@@ -28,7 +26,7 @@
 #include "LegacyCameraShake.h"
 #include "Components/AudioComponent.h"
 #include "../../Widgets/Widget_PlayerMain.h"
-#include "../../Helpers/AttackChecker.h"
+#include "../../CameraShakes/CameraEffectComponent.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../Triggers/AreaBox.h"
 #include "../../Items/Weapons/Bow.h"
@@ -97,7 +95,7 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 	}
 
 	if (Type == AttackType::NORMAL)
-		ShakeCamera(SHAKE_BASIC);
+		CameraEffectComponent->ShakeCameraByEnum(SHAKE_BASIC);
 	else
 	{
 		AnimInst->StopAllMontages(0.f);
@@ -105,13 +103,13 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 		switch (Type)
 		{
 		case AttackType::STRONG:
-			ShakeCamera(SHAKE_SKILL);
+			CameraEffectComponent->ShakeCameraByEnum(SHAKE_SKILL);
 			StateMachine->SetState(STATE::DAMAGED);
 			break;
 		case AttackType::THRUST:
 			break;
 		case AttackType::PULLED:
-			ShakeCamera(SHAKE_BASIC);
+			CameraEffectComponent->ShakeCameraByEnum(SHAKE_BASIC);
 			AnimInst->PlayDamagedMontage();
 			break;
 		case AttackType::DOWN:
@@ -134,7 +132,6 @@ void AMyPlayer::Die()
 	auto ReviveWidget = Cast<UWidget_Revive>(Widget);
 	ReviveWidget->SetPlayer(this);
 }
-
 void AMyPlayer::Revive()
 {
 	FVector SpawnLocation(7170.f, -6250.f, 192.f);
@@ -144,42 +141,12 @@ void AMyPlayer::Revive()
 	StatComponent->SetMp(StatComponent->GetMaxMp());
 }
 
-
-void AMyPlayer::AttackCheck(float UpRange, float FrontRange, float SideRange)
-{
-	float Start = 100.f;
-	FVector RangeVector(SideRange, UpRange, FrontRange);
-	TArray<FHitResult> HitResults;
-
-	HitResults = UAttackChecker::PlayerCubeCheckMulti(RangeVector, Start, ECC_GameTraceChannel5, this);
-	UAttackChecker::ApplyHitDamageToActors(10.f, this, HitResults);
-}
 void AMyPlayer::Interact()
 {
 	if (InteractObj == nullptr)
 		return;
 
 	InteractObj->Interact(this);
-}
-
-void AMyPlayer::ShakeCamera(CameraShakeType Type)
-{
-	if (Type == SHAKE_BASIC)
-	{
-		GetController<AMyPlayerController>()->ClientPlayCameraShake(UHitCameraShake::StaticClass(),
-			1.f, ECameraAnimPlaySpace::CameraLocal);
-	}
-	if (Type == SHAKE_SKILL)
-	{
-		GetController<AMyPlayerController>()->ClientPlayCameraShake(USkillHitCameraShake::StaticClass(),
-			1.f, ECameraAnimPlaySpace::CameraLocal);
-	}
-}
-
-void AMyPlayer::ShakeCamera(TSubclassOf<class ULegacyCameraShake> Type)
-{
-	GetController<AMyPlayerController>()->ClientPlayCameraShake(Type,
-		1.f, ECameraAnimPlaySpace::CameraLocal);
 }
 
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
@@ -259,12 +226,14 @@ void AMyPlayer::CreateComponents()
 	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
 	EquipComponent = CreateDefaultSubobject<UEquipItemComponent>(TEXT("EquipComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+	CameraEffectComponent = CreateDefaultSubobject<UCameraEffectComponent>(TEXT("CameraEffectComponent"));
 	AudioComponent->SetupAttachment(RootComponent);
 }
 void AMyPlayer::InitializeComponents()
 {
 	Inventory->SetOwnerPlayer(this);
 	SkillComponent->SetOwnerPlayer(this);
+	CameraEffectComponent->SetOwnerPlayer(this);
 	BuffComponent->Init();
 	EquipComponent->SetInfo(this);
 	if (StateMachine == nullptr)

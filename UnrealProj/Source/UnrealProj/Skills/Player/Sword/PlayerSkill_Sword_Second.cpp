@@ -13,6 +13,7 @@
 #include "Components/Image.h"
 #include "Engine/Texture2D.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 
 UPlayerSkill_Sword_Second::UPlayerSkill_Sword_Second()
 {
@@ -43,7 +44,7 @@ void UPlayerSkill_Sword_Second::Execute(AActor* OwnerActor, bool bRangeAttack)
 	OwnerPlayer->bUseControllerRotationYaw = false;
 	SetDefaultValue();
 	MoveDir = OwnerActor->GetActorForwardVector();
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 }
 

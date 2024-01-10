@@ -13,6 +13,7 @@
 #include "../../../Items/Weapons/Weapon.h"
 #include "../../../MyGameInstance.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 
 UPlayerSkill_Sword_First::UPlayerSkill_Sword_First()
 {
@@ -52,7 +53,7 @@ void UPlayerSkill_Sword_First::PlayParticle(AActor* OwnerActor)
 		return;
 	UGameplayStatics::SpawnEmitterAtLocation(OwnerPlayer->GetWorld(), PlayerParticle, OwnerPlayer->GetActorLocation());
 	SetParticleTimer();
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 }
 
 void UPlayerSkill_Sword_First::SetParticleTimer()

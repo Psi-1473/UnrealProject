@@ -120,7 +120,6 @@ void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 	EquipItems[Index] = Item;
 	
 }
-
 void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 {
 	auto UseItem = Cast<AUseItem>(Item);
@@ -150,16 +149,16 @@ void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 AWeapon* UInventory::CreateWeapon(int Id, WEAPONTYPE WType)
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance()); // 나중에 Weapon Data 끌고오기 위함
-	AWeapon* Weapon;
+	AWeapon* Weapon = nullptr;
+
 	if(WType == WEAPONTYPE::WEAPON_SWORD)
 		Weapon = NewObject<ASword>();
-	else
+	else if(WType == WEAPONTYPE::WEAPON_BOW)
 		Weapon = NewObject<ABow>();
 
 	Weapon->SetId(Id);
 	Weapon->SetWeaponType(WType);
-	// 나중에 공격력 이런 정보들 다 여기서 세팅
-	// WType에 따라 GInstance -> Data에 접근해서 무기 정보 가져오기
+	Weapon->LoadItemData(GInstance);
 	return Weapon;
 }
 
@@ -167,12 +166,9 @@ AUseItem* UInventory::CreateUseItem(int Id)
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
 	AUseItem* UseItem = NewObject<AUseItem>();
+
 	UseItem->SetId(Id);
-
-	// 정보 세팅 + 못한 정보세팅 다 여기서
-	UseItem->SetUseType(GInstance->GetUseItemData(Id)->Type);
-	UseItem->SetAmount(GInstance->GetUseItemData(Id)->Amount);
-
+	UseItem->LoadItemData(GInstance);
 	return UseItem;
 }
 

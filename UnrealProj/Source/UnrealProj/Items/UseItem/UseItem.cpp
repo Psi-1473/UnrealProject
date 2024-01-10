@@ -49,14 +49,7 @@ void AUseItem::UseItem()
 void AUseItem::SetItemMesh()
 {
 	Super::SetItemMesh();
-	// 스태틱 매시 설정
 
-	//FString IdString = FString::FromInt(Id);
-	//FString Directory = TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/");
-	//Directory += TypeString + TEXT("/") + IdString + TEXT(".") + IdString + TEXT("'");
-	//
-	//StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
-	//StaticMeshComponent->SetStaticMesh(StaticMesh);
 }
 
 void AUseItem::SetCount(int Value)
@@ -89,6 +82,13 @@ void AUseItem::SetCount(int Value)
 		InvenWidget->RefreshSlotByIndex(SlotIndex);
 	}
 }
+
+void AUseItem::LoadItemData(UMyGameInstance* GInstance)
+{
+	UseType = GInstance->GetUseItemData(Id)->Type;
+	Amount = GInstance->GetUseItemData(Id)->Amount;
+}
+
 
 FRichImageRow* AUseItem::GetItemImage(UMyGameInstance* GInstance)
 {

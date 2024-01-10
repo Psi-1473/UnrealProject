@@ -8,6 +8,7 @@
 #include "../../../Inventory/EquipItemComponent.h"
 #include "../../../Projectiles/Projectile.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/Image.h"
@@ -78,5 +79,5 @@ void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 		Projectile->SetParticle(Particle);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 }

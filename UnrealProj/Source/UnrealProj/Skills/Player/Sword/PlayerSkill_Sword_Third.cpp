@@ -9,6 +9,7 @@
 #include "Engine/Texture2D.h"
 #include "../../../Helpers/AttackChecker.h"
 #include "../../../CameraShakes/SkillHitCameraShake.h"
+#include "../../../CameraShakes/CameraEffectComponent.h"
 
 UPlayerSkill_Sword_Third::UPlayerSkill_Sword_Third()
 {
@@ -53,6 +54,6 @@ void UPlayerSkill_Sword_Third::PlayParticle(AActor* OwnerActor)
 	Mobs = UAttackChecker::PlayerCircleCheck(OwnerPlayer->GetActorLocation(), 800.f, 800.f, ECC_GameTraceChannel5, OwnerActor);
 	UAttackChecker::ApplyOverlapDamageToActors(40.f, OwnerActor, Mobs, HitEffect);
 	
-	OwnerPlayer->ShakeCamera(CameraShake);
+	OwnerPlayer->GetCameraEffectComponent()->ShakeCameraByClass(CameraShake);
 
 }

@@ -66,6 +66,11 @@ void AWeapon::SetCount(int Value)
 	Count = Value;
 }
 
+void AWeapon::LoadItemData(UMyGameInstance* GInstance)
+{
+	// 데미지 등 불러와서 세팅
+}
+
 
 FRichImageRow* AWeapon::GetItemImage(UMyGameInstance* GInstance)
 {

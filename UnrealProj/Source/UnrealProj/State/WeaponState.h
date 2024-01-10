@@ -19,23 +19,37 @@ public:
 	virtual void OnRightMouseClicked(class AMyPlayer* Player) {};
 	virtual void OnRightMouseReleased(class AMyPlayer* Player) {};
 	virtual void OnUpdate() {};
+	virtual void AttackCheck() {};
 
 	void SetMachine(class UStateMachine* NewMachine) { Machine = NewMachine;}
 protected:
 	UPROPERTY()
 	class UStateMachine* Machine;
+
+protected:
+	UPROPERTY()
+	float UpRange = 0;
+	
+	UPROPERTY()
+	float FrontRange = 0;
+
+	UPROPERTY()
+	float SideRange = 0;
 };
 
 UCLASS()
 class UNREALPROJ_API USwordState : public UWeaponState
 {
 	GENERATED_BODY()
-
+	
 public:
+	USwordState();
+
 	virtual void OnLeftMouseClicked(class AMyPlayer* Player) override;
 	virtual void OnRightMouseClicked(class AMyPlayer* Player) override;
 	virtual void OnRightMouseReleased(class AMyPlayer* Player) override;
 	virtual void OnUpdate() override;
+	virtual void AttackCheck() override;
 };
 
 UCLASS()
@@ -48,6 +62,7 @@ public:
 	virtual void OnRightMouseClicked(class AMyPlayer* Player) override;
 	virtual void OnRightMouseReleased(class AMyPlayer* Player) override;
 	virtual void OnUpdate() override;
+	
 	void Fire();
 
 	bool GetZoom() { return bZoom; };
