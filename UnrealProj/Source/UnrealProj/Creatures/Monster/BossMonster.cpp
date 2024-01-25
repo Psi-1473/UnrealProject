@@ -110,9 +110,6 @@ void ABossMonster::UseSkill()
 	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
 	SetActorRotation(Rot);
 	Skill->Execute(this, false);
-	//SkillList[2]->Execute(this, false);
-
-
 }
 
 UMonsterSkill* ABossMonster::SelectSkill()
@@ -178,16 +175,7 @@ void ABossMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, ACon
 {
 	// 1. Damage Type에 따라 처리
 	if (Particle != nullptr)
-	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation());
-	}
-	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-}
-
-
-float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
-	// 부모 상속받을지 결정
 
 	PopupDamageText(Damage);
 	StatComponent->SetHp(StatComponent->GetHp() - Damage);
@@ -195,8 +183,8 @@ float ABossMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AC
 	if (StatComponent->GetHp() <= 0)
 		Die(TargetPlayer);
 
-	return Damage;
 }
+
 
 void ABossMonster::Die(AMyPlayer* Player)
 {

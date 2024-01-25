@@ -19,6 +19,7 @@ public:
 	void SetInfo(TWeakObjectPtr<class AMyPlayer>  Player) { OwnerPlayer = Player; }
 
 	void EquipWeapon(class AWeapon* _Weapon);
+
 	void ChangePlayerWeaponMesh();
 
 public:

@@ -20,6 +20,7 @@ protected:
 
 public:	
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player;}
+
 	void RegisterSkill(int SkillKey, class UPlayerSkill* Skill);
 	void ExecuteSkill(int SkillKey);
 	void CancleCast(int SkillKey);

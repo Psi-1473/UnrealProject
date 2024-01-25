@@ -4,6 +4,7 @@
 #include "BTService_SearchTarget.h"
 #include "../../AI/MonsterAIController.h"
 #include "../../Creatures/Player/MyPlayer.h"
+#include "../../Creatures/Monster/SpawnMonster.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "DrawDebugHelpers.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -43,18 +44,34 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 		FCollisionShape::MakeSphere(SearchRadius),
 		QueryParams);
 
+	auto CurrentMonster = Cast<ASpawnMonster>(CurrentPawn);
 
 	if (bResult)
 	{
 		for (auto& OverlapResult : OverlapResults)
 		{
+		
 			AMyPlayer* Player = Cast<AMyPlayer>(OverlapResult.GetActor());
 			if (Player)
 			{
 				if (Player->GetStateMachine()->GetState()->GetState() == STATE::DEAD)
 				{
 					OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
+
+					// chase ²ô±â
+					if (CurrentMonster)
+					{
+						CurrentMonster->TargetOutOfRange();
+					}
 					continue;
+				}
+				if (OwnerComp.GetBlackboardComponent()->GetValueAsObject(FName(TEXT("Target"))) == nullptr)
+				{
+					// ´À³¦Ç¥ ÀÌÆåÆ®
+					if (CurrentMonster)
+					{
+						CurrentMonster->SucceedFindingTarget();
+					}
 				}
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), Player);
 				OwnerComp.GetAIOwner()->GetCharacter()->GetCharacterMovement()->StopActiveMovement();
@@ -66,6 +83,11 @@ void UBTService_SearchTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8*
 	else
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FName(TEXT("Target")), nullptr);
+		// chase ²ô±â
+		if (CurrentMonster)
+		{
+			CurrentMonster->TargetOutOfRange();
+		}
 		//DrawDebugSphere(World, Center, SearchRadius, 16, FColor::Red, false, 0.2f);
 	}
 	

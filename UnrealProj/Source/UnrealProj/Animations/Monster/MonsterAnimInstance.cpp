@@ -30,8 +30,10 @@ void UMonsterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	{
 		Speed = FMath::Abs(pawn->GetVelocity().X);
 
-		auto Character = Cast<AMonster>(pawn);	
+		auto Character = Cast<ASpawnMonster>(pawn);	
 		bDeath = Character->GetDeath();
+		bChase = Character->GetChase();
+
 	}
 }
 

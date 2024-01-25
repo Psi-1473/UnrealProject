@@ -67,7 +67,7 @@ void AArrow::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 				UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
 				return;
 			}
-			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			Enemy->OnDamaged(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 			//UE_LOG(LogTemp, Warning, TEXT("%s"), Enemy->GetName());
 			if (HitEffect != nullptr)
 			{

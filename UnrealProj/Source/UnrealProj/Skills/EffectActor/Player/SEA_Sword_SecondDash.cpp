@@ -65,7 +65,7 @@ void ASEA_Sword_SecondDash::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, 
 				UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
 				return;
 			}
-			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			Enemy->OnDamaged(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
 	}
 }

@@ -16,6 +16,7 @@
 #include "Engine/DamageEvents.h"
 #include "../../Helpers/AttackChecker.h"
 #include "../../MyGameInstance.h"
+#include "../../DEFINE.h"
 #include "Particles/ParticleSystem.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -24,11 +25,19 @@ ASpawnMonster::ASpawnMonster()
 	AIControllerClass = AMonsterAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 	SetHpBar();
+	SetMarkUI();
 	static ConstructorHelpers::FClassFinder<UUserWidget> WIDGETHP(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Components/WBP_HpBar.WBP_HpBar_C'"));
+	static ConstructorHelpers::FClassFinder<UUserWidget> WIDGETMARK(TEXT("/Script/UMGEditor.WidgetBlueprint'/Game/02_Blueprints/Widget/Components/WBP_MonsterMark.WBP_MonsterMark_C'"));
 	if (WIDGETHP.Succeeded())
 	{
 		HpBar->SetWidgetClass(WIDGETHP.Class);
 		HpBar->SetDrawSize(FVector2d(150.f, 50.f));
+	}
+
+	if (WIDGETHP.Succeeded())
+	{
+		MarkUI->SetWidgetClass(WIDGETMARK.Class);
+		MarkUI->SetDrawSize(FVector2d(70.f, 70.f));
 	}
 
 	GetMesh()->LDMaxDrawDistance = 20000.f;
@@ -62,37 +71,47 @@ void ASpawnMonster::Tick(float DeltaTime)
 }
 
 
+void ASpawnMonster::SucceedFindingTarget()
+{
+	// 1. 느낌표 애니메이션 실행
+	//UWidgetAnimation* WidgetAnim = 
+	//auto Widget = Cast<UUserWidget>(MarkUI);
+	//Widget->PlayAnimation()
+	// 2. bChase 켜기
+	bChase = true;
+}
+
+void ASpawnMonster::TargetOutOfRange()
+{
+	// bChase 끄기
+	bChase = false;
+}
+
 void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, UParticleSystem* Particle, AttackType Type)
 {
 	// 1. Damage Type에 따라 처리
+	UE_LOG(LogTemp, Warning, TEXT("Spawn Monster Damaged"));
 	if (Particle != nullptr)
-	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Particle, GetActorLocation());
-	}
-	TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
-}
 
-
-
-
-float ASpawnMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
 	auto AIController = Cast<AMonsterAIController>(GetController());
 	AIController->StopAI();
 	AnimInst->PlayDamagedMontage();
+
 	int DamageValue = FMath::RandRange(Damage / 2, Damage);
 	StatComponent->OnAttacked(DamageValue);
-	
 
 	auto CauserPlayer = Cast<AMyPlayer>(DamageCauser);
 	Attacker = CauserPlayer;
+
 	RevealHpBar();
 	PopupDamageText(DamageValue);
-	GetWorldTimerManager().ClearTimer(AttackerTimer);
-	GetWorldTimerManager().SetTimer(AttackerTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
+
+	GetWorldTimerManager().ClearTimer(HideHpBarTimer);
+	GetWorldTimerManager().SetTimer(HideHpBarTimer, this, &ASpawnMonster::HideHpBar, 15.f, false);
+
 	if (StatComponent->GetHp() <= 0)
 		Die(CauserPlayer);
-	return Damage;
 }
 
 void ASpawnMonster::Die(AMyPlayer* Player)
@@ -124,13 +143,20 @@ void ASpawnMonster::DestroyObject()
 
 void ASpawnMonster::AttackCheck()
 {
-	float Start = 100.f;
-	TArray<FHitResult> HitResults;
-	FVector RangeVector(50.f, 50.f, 50.f);
-	FCollisionQueryParams Params(NAME_None, false, this);
-
-	HitResults = UAttackChecker::MonsterCubeCheck(RangeVector, Start, ECC_GameTraceChannel6, this);
-	UAttackChecker::ApplyHitDamageToActors(10.f, this, HitResults, AttackType::NORMAL);
+	switch (StatComponent->GetAttackType())
+	{
+	case ENEMY_ATTACKT_TYPE::MELEE:
+		AttackMelee();
+		break;
+	case ENEMY_ATTACKT_TYPE::BOW:
+		AttackBow();
+		break;
+	case ENEMY_ATTACKT_TYPE::MAGIC:
+		AttackMagic();
+		break;
+	default:
+		break;
+	}
 }
 
 void ASpawnMonster::SetHpBar()
@@ -139,6 +165,15 @@ void ASpawnMonster::SetHpBar()
 	HpBar->SetupAttachment(GetMesh());
 	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 160.f));
 	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+}
+
+void ASpawnMonster::SetMarkUI()
+{
+	MarkUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("MARK"));
+	MarkUI->SetupAttachment(GetMesh());
+	MarkUI->SetRelativeLocation(FVector(0.f, 0.f, 230.f));
+	MarkUI->SetWidgetSpace(EWidgetSpace::Screen);
+	//MarkUI->SetVisibility(false);
 }
 
 void ASpawnMonster::RevealHpBar()

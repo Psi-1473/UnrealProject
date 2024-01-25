@@ -10,6 +10,7 @@
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Inventory/Inventory.h"
 #include "../../AI/MonsterAIController.h"
+#include "../../Helpers/AttackChecker.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/AudioComponent.h"
 #include "Components/WidgetComponent.h"
@@ -24,17 +25,18 @@ AMonster::AMonster()
 		TargetUI->SetWidgetClass(TARGET.Class);
 		TargetUI->SetDrawSize(FVector2d(150.f, 150.f));
 	}
-	SetWeaponSocket();
+
 	PrimaryActorTick.bCanEverTick = true;
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
-
+	InitWeaponSocket();
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
 	GetMesh()->SetCollisionProfileName("NoCollision");
+
 	auto Movement = Cast<UCharacterMovementComponent>(GetMovementComponent());
 	Movement->MaxWalkSpeed = 200.f;
 	AudioComponent->SetupAttachment(RootComponent);
@@ -45,17 +47,13 @@ void AMonster::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
 void AMonster::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
-	// 애니메이션 인스턴스만 가져옴
 }
-
 void AMonster::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 int AMonster::GetObjectId()
@@ -72,24 +70,15 @@ int AMonster::GetObjectId()
 
 void AMonster::AttackTarget(AMyPlayer* Target)
 {
-	switch (StatComponent->GetAttackType())
-	{
-		case ENEMY_ATTACKT_TYPE::MELEE:
-			AttackMelee(Target);
-			break;
-		case ENEMY_ATTACKT_TYPE::BOW:
-			AttackBow(Target);
-			break;
-		case ENEMY_ATTACKT_TYPE::MAGIC:
-			AttackMagic(Target);
-			break;
-	}
+	FVector TargetLoc = Target->GetActorLocation();
+	TargetLoc.Z = GetActorLocation().Z;
+	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
+
+	SetActorRotation(Rot);
+	AnimInst->PlayAttackMontage();
 }
 
-float AMonster::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
-{
-	return Damage;
-}
+
 
 void AMonster::PopupDamageText(float Damage)
 {
@@ -103,9 +92,26 @@ void AMonster::PopupDamageText(float Damage)
 		SpawnParams);
 
 	DamageText->SetDamageText(Damage);
-	
 }
 
+void AMonster::AttackMelee()
+{
+	float Start = 100.f;
+	TArray<FHitResult> HitResults;
+	FVector RangeVector(50.f, 50.f, 50.f);
+	FCollisionQueryParams Params(NAME_None, false, this);
+
+	HitResults = UAttackChecker::MonsterCubeCheck(RangeVector, Start, ECC_GameTraceChannel6, this);
+	UAttackChecker::ApplyHitDamageToActors(10.f, this, HitResults, AttackType::NORMAL);
+}
+
+void AMonster::AttackBow()
+{
+}
+
+void AMonster::AttackMagic()
+{
+}
 
 void AMonster::SetTargetUI(bool Value)
 {
@@ -114,16 +120,16 @@ void AMonster::SetTargetUI(bool Value)
 	TargetUI->SetVisibility(Value);
 }
 
+
 void AMonster::InitTargetUI()
 {
 	TargetUI = CreateDefaultSubobject<UWidgetComponent>(TEXT("TARGETUI"));
 	TargetUI->SetupAttachment(GetMesh());
 	TargetUI->SetRelativeLocation(FVector(0.f, 0.f, 60.f));
 	TargetUI->SetWidgetSpace(EWidgetSpace::Screen);
-	
 }
 
-void AMonster::SetWeaponSocket()
+void AMonster::InitWeaponSocket()
 {
 	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
 	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
@@ -138,22 +144,7 @@ void AMonster::SetWeaponSocket()
 		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
 }
 
-void AMonster::AttackMelee(AMyPlayer* Target)
-{
-	FVector TargetLoc = Target->GetActorLocation();
-	TargetLoc.Z = GetActorLocation().Z;
-	FRotator Rot = UKismetMathLibrary::FindLookAtRotation(GetActorLocation(), TargetLoc);
 
-	SetActorRotation(Rot);
-	AnimInst->PlayAttackMontage();
-}
 
-void AMonster::AttackBow(AMyPlayer* Target)
-{
-}
-
-void AMonster::AttackMagic(AMyPlayer* Target)
-{
-}
 
 

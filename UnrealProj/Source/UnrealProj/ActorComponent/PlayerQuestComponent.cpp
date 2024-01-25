@@ -121,7 +121,6 @@ void UPlayerQuestComponent::CheckHuntQuest(int TargetId)
 		HuntQuests.RemoveSingle(Quest);
 	}
 }
-
 void UPlayerQuestComponent::CheckItemQuest(int TargetType, int TargetId)
 {
 	// Temp
@@ -150,7 +149,6 @@ void UPlayerQuestComponent::CheckItemQuest(int TargetType, int TargetId)
 
 	// 아이템 바인딩해서 설계 새로
 }
-
 void UPlayerQuestComponent::CheckInvestigateQuest(int TargetId)
 {
 	TArray<UQuest*> QuestsToRemove;
@@ -174,7 +172,6 @@ void UPlayerQuestComponent::CheckInvestigateQuest(int TargetId)
 		InvestigateQuests.RemoveSingle(Quest);
 	}
 }
-
 void UPlayerQuestComponent::CheckETCQuest(int EtcType)
 {
 	// ETC 퀘스트는 특정 행위가 다 다를거고 그 행위가 한 번만 이루어지면 클리어 되게 할 것이기 때문에
@@ -194,7 +191,6 @@ void UPlayerQuestComponent::CheckETCQuest(int EtcType)
 		}
 	}
 }
-
 void UPlayerQuestComponent::ClearQuest(UQuest* Quest)
 {
 	UE_LOG(LogTemp, Warning, TEXT("Quest Clear"));
@@ -236,7 +232,6 @@ void UPlayerQuestComponent::OnGoingToCompletable(UQuest* Quest)
 
 	Quest->GetStartNpc()->UpdateQuestMark();
 	Quest->GetClearNpc()->UpdateQuestMark();
-
 }
 
 // 이미 등록된 퀘스트 = false, 새로 등록 = true 리턴
@@ -248,7 +243,6 @@ bool UPlayerQuestComponent::AdddToBindedQuest(UQuest* Quest)
 	BindedQuest.Add(Quest);
 	return true;
 }
-
 UQuest* UPlayerQuestComponent::CreateNewQuest(FQuestData* QuestData)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
@@ -257,7 +251,6 @@ UQuest* UPlayerQuestComponent::CreateNewQuest(FQuestData* QuestData)
 
 	return Quest;
 }
-
 void UPlayerQuestComponent::MakeLootObjInvisible(UQuest* Quest)
 {
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());

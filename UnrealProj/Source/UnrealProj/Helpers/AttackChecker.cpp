@@ -205,7 +205,7 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 	UE_LOG(LogTemp, Log, TEXT("Hit Actor : %s"), *HitActor.GetActor()->GetName());
 	FDamageEvent DamageEvent;;
 	AWeapon* AttackerWeapon = Attacker->GetEquipComponent()->GetWeapon();
-	Monster->TakeDamage(10.f, DamageEvent, Attacker->GetController(), Attacker); //Temp
+	Monster->OnDamaged(10.f, DamageEvent, Attacker->GetController(), Attacker); //Temp
 	Monster->PlaySoundWave(Monster->GetAudioComponent(), AttackerWeapon->GetHitSound());
 }
 
@@ -263,7 +263,7 @@ void UAttackChecker::ApplyPlayerDamageToMonster(float Damage, AMyPlayer* Attacke
 		FDamageEvent DamageEvent;
 		if (Enemy == nullptr)
 			return;
-		Enemy->TakeDamage(Damage, DamageEvent, Attacker->GetController(), Attacker); //Temp
+		Enemy->OnDamaged(Damage, DamageEvent, Attacker->GetController(), Attacker); //Temp
 		Enemy->PlaySoundWave(Enemy->GetAudioComponent(), Attacker->GetEquipComponent()->GetWeapon()->GetHitSound());
 	}
 }

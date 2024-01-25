@@ -221,12 +221,8 @@ void AMyPlayerController::IA_Push_Q(const FInputActionValue& Value)
 
 	STATE MyState = MyPlayer->GetStateMachine()->GetState()->GetState();
 
-	if (MyState == STATE::DEAD)
-		return;
 	//MyPlayer->GetBuffComponent()->SetDebuff((int)EDebuff::Burning);
-
-
-	if (MyState == STATE::SKILL)
+	if (MyState == STATE::DEAD || MyState == STATE::SKILL)
 		return;
 
 	if (MyState == STATE::SKILLCAST)
@@ -241,11 +237,9 @@ void AMyPlayerController::IA_Push_E(const FInputActionValue& Value)
 		return;
 
 	STATE MyState = MyPlayer->GetStateMachine()->GetState()->GetState();
-	if (MyState == STATE::DEAD)
-		return;
 	//MyPlayer->GetBuffComponent()->RemoveDebuff((int)EDebuff::Burning);
 
-	if (MyState == STATE::SKILL)
+	if (MyState == STATE::DEAD || MyState == STATE::SKILL)
 		return;
 
 	if (MyState == STATE::SKILLCAST)
@@ -260,10 +254,9 @@ void AMyPlayerController::IA_Push_R(const FInputActionValue& Value)
 		return;
 
 	STATE MyState = MyPlayer->GetStateMachine()->GetState()->GetState();
-	if (MyState == STATE::DEAD)
+	if (MyState == STATE::DEAD || MyState == STATE::SKILL)
 		return;
-	if (MyState == STATE::SKILL)
-		return;
+
 
 	if (MyState == STATE::SKILLCAST)
 		MyPlayer->GetSkillComponent()->CancleCast(KEY_R);

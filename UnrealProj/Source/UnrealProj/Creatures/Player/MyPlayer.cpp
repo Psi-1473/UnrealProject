@@ -42,6 +42,7 @@ AMyPlayer::AMyPlayer()
 	CreateComponents();
 }
 
+
 void AMyPlayer::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
@@ -75,13 +76,15 @@ void AMyPlayer::Tick(float DeltaTime)
 	if (BuffComponent != nullptr)
 		BuffComponent->UpdateDebuff();
 }
-
 void AMyPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
 
+/*
+	플레이어 함수
+*/
 void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, AttackType Type)
 {
 	StatComponent->OnAttacked(Damage);
@@ -121,7 +124,6 @@ void AMyPlayer::OnDamaged(float Damage, FDamageEvent const& DamageEvent, AContro
 		}
 	}
 }
-
 void AMyPlayer::Die()
 {
 	if(GetStateMachine()->GetState()->GetState() == STATE::DEAD)
@@ -140,7 +142,6 @@ void AMyPlayer::Revive()
 	StatComponent->SetHp(StatComponent->GetMaxHp());
 	StatComponent->SetMp(StatComponent->GetMaxMp());
 }
-
 void AMyPlayer::Interact()
 {
 	if (InteractObj == nullptr)
@@ -149,6 +150,9 @@ void AMyPlayer::Interact()
 	InteractObj->Interact(this);
 }
 
+/*
+	초기화 및 세팅 함수
+*/
 void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 {
 	GetMesh()->SetAnimationMode(EAnimationMode::AnimationBlueprint);
@@ -168,7 +172,6 @@ void AMyPlayer::SetAnimByWeapon(WEAPONTYPE Type)
 	if (AnimInst->WeaponType == WEAPONTYPE::WEAPON_SWORD)
 		HUD->SetCrossHair(false);
 }
-
 void AMyPlayer::InitDefaultCamera()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));

@@ -25,39 +25,48 @@ public:
 	virtual void Tick(float DeltaTime);
 
 
+	/*
+		Get / Set
+	*/ 
 	int GetObjectId();
 	bool GetDeath() { return bDeath; }
+
 
 	class UAudioComponent* GetAudioComponent() { return AudioComponent; }
 	class UMonsterStatComponent* GetStatComponent() { return StatComponent; }
 
+
+	void SetTargetUI(bool Value);
 public:
 	virtual void AttackTarget(class AMyPlayer* Target);
-	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser, class UParticleSystem* Particle = nullptr, AttackType Type = AttackType::NORMAL) {};
-	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+	virtual void OnDamaged(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, 
+		AActor* DamageCauser, class UParticleSystem* Particle = nullptr, AttackType Type = AttackType::NORMAL) {};
 	virtual void Die(class AMyPlayer* Player) {};
 	virtual void DestroyObject() {};
 	virtual void AttackCheck() {};
+	
 
 protected:
 	void PopupDamageText(float Damage);
 
-public:
-	void SetTargetUI(bool Value);
-
-private:
+	/*
+		Attack Check
+	*/
+	void AttackMelee();
+	void AttackBow();
+	void AttackMagic();
+	/*
+		Init Func
+	*/
 	void InitTargetUI();
-	void SetWeaponSocket();
-
-	void AttackMelee(class AMyPlayer* Target);
-	void AttackBow(class AMyPlayer* Target);
-	void AttackMagic(class AMyPlayer* Target);
+	void InitWeaponSocket();
 
 protected:
 	UPROPERTY()
 	class UEnemyAnimInstance* AnimInst;
 	UPROPERTY()
 	bool bDeath = false;
+
 	UPROPERTY()
 	class UMonsterStatComponent* StatComponent;
 

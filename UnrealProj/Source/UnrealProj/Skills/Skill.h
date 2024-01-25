@@ -45,22 +45,24 @@ protected:
 protected:
 	UPROPERTY()
 	bool bCanUse = true;
+
+	/*
+	 Data Values
+	*/
 	UPROPERTY()
 	int CoolDown;
 	UPROPERTY()
-	float RemainingTime = 0.f;
-
-	UPROPERTY()
 	int32 Id;// Id
-	
 	UPROPERTY()
 	FString Name;
-
 	UPROPERTY()
 	FString Explanation;
-
 	UPROPERTY()
 	int32 Mp;
+
+	UPROPERTY()
+	float RemainingTime = 0.f;
+
 	UPROPERTY()
 	UTexture2D* Txt;
 

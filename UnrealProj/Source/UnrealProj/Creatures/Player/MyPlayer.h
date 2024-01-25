@@ -40,7 +40,7 @@ public:
 	class UPlayerSkill* GetSkill() { return ExecuteSkill; }
 	
 	/*
-		Get Components
+		Get Components Func.
 	*/
 	class UPlayerStatComponent* GetStatComponent() { return StatComponent; }
 	class UEquipItemComponent* GetEquipComponent() { return EquipComponent; }
@@ -66,10 +66,6 @@ public:
 	void SetRangeActor(class ASkillRangeActor* Value) { SpawnedRangeActor = Value; }
 	void SetSkill(class UPlayerSkill* Value) { ExecuteSkill = Value; }
 	void SetDash(bool Value) { bDash = Value; }
-
-public:
-
-
 private:
 	/*
 	Initialize or Setting Functions
@@ -96,11 +92,13 @@ private:
 private:
 	UPROPERTY(EditAnywhere)
 	FVector MuzzleOffset;
+
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* LWeapon;
 
 	UPROPERTY(EditAnywhere)
 	class UStaticMeshComponent* RWeapon;
+
 
 	UPROPERTY(EditAnywhere)
 	class UStateMachine* StateMachine;
@@ -117,24 +115,21 @@ private:
 	UPROPERTY(EditAnywhere)
 	class UPlayerAnim* AnimInst;
 
+	/*
+	 Components
+	*/
 	UPROPERTY()
 	class UPlayerStatComponent* StatComponent;
-
 	UPROPERTY()
 	class UPlayerQuestComponent* QuestComponent;
-
 	UPROPERTY()
 	class UPlayerSkillComponent* SkillComponent;
-
 	UPROPERTY()
 	class UEquipItemComponent* EquipComponent;
-
 	UPROPERTY()
 	class UBuffComponent* BuffComponent;
-
 	UPROPERTY()
 	class UInventory* Inventory;
-
 	UPROPERTY()
 	class UCameraEffectComponent* CameraEffectComponent;
 

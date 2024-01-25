@@ -78,7 +78,7 @@ void AArrow_SkillR::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 				return;
 			}
 			FVector ThunderLocation = Enemy->GetActorLocation();
-			Enemy->TakeDamage(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			Enemy->OnDamaged(10, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 
 			SpawnThunder(ThunderLocation);
 			if (HitEffect != nullptr)

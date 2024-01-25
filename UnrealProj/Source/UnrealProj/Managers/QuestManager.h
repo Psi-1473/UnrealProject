@@ -39,7 +39,7 @@ public:
 
 private:
 	UPROPERTY()
-	TArray<FQuestList> CompletedQuestList;// 이거 UPROPERTY 안되나?
+	TArray<FQuestList> CompletedQuestList;
 
 	UPROPERTY()
 	class UWidget_QuestWindow* QuestQuickWindow;

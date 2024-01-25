@@ -96,6 +96,5 @@ void UQuestManager::RemoveQuickQuest(UQuest* Quest)
 		return;
 	}
 
-		
 	QuestQuickWindow->RemoveQuest(Quest);
 }

@@ -65,7 +65,7 @@ void ASEA_Bow_First::AttackCheck()
 				FDamageEvent DamageEvent;
 				auto OwnerPlayer = Cast<AMyPlayer>(Owner);
 				if (Enemy != nullptr)
-					Enemy->TakeDamage(15.f, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer); //Temp
+					Enemy->OnDamaged(15.f, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer); //Temp
 			}
 		}
 

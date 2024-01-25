@@ -64,7 +64,7 @@ void ASEA_Sword_First::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActo
 				UE_LOG(LogTemp, Warning, TEXT("OWNER NULL"));
 				return;
 			}
-			Enemy->TakeDamage(15, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
+			Enemy->OnDamaged(15, DamageEvent, OwnerPlayer->GetController(), OwnerPlayer);
 		}
 	}
 }
