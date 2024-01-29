@@ -11,6 +11,7 @@
 #include "../../Inventory/Inventory.h"
 #include "../../Stat/MonsterStatComponent.h"
 #include "../../Widgets/Components/Widget_HpBar.h"
+#include "../../Widgets/Components/Widget_MonsterMark.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/DamageEvents.h"
@@ -60,7 +61,7 @@ void ASpawnMonster::PostInitializeComponents()
 	AnimInst = Cast<UMonsterAnimInstance>(GetMesh()->GetAnimInstance());
 	if (AnimInst == nullptr) return;
 	Cast<UMonsterAnimInstance>(AnimInst)->OnDied.AddUObject(this, &ASpawnMonster::DestroyObject);
-
+	InitWeaponSocket();
 
 }
 
@@ -75,8 +76,9 @@ void ASpawnMonster::SucceedFindingTarget()
 {
 	// 1. 느낌표 애니메이션 실행
 	//UWidgetAnimation* WidgetAnim = 
-	//auto Widget = Cast<UUserWidget>(MarkUI);
-	//Widget->PlayAnimation()
+	MarkUI->SetVisibility(true);
+	auto Widget = Cast<UWidget_MonsterMark>(MarkUI->GetUserWidgetObject());
+	Widget->PlayAnim();
 	// 2. bChase 켜기
 	bChase = true;
 }
@@ -84,6 +86,7 @@ void ASpawnMonster::SucceedFindingTarget()
 void ASpawnMonster::TargetOutOfRange()
 {
 	// bChase 끄기
+	//MarkUI->SetVisibility(false);
 	bChase = false;
 }
 
@@ -173,7 +176,7 @@ void ASpawnMonster::SetMarkUI()
 	MarkUI->SetupAttachment(GetMesh());
 	MarkUI->SetRelativeLocation(FVector(0.f, 0.f, 230.f));
 	MarkUI->SetWidgetSpace(EWidgetSpace::Screen);
-	//MarkUI->SetVisibility(false);
+	MarkUI->SetVisibility(false);
 }
 
 void ASpawnMonster::RevealHpBar()

@@ -30,7 +30,7 @@ public:
 	int32 GetHp() { return Hp; }
 	int32 GetExp() { return Exp; }
 	int32 GetGold() { return FMath::RandRange(MinGold, MaxGold);}
-	ENEMY_ATTACKT_TYPE GetAttackType() { return AttackType; }
+	ENEMY_ATTACKT_TYPE GetAttackType() { return MonsterAttackType; }
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
@@ -66,7 +66,7 @@ private:
 	int32 MinGold;
 
 	UPROPERTY()
-	ENEMY_ATTACKT_TYPE AttackType;
+	ENEMY_ATTACKT_TYPE MonsterAttackType;
 
 public:
 	FOnHpChanged OnHpChanged;

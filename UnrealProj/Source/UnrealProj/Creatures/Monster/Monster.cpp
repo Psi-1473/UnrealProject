@@ -15,6 +15,8 @@
 #include "Components/AudioComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "../../Projectiles/Projectile.h"
+#include "../../Helpers/ProjectileManager.h"
 
 AMonster::AMonster()
 {
@@ -27,11 +29,13 @@ AMonster::AMonster()
 	}
 
 	PrimaryActorTick.bCanEverTick = true;
+	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
+	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
 	StatComponent = CreateDefaultSubobject<UMonsterStatComponent>(TEXT("StatComponent"));
 	AudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("AudioComponent"));
 	DamageTextComp = CreateDefaultSubobject<USceneComponent>(TEXT("DamageTextComponent"));
 	DamageTextComp->SetRelativeLocation(FVector(50.f, 0.f, 0.f));
-	InitWeaponSocket();
+	//InitWeaponSocket();
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Monster"));
 	GetMesh()->SetRelativeLocation(FVector(0.f, 0.f, -88.f));
 	GetMesh()->SetRelativeRotation(FRotator(0.f, -90.f, 0.f));
@@ -46,6 +50,8 @@ AMonster::AMonster()
 void AMonster::BeginPlay()
 {
 	Super::BeginPlay();
+	InitAttackProjectile();
+
 }
 void AMonster::PostInitializeComponents()
 {
@@ -111,6 +117,10 @@ void AMonster::AttackBow()
 
 void AMonster::AttackMagic()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ATTACK MAGIC"));
+	
+	FVector StartPos = GetActorLocation();
+	AProjectile* Projectile = UProjectileManager::FireProjectile(this, BasicProjectile, StartPos, GetActorRotation(), 0.2f);
 }
 
 void AMonster::SetTargetUI(bool Value)
@@ -131,17 +141,24 @@ void AMonster::InitTargetUI()
 
 void AMonster::InitWeaponSocket()
 {
-	RWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RWEAPON"));
-	LWeapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LWEAPON"));
-
 	FName RWeaponSocket(TEXT("Weapon_R"));
 	FName LWeaponSocket(TEXT("Weapon_L"));
 
 	if (GetMesh()->DoesSocketExist(RWeaponSocket))
-		RWeapon->SetupAttachment(GetMesh(), RWeaponSocket);
+		RWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, RWeaponSocket);
 
 	if (GetMesh()->DoesSocketExist(LWeaponSocket))
-		LWeapon->SetupAttachment(GetMesh(), LWeaponSocket);
+		LWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetIncludingScale, LWeaponSocket);
+}
+
+void AMonster::InitAttackProjectile()
+{
+	FString Directory = TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Projectiles/MonsterBasicAttack/BP_");
+	FString Id = FString::FromInt(GetObjectId());
+	Directory += Id + TEXT("_Projectile.BP_") + Id + TEXT("_Projectile_C'");
+
+	BasicProjectile = LoadClass<AProjectile>(NULL, *Directory, NULL, LOAD_None, NULL);
+
 }
 
 

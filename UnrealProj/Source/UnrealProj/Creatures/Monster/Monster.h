@@ -60,6 +60,7 @@ protected:
 	*/
 	void InitTargetUI();
 	void InitWeaponSocket();
+	void InitAttackProjectile();
 
 protected:
 	UPROPERTY()
@@ -87,4 +88,7 @@ protected:
 
 	UPROPERTY(EditAnywhere)
 		class UStaticMeshComponent* RWeapon;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AProjectile> BasicProjectile;
 };

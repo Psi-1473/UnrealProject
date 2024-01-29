@@ -3454,7 +3454,11 @@
       "name": "Pull Request Labeler",
       "description": "A GitHub Action for automatically labelling pull requests",
       "fileMatch": ["**/.github/labeler.yml"],
-      "url": "https://json.schemastore.org/pull-request-labeler.json"
+      "url": "https://json.schemastore.org/pull-request-labeler.json",
+      "versions": {
+        "4": "https://json.schemastore.org/pull-request-labeler.json",
+        "5": "https://json.schemastore.org/pull-request-labeler-5.json"
+      }
     },
     {
       "name": ".putout.json",
@@ -4486,6 +4490,12 @@
       "description": "JSON standard for web component libraries metadata",
       "fileMatch": ["web-types.json", "*.web-types.json"],
       "url": "https://json.schemastore.org/web-types.json"
+    },
+    {
+      "name": "Wrangler CLI",
+      "description": "Experimental JSON config",
+      "fileMatch": ["wrangler.json"],
+      "url": "https://github.com/cloudflare/workers-sdk/files/12887590/wrangler.schema.json"
     },
     {
       "name": "JSON-stat 2.0",
@@ -5635,13 +5645,14 @@
       "name": "Pantsbuild",
       "description": "Pantsbuild configuration file",
       "fileMatch": ["pants*.toml"],
-      "url": "https://json.schemastore.org/pantsbuild-2.18.0.json",
+      "url": "https://json.schemastore.org/pantsbuild-2.19.0.json",
       "versions": {
         "2.14.0": "https://json.schemastore.org/pantsbuild-2.14.0.json",
         "2.15.0": "https://json.schemastore.org/pantsbuild-2.15.0.json",
         "2.16.0": "https://json.schemastore.org/pantsbuild-2.16.0.json",
         "2.17.0": "https://json.schemastore.org/pantsbuild-2.17.0.json",
-        "2.18.0": "https://json.schemastore.org/pantsbuild-2.18.0.json"
+        "2.18.0": "https://json.schemastore.org/pantsbuild-2.18.0.json",
+        "2.19.0": "https://json.schemastore.org/pantsbuild-2.19.0.json"
       }
     },
     {
@@ -5883,6 +5894,12 @@
       "versions": {
         "5": "https://json.schemastore.org/uxp-manifest-5.json"
       }
+    },
+    {
+      "name": "Subsquid squid manifest",
+      "description": "Squid manifest for Subsquid Cloud deployments",
+      "fileMatch": ["squid.yaml", "*.squid.yaml", "squid.yml", "*.squid.yml"],
+      "url": "https://cdn.subsquid.io/schemas/squid_manifest.json"
     }
   ]
 }
