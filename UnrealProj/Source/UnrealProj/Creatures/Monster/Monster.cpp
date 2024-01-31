@@ -113,6 +113,11 @@ void AMonster::AttackMelee()
 
 void AMonster::AttackBow()
 {
+	// 나중에 투사체 날리는 애들은 포물선을 그릴건지, 얼마나 그릴 건지 등을 데이터로 관리하고 AttackBow, AttackMagic은 합치자
+	UE_LOG(LogTemp, Warning, TEXT("ATTACK BOW"));
+
+	FVector StartPos = GetActorLocation();
+	AProjectile* Projectile = UProjectileManager::FireProjectile(this, BasicProjectile, StartPos, GetActorRotation(), 0.f);
 }
 
 void AMonster::AttackMagic()
