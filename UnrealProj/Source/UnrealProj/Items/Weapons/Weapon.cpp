@@ -13,6 +13,7 @@
 #include "../../Inventory/EquipItemComponent.h"
 #include "../../Skills/Player/PlayerSkill.h"
 #include "../../State/CharacterState.h"
+#include "../../Managers/ResourceManager.h"
 #include "Sound/SoundWave.h"
 
 AWeapon::AWeapon()
@@ -46,9 +47,9 @@ void AWeapon::UseItem()
 		UE_LOG(LogTemp, Warning, TEXT("Bow EQUIP!"));
 }
 
-void AWeapon::SetItemMesh()
+void AWeapon::SetItemMesh(UMyGameInstance* GInstance)
 {
-	Super::SetItemMesh();
+	Super::SetItemMesh(GInstance);
 	if (Type == WEAPONTYPE::WEAPON_BOW)
 		bRight = false;
 
@@ -57,7 +58,7 @@ void AWeapon::SetItemMesh()
 	FString Directory = TEXT("/Script/Engine.StaticMesh'/Game/04_Mesh/Weapon/");
 	Directory += TypeString + TEXT("/") + IdString + TEXT(".") + IdString + TEXT("'");
 
-	StaticMesh = LoadObject<UStaticMesh>(NULL, *Directory, NULL, LOAD_None, NULL);
+	StaticMesh = GInstance->GetResourceMgr()->Load<UStaticMesh>(Directory);
 	StaticMeshComponent->SetStaticMesh(StaticMesh);
 }
 

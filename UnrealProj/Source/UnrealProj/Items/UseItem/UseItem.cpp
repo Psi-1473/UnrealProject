@@ -46,9 +46,9 @@ void AUseItem::UseItem()
 	}
 }
 
-void AUseItem::SetItemMesh()
+void AUseItem::SetItemMesh(UMyGameInstance* GInstance)
 {
-	Super::SetItemMesh();
+	Super::SetItemMesh(GInstance);
 
 }
 

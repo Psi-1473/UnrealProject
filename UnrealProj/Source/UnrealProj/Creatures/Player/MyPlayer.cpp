@@ -58,7 +58,7 @@ void AMyPlayer::BeginPlay()
 	AWeapon* NewWeapon = NewObject<ABow>();
 	NewWeapon->SetWeaponType(WEAPONTYPE::WEAPON_BOW);
 	NewWeapon->SetId(0);
-	NewWeapon->SetItemMesh();
+	NewWeapon->SetItemMesh(GInstance);
 	EquipComponent->EquipWeapon(NewWeapon);
 	//
 

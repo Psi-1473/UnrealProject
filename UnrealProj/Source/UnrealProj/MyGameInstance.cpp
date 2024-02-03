@@ -4,6 +4,7 @@
 #include "MyGameInstance.h"
 #include "Managers/ScriptManager.h"
 #include "Managers/QuestManager.h"
+#include "Managers/ResourceManager.h"
 #include "Managers/InteractObjManager.h"
 #include "Managers/SoundManager.h"
 #include "Creatures/Player/MyPlayer.h"
@@ -39,6 +40,7 @@ UMyGameInstance::UMyGameInstance()
 	UIMgr = MakeShared<UIManager>();
 
 	ScriptMgr = NewObject<UScriptManager>();
+	ResourceMgr = NewObject<UResourceManager>();
 	QuestMgr = NewObject<UQuestManager>();
 	InterObjMgr = NewObject<UInteractObjManager>();
 	SoundMgr = NewObject<USoundManager>();

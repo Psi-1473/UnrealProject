@@ -30,7 +30,7 @@ public:
 
 public:
 	virtual void UseItem() override;
-	virtual void SetItemMesh() override;
+	virtual void SetItemMesh(class UMyGameInstance* GInstance) override;
 	virtual void SetCount(int Value);
 	virtual void LoadItemData(class UMyGameInstance* GInstance) override;
 

@@ -103,6 +103,7 @@ void UInventory::UseGold(int Value)
 
 void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 {
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
 	auto Weapon = Cast<AWeapon>(Item);
 	if (Weapon == nullptr) return;
 
@@ -115,7 +116,7 @@ void UInventory::GainNewWeapon(AItem* Item, int SlotIndex)
 	if (Index == FIND_FAILED)
 		return;
 
-	Item->SetItemMesh();
+	Item->SetItemMesh(GInstance);
 	Item->SetSlotIndex(Index);
 	EquipItems[Index] = Item;
 	

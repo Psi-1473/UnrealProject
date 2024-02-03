@@ -23,7 +23,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void UseItem() {}
-	virtual void SetItemMesh() {}
+	virtual void SetItemMesh(class UMyGameInstance* GInstance) {}
 	virtual void SetCount(int Value) {}
 	virtual void LoadItemData(class UMyGameInstance* GInstance) {};
 

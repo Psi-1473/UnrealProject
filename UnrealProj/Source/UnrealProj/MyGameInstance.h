@@ -255,6 +255,7 @@ public:
 
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
+	class UResourceManager* GetResourceMgr() { return ResourceMgr; }
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 	class UInteractObjManager* GetInterObjMgr() { return InterObjMgr; }
 	class USoundManager* GetSoundMgr() { return SoundMgr; }
@@ -312,6 +313,9 @@ private:
 
 	UPROPERTY()
 	class UScriptManager* ScriptMgr;
+
+	UPROPERTY()
+	class UResourceManager* ResourceMgr;
 
 	UPROPERTY()
 	class UQuestManager* QuestMgr;
