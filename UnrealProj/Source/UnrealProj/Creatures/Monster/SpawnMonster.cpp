@@ -120,7 +120,7 @@ void ASpawnMonster::OnDamaged(float Damage, FDamageEvent const& DamageEvent, ACo
 void ASpawnMonster::Die(AMyPlayer* Player)
 {
 	auto AIController = Cast<AMonsterAIController>(GetController());
-
+	DropItem();
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("NoCollision"));
 	AIController->StopAI();
 	bDeath = true;

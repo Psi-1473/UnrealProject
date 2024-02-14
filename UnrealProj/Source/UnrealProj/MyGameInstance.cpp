@@ -5,6 +5,7 @@
 #include "Managers/ScriptManager.h"
 #include "Managers/QuestManager.h"
 #include "Managers/ResourceManager.h"
+#include "Managers/PoolManager.h"
 #include "Managers/InteractObjManager.h"
 #include "Managers/SoundManager.h"
 #include "Creatures/Player/MyPlayer.h"
@@ -16,10 +17,12 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> DATA(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/PlayerStat.PlayerStat'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> MOBDATA(TEXT("/Script/Engine.DataTable'/Game/08_Data/Monster/MonsterStat.MonsterStat'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> UseImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemImage.UseItemImage'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> MiscImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/MiscItemImage.MiscItemImage'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> NPC(TEXT("/Script/Engine.DataTable'/Game/08_Data/Npc/NpcDataTable.NpcDataTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> Sword(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/SwordData.SwordData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> Bow(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/BowData.BowData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> UseItem(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/UseItemData.UseItemData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> MiscItem(TEXT("/Script/Engine.DataTable'/Game/08_Data/Item/MiscItemData.MiscItemData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> SwordImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/SwordImageTable.SwordImageTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/BowImageTable.BowImageTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> SwordSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/SwordSkillData.SwordSkillData'"));
@@ -28,23 +31,26 @@ UMyGameInstance::UMyGameInstance()
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
 	if (UseImage.Succeeded()) ItemImages = UseImage.Object;
+	if (MiscImage.Succeeded()) MiscImages = MiscImage.Object;
 	if (NPC.Succeeded()) NpcData = NPC.Object;
 	if (Sword.Succeeded()) SwordData = Sword.Object;
 	if (Bow.Succeeded()) BowData = Bow.Object;
 	if (UseItem.Succeeded()) UseItemData = UseItem.Object;
+	if (MiscItem.Succeeded()) MiscItemData = MiscItem.Object;
 	if (SwordImage.Succeeded()) SwordImages = SwordImage.Object;
 	if (BowImage.Succeeded()) BowImages = BowImage.Object;
 	if (SwordSkill.Succeeded()) SwordSkillData = SwordSkill.Object;
 	if (BowSkill.Succeeded()) BowSkillData = BowSkill.Object;
 
 	UIMgr = MakeShared<UIManager>();
-
 	ScriptMgr = NewObject<UScriptManager>();
 	ResourceMgr = NewObject<UResourceManager>();
+	PoolMgr = NewObject<UPoolManager>();
 	QuestMgr = NewObject<UQuestManager>();
 	InterObjMgr = NewObject<UInteractObjManager>();
 	SoundMgr = NewObject<USoundManager>();
 
+	ResourceMgr->SetInstance(this);
 }
 
 void UMyGameInstance::Init()
@@ -52,6 +58,7 @@ void UMyGameInstance::Init()
 	Super::Init();
 	int NpcNum = NpcData->GetRowNames().Num() + 1;
 
+	
 	NpcList.Init(nullptr, NpcNum);
 	QuestMgr->InitCompletedList(NpcNum);
 }
@@ -87,6 +94,11 @@ FUseItemData* UMyGameInstance::GetUseItemData(int32 Id)
 	return UseItemData->FindRow<FUseItemData>(*FString::FromInt(Id), TEXT(""));
 }
 
+FMiscItemData* UMyGameInstance::GetMiscItemData(int32 Id)
+{
+	return MiscItemData->FindRow<FMiscItemData>(*FString::FromInt(Id), TEXT(""));
+}
+
 FRichImageRow* UMyGameInstance::GetSwordImage(int32 Id)
 {
 	return SwordImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
@@ -100,6 +112,11 @@ FRichImageRow* UMyGameInstance::GetBowImage(int32 Id)
 FRichImageRow* UMyGameInstance::GetUseItemImage(int32 Id)
 {
 	return ItemImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
+}
+
+FRichImageRow* UMyGameInstance::GetMiscItemImage(int32 Id)
+{
+	return MiscImages->FindRow<FRichImageRow>(*FString::FromInt(Id), TEXT(""));
 }
 
 FSkillData* UMyGameInstance::GetPlayerSkillData(FString Type, int32 Id)

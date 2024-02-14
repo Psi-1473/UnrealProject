@@ -183,4 +183,14 @@ private:
 		float PrevTime;
 };
 
+UCLASS()
+class UNREALPROJ_API UInteractState : public UCharacterState
+{
+	GENERATED_BODY()
+public:
+	virtual void OnEnter() override;
+	virtual void OnUpdate() override;
+	virtual void OnExit() override;
+};
+
 

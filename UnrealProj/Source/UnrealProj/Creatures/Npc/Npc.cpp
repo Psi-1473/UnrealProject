@@ -14,6 +14,7 @@
 #include "PaperSpriteComponent.h"
 #include "PaperSprite.h"
 #include "../../Widgets/Components/Widget_NpcInfo.h"
+#include "../../State/StateMachine.h"
 
 ANpc::ANpc()
 {
@@ -92,7 +93,12 @@ void ANpc::Interact(AMyPlayer* Player)
 	UUserWidget* Widget = GInstance->GetUIMgr()->PopupUI(GetWorld(), UIType::Script);
 	auto Script = Cast<UWidget_Script>(Widget);
 	if (Script != nullptr)
+	{
+		Player->GetStateMachine()->SetState(STATE::INTERACT);
 		Script->SetScript(this);
+	}
+	else
+		Player->GetStateMachine()->SetState(STATE::IDLE);
 }
 
 void ANpc::LoadPossibleQuestData(AMyPlayer* Player)

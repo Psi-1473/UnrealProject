@@ -245,6 +245,7 @@ void ULootState::OnExit()
 }
 #pragma endregion
 
+#pragma region DEAD
 void UDeadState::OnEnter()
 {
 }
@@ -256,7 +257,9 @@ void UDeadState::OnUpdate()
 void UDeadState::OnExit()
 {
 }
+#pragma endregion
 
+#pragma region Respawn
 void URespawnState::OnEnter()
 {
 	PrevTime = Machine->GetOwner()->GetWorld()->GetTimeSeconds();
@@ -276,3 +279,18 @@ void URespawnState::OnUpdate()
 void URespawnState::OnExit()
 {
 }
+#pragma endregion
+
+#pragma region INTERACT
+void UInteractState::OnEnter()
+{
+}
+
+void UInteractState::OnUpdate()
+{
+}
+
+void UInteractState::OnExit()
+{
+}
+#pragma endregion

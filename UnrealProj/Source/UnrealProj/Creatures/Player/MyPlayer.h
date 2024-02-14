@@ -16,7 +16,6 @@ class UNREALPROJ_API AMyPlayer : public ACharacter, public ISoundActor
 
 public:
 	AMyPlayer();
-
 protected:
 	virtual void PostInitializeComponents() override;
 	virtual void BeginPlay() override;

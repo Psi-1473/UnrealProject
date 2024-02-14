@@ -18,9 +18,11 @@ public:
 	AMyGameMode();
 	UUserWidget* GetCurrentWidget() { return CurrentWidget; }
 
+	virtual void BeginPlay() override;
 	void BindPlayer(class AMyPlayer* Player);
 	void HideHud();
 	void AppearHud();
+
 
 private:
 	UPROPERTY(VisibleAnywhere)

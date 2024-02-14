@@ -7,7 +7,7 @@
 #define SLOTINDEX_NOT_SPECIFIED -1
 #define FIND_FAILED -1
 const int8 MAX_Inventory = 18;
-
+const FString DROPITEMTEXT = TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/InteractObj/DropItemPocket.DropItemPocket_C'");
 
 UENUM(BlueprintType)
 enum class UIType : uint8
@@ -30,6 +30,7 @@ enum class UIType : uint8
 	LineScript,
 	AreaTitle,
 	Revive,
+	ItemDrop,
 	End,
 };
 
@@ -50,6 +51,7 @@ enum class STATE : uint8
 	REVIVE,
 	RESPAWN,
 	LOOT,
+	INTERACT,
 };
 
 
@@ -130,7 +132,8 @@ enum ItemType
 	*/
 	ITEM_SWORD,
 	ITEM_BOW,
-	ITEM_USE
+	ITEM_USE,
+	ITEM_MISC,
 };
 
 enum QuestType

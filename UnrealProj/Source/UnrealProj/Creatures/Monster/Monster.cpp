@@ -6,6 +6,7 @@
 #include "Components/SceneComponent.h"
 #include "../../TextRender/DamageText.h"
 #include "../../MyGameInstance.h"
+#include "../../Managers/ResourceManager.h"
 #include "../Player/MyPlayer.h"
 #include "../../Stat/PlayerStatComponent.h"
 #include "../../Inventory/Inventory.h"
@@ -17,6 +18,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "../../Projectiles/Projectile.h"
 #include "../../Helpers/ProjectileManager.h"
+#include "../Npc/DropItem.h"
 
 AMonster::AMonster()
 {
@@ -165,6 +167,56 @@ void AMonster::InitAttackProjectile()
 	BasicProjectile = LoadClass<AProjectile>(NULL, *Directory, NULL, LOAD_None, NULL);
 
 }
+
+void AMonster::DropItem()
+{
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	int DropTypeCount = 0;
+	TArray<FMiscItemData*> DropMisc = GetDropMiscItem();
+	DropTypeCount += DropMisc.Num();
+
+	if(DropTypeCount > 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item was dropped"));
+		auto DropItem = GInstance->GetResourceMgr()->Instantiate<ADropItem>(DROPITEMTEXT, this, GetActorLocation(), GetActorRotation());
+		DropItem->SetMiscItems(DropMisc);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item was not dropped"));
+	}
+}
+
+TArray<int32> AMonster::GetDropEquipments()
+{
+	TArray<int32> Items;
+	
+	
+
+
+	return Items;
+}
+
+TArray<int32> AMonster::GetDropUseItem()
+{
+	TArray<int32> Items;
+	return Items;
+}
+
+TArray<FMiscItemData*> AMonster::GetDropMiscItem()
+{
+	TArray<FMiscItemData*> Items;
+	auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+	for (int i = 0; i < StatComponent->GetDropMiscItem().Num(); i++)
+	{
+		int32 RandomInteger = FMath::RandRange(0, 100);
+		FMiscItemData* MiscData = GInstance->GetMiscItemData(StatComponent->GetDropMiscItem()[i]);
+		if(MiscData->Percentage < RandomInteger)
+			Items.Add(MiscData);
+	}
+	return Items;
+}
+
 
 
 

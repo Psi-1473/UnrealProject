@@ -31,6 +31,9 @@ public:
 	int32 GetExp() { return Exp; }
 	int32 GetGold() { return FMath::RandRange(MinGold, MaxGold);}
 	ENEMY_ATTACKT_TYPE GetAttackType() { return MonsterAttackType; }
+	TArray<int32> GetDropEquipments() { return DropEquipments; }
+	TArray<int32> GetDropUseItem() { return DropUseItems; }
+	TArray<int32> GetDropMiscItem() { return DropMiscItems; }
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 public:
@@ -67,6 +70,15 @@ private:
 
 	UPROPERTY()
 	ENEMY_ATTACKT_TYPE MonsterAttackType;
+
+	UPROPERTY()
+	TArray<int32> DropEquipments;
+
+	UPROPERTY()
+	TArray<int32> DropUseItems;
+
+	UPROPERTY()
+	TArray<int32> DropMiscItems;
 
 public:
 	FOnHpChanged OnHpChanged;

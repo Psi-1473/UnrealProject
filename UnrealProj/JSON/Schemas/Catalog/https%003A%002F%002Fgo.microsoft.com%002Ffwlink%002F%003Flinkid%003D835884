@@ -344,11 +344,12 @@
     },
     {
       "name": "Aurora Agile Meta-Framework",
-      "description": "Aurora Agile Meta-Framework",
+      "description": "Yaml for Aurora Agile Meta-Framework",
       "fileMatch": ["*.aurora.yaml", "*.aurora.yml"],
-      "url": "https://json.schemastore.org/aurora-1.0.json",
+      "url": "https://json.schemastore.org/aurora-1.1.json",
       "versions": {
-        "1.0": "https://json.schemastore.org/aurora-1.0.json"
+        "1.0": "https://json.schemastore.org/aurora-1.0.json",
+        "1.1": "https://json.schemastore.org/aurora-1.1.json"
       }
     },
     {
@@ -438,7 +439,11 @@
       "name": "bottom configuration",
       "description": "Configuration file for bottom",
       "fileMatch": ["bottom.toml"],
-      "url": "https://raw.githubusercontent.com/ClementTsang/bottom/main/schema/nightly/bottom.json"
+      "url": "https://raw.githubusercontent.com/ClementTsang/bottom/main/schema/v1.0/bottom.json",
+      "versions": {
+        "nightly": "https://raw.githubusercontent.com/ClementTsang/bottom/main/schema/nightly/bottom.json",
+        "1.0": "https://raw.githubusercontent.com/ClementTsang/bottom/main/schema/v1.0/bottom.json"
+      }
     },
     {
       "name": "buf.yaml",
@@ -950,6 +955,12 @@
       "description": "Dein.vim, a Vim/Neovim plugin manager",
       "fileMatch": ["dein.toml"],
       "url": "https://json.schemastore.org/dein.json"
+    },
+    {
+      "name": "Dependency cruiser",
+      "description": "Configuration file for Dependency cruiser",
+      "fileMatch": ["dependency-cruiser.config.json"],
+      "url": "https://raw.githubusercontent.com/sverweij/dependency-cruiser/main/src/schema/configuration.schema.json"
     },
     {
       "name": "Deta Spacefile",
@@ -2120,6 +2131,12 @@
       "name": "Grafana 5.x Dashboard",
       "description": "Grafana 5.x Dashboards",
       "url": "https://json.schemastore.org/grafana-dashboard-5.x.json"
+    },
+    {
+      "name": "tree-sitter grammar.json",
+      "description": "tree-sitter grammar.json",
+      "fileMatch": ["grammar.json"],
+      "url": "https://raw.githubusercontent.com/tree-sitter/tree-sitter/master/cli/src/generate/grammar-schema.json"
     },
     {
       "name": "GraphQL Mesh",
@@ -5843,6 +5860,12 @@
       "description": "Squid manifest for Subsquid Cloud deployments",
       "fileMatch": ["squid.yaml", "*.squid.yaml", "squid.yml", "*.squid.yml"],
       "url": "https://cdn.subsquid.io/schemas/squid_manifest.json"
+    },
+    {
+      "name": "GitLab Agent for Kubernetes configuration",
+      "description": "GitLab Agent for Kubernetes configuration file",
+      "fileMatch": ["**/.gitlab/agents/*/config.yaml"],
+      "url": "https://gitlab.com/gitlab-org/cluster-integration/gitlab-agent/-/raw/master/pkg/agentcfg/agentcfg_schemas/ConfigurationFile.json"
     }
   ]
 }

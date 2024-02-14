@@ -10,6 +10,7 @@
 #include "../../State/BuffComponent.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Managers/SoundManager.h"
+#include "../../Managers/PoolManager.h"
 #include "../../Projectiles/Projectile.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -63,6 +64,8 @@ void AMyPlayer::BeginPlay()
 	//
 
 	SkillComponent->SkillsInit();
+
+
 }
 void AMyPlayer::Tick(float DeltaTime)
 {
@@ -257,6 +260,10 @@ void AMyPlayer::SetEngineVariables()
 	if (GameMode == nullptr) return;
 	GameMode->BindPlayer(this);
 	GInstance->GetSoundMgr()->Init(GetWorld());
+
+
+	//Temp : 나중에 매니저 초기화 싹 다 모아서 다른데서 처리하자
+	GInstance->GetPoolMgr()->Init();
 }
 
  

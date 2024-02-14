@@ -13,22 +13,22 @@
 
 #pragma region Pool
 
-USTRUCT()
-struct FPool
+UCLASS()
+class UNREALPROJ_API UPool : public UObject
 {
 	GENERATED_BODY()
 
 
 public:
-	void Init(class UPoolable* Original, int count);
-	class UPoolable* Create();
-	void Push(class UPoolable* PoolObj);
-	void Pop();
+	void Init(UClass* Original, int count = 10);
+	class AActor* Create();
+	void Push(class AActor* PoolObj);
+	AActor* Pop();
 
 	UPROPERTY()
-	UObject* OriginalObject;
+	UClass* OriginalObject;
 	UPROPERTY()
-	TArray<class UPoolable*> PoolQueue;
+	TArray<class AActor*> PoolQueue;
 };
 #pragma endregion Pool
 
@@ -38,14 +38,22 @@ class UNREALPROJ_API UPoolManager : public UObject
 	GENERATED_BODY()
 	
 public:
+	UPoolManager();
+	~UPoolManager();
+
 	void Init();
-	void Push(class UPoolable* PoolObj);
-	UObject* Pop();
+	void CreatePool(UClass* Original, int count = 10);
+	void Push(AActor* PoolObj);
+	class AActor* Pop(FString ClassName);
 	void Clear();
-	UObject* GetfOriginal();
+	bool IsPoolObject(FString ClassName);
 
 private:
 	// 풀링용 자료구조 만들기
 	UPROPERTY()
-	TMap<FString, FPool> Pool;
+	TMap<FString, UPool*> PoolMap;
+
+	// Pooling Class
+	TSubclassOf<class ADropItem> DropItem;
+
 };

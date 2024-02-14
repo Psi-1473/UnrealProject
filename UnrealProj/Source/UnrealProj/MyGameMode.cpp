@@ -22,6 +22,13 @@ AMyGameMode::AMyGameMode()
 	}
 }
 
+void AMyGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+	// UYourGameInstance* GameInstance = Cast<UYourGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
+	// Init할 것들 다 여기서 하기
+}
+
 void AMyGameMode::BindPlayer(AMyPlayer* Player)
 {
 	auto Widget = Cast<UWidget_PlayerMain>(CurrentWidget);

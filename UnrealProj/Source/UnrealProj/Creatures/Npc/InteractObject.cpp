@@ -21,6 +21,7 @@ AInteractObject::AInteractObject()
 
 	CapsuleComponent->SetCapsuleHalfHeight(88.f);
 	CapsuleComponent->SetCapsuleRadius(34.f);
+	CapsuleComponent->SetCollisionProfileName("NoCollision");
 
 	RootComponent = CapsuleComponent;
 	InteractBox->SetupAttachment(RootComponent);

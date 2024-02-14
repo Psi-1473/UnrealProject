@@ -14,7 +14,6 @@ class UNREALPROJ_API AInteractObject : public AActor, public IInteractable
 	
 public:	
 	AInteractObject();
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -23,7 +22,7 @@ public:
 
 	virtual void Interact(class AMyPlayer* Player) override;
 
-private:
+protected:
 	UPROPERTY(EditAnywhere)
 		class USkeletalMeshComponent* Mesh;
 

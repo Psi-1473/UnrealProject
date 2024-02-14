@@ -62,6 +62,14 @@ protected:
 	void InitWeaponSocket();
 	void InitAttackProjectile();
 
+	/*
+		
+	*/
+	void DropItem();
+
+	TArray<int32> GetDropEquipments();
+	TArray<int32> GetDropUseItem();
+	TArray<struct FMiscItemData*> GetDropMiscItem();
 protected:
 	UPROPERTY()
 	class UEnemyAnimInstance* AnimInst;

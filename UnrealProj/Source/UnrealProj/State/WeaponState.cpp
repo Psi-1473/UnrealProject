@@ -11,12 +11,14 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Camera/CameraComponent.h"
 #include "../Projectiles/Projectile.h"
+#include "../Managers/ResourceManager.h"
 #include "../Projectiles/Player/Arrow.h"
 #include "../Items/Weapons/Weapon.h"
 #include "Kismet/GameplayStatics.h"
 #include "../Helpers/AttackChecker.h"
 #include "../Inventory/EquipItemComponent.h"
 #include "../Helpers/AttackChecker.h"
+#include "../MyGameInstance.h"
 
 void UWeaponState::OnLeftMouseClicked(AMyPlayer* Player)
 {
@@ -165,19 +167,14 @@ void UBowState::Fire()
 void UBowState::FireArrow(FVector DestPos)
 {
 	AMyPlayer* Player = Machine->GetOwner();
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Owner = Player;
-	SpawnParams.Instigator = Player->GetInstigator();
-
 	FVector CameraLocation;
 	FRotator CameraRotation;
 	Player->GetActorEyesViewPoint(CameraLocation, CameraRotation);
 	//CameraRotation.Pitch += 5.f;
 	AWeapon* Weapon = Player->GetEquipComponent()->GetWeapon();
-	AProjectile* Projectile = Player->GetWorld()->SpawnActor<AArrow>(Weapon->GetArrow(),
-		Player->GetActorLocation() + Player->GetActorRightVector() * 15.f + Player->GetActorUpVector() * 65.f,
-		CameraRotation,
-		SpawnParams);
+	AProjectile* Projectile = Player->GetInstance()->GetResourceMgr()->Instantiate( Weapon->GetArrow(), Player,
+	Player->GetActorLocation() + Player->GetActorRightVector() * 15.f + Player->GetActorUpVector() * 65.f,
+	CameraRotation);
 	FVector ArrowVector;
 	if (bArrowTarget)
 		ArrowVector = DestPos - Projectile->GetActorLocation();

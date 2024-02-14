@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+ // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -62,6 +62,15 @@ struct FMonsterData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 AttackType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<int32> DropEquipments;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<int32> DropUseItems;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<int32> DropMiscItems;
 };
 USTRUCT()
 struct FNpcData : public FTableRowBase
@@ -130,6 +139,30 @@ struct FUseItemData : public FTableRowBase
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Price;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
+};
+
+USTRUCT()
+struct FMiscItemData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Type;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 SellPrice;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Percentage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Explanation;
@@ -224,6 +257,8 @@ struct FScriptData : public FTableRowBase
 
 
 
+
+
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -240,9 +275,11 @@ public:
 	FWeaponData* GetSwordData(int32 Id);
 	FWeaponData* GetBowData(int32 Id);
 	FUseItemData* GetUseItemData(int32 Id);
+	FMiscItemData* GetMiscItemData(int32 Id);
 	FRichImageRow* GetSwordImage(int32 Id);
 	FRichImageRow* GetBowImage(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
+	FRichImageRow* GetMiscItemImage(int32 Id);
 
 	FSkillData* GetPlayerSkillData(FString Type, int32 Id);
 	FSkillData* GetSwordSkillData(int32 Id);
@@ -256,6 +293,7 @@ public:
 	TSharedPtr<UIManager> GetUIMgr() { return UIMgr; }
 	class UScriptManager* GetScriptMgr() { return ScriptMgr; }
 	class UResourceManager* GetResourceMgr() { return ResourceMgr; }
+	class UPoolManager* GetPoolMgr() { return PoolMgr; }
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 	class UInteractObjManager* GetInterObjMgr() { return InterObjMgr; }
 	class USoundManager* GetSoundMgr() { return SoundMgr; }
@@ -287,6 +325,9 @@ private:
 	class UDataTable* UseItemData;
 
 	UPROPERTY()
+	class UDataTable* MiscItemData;
+
+	UPROPERTY()
 	class UDataTable* SwordImages;
 	
 	UPROPERTY()
@@ -294,6 +335,9 @@ private:
 
 	UPROPERTY()
 	class UDataTable* ItemImages;
+
+	UPROPERTY()
+	class UDataTable* MiscImages;
 
 	UPROPERTY()
 	class UDataTable* SwordSkillData;
@@ -316,6 +360,9 @@ private:
 
 	UPROPERTY()
 	class UResourceManager* ResourceMgr;
+
+	UPROPERTY()
+	class UPoolManager* PoolMgr;
 
 	UPROPERTY()
 	class UQuestManager* QuestMgr;

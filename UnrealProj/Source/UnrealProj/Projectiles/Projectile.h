@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Interface/Poolable.h"
 #include "Projectile.generated.h"
 
 UCLASS()

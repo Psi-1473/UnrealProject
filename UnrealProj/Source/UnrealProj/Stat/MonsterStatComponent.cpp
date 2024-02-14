@@ -48,10 +48,14 @@ void UMonsterStatComponent::SetInfo(int MonsterId)
 				MaxGold = StatData->MaxGold;
 				MinGold = StatData->MinGold;
 				MonsterAttackType = (ENEMY_ATTACKT_TYPE)StatData->AttackType;
+				DropEquipments = StatData->DropEquipments;
+				DropUseItems = StatData->DropUseItems;
+				DropMiscItems = StatData->DropMiscItems;
+
 				//Gold = MinGold¿Í MaxGold »çÀÌ ·£´ý
 				SetHp(MaxHp);
 				Attack = StatData->Attack;
-				UE_LOG(LogTemp, Warning, TEXT("%d"), Hp);
+				UE_LOG(LogTemp, Warning, TEXT("Monster Stat Setting Succeeded:  % d"), Hp);
 			}
 		}
 	}

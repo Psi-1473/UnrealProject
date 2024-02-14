@@ -76,6 +76,7 @@ void UPlayerSkill_Bow_Second::PlayParticle(AActor* OwnerActor)
 		Projectile->SetAttackStrength(true);
 		Projectile->SetHitEffect(HitEffect);
 		Projectile->SetMaxSpeed(6000.f);
+		Projectile->SetLifeSpan(0.5f);
 		Projectile->SetParticle(Particle);
 		Projectile->FireInDirection(Projectile->GetActorForwardVector(), 2.f);
 	}
