@@ -11,7 +11,7 @@
 #include "../../Skills/Skill.h"
 #include "../../Skills/Player/PlayerSkill.h"
 
-void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
+void UWidget_Information::SetInfoByItem(InventoryType Type, AItem* Item)
 {
 	FString Name;
 	FString Explain;
@@ -19,13 +19,19 @@ void UWidget_Information::SetInfoByItem(InformationType Type, AItem* Item)
 	auto Char = UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 	auto MyPlayer = Cast<AMyPlayer>(Char);
 	auto GInstance = MyPlayer->GetInstance();
-	if (Type == INFO_USEITEM)
+	if (Type == InventoryType::Use)
 	{
 		Name = GInstance->GetUseItemData(Item->GetId())->Name;
 		Explain = GInstance->GetUseItemData(Item->GetId())->Explanation;
 		Value = TEXT("");
 	}
-	else if (Type == INFO_WEAPON)
+	else if(Type == InventoryType::Etc)
+	{
+		Name = GInstance->GetMiscItemData(Item->GetId())->Name;
+		Explain = GInstance->GetMiscItemData(Item->GetId())->Explanation;
+		Value = TEXT("");
+	}
+	else if (Type == InventoryType::Equip)
 	{
 		auto Weapon = Cast<AWeapon>(Item);
 		WEAPONTYPE WType = Weapon->GetType();

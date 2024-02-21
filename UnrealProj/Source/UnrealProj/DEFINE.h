@@ -174,13 +174,6 @@ enum UseItemType
 	ITEM_HPMP,
 };
 
-enum InformationType
-{
-	INFO_WEAPON,
-	INFO_USEITEM,
-	INFO_SWORDSKILL,
-	INFO_BOWSKILL,
-};
 enum InventoryType
 {
 	Equip,

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "../DEFINE.h"
 #include "Widget_DroppedItemSlot.generated.h"
 
 /**
@@ -15,9 +16,13 @@ class UNREALPROJ_API UWidget_DroppedItemSlot : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetInfo(struct FMiscItemData* NewItem);
+	void SetInfo(struct FMiscItemData* NewItem, class UWidget_ItemDrop* BWidget);
 
 	// + 더블클릭함수 추가
+	virtual FReply NativeOnMouseButtonDoubleClick(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+	void GetItem();
+	void RemoveThis();
+
 
 private:
 	UPROPERTY(meta = (BindWidget))
@@ -27,6 +32,8 @@ private:
 	class URichTextBlock* Text_ItemName;
 
 private:
+	ItemType IType;
+
 	UPROPERTY()
 	int ItemId;
 

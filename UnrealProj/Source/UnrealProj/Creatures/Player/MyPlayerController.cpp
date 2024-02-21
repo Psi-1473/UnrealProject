@@ -26,6 +26,7 @@
 #include "../../MyGameMode.h"
 #include "../../Widgets/Widget_PlayerMain.h"
 #include "../../Widgets/Popup/Widget_Quest.h"
+#include "../../Widgets/Popup/Widget_ItemDrop.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../DEFINE.h"
 
@@ -50,6 +51,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick1(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick1.IA_Quick1'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick2(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick2.IA_Quick2'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick3(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick3.IA_Quick3'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ClickV(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_ClickV.IA_ClickV'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -70,6 +72,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_Quick1.Succeeded()) Quick1 = IA_Quick1.Object;
 	if (IA_Quick2.Succeeded()) Quick2 = IA_Quick2.Object;
 	if (IA_Quick3.Succeeded()) Quick3 = IA_Quick3.Object;
+	if (IA_ClickV.Succeeded()) ClickV = IA_ClickV.Object;
 	
 }
 
@@ -102,6 +105,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Quick1, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick1);
 		EnhancedInputComponent->BindAction(Quick2, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick2);
 		EnhancedInputComponent->BindAction(Quick3, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick3);
+		EnhancedInputComponent->BindAction(ClickV, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_ClickV);
 	}
 
 }
@@ -341,4 +345,21 @@ void AMyPlayerController::IA_Quick3(const FInputActionValue& Value)
 
 		MainWidget->PressQuickSlot(2);
 	}
+}
+
+void AMyPlayerController::IA_ClickV(const FInputActionValue& Value)
+{
+	// 아이템 줍기
+	if (Value.Get<bool>())
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Click V"));
+		auto GInstance = Cast<UMyGameInstance>(GetGameInstance());
+		auto Widget = GInstance->GetUIMgr()->GetUI(UIType::ItemDrop);
+
+		if (Widget == nullptr) return;
+		UE_LOG(LogTemp, Warning, TEXT("Widget Not Null"));
+		auto DropWidget = Cast<UWidget_ItemDrop>(Widget);
+		DropWidget->GetAllItems();
+	}
+
 }

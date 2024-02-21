@@ -4,6 +4,7 @@
 #include "Inventory.h"
 #include "../Items/Item.h"
 #include "../Items/UseItem/UseItem.h"
+#include "../Items/MiscItem/MiscItem.h"
 #include "../Items/Weapons/Weapon.h"
 #include "../Items/Weapons/Sword.h"
 #include "../Items/Weapons/Bow.h"
@@ -19,7 +20,7 @@ UInventory::UInventory()
 	PrimaryComponentTick.bCanEverTick = false;
 	EquipItems.Init(nullptr, MAX_Inventory);
 	UseItems.Init(nullptr, MAX_Inventory);
-	EtcItems.Init(nullptr, MAX_Inventory);
+	MiscItems.Init(nullptr, MAX_Inventory);
 	Type = Equip;
 }
 
@@ -34,7 +35,7 @@ TArray<class AItem*>& UInventory::GetInventory()
 {
 	if (Type == Equip) return EquipItems;
 	else if (Type == Use) return UseItems;
-	else return EtcItems;
+	else return MiscItems;
 	
 }
 
@@ -48,6 +49,12 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 		NewItem = CreateUseItem(Id);
 		GainNewUseItem(NewItem, SlotIndex);
 		GInstance->CheckQuest(QUEST_ITEM, Id, OwnerPlayer, (int)QITEM_USE);
+	}
+	else if (IType == ItemType::ITEM_MISC)
+	{
+		NewItem = CreateMiscItem(Id);
+		GainNewMiscItem(NewItem, SlotIndex);
+		//GInstance->CheckQuest(QUEST_ITEM, Id, OwnerPlayer, (int)QITEM_USE);
 	}
 	else //무기
 	{
@@ -147,6 +154,32 @@ void UInventory::GainNewUseItem(AItem* Item, int SlotIndex)
 	UseItems[Index] = Item;
 }
 
+void UInventory::GainNewMiscItem(AItem* Item, int SlotIndex)
+{
+	auto MiscItem = Cast<AMiscItem>(Item);
+	if (MiscItem == nullptr) return;
+
+	int Index;
+	int HavingIndex;
+
+	HavingIndex = FindItem(MiscItems, Item->GetId());
+	if (HavingIndex != FIND_FAILED)
+	{
+		MiscItems[HavingIndex]->SetCount(MiscItems[HavingIndex]->GetCount() + 1);
+		return;
+	}
+
+	if (SlotIndex == SLOTINDEX_NOT_SPECIFIED)
+		Index = FindEmptySlotIndex(MiscItems);
+	else
+		Index = SlotIndex;
+
+	if (Index == FIND_FAILED)
+		return;
+	Item->SetSlotIndex(Index);
+	MiscItems[Index] = Item;
+}
+
 AWeapon* UInventory::CreateWeapon(int Id, WEAPONTYPE WType)
 {
 	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance()); // 나중에 Weapon Data 끌고오기 위함
@@ -171,6 +204,16 @@ AUseItem* UInventory::CreateUseItem(int Id)
 	UseItem->SetId(Id);
 	UseItem->LoadItemData(GInstance);
 	return UseItem;
+}
+
+AMiscItem* UInventory::CreateMiscItem(int Id)
+{
+	auto GInstance = Cast<UMyGameInstance>(OwnerPlayer->GetGameInstance());
+	AMiscItem* MiscItem = NewObject<AMiscItem>();
+
+	MiscItem->SetId(Id);
+	MiscItem->LoadItemData(GInstance);
+	return MiscItem;
 }
 
 int UInventory::FindEmptySlotIndex(TArray<class AItem*>& ItemArray)

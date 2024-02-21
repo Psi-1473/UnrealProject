@@ -6,6 +6,7 @@
 #include "../../Items/Item.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Items/UseItem/UseItem.h"
+#include "../../Items/MiscItem/MiscItem.h"
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "../../MyGameInstance.h"
@@ -166,16 +167,15 @@ void UWidget_InvenSlot::NativeOnMouseEnter(const FGeometry& InGeometry, const FP
 
 	auto Weapon = Cast<AWeapon>(SlotItem);
 	auto UseItem = Cast<AUseItem>(SlotItem);
+	auto MiscItem = Cast<AMiscItem>(SlotItem);
 
 	if(Weapon != nullptr)
-		InfoWidget->SetInfoByItem(InformationType::INFO_WEAPON, SlotItem);
+		InfoWidget->SetInfoByItem(InventoryType::Equip, SlotItem);
 	else if(UseItem != nullptr)
-		InfoWidget->SetInfoByItem(InformationType::INFO_USEITEM, SlotItem);
+		InfoWidget->SetInfoByItem(InventoryType::Use, SlotItem);
+	else if (MiscItem != nullptr)
+		InfoWidget->SetInfoByItem(InventoryType::Etc, SlotItem);
 	
-	
-	
-	
-	//Information
 }
 
 void UWidget_InvenSlot::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)

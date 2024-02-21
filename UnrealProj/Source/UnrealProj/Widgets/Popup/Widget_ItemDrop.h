@@ -17,6 +17,12 @@ class UNREALPROJ_API UWidget_ItemDrop : public UUserWidget
 public:
 	UWidget_ItemDrop(const FObjectInitializer& ObjectInitializer);
 	void CreateSlot(TArray<struct FMiscItemData*> MiscItems);
+	void GetAllItems();
+	
+	void RemoveSlot(class UWidget_DroppedItemSlot* RSlot);
+	void CloseUI();
+	void DestroyDropItem();
+	void SetDropItem(class ADropItem* DItem);
 
 
 private:
@@ -35,5 +41,8 @@ private:
 
 	UPROPERTY()
 	TArray<class UWidget_DroppedItemSlot*> Slots;
+
+	UPROPERTY()
+	class ADropItem* DropItem;
 
 };

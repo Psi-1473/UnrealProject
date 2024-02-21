@@ -16,7 +16,7 @@ class UNREALPROJ_API UWidget_Information : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetInfoByItem(InformationType Type, class AItem* Item);
+	void SetInfoByItem(InventoryType Type, class AItem* Item);
 	void SetInfoBySkill(class UPlayerSkill* Skill);
 	void SetPosition(FVector2D Pos);
 

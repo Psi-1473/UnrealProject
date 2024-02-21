@@ -24,7 +24,7 @@ public:
 	TWeakObjectPtr<class AMyPlayer> GetPlayer() { return OwnerPlayer; }
 	TArray<class AItem*>& GetInventory();
 	TArray<class AItem*>& GetUseItems() { return UseItems; }
-	TArray<class AItem*>& GetEtcItems() { return EtcItems; }
+	TArray<class AItem*>& GetMiscItems() { return MiscItems; }
 	TArray<class AItem*>& GetWeaponItems() { return EquipItems; }
 	int GetGold() { return Gold; }
 
@@ -44,11 +44,13 @@ private:
 	// Create 함수로 할당된 아이템을 Inventory에 추가
 	void GainNewWeapon(class AItem* Item, int SlotIndex = -1);
 	void GainNewUseItem(class AItem* Item, int SlotIndex = -1);
+	void GainNewMiscItem(class AItem* Item, int SlotIndex = -1);
 
 
 	// 인벤토리에 추가하기 전에 아이템을 할당
 	class AWeapon* CreateWeapon(int Id, WEAPONTYPE WType);
 	class AUseItem* CreateUseItem(int Id);
+	class AMiscItem* CreateMiscItem(int Id);
 
 
 	// 인벤토리에 아이템을 추가하기 전에 빈 슬롯이 있는지, 중복된 아이템이 있는지 체크
@@ -69,7 +71,7 @@ private:
 	TArray<class AItem*> UseItems;
 
 	UPROPERTY()
-	TArray<class AItem*> EtcItems;
+	TArray<class AItem*> MiscItems;
 
 	UPROPERTY()
 	int Gold = 5000;

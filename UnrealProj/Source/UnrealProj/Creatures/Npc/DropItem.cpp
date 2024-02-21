@@ -19,6 +19,7 @@ void ADropItem::Interact(AMyPlayer* Player)
 	{
 		auto ItemDropWidget = Cast<UWidget_ItemDrop>(Widget);
 		ItemDropWidget->CreateSlot(MiscItems);
+		ItemDropWidget->SetDropItem(this);
 		Player->GetStateMachine()->SetState(STATE::INTERACT);	
 	}
 	else
