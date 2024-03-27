@@ -38,6 +38,8 @@ public:
 	class UStaticMesh* GetStaticMesh() { return StaticMesh; }
 	int GetCount() { return Count; }
 	int GetId() { return Id; }
+	int GetSlotIndex() { return SlotIndex; }
+	int GetQuickSlotIndex() { return QuickSlotIndex; }
 protected:
 	UPROPERTY()
 	int Id;

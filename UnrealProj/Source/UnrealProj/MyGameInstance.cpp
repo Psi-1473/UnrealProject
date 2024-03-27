@@ -8,6 +8,7 @@
 #include "Managers/PoolManager.h"
 #include "Managers/InteractObjManager.h"
 #include "Managers/SoundManager.h"
+#include "Managers/SaveLoadManager.h"
 #include "Creatures/Player/MyPlayer.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -49,6 +50,7 @@ UMyGameInstance::UMyGameInstance()
 	QuestMgr = NewObject<UQuestManager>();
 	InterObjMgr = NewObject<UInteractObjManager>();
 	SoundMgr = NewObject<USoundManager>();
+	SaveLoadMgr = NewObject<USaveLoadManager>();
 
 	ResourceMgr->SetInstance(this);
 }

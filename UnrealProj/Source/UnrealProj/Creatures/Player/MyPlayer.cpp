@@ -10,6 +10,7 @@
 #include "../../State/BuffComponent.h"
 #include "../../Items/Weapons/Weapon.h"
 #include "../../Managers/SoundManager.h"
+#include "../../Managers/SaveLoadManager.h" // test
 #include "../../Managers/PoolManager.h"
 #include "../../Projectiles/Projectile.h"
 #include "Components/CapsuleComponent.h"
@@ -65,6 +66,7 @@ void AMyPlayer::BeginPlay()
 
 	SkillComponent->SkillsInit();
 
+	GInstance->GetSaveLoadMgr()->Load(this);
 
 }
 void AMyPlayer::Tick(float DeltaTime)
@@ -147,6 +149,7 @@ void AMyPlayer::Revive()
 }
 void AMyPlayer::Interact()
 {
+	GInstance->GetSaveLoadMgr()->Save(this);
 	if (InteractObj == nullptr)
 		return;
 

@@ -32,7 +32,7 @@ public:
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
 	
 public:
-	void GainNewItem(ItemType IType, int Id, int SlotIndex = -1); // SlotIndex는 인벤토리 특정 위치에 바로 아이템을 넣는지 확인하기 위해 사용 (ex. 아이템 끌어당겨서 넣기)
+	class AItem* GainNewItem(ItemType IType, int Id, int SlotIndex = -1, int ItemCount = 1); // SlotIndex는 인벤토리 특정 위치에 바로 아이템을 넣는지 확인하기 위해 사용 (ex. 아이템 끌어당겨서 넣기)
 
 	void EmptySlot(TArray<class AItem*>& ItemArray, int Index);
 	void SwapItem(int DragedIndex, int ArrivedIndex);

@@ -297,6 +297,7 @@ public:
 	class UQuestManager* GetQuestMgr() { return QuestMgr; }
 	class UInteractObjManager* GetInterObjMgr() { return InterObjMgr; }
 	class USoundManager* GetSoundMgr() { return SoundMgr; }
+	class USaveLoadManager* GetSaveLoadMgr() { return SaveLoadMgr; }
 
 public:
 	TArray<class ANpc*> GetNpcList() { return NpcList; }
@@ -371,7 +372,10 @@ private:
 	class UInteractObjManager* InterObjMgr;
 
 	UPROPERTY()
-		class USoundManager* SoundMgr;
+	class USoundManager* SoundMgr;
+
+	UPROPERTY()
+	class USaveLoadManager* SaveLoadMgr;
 
 private:
 	UPROPERTY()

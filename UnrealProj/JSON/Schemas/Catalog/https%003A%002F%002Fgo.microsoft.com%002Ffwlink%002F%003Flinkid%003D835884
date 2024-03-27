@@ -630,7 +630,10 @@
       "fileMatch": [
         "database.beef-5.yaml",
         "database.beef-5.yml",
-        "database.beef-5.json"
+        "database.beef-5.json",
+        "*.database.beef-5.yaml",
+        "*.database.beef-5.yml",
+        "*.database.beef-5.json"
       ],
       "url": "https://raw.githubusercontent.com/Avanade/Beef/master/tools/Beef.CodeGen.Core/Schema/database.beef-5.json"
     },
@@ -646,7 +649,16 @@
         "refdata.beef-5.json",
         "datamodel.beef-5.yaml",
         "datamodel.beef-5.yml",
-        "datamodel.beef-5.json"
+        "datamodel.beef-5.json",
+        "*.entity.beef-5.yaml",
+        "*.entity.beef-5.yml",
+        "*.entity.beef-5.json",
+        "*.refdata.beef-5.yaml",
+        "*.refdata.beef-5.yml",
+        "*.refdata.beef-5.json",
+        "*.datamodel.beef-5.yaml",
+        "*.datamodel.beef-5.yml",
+        "*.datamodel.beef-5.json"
       ],
       "url": "https://raw.githubusercontent.com/Avanade/Beef/master/tools/Beef.CodeGen.Core/Schema/entity.beef-5.json"
     },
@@ -943,6 +955,18 @@
       "description": "cumulusci.yml file for configuring CumulusCI, a Salesforce automation framework",
       "fileMatch": ["cumulusci.yml"],
       "url": "https://raw.githubusercontent.com/SFDO-Tooling/CumulusCI/main/cumulusci/schema/cumulusci.jsonschema.json"
+    },
+    {
+      "name": "DataYoga Connections",
+      "description": "Collection of defined source and target connections used within DataYoga jobs",
+      "fileMatch": ["connections.dy.yaml"],
+      "url": "https://raw.githubusercontent.com/datayoga-io/datayoga/main/schemas/connections.schema.json"
+    },
+    {
+      "name": "DataYoga Job",
+      "description": "Declarative definition of sequential pipeline steps within a DataYoga job",
+      "fileMatch": ["**/jobs/**/*.dy.yaml"],
+      "url": "https://raw.githubusercontent.com/datayoga-io/datayoga/main/schemas/job.schema.json"
     },
     {
       "name": "dbt Project",
@@ -1461,8 +1485,14 @@
         "datacontract.yml",
         "*-datacontract.yaml",
         "*-datacontract.yml",
+        "*.datacontract.yaml",
+        "*.datacontract.yml",
         "datacontract-*.yaml",
-        "datacontract-*.yml"
+        "datacontract-*.yml",
+        "**/datacontract/*.yml",
+        "**/datacontract/*.yaml",
+        "**/datacontracts/*.yml",
+        "**/datacontracts/*.yaml"
       ],
       "url": "https://raw.githubusercontent.com/datacontract/datacontract-specification/main/datacontract.schema.json"
     },
@@ -1733,6 +1763,11 @@
         "elgato-stream-deck-plugin.yaml"
       ],
       "url": "https://json.schemastore.org/elgato-stream-deck-plugin.json"
+    },
+    {
+      "name": "Enterprise Contract Policy Spec",
+      "description": "Policy file for use with Enterprise Contract",
+      "url": "https://enterprisecontract.dev/enterprise-contract-controller/schema/policy_spec.json"
     },
     {
       "name": ".esmrc.json",
@@ -2080,7 +2115,7 @@
       "url": "https://json.schemastore.org/global.json"
     },
     {
-      "name": "golangci-lint Configuration",
+      "name": "Golangci-lint Configuration",
       "description": "golangci-lint configuration file",
       "fileMatch": [
         ".golangci.yml",
@@ -2088,22 +2123,19 @@
         ".golangci.toml",
         ".golangci.json"
       ],
-      "url": "https://json.schemastore.org/golangci-lint.json"
+      "url": "https://golangci-lint.run/jsonschema/golangci.jsonschema.json"
+    },
+    {
+      "name": "Golangci-lint Custom Plugins Configuration",
+      "description": "golangci-lint custom plugins configuration file",
+      "fileMatch": [".custom-gcl.yml", ".custom-gcl.yaml"],
+      "url": "https://golangci-lint.run/jsonschema/custom-gcl.jsonschema.json"
     },
     {
       "name": "go-feature-flag Flag Configuration",
       "description": "go-feature-flag flag configuration file",
       "fileMatch": ["*.goff.yml", "*.goff.yaml", "*.goff.json", "*.goff.toml"],
       "url": "https://raw.githubusercontent.com/thomaspoignant/go-feature-flag/main/.schema/flag-schema.json"
-    },
-    {
-      "name": "Gorder",
-      "description": "Gorder configuration",
-      "fileMatch": ["gorder.json"],
-      "url": "https://json.schemastore.org/gorder-r06.json",
-      "versions": {
-        "r06": "https://json.schemastore.org/gorder-r06.json"
-      }
     },
     {
       "name": "Goreleaser",
@@ -2125,7 +2157,7 @@
       "name": "Goss",
       "description": "Goss - Quick and Easy server validation",
       "fileMatch": ["goss.yaml", "goss.yml", "goss.json"],
-      "url": "https://github.com/goss-org/goss/raw/master/docs/goss-json-schema.yaml"
+      "url": "https://github.com/goss-org/goss/raw/master/docs/schema.yaml"
     },
     {
       "name": "Grafana 5.x Dashboard",
@@ -2403,14 +2435,21 @@
       "name": "JReleaser",
       "description": "JReleaser config file",
       "fileMatch": ["jreleaser.yml", "jreleaser.json"],
-      "url": "https://json.schemastore.org/jreleaser-1.10.0.json",
+      "url": "https://json.schemastore.org/jreleaser-1.11.0.json",
       "versions": {
+        "1.11.0": "https://json.schemastore.org/jreleaser-1.11.0.json",
         "1.10.0": "https://json.schemastore.org/jreleaser-1.10.0.json",
         "1.9.0": "https://json.schemastore.org/jreleaser-1.9.0.json",
         "1.8.0": "https://json.schemastore.org/jreleaser-1.8.0.json",
         "1.7.0": "https://json.schemastore.org/jreleaser-1.7.0.json",
         "1.6.0": "https://json.schemastore.org/jreleaser-1.6.0.json"
       }
+    },
+    {
+      "name": "JSR Package Config (jsr.json)",
+      "description": "JSR package configuration file",
+      "fileMatch": ["jsr.json", "jsr.jsonc"],
+      "url": "https://jsr.io/schema/config-file.v1.json"
     },
     {
       "name": ".jsbeautifyrc",
@@ -2717,6 +2756,15 @@
       "url": "https://json.schemastore.org/metricshub.json"
     },
     {
+      "name": "MetricsHub Connector Configuration",
+      "description": "MetricsHub connector configuration file",
+      "fileMatch": [
+        "**/*[Mm]etrics[Hh]ub*/**/connector*/**/*.yaml",
+        "**/*[Mm]etrics[Hh]ub*/**/connector*/**/*.yml"
+      ],
+      "url": "https://json.schemastore.org/metricshub-connector.json"
+    },
+    {
       "name": "Microsoft Band Web Tile",
       "description": "Microsoft Band Web Tile manifest file",
       "url": "https://json.schemastore.org/band-manifest.json"
@@ -2858,6 +2906,18 @@
       "description": "MonoSpace configuration file",
       "fileMatch": ["monospace.yml"],
       "url": "https://raw.githubusercontent.com/software-t-rex/monospace/main/apps/monospace/schemas/monospace.schema.json"
+    },
+    {
+      "name": "Monoweave Configuration",
+      "description": "Monoweave configuration file (Yarn package publishing)",
+      "fileMatch": [
+        "monoweave.config.json",
+        "monoweave.config.jsonc",
+        "monoweave.config.json5",
+        "monoweave.config.yaml",
+        "monoweave.config.yml"
+      ],
+      "url": "https://raw.githubusercontent.com/monoweave/monoweave/main/packages/types/schema.json"
     },
     {
       "name": "MS2Rescore Configuration",
@@ -4363,6 +4423,18 @@
       "url": "https://raw.githubusercontent.com/dotnet/Nerdbank.GitVersioning/master/src/NerdBank.GitVersioning/version.schema.json"
     },
     {
+      "name": ".versionrc.json",
+      "description": "Conventional Changelog Configuration file",
+      "fileMatch": [".versionrc", ".versionrc.json", ".versionrc.js"],
+      "url": "https://raw.githubusercontent.com/conventional-changelog/conventional-changelog-config-spec/master/versions/2.2.0/schema.json",
+      "versions": {
+        "1.0.0": "https://raw.githubusercontent.com/conventional-changelog/conventional-changelog-config-spec/master/versions/1.0.0/schema.json",
+        "2.0.0": "https://raw.githubusercontent.com/conventional-changelog/conventional-changelog-config-spec/master/versions/2.0.0/schema.json",
+        "2.1.0": "https://raw.githubusercontent.com/conventional-changelog/conventional-changelog-config-spec/master/versions/2.1.0/schema.json",
+        "2.2.0": "https://raw.githubusercontent.com/conventional-changelog/conventional-changelog-config-spec/master/versions/2.2.0/schema.json"
+      }
+    },
+    {
       "name": "vim-addon-info",
       "description": "vim plugin addon-info.json metadata files",
       "fileMatch": ["**/*vim*/addon-info.json"],
@@ -5679,7 +5751,7 @@
     {
       "name": "AutoAPICase",
       "description": "auto api case",
-      "fileMatch": ["**/test_data/*.yml"],
+      "fileMatch": ["**/test_data/**/*.yml"],
       "url": "https://json.schemastore.org/case_schema.json"
     },
     {
@@ -5884,6 +5956,39 @@
       "description": "GlazeWM settings",
       "fileMatch": ["**/.glaze-wm/config.yaml"],
       "url": "https://json.schemastore.org/glazewm.json"
+    },
+    {
+      "name": "CGS Custom Card Game (CardGameDef.json)",
+      "description": "Card Game Simulator (CGS) custom card game specification",
+      "fileMatch": ["CardGameDef.json"],
+      "url": "https://www.cardgamesimulator.com/schema/CardGameDef.json"
+    },
+    {
+      "name": "Custom Machinery Machine",
+      "description": "Custom machinery machine specification (Minecraft mod)",
+      "fileMatch": ["**/data/*/machines/*.json", "**/data/*/machine/*.json"],
+      "url": "https://alec016.github.io/Custom-Machinery/Json%20Schema/src/main/resources/schemas/custom_machinery_machine.json"
+    },
+    {
+      "name": "Custom Machinery Recipe",
+      "description": "Custom machinery recipes specification (Minecraft mod)",
+      "fileMatch": ["**/data/*/recipes/**/*.json"],
+      "url": "https://alec016.github.io/Custom-Machinery/Json%20Schema/src/main/resources/schemas/custom_machinery_recipe.json"
+    },
+    {
+      "name": "Nuitka.yaml",
+      "description": "Nuitka Package Configuration",
+      "fileMatch": [
+        "*.nuitka-package.config.yml",
+        "*.nuitka-package.config.yaml"
+      ],
+      "url": "https://raw.githubusercontent.com/Nuitka/Nuitka/develop/misc/nuitka-package-config-schema.json"
+    },
+    {
+      "name": "bioimageio resource description",
+      "description": "Bioimage.io resource descriptions may be produced or consumed by bioimage.io-compatible software",
+      "fileMatch": ["bioimageio.yaml", "*.bioimageio.yaml"],
+      "url": "https://bioimage-io.github.io/spec-bioimage-io/bioimageio_schema_latest.json"
     }
   ]
 }

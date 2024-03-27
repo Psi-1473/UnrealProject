@@ -30,6 +30,8 @@ public:
 	int32 GetAttack() { return Attack; }
 	int32 GetMaxHp() { return MaxHp; }
 	int32 GetMaxMp() { return MaxMp; }
+	int32 GetMaxExp() { return MaxExp; }
+	int32 GetExp() { return Exp; }
 
 	float GetHpRatio() { return Hp / (float)MaxHp; }
 	float GetMpRatio() { return Mp / (float)MaxMp; }
@@ -42,7 +44,6 @@ public:
 	void SetHp(int32 Value);
 	void SetExp(int32 Value);
 	void SetMp(int32 Value);
-
 	void AddHp(int Value);
 	void AddMp(int Value);
 public:

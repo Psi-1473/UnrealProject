@@ -54,6 +54,11 @@ void UWidget_PlayerMain::EmptyItemSlot(int Index)
 	ItemQuickSlots[Index]->SetItem(nullptr);
 }
 
+void UWidget_PlayerMain::SetQuickSlotItem(AItem* Item, int Index)
+{
+	ItemQuickSlots[Index]->SetItem(Item);
+}
+
 void UWidget_PlayerMain::RefreshItemQuickSlot(int Index)
 {
 	ItemQuickSlots[Index]->SetTextCount();

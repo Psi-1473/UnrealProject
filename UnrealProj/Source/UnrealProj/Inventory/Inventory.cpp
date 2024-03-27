@@ -39,7 +39,7 @@ TArray<class AItem*>& UInventory::GetInventory()
 	
 }
 
-void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
+AItem* UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex, int ItemCount)
 {
 	AItem* NewItem = nullptr;
 	auto GInstance = Cast<UMyGameInstance>(GetWorld()->GetGameInstance());
@@ -68,8 +68,10 @@ void UInventory::GainNewItem(ItemType IType, int Id, int SlotIndex)
 	}
 	
 	NewItem->SetInventory(this);
-	NewItem->SetCount(1);
+	NewItem->SetCount(ItemCount);
 	NewItem->SetOwner(Cast<AActor>(OwnerPlayer));
+
+	return NewItem;
 }
 void UInventory::EmptySlot(TArray<class AItem*>& ItemArray, int Index)
 {

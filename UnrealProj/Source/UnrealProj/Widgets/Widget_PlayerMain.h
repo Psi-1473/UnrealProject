@@ -20,11 +20,14 @@ public:
 
 	void PressQuickSlot(int Index);
 	void EmptyItemSlot(int Index);
+	void SetQuickSlotItem(class AItem* Item, int Index);
 	void RefreshItemQuickSlot(int Index);
 	void CheckRegisteredItem(class AItem* Item, int QuickIndex);
 
+
 	void BindPlayer(class UPlayerStatComponent* StatComp);
 	void SetCrossHair(bool bVisible);
+
 private:
 	void SetSkillQuick();
 	void SetItemQuick();
