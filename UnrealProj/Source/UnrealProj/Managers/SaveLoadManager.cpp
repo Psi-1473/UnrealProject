@@ -166,9 +166,9 @@ void USaveLoadManager::LoadQuestData(AMyPlayer* Player, TSharedPtr<FJsonObject> 
 
 void USaveLoadManager::SavePlayerTransform(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)
 {
-	auto Trans = Player->GetActorTransform();
-	int PosX, PosY, PosZ;
-	int RotX, RotY, RotZ;
+	//auto Trans = Player->GetActorTransform();
+	//int PosX, PosY, PosZ;
+	//int RotX, RotY, RotZ;
 
 	
 }

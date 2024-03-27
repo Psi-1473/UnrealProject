@@ -8,6 +8,14 @@
 	"Hp": 100,
 	"Mp": 80,
 	"Exp": 0,
+	"Level": 1,
+	"Attack": 10,
+	"MaxHp": 100,
+	"MaxMp": 80,
+	"MaxExp": 50,
+	"Hp": 100,
+	"Mp": 80,
+	"Exp": 0,
 	"EquipItems": [
 		{
 			"WeaponType": 0,
