@@ -153,6 +153,26 @@ void USaveLoadManager::LoadItemData(AMyPlayer* Player, TSharedPtr<FJsonObject> R
 		}
 	}
 
+	const TArray<TSharedPtr<FJsonValue>>* MiscItems;
+	if (RObject->TryGetArrayField(TEXT("MiscItems"), MiscItems))
+	{
+		for (int i = 0; i < UseItems->Num(); i++)
+		{
+			TSharedPtr<FJsonObject> jsonItem = (*MiscItems)[i]->AsObject();
+			int Id;
+			int SlotIndex;
+			int Number;
+
+			jsonItem->TryGetNumberField(TEXT("Id"), Id);
+			jsonItem->TryGetNumberField(TEXT("SlotIndex"), SlotIndex);
+			jsonItem->TryGetNumberField(TEXT("Number"), Number);
+
+			auto NewItem = Inven->GainNewItem(ITEM_MISC, Id, SlotIndex, Number);
+
+		}
+	}
+
+
 
 }
 
@@ -162,6 +182,7 @@ void USaveLoadManager::LoadSkillData(AMyPlayer* Player, TSharedPtr<FJsonObject> 
 
 void USaveLoadManager::LoadQuestData(AMyPlayer* Player, TSharedPtr<FJsonObject> RObject)
 {
+
 }
 
 void USaveLoadManager::SavePlayerTransform(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)

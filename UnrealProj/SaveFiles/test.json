@@ -1,24 +1,24 @@
 {
 	"Name": "hi",
-	"Level": 1,
-	"Attack": 10,
-	"MaxHp": 100,
-	"MaxMp": 80,
-	"MaxExp": 50,
-	"Hp": 100,
-	"Mp": 80,
-	"Exp": 0,
-	"Level": 1,
-	"Attack": 10,
-	"MaxHp": 100,
-	"MaxMp": 80,
-	"MaxExp": 50,
-	"Hp": 100,
-	"Mp": 80,
-	"Exp": 0,
+	"Level": 3,
+	"Attack": 15,
+	"MaxHp": 125,
+	"MaxMp": 90,
+	"MaxExp": 100,
+	"Hp": 125,
+	"Mp": 90,
+	"Exp": 35,
+	"Level": 3,
+	"Attack": 15,
+	"MaxHp": 125,
+	"MaxMp": 90,
+	"MaxExp": 100,
+	"Hp": 125,
+	"Mp": 90,
+	"Exp": 35,
 	"EquipItems": [
 		{
-			"WeaponType": 0,
+			"WeaponType": 1,
 			"Id": 0,
 			"SlotIndex": 0
 		},
@@ -67,5 +67,16 @@
 			"Number": 7
 		}
 	],
-	"MiscItems": []
+	"MiscItems": [
+		{
+			"Id": 1,
+			"SlotIndex": 0,
+			"Number": 1
+		},
+		{
+			"Id": 3,
+			"SlotIndex": 1,
+			"Number": 1
+		}
+	]
 }
