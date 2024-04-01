@@ -1,82 +1,30 @@
 {
 	"Name": "hi",
-	"Level": 3,
-	"Attack": 15,
-	"MaxHp": 125,
-	"MaxMp": 90,
-	"MaxExp": 100,
-	"Hp": 125,
-	"Mp": 90,
-	"Exp": 35,
-	"Level": 3,
-	"Attack": 15,
-	"MaxHp": 125,
-	"MaxMp": 90,
-	"MaxExp": 100,
-	"Hp": 125,
-	"Mp": 90,
-	"Exp": 35,
-	"EquipItems": [
-		{
-			"WeaponType": 1,
-			"Id": 0,
-			"SlotIndex": 0
-		},
-		{
-			"WeaponType": 0,
-			"Id": 1,
-			"SlotIndex": 2
-		},
-		{
-			"WeaponType": 0,
-			"Id": 0,
-			"SlotIndex": 6
-		},
-		{
-			"WeaponType": 0,
-			"Id": 1,
-			"SlotIndex": 8
-		},
-		{
-			"WeaponType": 1,
-			"Id": 0,
-			"SlotIndex": 10
-		},
-		{
-			"WeaponType": 0,
-			"Id": 1,
-			"SlotIndex": 14
-		},
-		{
-			"WeaponType": 1,
-			"Id": 0,
-			"SlotIndex": 16
-		}
-	],
-	"UseItems": [
-		{
-			"Id": 1,
-			"SlotIndex": 0,
-			"QuickSlotIndex": 0,
-			"Number": 2
-		},
-		{
-			"Id": 2,
-			"SlotIndex": 8,
-			"QuickSlotIndex": -1,
-			"Number": 7
-		}
-	],
-	"MiscItems": [
-		{
-			"Id": 1,
-			"SlotIndex": 0,
-			"Number": 1
-		},
-		{
-			"Id": 3,
-			"SlotIndex": 1,
-			"Number": 1
-		}
-	]
+	"Level": 1,
+	"Attack": 10,
+	"MaxHp": 100,
+	"MaxMp": 80,
+	"MaxExp": 50,
+	"Hp": 100,
+	"Mp": 80,
+	"Exp": 0,
+	"LocX": 28713.912836334006,
+	"LocY": -34514.601039085879,
+	"LocZ": 170.55073924326493,
+	"Yaw": -135.34999772906301,
+	"Level": 1,
+	"Attack": 10,
+	"MaxHp": 100,
+	"MaxMp": 80,
+	"MaxExp": 50,
+	"Hp": 100,
+	"Mp": 80,
+	"Exp": 0,
+	"LocX": 28713.912836334006,
+	"LocY": -34514.601039085879,
+	"LocZ": 170.55073924326493,
+	"Yaw": -135.34999772906301,
+	"EquipItems": [],
+	"UseItems": [],
+	"MiscItems": []
 }

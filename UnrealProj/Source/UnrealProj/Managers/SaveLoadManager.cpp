@@ -79,16 +79,27 @@ void USaveLoadManager::LoadPlayerData(AMyPlayer* Player, TSharedPtr<FJsonObject>
 	int32 Hp;
 	int32 Mp;
 	int32 Exp;
+	int LocX, LocY, LocZ;
+	double RotZ;
 	RObject->TryGetNumberField(TEXT("Level"), Level);
 	RObject->TryGetNumberField(TEXT("Hp"), Hp);
 	RObject->TryGetNumberField(TEXT("Mp"), Mp);
 	RObject->TryGetNumberField(TEXT("Exp"), Exp);
+
+	RObject->TryGetNumberField(TEXT("LocX"), LocX);
+	RObject->TryGetNumberField(TEXT("LocY"), LocY);
+	RObject->TryGetNumberField(TEXT("LocZ"), LocZ);
+	RObject->TryGetNumberField(TEXT("Yaw"), RotZ);
 
 	Comp->SetLevel(Level);
 	Comp->SetHp(Hp);
 	Comp->SetMp(Mp);
 	Comp->SetExp(Exp);
 	
+	FQuat Quat;
+	Player->GetController()->SetControlRotation((FRotator(0.f, RotZ, 0.f)));
+	//Player->SetActorRotation(FQuat(FRotator(0.f, RotZ, 0.f)));
+	Player->SetActorLocation(FVector(LocX, LocY, LocZ));
 }
 
 void USaveLoadManager::LoadItemData(AMyPlayer* Player, TSharedPtr<FJsonObject> RObject)
@@ -197,6 +208,7 @@ void USaveLoadManager::SavePlayerTransform(AMyPlayer* Player, TSharedRef<TJsonWr
 void USaveLoadManager::SavePlayerData(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)
 {
 	auto Comp = Player->GetStatComponent();
+	auto Trans = Player->GetActorTransform();
 	JWriter->WriteValue(TEXT("Level"), Comp->GetLevel());
 	JWriter->WriteValue(TEXT("Attack"), Comp->GetAttack());
 	JWriter->WriteValue(TEXT("MaxHp"), Comp->GetMaxHp());
@@ -205,6 +217,10 @@ void USaveLoadManager::SavePlayerData(AMyPlayer* Player, TSharedRef<TJsonWriter<
 	JWriter->WriteValue(TEXT("Hp"), Comp->GetHp());
 	JWriter->WriteValue(TEXT("Mp"), Comp->GetMp());
 	JWriter->WriteValue(TEXT("Exp"), Comp->GetExp());
+	JWriter->WriteValue(TEXT("LocX"), Player->GetActorLocation().X);
+	JWriter->WriteValue(TEXT("LocY"), Player->GetActorLocation().Y);
+	JWriter->WriteValue(TEXT("LocZ"), Player->GetActorLocation().Z);
+	JWriter->WriteValue(TEXT("Yaw"), Player->GetActorRotation().Yaw);
 }
 
 void USaveLoadManager::SaveItemData(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)

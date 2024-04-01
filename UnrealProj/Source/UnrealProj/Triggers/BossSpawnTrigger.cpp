@@ -26,6 +26,7 @@ ABossSpawnTrigger::ABossSpawnTrigger(const FObjectInitializer& ObjectInitializer
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	BoxComponent->SetCollisionProfileName("InteractBox");
+	BoxComponent->SetupAttachment(GetRootComponent());
 
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &ABossSpawnTrigger::OnOverlapBegin);
 }
@@ -49,11 +50,11 @@ void ABossSpawnTrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		{
 			HideWidget();
 			EnteredPlayer = Player;
-			GetWorldTimerManager().SetTimer(SpawnBossTimer, this, &ABossSpawnTrigger::SpawnBoss, 2.f, false);
+			GetWorldTimerManager().SetTimer(SpawnBossTimer, this, &ABossSpawnTrigger::SpawnBoss, 3.f, false);
 			bActivated = true;
 			UE_LOG(LogTemp, Warning, TEXT("Player Enter!"));
 
-			FStringAssetReference SequenceName("/Script/LevelSequence.LevelSequence'/Game/11_LevelSequence/SevarogSequence.SevarogSequence'");
+			FStringAssetReference SequenceName("/Script/LevelSequence.LevelSequence'/Game/11_LevelSequence/Sequence_Sevarog.Sequence_Sevarog'");
 			ULevelSequence* Asset = Cast<ULevelSequence>(SequenceName.TryLoad());
 			
 			FMovieSceneSequencePlaybackSettings Settings;
@@ -62,10 +63,7 @@ void ABossSpawnTrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 			SevarogSequence->OnFinished.AddDynamic(this, &ABossSpawnTrigger::ResetWidget);
 			// 1. 시네마틱 재생
 			SevarogSequence->Play();
-			// 2. 보스 소환
-			// 3. 보스 Hp Widget 팝업
-			
-			
+	
 		}
 	}
 }
@@ -96,7 +94,7 @@ void ABossSpawnTrigger::SpawnBoss()
 	//SpawnParams.Instigator = OwnerMonster->GetInstigator();
 
 	FRotator SpawnRot = GetActorRotation();
-	FVector SpawnPos = FVector(-15510.f, 850.f, 380.f);
+	FVector SpawnPos = FVector(26820.f, -48570.f, 1220.f);
 
 	SpawnedBoss = GetWorld()->SpawnActor<ABossMonster>(
 		BossClass,
