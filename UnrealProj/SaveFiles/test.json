@@ -1,30 +1,65 @@
 {
 	"Name": "hi",
-	"Level": 1,
-	"Attack": 10,
-	"MaxHp": 100,
-	"MaxMp": 80,
-	"MaxExp": 50,
+	"Level": 2,
+	"Attack": 13,
+	"MaxHp": 110,
+	"MaxMp": 85,
+	"MaxExp": 75,
 	"Hp": 100,
-	"Mp": 80,
-	"Exp": 0,
-	"LocX": 28713.912836334006,
-	"LocY": -34514.601039085879,
-	"LocZ": 170.55073924326493,
-	"Yaw": -135.34999772906301,
-	"Level": 1,
-	"Attack": 10,
-	"MaxHp": 100,
-	"MaxMp": 80,
-	"MaxExp": 50,
+	"Mp": 20,
+	"Exp": 40,
+	"LocX": 36130.021418220393,
+	"LocY": -37956.824608930649,
+	"LocZ": -34.551790213568871,
+	"Yaw": 128.20001319050786,
+	"Level": 2,
+	"Attack": 13,
+	"MaxHp": 110,
+	"MaxMp": 85,
+	"MaxExp": 75,
 	"Hp": 100,
-	"Mp": 80,
-	"Exp": 0,
-	"LocX": 28713.912836334006,
-	"LocY": -34514.601039085879,
-	"LocZ": 170.55073924326493,
-	"Yaw": -135.34999772906301,
-	"EquipItems": [],
-	"UseItems": [],
-	"MiscItems": []
+	"Mp": 20,
+	"Exp": 40,
+	"LocX": 36130.021418220393,
+	"LocY": -37956.824608930649,
+	"LocZ": -34.551790213568871,
+	"Yaw": 128.20001319050786,
+	"EquipItems": [
+		{
+			"WeaponType": 0,
+			"Id": 0,
+			"SlotIndex": 0
+		},
+		{
+			"WeaponType": 1,
+			"Id": 0,
+			"SlotIndex": 1
+		}
+	],
+	"UseItems": [
+		{
+			"Id": 1,
+			"SlotIndex": 0,
+			"QuickSlotIndex": 0,
+			"Number": 2
+		},
+		{
+			"Id": 2,
+			"SlotIndex": 1,
+			"QuickSlotIndex": -1,
+			"Number": 3
+		}
+	],
+	"MiscItems": [
+		{
+			"Id": 2,
+			"SlotIndex": 0,
+			"Number": 1
+		},
+		{
+			"Id": 1,
+			"SlotIndex": 1,
+			"Number": 1
+		}
+	]
 }
