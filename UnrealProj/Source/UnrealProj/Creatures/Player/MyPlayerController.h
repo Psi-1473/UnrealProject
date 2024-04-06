@@ -41,6 +41,7 @@ private:
 	void IA_Quick2(const FInputActionValue& Value);
 	void IA_Quick3(const FInputActionValue& Value);
 	void IA_ClickV(const FInputActionValue& Value);
+	void IA_Ride(const FInputActionValue& Value);
 	
 
 private:
@@ -110,6 +111,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* ClickV;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Ride;
 
 
 	UPROPERTY(VisibleAnywhere)

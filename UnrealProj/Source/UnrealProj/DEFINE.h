@@ -52,8 +52,18 @@ enum class STATE : uint8
 	RESPAWN,
 	LOOT,
 	INTERACT,
+	RIDE,
 };
 
+UENUM(BlueprintType)
+enum class VSTATE : uint8
+{
+	NONE,
+	MOUNT,
+	IDLE,
+	MOVE,
+	DISMOUNT,
+};
 
 
 UENUM(BlueprintType)

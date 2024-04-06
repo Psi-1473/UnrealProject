@@ -21,6 +21,10 @@ public:
 
 	void PlayAttackMontage();
 	void PlayDamagedMontage();
+
+	// Test
+	void PlayRideAnim();
+	void PlayDismountAnim();
 	// 경직 Motage
 	// 밀림 Montage;
 	// 다운 Montage;
@@ -48,6 +52,8 @@ public:
 	UFUNCTION()
 	void AnimNotify_AttackEnd();
 
+	UFUNCTION()
+	void AnimNotify_SetRideIdle();
 	UFUNCTION()
 	void AnimNotify_SetIdle();
 	UFUNCTION()
@@ -85,9 +91,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
 	STATE CharacterState;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Pawn, Meta = (AllowPrivateAccess = true))
+	VSTATE VehicleState;
 private:
 	TArray<class UAnimMontage*> AttackMontages;
 	TArray<class UAnimMontage*> SkillMontages;
+	class UAnimMontage* RideAnim;
+	class UAnimMontage* DismountAnim;
 	class UAnimMontage* DamagedMontage;
 	
 };

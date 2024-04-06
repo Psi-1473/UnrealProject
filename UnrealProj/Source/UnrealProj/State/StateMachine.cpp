@@ -34,6 +34,8 @@ void UStateMachine::InitCharacterState()
 	UDeadState* DeadState = NewObject<UDeadState>();
 	URespawnState* RespawnState = NewObject<URespawnState>();
 	UInteractState* InteractState = NewObject<UInteractState>();
+	URideState* RideState = NewObject<URideState>();
+
 
 	IdleState->SetMachine(this);
 	MoveState->SetMachine(this);
@@ -50,6 +52,7 @@ void UStateMachine::InitCharacterState()
 	DeadState->SetMachine(this);
 	RespawnState->SetMachine(this);
 	InteractState->SetMachine(this);
+	RideState->SetMachine(this);
 
 	AddState(STATE::IDLE, IdleState);
 	AddState(STATE::MOVE, MoveState);
@@ -66,6 +69,7 @@ void UStateMachine::InitCharacterState()
 	AddState(STATE::DEAD, DeadState);
 	AddState(STATE::RESPAWN, RespawnState);
 	AddState(STATE::INTERACT, InteractState);
+	AddState(STATE::RIDE, RideState);
 
 	State = States[STATE::IDLE];
 }

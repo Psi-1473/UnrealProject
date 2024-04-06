@@ -50,11 +50,14 @@ public:
 			SpawnParams.Owner = Owner;
 			SpawnParams.Instigator = Owner->GetInstigator();
 			auto Obj = LoadClass<T>(NULL, *Dir, NULL, LOAD_None, NULL);
+
+			if (Obj == nullptr)
+			{
+				UE_LOG(LogTemp, Warning, TEXT("Obj Load Failed"));
+			}
 			UE_LOG(LogTemp, Warning, TEXT("Class Name %s"), *(Obj->GetName()));
 			return Owner->GetWorld()->SpawnActor<T>(Obj, Location, Rotation, SpawnParams);
 		}
-
-		
 	}
 	template<class T>
 	inline T* Instantiate(TSubclassOf<T> ObjectClass, AActor* Owner, FVector Location, FRotator Rotation)
@@ -88,6 +91,17 @@ public:
 		return Owner->GetWorld()->SpawnActor<T>(ObjectClass, Location, Rotation, SpawnParams);
 
 	}
+
+	//template<class T>
+	//inline T* InstantiateByClass(AActor* SpawnClass, AActor* Owner, FVector Location, FRotator Rotation)
+	//{
+	//	UE_LOG(LogTemp, Warning, TEXT("Instantiate By Class"));
+	//	FActorSpawnParameters SpawnParams;
+	//	SpawnParams.Owner = Owner;
+	//	SpawnParams.Instigator = Owner->GetInstigator();
+	//	return Owner->GetWorld()->SpawnActor<T>(SpawnClass, Location, Rotation, SpawnParams);
+	//	
+	//}
 
 	template<class T>
 	void Destroy(AActor* Object)

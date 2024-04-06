@@ -14,6 +14,10 @@
 #include "../../State/StateMachine.h"
 #include "../../State/WeaponState.h"
 #include "../../Items/Weapons/Bow.h"
+#include "../../ActorComponent/VehicleComponent.h"
+#include "../../State/VehicleState.h"
+#include "../../Creatures/Vehicles/Vehicle.h"
+#include "../../State/VehicleStateMachine.h"
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -24,12 +28,17 @@ UPlayerAnim::UPlayerAnim()
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Sword.AM_Skill_Sword'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> SM2(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Skill_Arrow.AM_Skill_Arrow'"));
 	static ConstructorHelpers::FObjectFinder<UAnimMontage> DM(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_Damaged.AM_Damaged'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> DISMOUNT(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_DismountHorse.AM_DismountHorse'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> RIDE(TEXT("/Script/Engine.AnimMontage'/Game/02_Blueprints/Animations/Player/Montages/AM_RideHorse.AM_RideHorse'"));
 
 	if(AM.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_SWORD] = AM.Object;
 	if(AM2.Succeeded()) AttackMontages[(int)WEAPONTYPE::WEAPON_BOW] = AM2.Object;
 	if(SM.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_SWORD] = SM.Object;
 	if(SM2.Succeeded()) SkillMontages[(int)WEAPONTYPE::WEAPON_BOW] = SM2.Object;
 	if(DM.Succeeded()) DamagedMontage = DM.Object;
+
+	if(DISMOUNT.Succeeded()) DismountAnim = DISMOUNT.Object;
+	if(RIDE.Succeeded()) RideAnim = RIDE.Object;
 }
 
 void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
@@ -53,6 +62,15 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		
 				auto Arrow = Cast<UBowState>(Character->GetStateMachine()->GetWeaponState());
 				if(Arrow) bZoom = Arrow->GetZoom();
+
+				bool IsRiding = Character->GetVehicleComponent()->GetIsRiding();
+
+				if (IsRiding)
+				{
+					auto Vehicle = Character->GetVehicleComponent()->GetCurrentVehicle();
+					VehicleState = Vehicle->GetStateMachine()->GetState()->StateEnum;
+				}
+					
 			}
 			auto PC = Cast<AMyPlayerController>(Character->Controller);
 			if (PC == nullptr)
@@ -92,6 +110,16 @@ void UPlayerAnim::PlayAttackMontage()
 void UPlayerAnim::PlayDamagedMontage()
 {
 	Montage_Play(DamagedMontage);
+}
+
+void UPlayerAnim::PlayRideAnim()
+{
+	Montage_Play(RideAnim);
+}
+
+void UPlayerAnim::PlayDismountAnim()
+{
+	Montage_Play(DismountAnim);
 }
 
 void UPlayerAnim::PlaySkillMontage(int32 SkillNumber)
@@ -185,6 +213,16 @@ void UPlayerAnim::AnimNotify_AttackEnd()
 	if (Montage_IsPlaying(AttackMontages[(int)WeaponType]))
 		StopAllMontages(1.f);
 	
+}
+
+void UPlayerAnim::AnimNotify_SetRideIdle()
+{
+	auto pawn = TryGetPawnOwner();
+	auto Character = Cast<AMyPlayer>(pawn);
+	auto Vehicle = Cast<AVehicle>(Character->GetVehicleComponent()->GetCurrentVehicle());
+	Vehicle->GetStateMachine()->SetState(VSTATE::IDLE);
+	//if(Character)
+		//Character->GetStateMachine()->SetState(STATE::RIDEIDLE);
 }
 
 void UPlayerAnim::AnimNotify_SetIdle()

@@ -47,6 +47,7 @@ public:
 	class UPlayerQuestComponent* GetQuestComponent() { return QuestComponent; }
 	class UBuffComponent* GetBuffComponent() { return BuffComponent; }
 	class UInventory* GetInventory() { return Inventory; }
+	class UVehicleComponent* GetVehicleComponent() { return VehicleComponent; }
 	class UCameraEffectComponent* GetCameraEffectComponent() { return CameraEffectComponent; }
 
 
@@ -129,6 +130,8 @@ private:
 	class UBuffComponent* BuffComponent;
 	UPROPERTY()
 	class UInventory* Inventory;
+	UPROPERTY()
+	class UVehicleComponent* VehicleComponent;
 	UPROPERTY()
 	class UCameraEffectComponent* CameraEffectComponent;
 

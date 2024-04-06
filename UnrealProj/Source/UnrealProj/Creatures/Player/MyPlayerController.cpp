@@ -29,6 +29,9 @@
 #include "../../Widgets/Popup/Widget_ItemDrop.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
 #include "../../DEFINE.h"
+#include "../../ActorComponent/VehicleComponent.h"
+#include "../Vehicles/Vehicle.h"
+#include "../../State/VehicleStateMachine.h"
 
 #include "../../State/BuffComponent.h"
 
@@ -52,6 +55,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick2(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick2.IA_Quick2'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick3(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick3.IA_Quick3'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ClickV(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_ClickV.IA_ClickV'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Ride(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Ride.IA_Ride'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -73,6 +77,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_Quick2.Succeeded()) Quick2 = IA_Quick2.Object;
 	if (IA_Quick3.Succeeded()) Quick3 = IA_Quick3.Object;
 	if (IA_ClickV.Succeeded()) ClickV = IA_ClickV.Object;
+	if (IA_Ride.Succeeded()) Ride = IA_Ride.Object;
 	
 }
 
@@ -106,6 +111,7 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Quick2, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick2);
 		EnhancedInputComponent->BindAction(Quick3, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick3);
 		EnhancedInputComponent->BindAction(ClickV, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_ClickV);
+		EnhancedInputComponent->BindAction(Ride, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Ride);
 	}
 
 }
@@ -120,11 +126,13 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 		return;
 	if (MyState != STATE::IDLE &&
 		MyState != STATE::MOVE &&
-		MyState != STATE::JUMP)
+		MyState != STATE::JUMP &&
+		MyState != STATE::RIDE)
 		return;
 
-	if (MyState != STATE::MOVE && MyState != STATE::JUMP)
+	if (MyState != STATE::MOVE && MyState != STATE::JUMP && MyState != STATE::RIDE)
 		MyPlayer->GetStateMachine()->SetState(STATE::MOVE);
+
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	const FRotator Rotation = GetControlRotation();
@@ -133,9 +141,10 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 
 	Horizontal = MovementVector.X;
 	Vertical = MovementVector.Y;
-
-	MyPlayer->AddMovementInput(ForwardDirection, MovementVector.Y);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+	// ** 여기를 움직이는 객체가 말이되게 할까..
+	MyPlayer->AddMovementInput(ForwardDirection, MovementVector.Y);
 	MyPlayer->AddMovementInput(RightDirection, MovementVector.X);
 }
 
@@ -360,6 +369,15 @@ void AMyPlayerController::IA_ClickV(const FInputActionValue& Value)
 		UE_LOG(LogTemp, Warning, TEXT("Widget Not Null"));
 		auto DropWidget = Cast<UWidget_ItemDrop>(Widget);
 		DropWidget->GetAllItems();
+	}
+
+}
+
+void AMyPlayerController::IA_Ride(const FInputActionValue& Value)
+{
+	if (Value.Get<bool>())
+	{
+		MyPlayer->GetVehicleComponent()->RideVehicle();
 	}
 
 }

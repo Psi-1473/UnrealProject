@@ -30,9 +30,13 @@
 #include "../../Widgets/Widget_PlayerMain.h"
 #include "../../CameraShakes/CameraEffectComponent.h"
 #include "../../ActorComponent/PlayerQuestComponent.h"
+#include "../../ActorComponent/VehicleComponent.h"
 #include "../../Triggers/AreaBox.h"
 #include "../../Items/Weapons/Bow.h"
 #include "../../Widgets/Popup/Widget_Revive.h"
+
+//temp
+#include "../Vehicles/Vehicle.h"
 
 AMyPlayer::AMyPlayer()
 {
@@ -67,6 +71,14 @@ void AMyPlayer::BeginPlay()
 	SkillComponent->SkillsInit();
 
 	GInstance->GetSaveLoadMgr()->Load(this);
+
+	//temp
+	AVehicle* Vehicle = NewObject<AVehicle>();
+	Vehicle->SetId(1);
+	Vehicle->SetOwnerPlayer(this);
+
+	VehicleComponent->AddNewVehicle(Vehicle);
+	VehicleComponent->RegisterVehicle(Vehicle);
 
 }
 void AMyPlayer::Tick(float DeltaTime)
@@ -235,14 +247,17 @@ void AMyPlayer::CreateComponents()
 	BuffComponent = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
 	EquipComponent = CreateDefaultSubobject<UEquipItemComponent>(TEXT("EquipComponent"));
 	Inventory = CreateDefaultSubobject<UInventory>(TEXT("Inventory"));
+	VehicleComponent = CreateDefaultSubobject<UVehicleComponent>(TEXT("VehicleComponent"));
 	CameraEffectComponent = CreateDefaultSubobject<UCameraEffectComponent>(TEXT("CameraEffectComponent"));
 	AudioComponent->SetupAttachment(RootComponent);
+
 }
 void AMyPlayer::InitializeComponents()
 {
 	Inventory->SetOwnerPlayer(this);
 	SkillComponent->SetOwnerPlayer(this);
 	CameraEffectComponent->SetOwnerPlayer(this);
+	VehicleComponent->SetOwnerPlayer(this);
 	BuffComponent->Init();
 	EquipComponent->SetInfo(this);
 	if (StateMachine == nullptr)

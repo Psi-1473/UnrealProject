@@ -10,6 +10,10 @@
 #include "../Items/Weapons/Weapon.h"
 #include "../Skills/Player/Sword/PlayerSkill_Sword_Second.h"
 #include "../Inventory/EquipItemComponent.h"
+#include "../ActorComponent/VehicleComponent.h"
+#include "../Creatures/Vehicles/Vehicle.h"
+#include "../State/VehicleStateMachine.h"
+#include "../State/VehicleState.h"
 
 void UCharacterState::OnEnter()
 {
@@ -294,3 +298,34 @@ void UInteractState::OnExit()
 {
 }
 #pragma endregion
+
+
+#pragma region RIDE
+void URideState::OnEnter()
+{
+	Machine->GetOwner()->GetVehicleComponent()->SetIsRiding(true);
+}
+
+void URideState::OnUpdate()
+{
+	auto VehicleMachine = Machine->GetOwner()->GetVehicleComponent()->GetCurrentVehicle()->GetStateMachine();
+	
+	if(VehicleMachine == nullptr)
+		return;
+	
+	if(VehicleMachine->GetState()->StateEnum == VSTATE::MOUNT)
+		return;
+
+
+	if (Machine->GetOwner()->GetVelocity().Size() > 0 && VehicleMachine->GetState()->StateEnum != VSTATE::MOVE)
+		VehicleMachine->SetState(VSTATE::MOVE);
+	else if(Machine->GetOwner()->GetVelocity().Size() <= 0 && VehicleMachine->GetState()->StateEnum != VSTATE::IDLE)
+		VehicleMachine->SetState(VSTATE::IDLE);
+}
+
+void URideState::OnExit()
+{
+	Machine->GetOwner()->GetVehicleComponent()->SetIsRiding(false);
+}
+#pragma endregion
+
