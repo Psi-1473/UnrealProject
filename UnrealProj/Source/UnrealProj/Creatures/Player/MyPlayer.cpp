@@ -37,6 +37,7 @@
 
 //temp
 #include "../Vehicles/Vehicle.h"
+#include "../Vehicles/VehicleInfo.h"
 
 AMyPlayer::AMyPlayer()
 {
@@ -73,12 +74,10 @@ void AMyPlayer::BeginPlay()
 	GInstance->GetSaveLoadMgr()->Load(this);
 
 	//temp
-	AVehicle* Vehicle = NewObject<AVehicle>();
-	Vehicle->SetId(1);
-	Vehicle->SetOwnerPlayer(this);
-
-	VehicleComponent->AddNewVehicle(Vehicle);
-	VehicleComponent->RegisterVehicle(Vehicle);
+	UVehicleInfo* NewVehicleInfo = NewObject<UVehicleInfo>();
+	NewVehicleInfo->Init(1, this);
+	VehicleComponent->AddNewVehicle(NewVehicleInfo);
+	VehicleComponent->RegisterVehicle(NewVehicleInfo);
 
 }
 void AMyPlayer::Tick(float DeltaTime)

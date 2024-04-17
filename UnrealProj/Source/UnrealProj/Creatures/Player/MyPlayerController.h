@@ -42,6 +42,8 @@ private:
 	void IA_Quick3(const FInputActionValue& Value);
 	void IA_ClickV(const FInputActionValue& Value);
 	void IA_Ride(const FInputActionValue& Value);
+	void IA_DashStart(const FInputActionValue& Value);
+	void IA_DashEnd(const FInputActionValue& Value);
 	
 
 private:
@@ -114,6 +116,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputAction* Ride;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	class UInputAction* Dash;
 
 
 	UPROPERTY(VisibleAnywhere)

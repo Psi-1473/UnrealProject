@@ -12,8 +12,10 @@
 #include "../Inventory/EquipItemComponent.h"
 #include "../ActorComponent/VehicleComponent.h"
 #include "../Creatures/Vehicles/Vehicle.h"
+#include "../Creatures/Vehicles/VehicleInfo.h"
 #include "../State/VehicleStateMachine.h"
 #include "../State/VehicleState.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 void UCharacterState::OnEnter()
 {
@@ -304,6 +306,10 @@ void UInteractState::OnExit()
 void URideState::OnEnter()
 {
 	Machine->GetOwner()->GetVehicleComponent()->SetIsRiding(true);
+	auto MovementComponent = Cast<UCharacterMovementComponent>(Machine->GetOwner()->GetMovementComponent());
+	auto VehicleInfo = Machine->GetOwner()->GetVehicleComponent()->GetRegisteredVehicleInfo();
+
+	MovementComponent->MaxWalkSpeed = VehicleInfo->GetSpeed();
 }
 
 void URideState::OnUpdate()
@@ -316,16 +322,34 @@ void URideState::OnUpdate()
 	if(VehicleMachine->GetState()->StateEnum == VSTATE::MOUNT)
 		return;
 
+	float Velocity = Machine->GetOwner()->GetVelocity().Size();
 
-	if (Machine->GetOwner()->GetVelocity().Size() > 0 && VehicleMachine->GetState()->StateEnum != VSTATE::MOVE)
+	//UE_LOG(LogTemp, Warning, TEXT("Velocity %f"), Velocity);
+	if (Machine->GetOwner()->GetVelocity().Size() > 0.f)
+	{
+		if (VehicleMachine->GetState()->StateEnum == VSTATE::MOVE)
+			return;
 		VehicleMachine->SetState(VSTATE::MOVE);
-	else if(Machine->GetOwner()->GetVelocity().Size() <= 0 && VehicleMachine->GetState()->StateEnum != VSTATE::IDLE)
+	}
+	else if(Machine->GetOwner()->GetVelocity().Size() <= 0.f)
+	{
+		if(VehicleMachine->GetState()->StateEnum == VSTATE::IDLE)
+			return;
+
 		VehicleMachine->SetState(VSTATE::IDLE);
+	}
 }
 
 void URideState::OnExit()
 {
 	Machine->GetOwner()->GetVehicleComponent()->SetIsRiding(false);
+	auto Vehicle = Machine->GetOwner()->GetVehicleComponent()->GetCurrentVehicle();
+	Machine->GetOwner()->GetVehicleComponent()->SetVehicleInUse(nullptr);
+	if(Vehicle)
+		Vehicle->Destroy();
+
+	auto MovementComponent = Cast<UCharacterMovementComponent>(Machine->GetOwner()->GetMovementComponent());
+	MovementComponent->MaxWalkSpeed = PLAYER_SPEED;
 }
 #pragma endregion
 

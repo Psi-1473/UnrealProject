@@ -28,6 +28,7 @@ UMyGameInstance::UMyGameInstance()
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowImage(TEXT("/Script/Engine.DataTable'/Game/08_Data/Weapon/Image/BowImageTable.BowImageTable'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> SwordSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/SwordSkillData.SwordSkillData'"));
 	static ConstructorHelpers::FObjectFinder<UDataTable> BowSkill(TEXT("/Script/Engine.DataTable'/Game/08_Data/Player/Skill/BowSkillData.BowSkillData'"));
+	static ConstructorHelpers::FObjectFinder<UDataTable> Vehicle(TEXT("/Script/Engine.DataTable'/Game/08_Data/Vehicle/VehicleData.VehicleData'"));
 
 	if (DATA.Succeeded()) PlayerStats = DATA.Object;
 	if (MOBDATA.Succeeded()) MonsterStats = MOBDATA.Object;
@@ -42,6 +43,7 @@ UMyGameInstance::UMyGameInstance()
 	if (BowImage.Succeeded()) BowImages = BowImage.Object;
 	if (SwordSkill.Succeeded()) SwordSkillData = SwordSkill.Object;
 	if (BowSkill.Succeeded()) BowSkillData = BowSkill.Object;
+	if (Vehicle.Succeeded()) VehicleData = Vehicle.Object;
 
 	UIMgr = MakeShared<UIManager>();
 	ScriptMgr = NewObject<UScriptManager>();
@@ -99,6 +101,11 @@ FUseItemData* UMyGameInstance::GetUseItemData(int32 Id)
 FMiscItemData* UMyGameInstance::GetMiscItemData(int32 Id)
 {
 	return MiscItemData->FindRow<FMiscItemData>(*FString::FromInt(Id), TEXT(""));
+}
+
+FVehicleData* UMyGameInstance::GetVehicleData(int32 Id)
+{
+	return VehicleData->FindRow<FVehicleData>(*FString::FromInt(Id), TEXT(""));
 }
 
 FRichImageRow* UMyGameInstance::GetSwordImage(int32 Id)

@@ -37,6 +37,7 @@ public:
 	void AddState(VSTATE State, UVehicleState* StatePtr);
 
 private:
+
 	UPROPERTY()
 	UVehicleState* CurrentState;
 

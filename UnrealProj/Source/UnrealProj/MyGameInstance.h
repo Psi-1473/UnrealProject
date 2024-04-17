@@ -241,6 +241,27 @@ struct FQuestData : public FTableRowBase
 };
 
 USTRUCT()
+struct FVehicleData : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 Id;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Explanation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Speed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float DashSpeed;
+};
+
+USTRUCT()
 struct FScriptData : public FTableRowBase
 {
 	GENERATED_BODY()
@@ -257,8 +278,6 @@ struct FScriptData : public FTableRowBase
 
 
 
-
-
 UCLASS()
 class UNREALPROJ_API UMyGameInstance : public UGameInstance
 {
@@ -272,14 +291,23 @@ public:
 	FMyPlayerData* GetPlayerStat(int32 Level);
 	FMonsterData* GetMonsterStat(int32 Id);
 	FNpcData* GetNpcData(int32 Id);
+
+	/*
+		Data with Image
+	*/
 	FWeaponData* GetSwordData(int32 Id);
 	FWeaponData* GetBowData(int32 Id);
 	FUseItemData* GetUseItemData(int32 Id);
 	FMiscItemData* GetMiscItemData(int32 Id);
+	FVehicleData* GetVehicleData(int32 Id);
+
 	FRichImageRow* GetSwordImage(int32 Id);
 	FRichImageRow* GetBowImage(int32 Id);
 	FRichImageRow* GetUseItemImage(int32 Id);
 	FRichImageRow* GetMiscItemImage(int32 Id);
+	/*
+	
+	*/
 
 	FSkillData* GetPlayerSkillData(FString Type, int32 Id);
 	FSkillData* GetSwordSkillData(int32 Id);
@@ -346,6 +374,8 @@ private:
 	UPROPERTY()
 	class UDataTable* BowSkillData;
 
+	UPROPERTY()
+	class UDataTable* VehicleData;
 public:
 
 	void AddNpcNumber();

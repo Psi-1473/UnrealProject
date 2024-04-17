@@ -67,7 +67,6 @@ public:
 	virtual void OnExit();
 };
 
-
 UCLASS()
 class UNREALPROJ_API UVehicleDismount : public UVehicleState
 {

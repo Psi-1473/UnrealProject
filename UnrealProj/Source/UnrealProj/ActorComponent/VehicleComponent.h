@@ -17,18 +17,27 @@ public:
 
 
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player);
-	void AddNewVehicle(class AVehicle* NewVehicle);
-	void RemoveVehicle(class AVehicle* OldVehicle);
+	void AddNewVehicle(class UVehicleInfo* NewVehicle);
+	void RemoveVehicle(class UVehicleInfo* OldVehicle);
 
-	void RegisterVehicle(class AVehicle* Vehicle);
+	void RegisterVehicle(class UVehicleInfo* Vehicle);
 	void RideVehicle();
-	void Dismount();
+
+	void SpawnVehicle();
+	void DespawnVehicle();
+
 
 public:
+	class UVehicleInfo* GetRegisteredVehicleInfo() { return RegisteredVehicle; }
 	class AVehicle* GetCurrentVehicle() { return VehicleInUse; }
 	bool GetIsRiding() { return IsRiding; }
 
 	void SetIsRiding(bool Value)  { IsRiding = Value; }
+	void SetVehicleInUse(class AVehicle* Vehicle) { VehicleInUse = Vehicle; }
+
+public:
+	void StartDash();
+	void EndDash();
 
 private:
 
@@ -38,7 +47,10 @@ private:
 	
 
 	UPROPERTY()
-	TArray<class AVehicle*> Vehicles;
+	TArray<class UVehicleInfo*> Vehicles;
+
+	UPROPERTY()
+	class UVehicleInfo* RegisteredVehicle;
 
 	UPROPERTY()
 	class AVehicle* VehicleInUse;

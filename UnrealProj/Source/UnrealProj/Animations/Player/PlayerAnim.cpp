@@ -68,6 +68,7 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 				if (IsRiding)
 				{
 					auto Vehicle = Character->GetVehicleComponent()->GetCurrentVehicle();
+					bVehicleDash = Vehicle->GetIsDash();
 					VehicleState = Vehicle->GetStateMachine()->GetState()->StateEnum;
 				}
 					
@@ -229,8 +230,16 @@ void UPlayerAnim::AnimNotify_SetIdle()
 {
 	auto pawn = TryGetPawnOwner();
 	auto Character = Cast<AMyPlayer>(pawn);
+
 	if (Character)
 		Character->GetStateMachine()->SetState(STATE::IDLE);
+
+	auto Vehicle = Character->GetVehicleComponent()->GetCurrentVehicle();
+
+	if (Vehicle)
+	{
+		
+	}
 }
 
 void UPlayerAnim::AnimNotify_SetRevive()

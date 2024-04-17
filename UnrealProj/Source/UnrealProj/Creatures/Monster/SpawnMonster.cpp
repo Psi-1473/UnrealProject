@@ -48,6 +48,7 @@ void ASpawnMonster::BeginPlay()
 {
 	Super::BeginPlay();
 	HpBar->SetVisibility(false);
+
 }
 
 void ASpawnMonster::PostInitializeComponents()
@@ -75,8 +76,6 @@ void ASpawnMonster::Tick(float DeltaTime)
 void ASpawnMonster::SucceedFindingTarget()
 {
 	// 1. 느낌표 애니메이션 실행
-	//UWidgetAnimation* WidgetAnim = 
-	MarkUI->SetVisibility(true);
 	auto Widget = Cast<UWidget_MonsterMark>(MarkUI->GetUserWidgetObject());
 	Widget->PlayAnim();
 	// 2. bChase 켜기
@@ -176,7 +175,7 @@ void ASpawnMonster::SetMarkUI()
 	MarkUI->SetupAttachment(GetMesh());
 	MarkUI->SetRelativeLocation(FVector(0.f, 0.f, 230.f));
 	MarkUI->SetWidgetSpace(EWidgetSpace::Screen);
-	MarkUI->SetVisibility(false);
+	//MarkUI->SetVisibility(false);
 }
 
 void ASpawnMonster::RevealHpBar()

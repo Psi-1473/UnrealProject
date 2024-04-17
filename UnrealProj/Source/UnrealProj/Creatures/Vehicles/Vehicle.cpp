@@ -6,7 +6,8 @@
 #include "../../MyGameInstance.h"
 #include "../Player/MyPlayer.h"
 #include "../../State/VehicleStateMachine.h"
-#include "../../DEFINE.h"
+#include "VehicleInfo.h"
+
 
 AVehicle::AVehicle()
 {
@@ -26,7 +27,7 @@ AVehicle::AVehicle()
 void AVehicle::BeginPlay()
 {
 	Super::BeginPlay();
-
+	SetState(VSTATE::MOUNT);
 
 	// !!! 
 	// StateMachine->SetState(VSTATE::MOUNT); 가 에러발생
@@ -45,35 +46,25 @@ void AVehicle::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AVehicle::Spawn()
+
+void AVehicle::SetState(VSTATE State)
 {
-	// Test //
-	FString Dir = TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/Creatures/Vehicles/Horse/BP_Horse");
-	Dir += FString::FromInt(Id);
-	Dir += TEXT(".BP_Horse");
-	Dir += FString::FromInt(Id);
-	Dir += TEXT("_C'");
+	if(StateMachine == nullptr)
+		StateMachine = NewObject<UVehicleStateMachine>();
 
-	auto SpawnClass = OwnerPlayer->GetInstance()->GetResourceMgr()->Instantiate<AVehicle>(
-		Dir,
-		Cast<AActor>(OwnerPlayer),
-		OwnerPlayer->GetActorLocation(),
-		OwnerPlayer->GetActorRotation()
-	);
-
-	if (OwnerPlayer != nullptr)
-	{	
-		
-		SpawnClass->AttachToActor(Cast<AActor>(OwnerPlayer), FAttachmentTransformRules::KeepWorldTransform);
-		UE_LOG(LogTemp, Warning, TEXT("Attach to Player"));
-
-		
-	}
-	
-	StateMachine->SetState(VSTATE::MOUNT);
+	StateMachine->SetState(State);
 }
 
-void AVehicle::SetOwnerPlayer(AMyPlayer* Player)
+void AVehicle::SetInfo(const UVehicleInfo& Info)
+{
+	Id = Info.GetId();
+	Speed = Info.GetSpeed();
+	DashSpeed = Info.GetDashSpeed();
+
+	UE_LOG(LogTemp, Warning, TEXT("Vehicle Set Info : %d, %f, %f"), Id, Speed, DashSpeed);
+}
+
+void AVehicle::SetOwnerPlayer(TWeakObjectPtr<AMyPlayer> Player)
 {
 	OwnerPlayer = Player;
 }

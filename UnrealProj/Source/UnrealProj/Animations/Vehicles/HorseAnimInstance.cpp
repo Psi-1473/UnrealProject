@@ -25,6 +25,7 @@ void UHorseAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	if(Vehicle == nullptr)
 		return;
 
+	IsDash = Vehicle->GetIsDash();
 	auto StateMachine = Vehicle->GetStateMachine();
 
 	if(StateMachine == nullptr)

@@ -56,6 +56,7 @@ AMyPlayerController::AMyPlayerController()
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Quick3(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Quick3.IA_Quick3'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_ClickV(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_ClickV.IA_ClickV'"));
 	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Ride(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Ride.IA_Ride'"));
+	static ConstructorHelpers::FObjectFinder<UInputAction> IA_Dash(TEXT("/Script/EnhancedInput.InputAction'/Game/03_Input/Player/Actions/IA_Dash.IA_Dash'"));
 
 
 	if (DEFAULT_CONTEXT.Succeeded())
@@ -78,6 +79,7 @@ AMyPlayerController::AMyPlayerController()
 	if (IA_Quick3.Succeeded()) Quick3 = IA_Quick3.Object;
 	if (IA_ClickV.Succeeded()) ClickV = IA_ClickV.Object;
 	if (IA_Ride.Succeeded()) Ride = IA_Ride.Object;
+	if (IA_Dash.Succeeded()) Dash = IA_Dash.Object;
 	
 }
 
@@ -112,6 +114,8 @@ void AMyPlayerController::SetupInputComponent()
 		EnhancedInputComponent->BindAction(Quick3, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Quick3);
 		EnhancedInputComponent->BindAction(ClickV, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_ClickV);
 		EnhancedInputComponent->BindAction(Ride, ETriggerEvent::Triggered, this, &AMyPlayerController::IA_Ride);
+		EnhancedInputComponent->BindAction(Dash, ETriggerEvent::Started, this, &AMyPlayerController::IA_DashStart);
+		EnhancedInputComponent->BindAction(Dash, ETriggerEvent::Completed, this, &AMyPlayerController::IA_DashEnd);
 	}
 
 }
@@ -134,6 +138,7 @@ void AMyPlayerController::IA_Move(const FInputActionValue& Value)
 		MyPlayer->GetStateMachine()->SetState(STATE::MOVE);
 
 
+
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	const FRotator Rotation = GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
@@ -154,8 +159,13 @@ void AMyPlayerController::IA_Look(const FInputActionValue& Value)
 		return;
 
 	STATE MyState = MyPlayer->GetStateMachine()->GetState()->GetState();
-	if(MyState == STATE::SKILL)
+	if(MyState != STATE::IDLE && MyState != STATE::MOVE && MyState != STATE::JUMP && MyState != STATE::RIDE)
 		return;
+
+	if (MyState == STATE::RIDE)
+	{
+		// Mount¶û DistMount¶ó¸é ¸®ÅÏ
+	}
 
 	FVector2D LookVector = Value.Get<FVector2D>();
 
@@ -380,4 +390,16 @@ void AMyPlayerController::IA_Ride(const FInputActionValue& Value)
 		MyPlayer->GetVehicleComponent()->RideVehicle();
 	}
 
+}
+
+void AMyPlayerController::IA_DashStart(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Dash Start"));
+	MyPlayer->GetVehicleComponent()->StartDash();
+}
+
+void AMyPlayerController::IA_DashEnd(const FInputActionValue& Value)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Dash End"));
+	MyPlayer->GetVehicleComponent()->EndDash();
 }

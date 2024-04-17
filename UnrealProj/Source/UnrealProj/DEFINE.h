@@ -4,8 +4,11 @@
 
 #include "CoreMinimal.h"
 
+
 #define SLOTINDEX_NOT_SPECIFIED -1
 #define FIND_FAILED -1
+
+const float PLAYER_SPEED = 600.f;
 const int8 MAX_Inventory = 18;
 const FString DROPITEMTEXT = TEXT("/Script/Engine.Blueprint'/Game/02_Blueprints/InteractObj/DropItemPocket.DropItemPocket_C'");
 
