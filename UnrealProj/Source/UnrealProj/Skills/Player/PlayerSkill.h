@@ -13,6 +13,7 @@ UCLASS(BlueprintType)
 class UNREALPROJ_API UPlayerSkill : public USkill
 {
 	GENERATED_BODY()
+
 protected:
 	virtual void SetDefaultValue(); // Owner Player 설정 및 기본 세팅
 public:
@@ -25,12 +26,15 @@ public:
 	void InitSkillValue(class AMyPlayer* Player);
 
 	void LevelUp();
+	void SetLevel(int Level) { SkillLevel = Level; }
 	void DecreaseCoolDown(float DeltaSeconds);
 public:
 	void SetOwnerPlayer(TWeakObjectPtr<class AMyPlayer> Player) { OwnerPlayer = Player; }
+	void SetRegisteredKey(int32 Key) { RegisteredKey = Key; }
 
 	int32 GetLevel() { return SkillLevel; }
 	WEAPONTYPE GetWeaponType() { return WeaponType; }
+	int32 GetRegisteredKey() { return RegisteredKey; }
 	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 private:
 	int32 GetIdByName(FString Str);
@@ -47,6 +51,9 @@ protected:
 
 	UPROPERTY()
 	int32 Damage;
+
+	UPROPERTY()
+	int32 RegisteredKey;
 
 	UPROPERTY()
 	TSubclassOf<class USkillHitCameraShake> CameraShake;

@@ -37,6 +37,7 @@ void UPlayerSkillComponent::BeginPlay()
 void UPlayerSkillComponent::RegisterSkill(int SkillKey, UPlayerSkill* Skill)
 {
 	RegisteredSkills[SkillKey] = Skill;
+	Skill->SetRegisteredKey(SkillKey);
 }
 
 void UPlayerSkillComponent::ExecuteSkill(int SkillKey)

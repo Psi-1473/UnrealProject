@@ -1,65 +1,65 @@
 {
 	"Name": "hi",
-	"Level": 2,
-	"Attack": 13,
-	"MaxHp": 110,
-	"MaxMp": 85,
-	"MaxExp": 75,
+	"Level": 1,
+	"Attack": 10,
+	"MaxHp": 100,
+	"MaxMp": 80,
+	"MaxExp": 50,
 	"Hp": 100,
-	"Mp": 20,
-	"Exp": 50,
-	"LocX": 22503.228463811018,
-	"LocY": -33132.909997479306,
-	"LocZ": 102.08401140178387,
-	"Yaw": -20.949987798929275,
-	"Level": 2,
-	"Attack": 13,
-	"MaxHp": 110,
-	"MaxMp": 85,
-	"MaxExp": 75,
+	"Mp": 49,
+	"Exp": 0,
+	"LocX": 33404.364831119055,
+	"LocY": -34267.827946859303,
+	"LocZ": 200.83271282183236,
+	"Yaw": -20.599996566772518,
+	"Level": 1,
+	"Attack": 10,
+	"MaxHp": 100,
+	"MaxMp": 80,
+	"MaxExp": 50,
 	"Hp": 100,
-	"Mp": 20,
-	"Exp": 50,
-	"LocX": 22503.228463811018,
-	"LocY": -33132.909997479306,
-	"LocZ": 102.08401140178387,
-	"Yaw": -20.949987798929275,
-	"EquipItems": [
+	"Mp": 49,
+	"Exp": 0,
+	"LocX": 33404.364831119055,
+	"LocY": -34267.827946859303,
+	"LocZ": 200.83271282183236,
+	"Yaw": -20.599996566772518,
+	"EquipItems": [],
+	"UseItems": [],
+	"MiscItems": [],
+	"SkillPoint": 0,
+	"SwordSkills": [
 		{
 			"WeaponType": 0,
-			"Id": 0,
-			"SlotIndex": 0
+			"SkillLevel": 1,
+			"RegisteredKey": 0
+		},
+		{
+			"WeaponType": 0,
+			"SkillLevel": 0,
+			"RegisteredKey": -1
+		},
+		{
+			"WeaponType": 0,
+			"SkillLevel": 0,
+			"RegisteredKey": -1
+		}
+	],
+	"BowSkills": [
+		{
+			"WeaponType": 1,
+			"SkillLevel": 0,
+			"RegisteredKey": -1
 		},
 		{
 			"WeaponType": 1,
-			"Id": 0,
-			"SlotIndex": 1
-		}
-	],
-	"UseItems": [
-		{
-			"Id": 1,
-			"SlotIndex": 0,
-			"QuickSlotIndex": 0,
-			"Number": 2
+			"SkillLevel": 1,
+			"RegisteredKey": 1
 		},
 		{
-			"Id": 2,
-			"SlotIndex": 1,
-			"QuickSlotIndex": -1,
-			"Number": 3
-		}
-	],
-	"MiscItems": [
-		{
-			"Id": 2,
-			"SlotIndex": 0,
-			"Number": 1
-		},
-		{
-			"Id": 1,
-			"SlotIndex": 1,
-			"Number": 1
+			"WeaponType": 1,
+			"SkillLevel": 1,
+			"RegisteredKey": 2
 		}
 	]
 }

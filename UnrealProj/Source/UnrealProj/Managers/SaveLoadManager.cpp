@@ -16,6 +16,9 @@
 #include "../MyGameMode.h"
 #include "../Widgets/Widget_PlayerMain.h"
 #include "../Widgets/Widget_ItemQuick.h"
+#include "../Widgets/Widget_SkillQuick.h"
+#include "../Skills/Components/PlayerSkillComponent.h"
+#include "../Skills/Player/PlayerSkill.h"
 
 
 void USaveLoadManager::Load(AMyPlayer* Player)
@@ -189,6 +192,59 @@ void USaveLoadManager::LoadItemData(AMyPlayer* Player, TSharedPtr<FJsonObject> R
 
 void USaveLoadManager::LoadSkillData(AMyPlayer* Player, TSharedPtr<FJsonObject> RObject)
 {
+	auto SkillComp = Player->GetSkillComponent();
+	auto MyMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(Player->GetWorld()));
+	auto MainWidget = Cast<UWidget_PlayerMain>(MyMode->GetCurrentWidget());
+	int32 SkillPoint;
+	RObject->TryGetNumberField(TEXT("SkillPoint"), SkillPoint);
+	SkillComp->SkillPoint = SkillPoint;
+	const TArray<TSharedPtr<FJsonValue>>* SwordSkills;
+	if (RObject->TryGetArrayField(TEXT("SwordSkills"), SwordSkills))
+	{
+		for (int i = 0; i < SwordSkills->Num(); i++)
+		{
+			TSharedPtr<FJsonObject> jsonItem = (*SwordSkills)[i]->AsObject();
+			int WeaponType;
+			int SkillLevel;
+			int RegisteredKey;
+
+			jsonItem->TryGetNumberField(TEXT("WeaponType"), WeaponType);
+			jsonItem->TryGetNumberField(TEXT("SkillLevel"), SkillLevel);
+			jsonItem->TryGetNumberField(TEXT("RegisteredKey"), RegisteredKey);
+
+			auto Skill = SkillComp->SwordSkills[i + 1];
+			Skill->SetLevel(SkillLevel);
+			if (RegisteredKey != KEY_NONE)
+			{
+				MainWidget->SkillQuickSlots[RegisteredKey]->SetSkill(Skill);
+				SkillComp->RegisterSkill(RegisteredKey, Skill);
+			}
+		}
+	}
+
+	const TArray<TSharedPtr<FJsonValue>>* BowSkills;
+	if (RObject->TryGetArrayField(TEXT("BowSkills"), BowSkills))
+	{
+		for (int i = 0; i < BowSkills->Num(); i++)
+		{
+			TSharedPtr<FJsonObject> jsonItem = (*BowSkills)[i]->AsObject();
+			int WeaponType;
+			int SkillLevel;
+			int RegisteredKey;
+
+			jsonItem->TryGetNumberField(TEXT("WeaponType"), WeaponType);
+			jsonItem->TryGetNumberField(TEXT("SkillLevel"), SkillLevel);
+			jsonItem->TryGetNumberField(TEXT("RegisteredKey"), RegisteredKey);
+
+			auto Skill = SkillComp->BowSkills[i + 1];
+			Skill->SetLevel(SkillLevel);
+			if (RegisteredKey != KEY_NONE)
+			{
+				MainWidget->SkillQuickSlots[RegisteredKey]->SetSkill(Skill);
+				SkillComp->RegisterSkill(RegisteredKey, Skill);
+			}
+		}
+	}
 }
 
 void USaveLoadManager::LoadQuestData(AMyPlayer* Player, TSharedPtr<FJsonObject> RObject)
@@ -268,6 +324,39 @@ void USaveLoadManager::SaveItemData(AMyPlayer* Player, TSharedRef<TJsonWriter<TC
 
 void USaveLoadManager::SaveSkillData(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)
 {
+	//TODO 1) 배운 스킬 불러오기
+	//TODO 2) 스킬 레벨 정보
+	//TODO 3) 퀵슬롯에 등록된 스킬
+	auto SkillComp = Player->GetSkillComponent();
+	int32 SkillPoint = SkillComp->GetSkillPoint();
+	JWriter->WriteValue(TEXT("SkillPoint"), SkillPoint);
+
+	JWriter->WriteArrayStart(TEXT("SwordSkills"));
+	for (auto& Skill : SkillComp->SwordSkills)
+	{
+		if (Skill == nullptr) continue;
+		JWriter->WriteObjectStart();
+		int WeaponType = static_cast<int>(Skill->GetWeaponType());
+		JWriter->WriteValue(TEXT("WeaponType"), WeaponType);
+		JWriter->WriteValue(TEXT("SkillLevel"), Skill->GetLevel());
+		JWriter->WriteValue(TEXT("RegisteredKey"), Skill->GetRegisteredKey());
+		JWriter->WriteObjectEnd();
+	}
+	JWriter->WriteArrayEnd();
+
+
+	JWriter->WriteArrayStart(TEXT("BowSkills"));
+	for (auto& Skill : SkillComp->BowSkills)
+	{
+		if (Skill == nullptr) continue;
+		JWriter->WriteObjectStart();
+		int WeaponType = static_cast<int>(Skill->GetWeaponType());
+		JWriter->WriteValue(TEXT("WeaponType"), WeaponType);
+		JWriter->WriteValue(TEXT("SkillLevel"), Skill->GetLevel());
+		JWriter->WriteValue(TEXT("RegisteredKey"), Skill->GetRegisteredKey());
+		JWriter->WriteObjectEnd();
+	}
+	JWriter->WriteArrayEnd();
 }
 
 void USaveLoadManager::SaveQuestData(AMyPlayer* Player, TSharedRef<TJsonWriter<TCHAR>> JWriter)

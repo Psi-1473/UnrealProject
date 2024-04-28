@@ -12,6 +12,7 @@ class UNREALPROJ_API UPlayerSkillComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+	friend class USaveLoadManager;
 public:	
 	UPlayerSkillComponent();
 

@@ -13,6 +13,8 @@ UCLASS()
 class UNREALPROJ_API UWidget_PlayerMain : public UUserWidget
 {
 	GENERATED_BODY()
+
+	friend class USaveLoadManager;
 public:
 	virtual void NativeConstruct() override;
 	void SwapSkillQuickSlot(class UPlayerSkillComponent* SkillComponent, int From, int To);

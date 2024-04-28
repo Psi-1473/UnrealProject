@@ -27,7 +27,7 @@ public:
 	float GetSpeed() const { return Speed; }
 	float GetDashSpeed() const { return DashSpeed; }
 	bool GetIsDash() const { return IsDash; }
-
+	TWeakObjectPtr<class AMyPlayer> GetOwnerPlayer() { return OwnerPlayer; }
 public:
 	void SetState(VSTATE State);
 

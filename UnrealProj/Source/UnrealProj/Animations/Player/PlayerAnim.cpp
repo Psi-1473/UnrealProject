@@ -18,6 +18,7 @@
 #include "../../State/VehicleState.h"
 #include "../../Creatures/Vehicles/Vehicle.h"
 #include "../../State/VehicleStateMachine.h"
+#include <Kismet/KismetMathLibrary.h>
 
 UPlayerAnim::UPlayerAnim()
 {
@@ -54,6 +55,7 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 		auto Character = Cast<AMyPlayer>(pawn);
 		if (Character)
 		{
+			
 			if(Character->GetStateMachine() != nullptr)
 			{
 				UCharacterState* PlayerState = Character->GetStateMachine()->GetState();
@@ -80,6 +82,12 @@ void UPlayerAnim::NativeUpdateAnimation(float DeltaSeconds)
 			Horizontal = PC->GetHorizontal();
 			Vertical = PC->GetVertical();
 	
+
+			auto Rot1 = UKismetMathLibrary::MakeRotFromX(Character->GetVelocity());
+			auto Rot2 = Character->GetControlRotation();
+			Direction = UKismetMathLibrary::NormalizedDeltaRotator(Rot1, Rot2).Yaw;
+			Speed = Character->GetVelocity().Length();
+
 			if (Horizontal == 1 && Vertical == 1)
 			{
 				Horizontal = 0.5f;

@@ -78,7 +78,8 @@ void UPlayerSkill::InitSkillValue(AMyPlayer* Player)
 	Name = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Name;
 	Explanation = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Explanation;
 	Mp = GInstance->GetPlayerSkillData(WTypeStr, IdFromName)->Mp;
-
+	
+	RegisteredKey = KEY_NONE;
 	UE_LOG(LogTemp, Warning, TEXT("Cooldown Load %d "), CoolDown);
 }
 void UPlayerSkill::LevelUp()
